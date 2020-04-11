@@ -46,6 +46,10 @@ import'./assets/css/user.css';
 import'./assets/css/userDetails.css';
 import'./assets/css/style.css';
 
+//import react-table
+// import 'react-table/react-table.css';
+import './assets/css/customReactTable.css';
+
 
 // Import i18n messages
 import { translationMessages } from './i18n';
