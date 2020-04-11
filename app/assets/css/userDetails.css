@@ -1,0 +1,353 @@
+body {
+	margin: 0px !important;
+	padding: 0px !important;
+}
+
+.reset-input-box-r {
+	color: #255b7a !important;
+	border-color: #f06d46 !important;
+	margin: 0px auto 20px !important;
+}
+
+.reset-button-r {
+	width: 25% !important;
+	margin: 0px auto !important;
+	background-color: #f06d46 !important;
+	padding: 0px !important;
+	height: 35px !important;
+}
+
+.card-margin-r {
+	margin: 15px auto 0px;
+}
+
+.card-price-r {
+	background-color: #ededed;
+	border-radius: 5px;
+}
+
+.card-heading-r, .card-sub-heading-r {
+	text-align: center;
+	color: #255b7a !important;
+	font-size: 15px;
+	font-weight: 600 !important;
+}
+
+.card-sub-heading-r {
+	font-size: 12px;
+}
+
+.card-image-r {
+	height: 150px;
+	width: 100%;
+	border-radius: 5px;
+	margin: 10px auto 0px;
+}
+
+.container {
+	width: 100% !important;
+}
+
+
+.browse-upload-margin-r {
+	margin: 10px auto;
+	display: inline-block;
+	width: 100%;
+}
+
+.icon-customization-download-r {
+	font-size: 28px !important;
+	position: absolute !important;
+	margin: -2px -12px;
+}
+
+.year-month-border-r {
+	border-radius: 5px;
+}
+
+.table-margin-r {
+	margin: 10px 0px;
+	text-align: center;
+	border-radius: 5px;
+}
+
+.counter-box-r {
+	border: 1px solid black;
+	border-radius: 50%;
+	width: 50px;
+	background-color: #5592b5;
+	margin: auto;
+	color: white;
+}
+
+
+.img-bills-preview-selected-parent-r{
+	position: relative !important;
+	filter: blur(2px) !important;
+	width: 100% !important;
+	height: 250px !important;
+	padding: 10px !important;
+}
+
+
+.img-bills-preview-parent-r{
+	position: relative !important;
+	width: 100% !important;
+	height: 250px !important;
+}
+
+.submit-icon-r{
+	color: green;
+    font-size: 15px;
+}
+
+
+@media screen and (min-width: 480px) {
+
+	.reset-form-padding-r {
+		padding: 25px 50px !important;
+	}
+
+	.modal-width-r {
+		width: 700px !important;
+	}
+
+	.download-button-r {
+		background-color: #f06d46 !important;
+		width: 100% !important;
+		padding: 0px !important;
+		height: 35px !important;
+		font-size: 14px !important;
+	}
+
+	.outer-box-r {
+		padding: 0px 40px !important;
+	}
+
+	.name-mobile-reports-r {
+		margin: 90px auto 10px;
+	}
+
+	.view-reports-r, .view-daily-reports-r {
+		text-decoration: underline;
+		font-size: 20px;
+		margin: 4px auto;
+		text-align: center;
+	}
+
+	
+.upload-status-button-r {
+	visibility: visible !important;
+	height: 20px;
+	width: 20px;
+	margin: 8px 0px !important;
+}
+
+.bill-heading-r {
+	margin: 0px 0px 0px 25px !important;
+    display: inline-block;
+    font-size: 19px !important;
+    font-weight: 500;
+}
+
+.img-bills-preview-child-r {
+    position: absolute;
+    left: 0px;
+    margin: 70px 48px;
+	height: 100px;
+}
+
+.status-input-button-r {
+	padding: 5px !important;
+    height: 30px !important;
+    width: 72% !important;
+}
+
+
+.status-submit-button-r {
+	height: 30px;
+    width: 25% !important;
+    padding: 0px !important;
+}
+	.browse-button-css-r, .browse-GST-button-css-r {
+		background-color: #f06d46 !important;
+		font-size: 15px !important;
+		padding: 7px !important;
+	}
+
+	.details-heading-r, .details-heading-mobile-r {
+		text-decoration: underline;
+		font-weight: bold;
+		text-align: center;
+		font-size: 30px;
+		margin: 0px !important;
+	}
+	.details-heading-mobile-r {
+		font-size: 20px;
+	}
+
+	#header{
+		margin: 0px !important;
+		position: fixed !important;
+		top: 0px;
+		z-index: 100;
+	}
+}
+
+@media screen and (max-width:479px) {
+
+	.reset-form-padding-r {
+		padding: 25px !important;
+	}
+
+	.download-button-r {
+		background-color: #f06d46 !important;
+		width: 50% !important;
+		padding: 0px !important;
+		height: 35px !important;
+		font-size: 14px !important;
+		margin: 0px 65px;
+	}
+
+	.outer-box-r {
+		padding: 0px !important;
+	}
+
+	.name-mobile-reports-r {
+		margin: 85px auto 0px;
+	}
+
+	.view-reports-r, .view-daily-reports-r {
+		text-decoration: underline;
+		font-size: 20px;
+		text-align: center;		
+	}
+
+	.view-reports-r{
+		margin: 0px auto 10px !important;
+	}
+
+.view-daily-reports-r
+	{	
+	margin: 10px 0px !important;
+	}	
+
+.upload-status-button-r{
+	visibility: visible !important;
+    height: 30px;
+    width: 30px;
+	margin: 8px 0px !important;
+}
+	.details-heading-r, .details-heading-mobile-r {
+		text-decoration: underline;
+		font-weight: bold;
+		font-size: 20px;
+	}
+	.details-heading-mobile-r {
+		font-size: 12px;
+	}
+
+	.bill-heading-r {
+		margin: 0px 50px 0px 70px !important;
+		display: inline-block;
+		font-size: 23px !important;
+	}
+
+	
+.img-bills-preview-child-r{
+	position: absolute;
+	left: 0px;
+	margin: 70px 105px;
+	height: 100px;
+}
+
+
+.status-input-button-r{
+	height: 30px !important;
+    width: 76% !important;
+    padding: 5px !important;
+}
+
+.status-submit-button-r{
+	height: 30px;
+	width: 20% !important;
+	padding: 0px !important;
+}
+
+.browse-button-css-r, .browse-GST-button-css-r {
+	background-color: #f06d46 !important;
+	font-size: 15px !important;
+	padding: 7px !important;
+}
+.browse-GST-button-css-r{
+	font-size: 12px !important;
+    width: 100% !important;
+}
+
+}
+
+
+
+
+
+
+
+
+/* Dropdown Button */
+
+.dropbtn {
+	background-color: transparent !important;
+	color: black;
+	border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+/* Links inside the dropdown */
+
+.dropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+/* Change color of dropdown links on hover */
+
+.dropdown-content a:hover {
+	background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+
+.dropdown:hover .dropdown-content {
+	display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+
+.dropdown:hover .dropbtn {
+	background-color: #3e8e41;
+}
+
+.browse-upload-report-r{
+	height: 250px !important;
+	width: 100% !important;
+	margin: 0px auto 25px!important;
+}

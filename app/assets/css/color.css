@@ -1,0 +1,79 @@
+a:hover,
+a.itg-button,
+.high-theme-clr,
+.theme-heading span,
+.service-box a,
+.service-box:hover .service-icon,
+.clients .caption label,
+.about-list li:hover .about_box_content a ,
+.owl-theme .owl-nav .owl-prev, 
+.owl-theme .owl-nav .owl-next,
+.why_choose_us h3 span,
+.chart-detail span,
+.mixitup-btn a.filter.active,
+.mixitup-btn a.filter.active:after,
+.mixitup-btn a.filter.active:before,
+.mapael .mapTooltip,
+.blog-detail a,
+.theme-box:hover h3 a,
+.social-icon a,
+.twt-feed span,
+.bottom-footer p span,
+.itg-button,
+.theme-color,
+.timer ul li span.normal,
+.wa-theme-color{
+	color:#f06d46;
+}
+.social-box,
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover, .nav .open > a:focus, .nav .open > a:hover, .dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover, ul.nav.navbar-nav li a:hover,
+.itg-button.active,
+.itg-button:hover,
+.service-box:hover:before,
+.social-icon a:hover,
+.owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span,
+.about-list li:hover .about_box,
+.owl-theme .owl-nav .owl-prev:hover,
+.owl-theme .owl-nav .owl-next:hover,
+.pricing .caption,
+.pricing:hover .itg-button,
+.cssload-loading i,
+.theme-bg{
+	background-color:#f06d46;
+}
+.itg-button,
+.owl-theme .owl-dots .owl-dot span,
+.about-list li:hover .about_box{
+	border-color:#f06d46;
+}
+.theme-box figcaption,
+.cases figure:before,
+.our-facts:before,
+.blog figure:after ,
+#scroll-top {
+    background-color: rgba(255, 87, 36, 0.65);
+}
+circle.plot {
+    fill: #f06d46;
+}
+
+
+/* Extra Color */
+.chart-list h4.green:before{
+	background-color:#3eb36d;
+}
+.chart-list h4.blue:before{
+	background-color:#3ca7ab;
+}
+.chart-list h4.yellow:before{
+	background-color:#e37d39;
+}
+.chart-list h4.red:before{
+	background-color:#de4e4e;
+}
+.pricing .caption:before {
+    background-color: #bf411b;
+}
+path.area:hover{
+	fill:#bf411b;
+}

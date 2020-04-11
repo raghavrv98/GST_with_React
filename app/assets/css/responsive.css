@@ -1,0 +1,350 @@
+@media screen and (min-width: 1400px) {	
+	.about-us-half-sec{
+		top:50%;
+		margin-top:-210px;
+	}
+	
+}
+@media screen and (min-width: 1200px) {	
+	canvas#pie {
+		height: 500px;
+		width: 500px;
+	}
+	.chart{
+		margin-top:30px;
+	}
+}
+@media screen and (min-width: 1025px) and (max-width: 1199px) {
+	.slide-statue{
+		max-width:350px;
+	}
+	.about-us-section{
+		padding-bottom: 140px;
+	}
+	.blog-meta label{
+		margin: 0 6px;	
+	}
+	.mapcontainer_equi {
+		margin-top: 40px;
+	}	
+	.facts h2{
+		font-size:30px;
+	}
+	.facts h3{
+		font-size:30px;
+	}
+	.why_choose_us ul li{
+		margin-bottom:10px;
+	}
+	.service-box h3{
+		font-size:22px;
+	}
+	canvas#pie {
+		height: 400px;
+		width: 400px;
+	}
+}
+@media screen and (min-width: 992px) {		
+	.cases:nth-last-child(1),
+	.cases:nth-last-child(2),
+	.cases:nth-last-child(3),
+	.cases:nth-last-child(4),
+	#services .margin-small:nth-last-child(1),
+	#services .margin-small:nth-last-child(2),
+	#services .margin-small:nth-last-child(3),
+	#services .margin-small:nth-last-child(4){
+		margin-bottom:0px;
+	}
+	.about-us-full-sec .lft {
+		padding-left: 0px;
+	}
+}
+@media screen and (min-width: 992px) and (max-width: 1024px) {
+	.slide-statue{
+		max-width:350px;
+	}
+	.blog-caption{
+	    padding: 0px 15px;	
+	}
+	.blog-meta label{
+	    margin: 0 6px;	
+	}
+	.mapcontainer_equi {
+		margin-top: 40px;
+	}	
+	.facts h2{
+		font-size:30px;
+	}
+	.facts h3{
+		font-size:30px;
+	}
+	.why_choose_us ul li{
+		margin-bottom:10px;
+	}
+	.service-box h3{
+		font-size:22px;
+	}
+	.about-us-section{
+		padding-bottom: 180px;
+	}
+	.top-footer .social-icon a{
+		margin:0 1px;
+	}
+	canvas#pie {
+		height: 400px;
+		width: 400px;
+	}
+}
+@media screen and (min-width: 768px){
+	.sticky-header {
+		position: fixed;
+		top: 0;
+		z-index: 999;
+		width: 100%;
+		background-color: #fff;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+	}
+	body.dark .sticky-header {
+		position: fixed;
+		top: 0;
+		z-index: 999;
+		width: 100%;
+		background-color: #000;
+		box-shadow: 0 2px 5px rgba(225, 225, 225, 0.1);
+	}
+}
+@media screen and (min-width: 768px) and (max-width: 991px) {
+	.navbar-default .navbar-nav>li>a{
+		font-size:14px;
+	}
+	.navbar-nav>li>a{
+		padding:31px 12px;
+	}
+	.top-footer .margin-small {
+		margin-bottom: 30px;
+	}
+	.top-footer .margin-small:nth-last-child(1),
+	.top-footer .margin-small:nth-last-child(2){
+		margin-bottom: 0px;
+	}
+	.slide-statue{
+		max-width:300px;
+	}
+	.slide-content{
+		max-width:450px;
+	}
+	.slide-content h1 {
+		font-size: 32px;
+		padding: 20px 0;
+	}	
+	.about-us-half-sec{
+		position:relative;
+		margin-top:30px;
+	}
+	.about-list .about_box_content{
+		width:85%;
+	}
+	#services .margin-small:nth-last-child(1),
+	#services .margin-small:nth-last-child(2),
+	.cases:nth-last-child(1),
+	.cases:nth-last-child(2),
+	.our-facts .margin-small:nth-last-child(1),
+	.our-facts .margin-small:nth-last-child(2){
+		margin-bottom:0;
+	}
+	.why_choose_us,
+	.location_details{
+		margin-top:30px;
+	}	
+	.our-facts .margin-small {
+		margin-bottom: 50px;
+	}
+	canvas#pie {
+		height: 400px;
+		width: 400px;
+	}	
+    .comming-soon-content h1 {
+        font-size: 40px;
+    }
+    .special-section {
+        margin-top: -260px;
+    }
+}
+@media screen and (max-width: 767px) {
+	.top-footer .margin-small {
+		margin-bottom: 30px;
+	}
+	.top-footer .margin-small:nth-last-child(1){
+		margin-bottom: 0px;
+	}
+	.why_choose_us h3 {
+		font-size: 22px;
+	}
+	.why_choose_us{
+		margin-top:30px;
+	}
+	#services .margin-small:last-child{
+		margin-bottom:0;
+	}
+	.about-us-half-sec{
+		position:relative;
+		margin-top:30px;
+	}
+	a.navbar-brand {
+		padding: 20px 0;
+	}
+	
+	.top-bar .right {
+		text-align: center;
+	}
+	.top-bar .left {
+		text-align: center;
+	}
+	.navbar-default .navbar-toggle {
+		background-color: #000;
+		margin: 0;
+	}
+	.navbar-default .navbar-toggle .icon-bar{
+		background-color:#fff;
+	}
+	.navbar-default .navbar-toggle {
+		background-color: #000;
+		margin: 15px 0;
+	}
+	.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover{
+		background-color: #000;
+	}
+	.navbar-nav>li>a{
+		padding: 15px 15px;
+	}
+	.navbar-header{
+		border-bottom:1px solid #ccc;
+	}
+	.slide-content label{
+		font-size:18px;
+	}
+	.slide-content{
+		z-index:2;
+	}
+	.slide-content h1{
+		font-size:30px;
+	}
+	.slide-content {
+		z-index: 2;
+		padding: 30px 15px;
+		background-color: rgba(0,0,0,0.6);
+		margin-top: -148px;
+		max-width: 400px;
+	}
+	.slide-statue{
+		max-width: 300px;
+	}
+	.top-bar ul li {
+		display: inline-block;
+		margin: 5px 5px;
+		font-size: 14px;
+	}
+	.theme-heading h2 {
+		position: relative;
+		color: #000;
+		font-weight: 600;
+		font-size: 26px;
+	}
+	.mixitup-btn a.filter{
+		font-size:14px;
+	}
+	.cases:last-child{
+		margin-bottom:0px;
+	}
+	.our-facts .margin-small {
+		margin-bottom: 50px;
+	}
+	.our-facts .margin-small:last-child {
+		margin-bottom: 0px;
+	}
+	.facts h2{
+		font-size:30px;
+	}
+	.facts h3{
+		font-size:30px;
+	}
+	#pricing .margin-small {
+		margin-bottom: 30px;
+	}
+	#pricing .margin-small:last-child {
+		margin-bottom: 0px;
+	}
+	.location_details{
+		margin-top:30px;
+	}
+	.blog{
+		margin-bottom:30px;
+	}
+	
+    .special-section {
+        margin-top: -251.5px;
+    }
+    .comming-soon-content h2,
+    .timer ul li span.normal,
+    .comming-soon-content h3 {
+        font-size: 16px;
+    }
+    .comming-soon-content h1 {
+        font-size: 22px;
+    }
+    .timer ul li span {
+        font-size: 28px;
+    }
+}
+@media screen and (min-width: 641px) and (max-width: 767px) {
+	canvas#pie {
+		height: 400px;
+		width: 400px;
+	}
+	.banner-content h2{
+		font-size: 30px;
+	}
+	.banner-content h2.banner-title{
+		font-size:36px;
+	}	
+}
+@media screen and (min-width: 481px) and (max-width: 640px) {
+	canvas#pie {
+		height: 350px;
+		width: 350px;
+	}
+	.banner-content h2{
+		font-size: 24px;
+	}
+	.banner-content h2.banner-title{
+		font-size:28px;
+	}	
+}
+@media screen and (min-width: 320px) and (max-width: 480px) {
+	.top-bar ul li {
+		display: inline-block;
+		margin: 5px 5px;
+		font-size: 14px;
+	}	
+	.about-list .about_box{
+		width: 60px;
+		height: 60px;
+		padding:17px 0;
+		font-size:20px;
+	}
+	.about-list .about_box_content{
+		width:72%;
+	}
+	.banner-content h2{
+		font-size: 18px;
+	}
+	.banner-content h2.banner-title{
+		font-size:28px;
+	}	
+	.blog-caption{
+		padding: 0px 15px;
+	}
+	.blog-meta label{
+		margin: 0 6px;
+	}
+}

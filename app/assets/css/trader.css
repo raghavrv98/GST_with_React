@@ -1,0 +1,150 @@
+body {
+	margin: 0px !important;
+	padding: 0px !important;
+}
+
+@media screen and (min-width: 480px) {
+
+	.reset-form-padding-r {
+		padding: 25px 50px !important;
+	}
+
+	.outer-box-r {
+		padding: 0px 40px !important;
+	}
+
+	.filter-year-month-r {
+		margin: 120px auto 25px;
+	}
+
+	.table-border-r{
+		border-radius: 5px;
+		color: #255b7a;
+		margin: 0px !important;
+	}
+	#download-modal {
+		width: 200%;
+		margin-left: -50%;
+	}
+	.status-button-r{
+		visibility: visible !important;
+		height: 20px;
+		width: 20px;
+	}
+
+	.td-width-status-r{
+		width: 20%;
+	}
+
+	#header{
+		margin: 0px !important;
+		position: fixed !important;
+		top: 0px;
+		z-index: 100;
+	}
+
+	.registration-submit-button-r{
+		width: 25% !important;
+		margin: 15px 213px 0px!important;
+		background-color: #f06d46 !important;
+		padding: 0px !important;
+		height: 35px !important;
+		display: inline-block !important;
+	}
+
+	.nodatafound-magnify-r {
+		top: 200px;
+		/* z-index: 100; */
+		position: absolute;
+	}
+}
+
+@media screen and (max-width:479px) {
+
+	.reset-form-padding-r {
+		padding: 25px !important;
+	}
+	
+	.outer-box-r {
+		padding: 0px !important;
+	}
+	
+	.filter-year-month-r {
+		margin: 85px auto 0px;
+	}
+
+	.table-border-r{
+		border-radius: 5px;
+		color: #255b7a;
+		margin: 20px auto !important;
+	}
+
+	.status-button-r{
+		visibility: visible !important;
+		height: 20px;
+		width: 20px;
+		position: relative !important;
+	}
+
+	.registration-submit-button-r{
+		width: 25% !important;
+		margin: 15px 120px 0px!important;
+		background-color: #f06d46 !important;
+		padding: 0px !important;
+		height: 35px !important;
+		display: inline-block !important;
+	}
+
+	.nodatafound-magnify-r {
+		top: 225px;
+		left: 185px;
+		height: 80px;
+		position: absolute;
+	}
+}
+
+
+.reset-input-box-r {
+	color: #255b7a !important;
+	border-color: #f06d46 !important;
+	margin: 0px auto 20px !important;
+}
+
+.reset-button-r {
+	width: 25% !important;
+	margin: 0px auto !important;
+	background-color: #f06d46 !important;
+	padding: 0px !important;
+	height: 35px !important;
+}
+
+.registration-row-margin-r{
+    margin: 15px auto 0px !important;
+}
+.input-registration-r{
+	color: #255b7a !important;
+	border-color: #f06d46 !important;
+}
+
+.registration-body-padding-r{
+	padding: 15px !important;
+}
+
+.registration-dropdown-r{ 
+	color: #255b7a;		
+	border-color: #f06d46;
+	border-radius: 5px;
+}
+
+.container{
+	width: 100% !important;
+}
+
+.year-month-border-r {
+	border-radius: 5px;
+}
+
+.image-center-r{
+	display: flex;
+	justify-content: center;
+}
