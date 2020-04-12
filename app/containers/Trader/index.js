@@ -18,8 +18,6 @@ import makeSelectTrader from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import ReactTable from "react-table";
-import ReactTooltip from "react-tooltip";
 
 
 
@@ -213,69 +211,131 @@ reports : [{
 payload : {
   year : "",
   month:"",
-  userType:""
+  userType:"",
 },
-filteredData: undefined,
-filteredUserData: undefined
+filteredData: [],
+reactTableData:[],
+isFetching: true
 
 }
-   
 
-  // statusFunction(id) {
-  //   console.log('id: ', id);
-  //   let status = traderList.find(val => val.userId == id)
-  //   console.log('status: ', status.userDetails.status);
-  //   document.getElementById('output').value = status.userDetails.status;
-  // }
+componentWillMount(){
+  setTimeout( this.loadingTime , 500);
+}
+
+loadingTime =()=>{
+this.setState({
+  isFetching :false
+})
+}
 
   nameChangeHandler = (event) => {
-    var filteredData
+    var filteredData = []
     let payload = JSON.parse(JSON.stringify(this.state.payload)) 
     payload[event.target.id] = event.target.value
     if(event.target.id == "year"){
       filteredData = this.state.traderList.filter(val => val.userDetails.year == event.target.value);
+      payload.month = ""
+      payload.userType = ""
     }
     else if (event.target.id == "month"){
       filteredData = this.state.traderList.filter(val => val.userDetails.month == event.target.value);
+      payload.year =""      
+      payload.userType = ""
     }
     else if (event.target.id == "userType"){
-      this.selectedUserType(event.target.value)
+      if (event.target.value == "completed" || event.target.value == "pending"){
+        filteredData = this.state.traderList.filter(val => val.userDetails.status == event.target.value);
+      }
+      
+      else if (event.target.value == "active" || event.target.value == "inActive"){
+        filteredData = this.state.traderList.filter(val => val.userDetails.state == event.target.value);
     }
+
+    else if (event.target.value == "withData" || event.target.value == "withoutData"){
+
+    if (event.target.value == "withData"){
+        filteredData = this.state.reports.map(val => {if(val.userBills.length > 0) return val.userId});
+        filteredData = filteredData.filter(val => {if(val != undefined) return val });
+        filteredData = this.state.traderList.filter( val => filteredData.includes(val.userId))
+      }
+      else{
+      filteredData = this.state.reports.map(val => {if(val.userBills.length == 0) return val.userId});
+      filteredData = filteredData.filter(val => {if(val != undefined) return val });
+      filteredData = this.state.traderList.filter( val => filteredData.includes(val.userId))
+      }
+
+    }
+    else if ( event.target.value == "all")
+    filteredData = this.state.traderList;
+  
+    else
+      filteredData = []
+      payload.year = ""
+      payload.month = ""
+  }
+
+    var reactTableData = filteredData.map(val=>{
+      return {
+        userId : val.userId,
+        clientId : val.userDetails.clientId,
+        tradeName : val.userDetails.tradeName,
+        legalName : val.userDetails.tradeName,
+        status : val.userDetails.status
+      }
+    })
 
     this.setState({
       payload,
-      filteredData
+      reactTableData
     })
   }
-
-  selectedUserType(userType) {
-    var filteredUserData
-    if (userType == "completed" || userType == "pending")
-      filteredUserData = this.state.traderList.filter(val => val.userDetails.status == userType);
-    else if (userType == "active" || userType == "inActive")
-      filteredUserData = this.state.traderList.filter(val => val.userDetails.state == userType);
-    else if (userType == "withData" || userType == "withoutData"){
-    if (userType == "withData"){
-        filteredUserData = this.state.reports.map(val => {if(val.userBills.length > 0) return val.userId});
-        filteredUserData = filteredUserData.filter(val => {if(val != undefined) return val });
-        filteredUserData = this.state.traderList.filter( val => filteredUserData.includes(val.userId))
-      }
-      else{
-      filteredUserData = this.state.reports.map(val => {if(val.userBills.length == 0) return val.userId});
-      filteredUserData = filteredUserData.filter(val => {if(val != undefined) return val });
-      filteredUserData = this.state.traderList.filter( val => filteredUserData.includes(val.userId))
-      }
-    }
-    else
-    filteredUserData = this.state.traderList;
-    
-    this.setState({
-      filteredUserData : filteredUserData
-    })
-    }
     
     render() {
-      console.log('filteredData: +++++++++++', this.state.filteredUserData);
+      const columns = [{ 
+        Header: 'Serial No.',
+        accessor: 'userId',
+        filterable : true,
+      },
+      { 
+        Header: 'client Id',
+        accessor: 'clientId',
+        filterable : true,
+      },
+      { 
+        Header: 'Trade Name',
+        accessor: 'tradeName',
+        filterable : true,
+      },
+      { 
+        Header: 'Legal Name',
+        accessor: 'legalName',
+        filterable : true,
+      },
+      { 
+        Header: 'Status',
+        accessor: 'status',
+        width :80,
+        Cell: row => 
+            (
+              <div>
+                <input checked={row.original.status == "completed"} data-toggle="modal" data-target="#statusPassword" className="status-button-r" type="checkbox"/>
+              </div>
+            )
+      },
+      {
+        Header: 'Actions',
+        sortable : false,
+        width:100,
+        Cell: row => 
+        (<div style={{textAlign: "center"}}>
+          <span className = "editButton"><i className="fas fa-pen" /></span>
+          <a data-toggle="modal" data-dismiss="modal" data-target="#warningmsg" className="deleteButton"><i className="far fa-trash-alt" /></a>
+        </div>
+        )
+      },  
+     ]
+    
     return (
       <div>
         <Helmet>
@@ -489,118 +549,23 @@ filteredUserData: undefined
     </div>
   </div>
 </div>
-<div className="customReactTableBox">
-            {/* <ReactTable
-              columns={[
-                {
-                  Header: <FormattedMessage {...messages.name} />,
-                  accessor: "name",
-                  filterable: true,
-                  sortable: true
-                },
-                {
-                  Header: <FormattedMessage {...messages.name} />,
-                  accessor: "email",
-                  filterable: true,
-                  sortable: true
-                },
-                {
-                  Header: <FormattedMessage {...messages.name} />,
-                  accessor: "userRole",
-                  filterable: false,
-                  sortable: false,
-                  // Cell: row => {
-                  //   let data = "";
-                  //   row.original.userRole.map(item => {
-                  //     data += item.role.name + " ";
-                  //   });
-                  //   return <div>{data}</div>;
-                  // }
-                },
-                {
-                  Header: <FormattedMessage {...messages.name} />,
-                  accessor: "compartment",
-                  sortable: false,
-                  filterable: false,
-                  // Cell: row => {
-                  //   let data = "";
-                  //   row.original.compartment.map(item => {
-                  //     data += item.name + " ";
-                  //   });
-                  //   return <div>{data}</div>;
-                  // }
-                },
-                {
-                  Header: <FormattedMessage {...messages.name} />,
-                  accessor: "internalUser",
-                  filterable: false,
-                  // Cell: row => (
-                  //   <span>{row.original.internalUser ? "INTERNAL" : "EXTERNAL"}</span>
-                  // )
-                }
-                // {
-                //   Header: <FormattedMessage {...commonMessage.actions} />,
-                //   filterable: false,
-                //   Cell: row => (
-                //     <div className="button-group">
-                //       <button
-                //         type="button"
-                //         className="btn-transparent"
-                //         onClick={() => {
-                //           this.props.history.push(`/addOrEditUser/${row.original.id}`);
-                //         }}
-                //         data-tip
-                //         data-for="edit"
-                //       >
-                //         <i className="far fa-pen text-primary" />
-                //         <ReactTooltip id="edit" type="dark">
-                //           <div className="tooltipText">
-                //             <p>
-                //               <FormattedMessage {...commonMessage.edit} />
-                //             </p>
-                //           </div>
-                //         </ReactTooltip>
-                //       </button>
-                //       <button
-                //         type="button"
-                //         disabled={row.original.createdBy === "SYSTEM"}
-                //         className={
-                //           row.original.createdBy === "SYSTEM"
-                //             ? "btn-transparent btn-disabled"
-                //             : "btn-transparent"
-                //         }
-                //         onClick={() => this.confirmModalHandler(row.original.id)}
-                //         data-tip
-                //         data-for="delete"
-                //       >
-                //         <i className="far fa-trash-alt text-danger" />
-                //         <ReactTooltip id="delete" type="dark">
-                //           <div className="tooltipText">
-                //             <p>
-                //               <FormattedMessage {...commonMessage.delete} />
-                //             </p>
-                //           </div>
-                //         </ReactTooltip>
-                //       </button>
-                //     </div>
-                //   )
-                // }
-              ]}
-              noDataText={
-                this.state.isFetching ? "" : "There is no data to display."
-              }
-              pageSizeOptions={[5, 10, 20, 25, 50, 100]}
-              defaultPageSize={this.state.filteredData.length < 5 ? 5 : 10}
-              data={this.state.filteredData}
-              loading={this.state.isFetching}
-              loadingText="loading"
-              className="customReactTable"
-            /> */}
-          </div>
 <div className="container">
   <div className="row">
     <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-    {this.state.filteredData || this.state.filteredUserData ? 
+<div className="customReactTableBox">
+    <ReactTable
+    className="customReactTable"
+    data={this.state.reactTableData}
+    columns={columns}
+    defaultPageSize = {5}
+    noDataText={
+      this.state.isFetching ? "" : "There is no data to display."
+    }
+    loading={this.state.isFetching}
+    loadingText={"Loading ..."}
+  />
+  </div>
+    {/* {this.state.filteredData || this.state.filteredUserData ? 
 
 this.state.filteredData && this.state.filteredData.length > 0  || this.state.filteredUserData && this.state.filteredUserData.length > 0 ?
 
@@ -651,7 +616,7 @@ this.state.filteredData && this.state.filteredData.length > 0  || this.state.fil
       <div className="image-center-r">
       <img src={require('../../assets/img/nofilters.png')} alt=""/>	
     </div>
-    }
+    } */}
     </div>
   </div>
 
@@ -681,6 +646,37 @@ this.state.filteredData && this.state.filteredData.length > 0  || this.state.fil
 </div>
 
 </div>
+
+        {/* <!--warning message start--> */}
+        <div>
+          <div className="modal fade" id="warningmsg" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="delete-modal-padding-r">
+                  <form method="post" action="/login">
+                    <p className="warning-msg-r">Are you sure want to delete ?</p>
+                    <div className="icon-margin-r">
+                      <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span>
+                          <a style={{ cursor: "pointer" }} data-dismiss="modal"><i className="fa fa-times"
+                            style={{ fontSize: '30px', color: "red" }}></i></a>
+                        </span>
+                      </div>
+                      <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span>
+                          <a href="user.html" style={{ cursor: "pointer" }}><i className="fa fa-check"
+                            style={{ fontSize: '30px', color: "green" }}></i></a>
+                        </span>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* <!--warning message end--> */}
+
 <a style={{backgroundColor: "#255b7a", borderRadius: '50%'}} id="scroll-top" className=""><i className="fa fa-angle-double-up"
   aria-hidden="true"></i></a>
 

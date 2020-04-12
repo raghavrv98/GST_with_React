@@ -45,6 +45,7 @@ import'./assets/css/trader.css';
 import'./assets/css/user.css';
 import'./assets/css/userDetails.css';
 import'./assets/css/style.css';
+import'./assets/css/reactTable.css';
 
 //import react-table
 // import 'react-table/react-table.css';

@@ -35,12 +35,12 @@ import GlobalStyle from '../../global-styles';
 export default function App() {
   return (
     <div>
-      <Helmet
+      {/* <Helmet
         titleTemplate="%s - React.js Boilerplate"
         defaultTitle="React.js Boilerplate"
       >
         <meta name="description" content="A React.js Boilerplate application" />
-      </Helmet>
+      </Helmet> */}
       <Header />
       <Switch>
       <Route exact path="/" component={HomePage} />

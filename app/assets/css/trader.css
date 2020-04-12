@@ -14,7 +14,7 @@ body {
 	}
 
 	.filter-year-month-r {
-		margin: 120px auto 25px;
+		margin: 35px auto 25px !important;
 	}
 
 	.table-border-r{
@@ -30,6 +30,7 @@ body {
 		visibility: visible !important;
 		height: 20px;
 		width: 20px;
+		margin: 0px !important;
 	}
 
 	.td-width-status-r{
@@ -81,8 +82,8 @@ body {
 
 	.status-button-r{
 		visibility: visible !important;
-		height: 20px;
-		width: 20px;
+		height: 25px;
+		width: 25px;
 		position: relative !important;
 	}
 
@@ -147,4 +148,32 @@ body {
 .image-center-r{
 	display: flex;
 	justify-content: center;
+}
+.editButton{
+	color: blue;
+	margin: 0px 5px;
+	cursor: pointer;
+}
+
+.deleteButton{
+	color: red;
+	margin: 0px 5px;
+	cursor: pointer;
+}
+
+.icon-margin-r {
+	text-align: center;
+	margin: 20px;
+}
+
+.delete-modal-padding-r {
+	padding: 20px;
+	height: 130px;
+}
+
+.warning-msg-r {
+	font-size: 20px;
+	color: #255b7a;
+	text-align: center;
+	margin: 0px;
 }
