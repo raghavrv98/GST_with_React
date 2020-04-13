@@ -215,7 +215,7 @@ payload : {
 },
 filteredData: [],
 reactTableData:[],
-isFetching: true
+isFetching: false
 
 }
 
@@ -503,7 +503,6 @@ this.setState({
 
 
   <div className="container outer-box-r">
-
 <div className="container filter-year-month-r">
   <div className="row">
     <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">

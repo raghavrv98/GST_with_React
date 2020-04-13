@@ -24,4 +24,12 @@ export default defineMessages({
     id: `${scope}.userDetails`,
     defaultMessage: 'userDetails',
   },
+  login: {
+    id: `${scope}.login`,
+    defaultMessage: 'Login',
+  },
+  dropdown: {
+    id: `${scope}.dropdown`,
+    defaultMessage: 'Dropdown',
+  },
 });
