@@ -10,7 +10,7 @@ body {
 	}
 
 	.outer-box-r {
-		padding: 0px 40px !important;
+		padding: 0px 20px !important;
 	}
 
 	.filter-year-month-r {
@@ -149,15 +149,21 @@ body {
 	display: flex;
 	justify-content: center;
 }
-.editButton{
+.editButton-r{
 	color: blue;
-	margin: 0px 5px;
+	margin: 0px 7px;
 	cursor: pointer;
 }
 
-.deleteButton{
+.infoButton-r{
+	color: blue;
+	margin: 0px 7px;
+	cursor: pointer;
+}
+
+.deleteButton-r{
 	color: red;
-	margin: 0px 5px;
+	margin: 0px 7px;
 	cursor: pointer;
 }
 
@@ -176,4 +182,11 @@ body {
 	color: #255b7a;
 	text-align: center;
 	margin: 0px;
+}
+
+.nav-bar-r{
+	position: sticky !important;
+		top: 0 !important;
+		z-index: 1000 !important;
+		background-color: #F9FDFE !important;
 }

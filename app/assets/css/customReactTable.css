@@ -4,6 +4,7 @@
     .customReactTableBox {
         width: 100%;
         margin: 0 auto;
+        text-align: center;
     }
     .customReactTable.ReactTable {
         border: 0;

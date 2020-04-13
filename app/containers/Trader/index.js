@@ -18,7 +18,7 @@ import makeSelectTrader from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-
+import HeaderLink from '../../components/Header/HeaderLink';
 
 
 /* eslint-disable react/prefer-stateless-function */
@@ -295,11 +295,13 @@ this.setState({
       const columns = [{ 
         Header: 'Serial No.',
         accessor: 'userId',
-        filterable : true,
+        // filterable : true,
+        width:100,
       },
       { 
         Header: 'client Id',
         accessor: 'clientId',
+        width:150,
         filterable : true,
       },
       { 
@@ -326,11 +328,12 @@ this.setState({
       {
         Header: 'Actions',
         sortable : false,
-        width:100,
+        width:150,
         Cell: row => 
-        (<div style={{textAlign: "center"}}>
-          <span className = "editButton"><i className="fas fa-pen" /></span>
-          <a data-toggle="modal" data-dismiss="modal" data-target="#warningmsg" className="deleteButton"><i className="far fa-trash-alt" /></a>
+        (<div>
+          <a className = "infoButton-r" onClick={() => { this.props.history.push('/userDetails/'+row.original.userId)}}><i class="fa fa-info" aria-hidden="true"></i></a>
+          <span className = "editButton-r"><i className="fas fa-pen" /></span>
+          <a className="deleteButton-r" data-toggle="modal" data-dismiss="modal" data-target="#warningmsg"><i className="far fa-trash-alt" /></a>
         </div>
         )
       },  
@@ -500,11 +503,44 @@ this.setState({
 			</div>
 		</div>
 	</div>
+  <nav className="navbar navbar-default nav-bar-r">
+  <div className="container-fluid">
+    {/* <!-- Brand and toggle get grouped for better mobile display --> */}
+    <div className="navbar-header">
+      <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span className="sr-only">Toggle navigation</span>
+        <span className="icon-bar"></span>
+        <span className="icon-bar"></span>
+        <span className="icon-bar"></span>
+      </button>
+      <a style={{marginLeft: "44px"}} onClick={() => { this.props.history.push('/')}} className="navbar-brand">Brand</a>
+    </div>
 
+    {/* <!-- Collect the nav links, forms, and other content for toggling --> */}
+    <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul className="nav navbar-nav navbar-right">
+    <li><a style={{ marginTop: "-10px", color: "#255b7a"}} data-toggle="modal" data-target="#resetPassword" className="navbar-brand">Reset Password</a></li>
+    <li><a style={{ marginTop: "-10px", color: "#255b7a"}} onClick={() => { this.props.history.push('/')}} className="navbar-brand">Logout</a></li>
+                {/* <HeaderLink to="/userDetails">
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span className="caret"></span></a>
+            <ul className="dropdown-menu" role="menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li className="divider"></li>
+              <li className="dropdown-header">Nav header</li>
+              <li><a href="#">Separated link</a></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul>
+                </HeaderLink> */}
+            </ul>
+    </div>
+  </div>
+</nav>
 
   <div className="container outer-box-r">
 <div className="container filter-year-month-r">
-  <div className="row">
+  <div style={{marginBottom: "20px"}} className="row">
     <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
       <select id="year" onChange={this.nameChangeHandler} value={this.state.payload.year} className="custom-select year-month-border-r"
         name="lectureId">
@@ -549,8 +585,6 @@ this.setState({
   </div>
 </div>
 <div className="container">
-  <div className="row">
-    <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 <div className="customReactTableBox">
     <ReactTable
     className="customReactTable"
@@ -563,6 +597,7 @@ this.setState({
     loading={this.state.isFetching}
     loadingText={"Loading ..."}
   />
+  </div>
   </div>
     {/* {this.state.filteredData || this.state.filteredUserData ? 
 
@@ -616,8 +651,6 @@ this.state.filteredData && this.state.filteredData.length > 0  || this.state.fil
       <img src={require('../../assets/img/nofilters.png')} alt=""/>	
     </div>
     } */}
-    </div>
-  </div>
 
   {/* <div className="image-center-r">
     <img src="/img/nodatafound.png" alt=""/>
@@ -641,8 +674,6 @@ this.state.filteredData && this.state.filteredData.length > 0  || this.state.fil
   //     font-size: 37px;
   //     color: #4687C7;" className="fa fa-times" aria-hidden="true"></i>
   //   </div> */}
-
-</div>
 
 </div>
 

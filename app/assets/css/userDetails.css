@@ -48,7 +48,6 @@ body {
 	width: 100% !important;
 }
 
-
 .browse-upload-margin-r {
 	margin: 10px auto;
 	display: inline-block;
@@ -56,9 +55,9 @@ body {
 }
 
 .icon-customization-download-r {
-	font-size: 28px !important;
+	font-size: 20px !important;
 	position: absolute !important;
-	margin: -2px -12px;
+	margin: -2px -10px;
 }
 
 .year-month-border-r {
@@ -81,8 +80,7 @@ body {
 	text-align: center;
 }
 
-
-.img-bills-preview-selected-parent-r{
+.img-bills-preview-selected-parent-r {
 	position: relative !important;
 	filter: blur(2px) !important;
 	width: 100% !important;
@@ -90,29 +88,24 @@ body {
 	padding: 10px !important;
 }
 
-
-.img-bills-preview-parent-r{
+.img-bills-preview-parent-r {
 	position: relative !important;
 	width: 100% !important;
 	height: 250px !important;
 }
 
-.submit-icon-r{
+.submit-icon-r {
 	color: green;
-    font-size: 15px;
+	font-size: 15px;
 }
 
-
 @media screen and (min-width: 480px) {
-
 	.reset-form-padding-r {
 		padding: 25px 50px !important;
 	}
-
 	.modal-width-r {
 		width: 700px !important;
 	}
-
 	.download-button-r {
 		background-color: #f06d46 !important;
 		width: 100% !important;
@@ -120,63 +113,47 @@ body {
 		height: 35px !important;
 		font-size: 14px !important;
 	}
-
 	.outer-box-r {
-		padding: 0px 40px !important;
+		padding: 0px 20px !important;
 	}
-
 	.name-mobile-reports-r {
 		margin: 0px auto 10px;
 	}
-
 	.view-reports-r, .view-daily-reports-r {
 		text-decoration: underline;
 		font-size: 20px;
 		margin: 4px auto;
 		text-align: center;
 	}
-
-	
-.upload-status-button-r {
-	visibility: visible !important;
-	height: 20px;
-	width: 20px;
-	margin: 5px 0px !important;
-}
-
-.bill-heading-r {
-	margin: 0px 0px 0px 25px !important;
-    display: inline-block;
-    font-size: 18px !important;
-    font-weight: 500;
-}
-
-.img-bills-preview-child-r {
-    position: absolute;
-    left: 0px;
-    margin: 70px 48px;
-	height: 100px;
-}
-
-.status-input-button-r {
-	padding: 5px !important;
-    height: 30px !important;
-	width: 65% !important;
-	margin: 0px 6px !important;
-}
-
-
-.status-submit-button-r {
-	height: 30px;
-    width: 25% !important;
-    padding: 0px !important;
-}
-	.browse-button-css-r, .browse-GST-button-css-r {
-		background-color: #f06d46 !important;
-		font-size: 15px !important;
-		padding: 7px !important;
+	.upload-status-button-r {
+		visibility: visible !important;
+		height: 20px;
+		width: 20px;
+		margin: 5px 0px !important;
 	}
-
+	.bill-heading-r {
+		margin: 0px 0px 0px 25px !important;
+		display: inline-block;
+		font-size: 18px !important;
+		font-weight: 500;
+	}
+	.img-bills-preview-child-r {
+		position: absolute;
+		left: 0px;
+		margin: 70px 48px;
+		height: 100px;
+	}
+	.status-input-button-r {
+		padding: 5px !important;
+		height: 30px !important;
+		width: 65% !important;
+		margin: 0px 6px !important;
+	}
+	.status-submit-button-r {
+		height: 30px;
+		width: 25% !important;
+		padding: 0px !important;
+	}
 	.details-heading-r, .details-heading-mobile-r {
 		text-decoration: underline;
 		font-weight: bold;
@@ -187,16 +164,22 @@ body {
 	.details-heading-mobile-r {
 		font-size: 20px;
 	}
-
-	#header{
+	#header {
 		margin: 0px !important;
 		position: fixed !important;
 		top: 0px;
 		z-index: 100;
 	}
+	.margin-bottom-r {
+		margin: 0px 0px 15px 0px;
+	}
 
-	.margin-bottom-r{
-margin: 0px 0px 15px 0px;
+	.browse-button-css-r, .browse-GST-button-css-r {
+		background-color: #f06d46 !important;
+		font-size: 15px !important;
+		padding: 7px !important;
+		cursor: pointer;
+		color: white
 	}
 }
 
@@ -205,7 +188,6 @@ margin: 0px 0px 15px 0px;
 	.reset-form-padding-r {
 		padding: 25px !important;
 	}
-
 	.download-button-r {
 		background-color: #f06d46 !important;
 		width: 50% !important;
@@ -214,36 +196,26 @@ margin: 0px 0px 15px 0px;
 		font-size: 14px !important;
 		margin: 0px 65px;
 	}
-
 	.outer-box-r {
 		padding: 0px !important;
 	}
-
-	.name-mobile-reports-r {
-		/* margin: 85px auto 0px; */
-	}
-
 	.view-reports-r, .view-daily-reports-r {
 		text-decoration: underline;
 		font-size: 20px;
-		text-align: center;		
+		text-align: center;
 	}
-
-	.view-reports-r{
+	.view-reports-r {
 		margin: 15px auto 10px !important;
 	}
-
-.view-daily-reports-r
-	{	
-	margin: 10px 0px !important;
-	}	
-
-.upload-status-button-r{
-	visibility: visible !important;
-    height: 30px;
-    width: 30px;
-	margin: 8px 0px !important;
-}
+	.view-daily-reports-r {
+		margin: 10px 0px !important;
+	}
+	.upload-status-button-r {
+		visibility: visible !important;
+		height: 30px;
+		width: 30px;
+		margin: 8px 0px !important;
+	}
 	.details-heading-r, .details-heading-mobile-r {
 		text-decoration: underline;
 		font-weight: bold;
@@ -253,56 +225,43 @@ margin: 0px 0px 15px 0px;
 	.details-heading-mobile-r {
 		font-size: 12px;
 	}
-
 	.bill-heading-r {
 		margin: 0px 50px 0px 70px !important;
 		display: inline-block;
 		font-size: 23px !important;
 	}
+	.img-bills-preview-child-r {
+		position: absolute;
+		left: 0px;
+		margin: 70px 105px;
+		height: 100px;
+	}
+	.status-input-button-r {
+		height: 30px !important;
+		width: 76% !important;
+		padding: 5px !important;
+	}
+	.status-submit-button-r {
+		height: 30px;
+		width: 20% !important;
+		padding: 0px !important;
+	}
+	.browse-GST-button-css-r {
+		font-size: 12px !important;
+		width: 100% !important;
+	}
+	.margin-bottom-r {
+		margin: 0px 0px 5px 0px;
+	}
 
-	
-.img-bills-preview-child-r{
-	position: absolute;
-	left: 0px;
-	margin: 70px 105px;
-	height: 100px;
+	.browse-button-css-r, .browse-GST-button-css-r {
+		background-color: #f06d46 !important;
+		font-size: 12px !important;
+		padding: 7px !important;
+		cursor: "pointer";
+		color: "white"
+	}
 }
-
-
-.status-input-button-r{
-	height: 30px !important;
-    width: 76% !important;
-    padding: 5px !important;
-}
-
-.status-submit-button-r{
-	height: 30px;
-	width: 20% !important;
-	padding: 0px !important;
-}
-
-.browse-button-css-r, .browse-GST-button-css-r {
-	background-color: #f06d46 !important;
-	font-size: 15px !important;
-	padding: 7px !important;
-}
-.browse-GST-button-css-r{
-	font-size: 12px !important;
-    width: 100% !important;
-}
-
-.margin-bottom-r{
-	margin: 0px 0px 5px 0px;
-		}
-
-}
-
-
-
-
-
-
-
 
 /* Dropdown Button */
 
@@ -341,9 +300,9 @@ margin: 0px 0px 15px 0px;
 
 /* Change color of dropdown links on hover */
 
-.dropdown-content a:hover {
+/* .dropdown-content a:hover {
 	background-color: #ddd;
-}
+} */
 
 /* Show the dropdown menu on hover */
 
@@ -357,8 +316,19 @@ margin: 0px 0px 15px 0px;
 	background-color: #3e8e41;
 }
 
-.browse-upload-report-r{
+.browse-upload-report-r {
 	height: 250px !important;
 	width: 100% !important;
 	margin: 0px auto 25px!important;
+}
+
+.nav-bar-r {
+	position: sticky !important;
+	top: 0 !important;
+	z-index: 1000 !important;
+	background-color: #F9FDFE !important;
+}
+
+.disabled-r{
+	cursor: not-allowed;
 }

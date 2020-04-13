@@ -59,7 +59,7 @@ class Header extends React.Component {
                 <HeaderLink to="/userDetails">
                   <FormattedMessage {...messages.login} />
                 </HeaderLink>
-                <HeaderLink to="/userDetails">
+                {/* <HeaderLink to="/userDetails">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="#">Action</a></li>
@@ -70,7 +70,7 @@ class Header extends React.Component {
               <li><a href="#">Separated link</a></li>
               <li><a href="#">One more separated link</a></li>
             </ul>
-                </HeaderLink>
+                </HeaderLink> */}
             </ul>
     </div>
   </div>

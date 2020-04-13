@@ -19,6 +19,8 @@ import reducer from './reducer';
 import saga from './saga';
 import moment from 'moment';
 import messages from './messages';
+import HeaderLink from '../../components/Header/HeaderLink';
+
 
 /* eslint-disable react/prefer-stateless-function */
 export class UserDetails extends React.Component {
@@ -30,29 +32,54 @@ export class UserDetails extends React.Component {
       oldPassword: "",
       newPassword: ""
     },
-    userDetails :[{
-      userId : 1,
-      timestamp : 1586706724000,
-      purchaseBills:[{timestamp : 100000, url:"qqqqq"},{timestamp : 100000, url:"qqqqq"}],
-      saleBills:[{timestamp : 100000, url:"qqqqq"},{timestamp : 100000, url:"qqqqq"}],
-      other:[{timestamp : 100000, url:"qqqqq"},{timestamp : 100000, url:"qqqqq"}],
-      dailyReports:[{timestamp : 100000, url:"qqqqq"},{timestamp : 100000, url:"qqqqq"}]
-      },
-      {
-      userId : 2,
-      timestamp : 1586706724000,
-      purchaseBills:[{timestamp : 100000, url:"qqqqq"},{timestamp : 100000, url:"qqqqq"}],
-      saleBills:[{timestamp : 100000, url:"qqqqq"},{timestamp : 100000, url:"qqqqq"}],
-      other:[{timestamp : 100000, url:"qqqqq"},{timestamp : 100000, url:"qqqqq"}],
-      dailyReports:[{timestamp : 100000, url:"qqqqq"},{timestamp : 100000, url:"qqqqq"}]
-      }
-      ],
+    userDetails: [{
+      userId: 1,
+      timestamp: 1586706724000,
+      legalName: "Ram",
+      mobileNumber: "999-999-999",
+      purchaseBills: [{ timestamp: 100000, url: "qqqqq" }, { timestamp: 100000, url: "qqqqq" }],
+      saleBills: [{ timestamp: 100000, url: "qqqqq" }, { timestamp: 100000, url: "qqqqq" }],
+      other: [{ timestamp: 100000, url: "qqqqq" }, { timestamp: 100000, url: "qqqqq" }],
+      dailyReports: [{ timestamp: 100000, url: "qqqqq" }, { timestamp: 100000, url: "qqqqq" }]
+    },
+    {
+      userId: 2,
+      timestamp: 1586706724000,
+      legalName: "shyam",
+      mobileNumber: "999-999-999",
+      purchaseBills: [{ timestamp: 100000, url: "qqqqq" }, { timestamp: 100000, url: "qqqqq" }],
+      saleBills: [{ timestamp: 100000, url: "qqqqq" }, { timestamp: 100000, url: "qqqqq" }],
+      other: [{ timestamp: 100000, url: "qqqqq" }, { timestamp: 100000, url: "qqqqq" }],
+      dailyReports: [{ timestamp: 100000, url: "qqqqq" }, { timestamp: 100000, url: "qqqqq" }]
+    },
+    {
+      userId: 3,
+      timestamp: null,
+      legalName: "Rohan",
+      mobileNumber: "999-999-999",
+      purchaseBills: [],
+      saleBills: [],
+      other: [],
+      dailyReports: []
+    }
+    ],
     filteredData: [],
     reactTableData: [],
     isFetching: false
   }
 
   componentWillMount() {
+    let id = this.props.match.params.id
+    let userDetails = JSON.parse(JSON.stringify(this.state.userDetails))
+    let filteredData
+    if (id) {
+      filteredData = [userDetails.find(val => val.userId == id)]
+    }
+
+
+    this.setState({
+      filteredData
+    })
     setTimeout(this.loadingTime, 500);
   }
 
@@ -69,74 +96,84 @@ export class UserDetails extends React.Component {
 
 
   render() {
-    const columns = [{
-      Header: 'Serial No.',
-      accessor: 'userId',
-      filterable: true,
-    },
-    {
-      Header: 'Date',
-      // accessor: 'timestamp',
-      // filterable: true,
-      Cell: row =>(moment(row.original.timestamp).format("DD MMM YYYY HH:mm"))
-    },
-    {
-      Header: 'Purchase Bills',
-      accessor: 'purchaseBills',
-      sortable :false,
-      // filterable: true,
-              Cell: row =>
-              <div className="counter-box-r"><a data-toggle="modal"
-              data-target="#openBills">{(row.original.purchaseBills.length)+"/"+(row.original.purchaseBills.length)}</a></div>
-    },
-    {
-      Header: 'Sale Bills',
-      accessor: 'saleBills',
-      sortable :false,
-      // filterable: true,
-      Cell: row =>
-      <div className="counter-box-r"><a data-toggle="modal"
-      data-target="#openBills">{(row.original.saleBills.length)+"/"+(row.original.saleBills.length)}</a></div>
-    },
-    {
-      Header: 'Other',
-      accessor: 'other',
-      sortable :false,
-      // filterable: true,
-      Cell: row =>
-      <div className="counter-box-r"><a data-toggle="modal"
-      data-target="#openBills">{(row.original.other.length)+"/"+(row.original.other.length)}</a></div>
-    },
-    {
-      Header: 'Daily Reports',
-      sortable :false,
-      // accessor: 'dailyReports',
-      // filterable: true,
-              Cell: row => 
-            (
-              <div>
-                <a data-toggle="modal" data-target="#openmodal"><u>view</u></a>
-              </div>
-            )
-    },
-    {
-      Header: 'Upload Summary',
-      sortable :false,
-      // accessor: 'legalName',
-      // filterable: true,
-              Cell: row => 
-            (
-              <div>
-                  <input style={{display: "none"}} accept="image/*" onChange={this.loadFile}
-                      id="daily" type="file" required />
-                    <button type="button" data-toggle="modal" data-target="#browseModal"
+    const columns = [
+      //   {
+      //   Header: 'Serial No.',
+      //   accessor: 'userId',
+      //   // filterable: true,
+      // },
+      {
+        Header: 'Date',
+        // accessor: 'timestamp',
+        // filterable: true,
+        Cell: row => (this.state.filteredData[0].timestamp ? moment(row.original.timestamp).format("DD MMM YYYY HH:mm") : '-')
+      },
+      {
+        Header: 'Purchase Bills',
+        accessor: 'purchaseBills',
+        sortable: false,
+        // filterable: true,
+        Cell: row =>
+          <div className="counter-box-r"><a data-toggle="modal"
+            data-target="#openBills">{(row.original.purchaseBills.length) + "/" + (row.original.purchaseBills.length)}</a></div>
+      },
+      {
+        Header: 'Sale Bills',
+        accessor: 'saleBills',
+        sortable: false,
+        // filterable: true,
+        Cell: row =>
+          <div className="counter-box-r"><a data-toggle="modal"
+            data-target="#openBills">{(row.original.saleBills.length) + "/" + (row.original.saleBills.length)}</a></div>
+      },
+      {
+        Header: 'Other',
+        accessor: 'other',
+        sortable: false,
+        // filterable: true,
+        Cell: row =>
+          <div className="counter-box-r"><a data-toggle="modal"
+            data-target="#openBills">{(row.original.other.length) + "/" + (row.original.other.length)}</a></div>
+      },
+      {
+        Header: 'Daily Reports',
+        sortable: false,
+        // accessor: 'dailyReports',
+        // filterable: true,
+        Cell: row =>
+          (
+            <div>
+              <a data-toggle="modal" data-target="#openmodal"><u>view</u></a>
+            </div>
+          )
+      },
+      {
+        Header: 'Upload Summary',
+        sortable: false,
+        // accessor: 'legalName',
+        // filterable: true,
+        Cell: row =>
+          (
+            <div>
+              <input style={{ display: "none" }} 
+                     accept="image/*" 
+                     onChange={this.loadFile}
+                     id="daily" 
+                     type="file"
+                     disabled =  {(this.state.filteredData) && (this.state.filteredData[0].purchaseBills.length == 0  || this.state.filteredData[0].saleBills.length == 0 || this.state.filteredData[0].other.length == 0)}
+                     required />
+
+              <button type="button" 
+                     disabled =  {(this.state.filteredData) && (this.state.filteredData[0].purchaseBills.length == 0  || this.state.filteredData[0].saleBills.length == 0 || this.state.filteredData[0].other.length == 0)}
+                      data-toggle="modal" 
+                      data-target="#browseModal"
                       className="btn btn-primary btn-lg browse-button-css-r">
-                      <label style={{cursor: "pointer", color: "white"}} htmlFor="daily">Browse </label>
-                    </button>
-                {/* <input checked={row.original.status == "completed"} data-toggle="modal" data-target="#statusPassword" className="status-button-r" type="checkbox"/> */}
-              </div>
-            )
-    },
+                <label htmlFor="daily">Browse </label>
+              </button>
+              {/* <input checked={row.original.status == "completed"} data-toggle="modal" data-target="#statusPassword" className="status-button-r" type="checkbox"/> */}
+            </div>
+          )
+      },
       // { 
       //   Header: 'Status',
       //   accessor: 'status',
@@ -337,32 +374,57 @@ export class UserDetails extends React.Component {
           </div>
         </div>
 
+        <div className="modal fade" id="openBills" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-content">
+              <div className="modal-header" style={{ backgroundColor: "#f06d46" }}>
+                <span style={{ color: "white" }}>Purchase Bills</span>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close"><i
+                  className="fa fa-times" aria-hidden="true"></i></button>
+              </div>
 
-        <div className="container">
-          <div className="modal fade" id="openBills" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div className="modal-content">
-                <div className="modal-header" style={{ backgroundColor: "#f06d46" }}>
-                  <span style={{ color: "white" }}>Purchase Bills</span>
-                  <button type="button" className="close" data-dismiss="modal" aria-label="Close"><i
-                    className="fa fa-times" aria-hidden="true"></i></button>
-                </div>
+              <div className="container">
 
-                <div className="container">
-
-                  <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 card-margin-r">
+                <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 card-margin-r">
+                  <div>
                     <div>
-                      <div>
-                        <input type="password" className="form-control status-input-button-r" id="pwd"
-                          placeholder="Enter password" name="pwd" />
-                        <button type="submit" className="btn btn-default status-submit-button-r"><i
-                          className="fa fa-check submit-icon-r" aria-hidden="true"></i></button>
+                      <input type="password" className="form-control status-input-button-r" id="pwd"
+                        placeholder="Enter password" name="pwd" />
+                      <button type="submit" className="btn btn-default status-submit-button-r"><i
+                        className="fa fa-check submit-icon-r" aria-hidden="true"></i></button>
+                    </div>
+                    <div>
+                      <input className="upload-status-button-r" type="checkbox" />
+                      <p className="bill-heading-r"> Purchase Bills</p>
+                      <div className="dropdown">
+                        <button style={{ fontSize: "13px" }} className="dropbtn"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </button>
+                        <div className="dropdown-content">
+                          <a href="#">Transfer to Sales</a>
+                          <a href="#">Transfer to Other</a>
+                          <a data-toggle="modal" data-dismiss="modal" href="#returnModal">Return</a>
+                        </div>
                       </div>
+                    </div>
+                    <div>
+                      <a target="_blank" href=".//img/all/gst-bill.jpg">
+                        <img className="img-bills-preview-selected-parent-r" src={require('../../assets/img/all/gst-bill.jpg')} />
+                        <img className="img-bills-preview-child-r" src={require('../../assets/img/all/download.png')} />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 card-margin-r">
+                  <div>
+                    <div>
+                      {/* <input type="password" className="form-control status-input-button-r" id="pwd" placeholder="Enter password" name="pwd">
+										<button type="submit" className="btn btn-default status-submit-button-r"><i className="fa fa-check submit-icon-r" aria-hidden="true"></i></button>
+									</div> */}
                       <div>
                         <input className="upload-status-button-r" type="checkbox" />
                         <p className="bill-heading-r"> Purchase Bills</p>
-                        <div className="dropdown">
-                          <button style={{ fontSize: "13px" }} className="dropbtn"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        <div style={{ fontSize: "13px" }} className="dropdown">
+                          <button className="dropbtn"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
                           </button>
                           <div className="dropdown-content">
                             <a href="#">Transfer to Sales</a>
@@ -373,56 +435,64 @@ export class UserDetails extends React.Component {
                       </div>
                       <div>
                         <a target="_blank" href=".//img/all/gst-bill.jpg">
-                          <img className="img-bills-preview-selected-parent-r" src={require('../../assets/img/all/gst-bill.jpg')} />
-                          <img className="img-bills-preview-child-r" src={require('../../assets/img/all/download.png')} />
+                          <img className="img-bills-preview-parent-r" src={require('../../assets/img/all/gst-bill.jpg')} />
+                          {/* <img className="img-bills-preview-child-r" src={require('../../assets/img/all/download.png')} /> */}
                         </a>
                       </div>
                     </div>
                   </div>
-                  <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 card-margin-r">
-                    <div>
-                      <div>
-                        {/* <input type="password" className="form-control status-input-button-r" id="pwd" placeholder="Enter password" name="pwd">
-										<button type="submit" className="btn btn-default status-submit-button-r"><i className="fa fa-check submit-icon-r" aria-hidden="true"></i></button>
-									</div> */}
-                        <div>
-                          <input className="upload-status-button-r" type="checkbox" />
-                          <p className="bill-heading-r"> Purchase Bills</p>
-                          <div style={{ fontSize: "13px" }} className="dropdown">
-                            <button className="dropbtn"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
-                            </button>
-                            <div className="dropdown-content">
-                              <a href="#">Transfer to Sales</a>
-                              <a href="#">Transfer to Other</a>
-                              <a data-toggle="modal" data-dismiss="modal" href="#returnModal">Return</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div>
-                          <a target="_blank" href=".//img/all/gst-bill.jpg">
-                            <img className="img-bills-preview-parent-r" src={require('../../assets/img/all/gst-bill.jpg')} />
-                            {/* <img className="img-bills-preview-child-r" src={require('../../assets/img/all/download.png')} /> */}
-                          </a>
-                        </div>
-                      </div>
-                    </div>
 
-                  </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
+        <nav className="navbar navbar-default nav-bar-r">
+          <div className="container-fluid">
+            {/* <!-- Brand and toggle get grouped for better mobile display --> */}
+            <div className="navbar-header">
+              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span className="sr-only">Toggle navigation</span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+              </button>
+              <a style={{ marginLeft: "44px" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">Brand</a>
+            </div>
 
+            {/* <!-- Collect the nav links, forms, and other content for toggling --> */}
+            <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul className="nav navbar-nav navbar-right">
+                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} data-toggle="modal" data-target="#resetPassword" className="navbar-brand">Reset Password</a></li>
+                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">Logout</a></li>
+                {/* <HeaderLink to="/userDetails">
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span className="caret"></span></a>
+            <ul className="dropdown-menu" role="menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li className="divider"></li>
+              <li className="dropdown-header">Nav header</li>
+              <li><a href="#">Separated link</a></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul>
+                </HeaderLink> */}
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div className="container">
           <div className="container outer-box-r">
             <div className="container name-mobile-reports-r">
               <div className="row">
                 <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                   <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <p className="details-heading-r">Ram Details</p>
+                    <p className="details-heading-r">{this.state.filteredData && this.state.filteredData.length > 0 ? this.state.filteredData[0].legalName + "'s Details" : null}</p>
                   </div>
                   <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <p className="details-heading-mobile-r">(Mob-no. +91-1000000000)</p>
+                    <p className="details-heading-mobile-r">{this.state.filteredData && this.state.filteredData.length > 0 ? '(' + this.state.filteredData[0].mobileNumber + ')' : null}</p>
                   </div>
                 </div>
               </div>
@@ -467,7 +537,7 @@ export class UserDetails extends React.Component {
                       type="file" required />
                     <button type="button" data-toggle="modal" data-target="#browseModal"
                       className="btn btn-primary btn-lg browse-GST-button-css-r">
-                      <label style={{ cursor: "pointer", color: "white" }} htmlFor="gst">Upload GST Report</label>
+                      <label style={{ cursor: "pointer", color: "white", margin:"0px"}} htmlFor="gst">Upload GST Report</label>
                     </button>
                   </div>
                 </div>
@@ -477,7 +547,7 @@ export class UserDetails extends React.Component {
             <div className="customReactTableBox">
               <ReactTable
                 className="customReactTable"
-                data={this.state.userDetails}
+                data={this.state.filteredData}
                 columns={columns}
                 defaultPageSize={5}
                 noDataText={
@@ -542,7 +612,6 @@ export class UserDetails extends React.Component {
           </div>
           <a style={{ backgroundColor: "#255b7a", borderRadius: "50%" }} id="scroll-top" className=""><i className="fa fa-angle-double-up"
             aria-hidden="true"></i></a>
-
         </div>
       </div>
     );
