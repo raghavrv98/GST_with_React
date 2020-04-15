@@ -26,19 +26,16 @@
 	background-color: #f06d46;
 }
 
-.reset-form-padding-r{
-	padding: 10px 50px 11px !important;
-}
-
-.login-title-r{
-	margin-bottom: 20px;
-	font-size: 30px;
-	color: #f06d46;
-}
 
 .forgot-password-r{
 	margin: 15px 0px;
 	color: #f06d46;
+}
+
+.forgot-msg-r{
+color: black;
+margin-bottom: 10px;
+
 }
 
 @media screen and (min-width: 480px) {
@@ -77,6 +74,21 @@
 		font-family: sans-serif;
 	}
 
+	.forgot-title-r{
+		font-size: 30px;
+		color: #f06d46;
+		margin: 0px;
+	}
+
+	.login-title-r{
+		margin-bottom: 20px;
+		font-size: 30px;
+		color: #f06d46;
+	}
+	.reset-form-padding-r{
+		padding: 10px 50px 11px !important;
+	}
+
 }
 
 @media screen and (max-width: 479px) {
@@ -110,4 +122,18 @@
 		font-family: sans-serif;
 	}
 
+	.forgot-title-r{
+		font-size: 25px;
+		color: #f06d46;
+		margin: 0px;
+	}
+	.login-title-r{
+		margin-bottom: 20px;
+		font-size: 25px;
+		color: #f06d46;
+	}
+
+	.reset-form-padding-r{
+		padding: 25px 50px !important;
+	}
 }

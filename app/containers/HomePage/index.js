@@ -27,7 +27,8 @@ export class HomePage extends React.Component {
     payload : {
       oldPassword :"",
       newPassword:""
-    }
+    },
+    isResetActive : false
   }
 
   nameChangeHandler = event => {
@@ -40,6 +41,14 @@ export class HomePage extends React.Component {
 
   resetPassword = () =>{
     event.preventDefault()
+  }
+
+  forgotPassword =() =>{
+   let isResetActive = JSON.parse(JSON.stringify(this.state.isResetActive))
+   isResetActive = !isResetActive
+    this.setState({
+      isResetActive
+    })
   }
 
   render() {
@@ -70,9 +79,9 @@ export class HomePage extends React.Component {
                 <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/trader') }} className="navbar-brand">Trader</a></li>
                 <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/userDetails') }} className="navbar-brand">UserDetails</a></li>
                 <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">Logout</a></li>
-                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">About Us</a></li>
-                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">Services</a></li>
-                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">Contact</a></li>
+                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/aboutUs') }} className="navbar-brand">About Us</a></li>
+                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/services') }} className="navbar-brand">Services</a></li>
+                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/contact') }} className="navbar-brand">Contact</a></li>
               </ul>
             </div>
           </div>
@@ -92,6 +101,28 @@ export class HomePage extends React.Component {
         <div className="login-box">
         <div className="modal-body,input-group input-group-lg">
                   <div className="reset-form-padding-r">
+                    {this.state.isResetActive ? 
+                                        <React.Fragment>
+                                        <p className="forgot-title-r">Forgot Password</p>
+                                        <form onSubmit={this.resetPassword}>
+                                         <p className="forgot-msg-r">You will receive an e-mail along with your password.</p>
+                                          <input type="email" 
+                                                 value={this.state.payload.oldPassword}
+                                                 onChange={this.nameChangeHandler} 
+                                                 id="email" 
+                                                 className="form-control reset-input-box-r"
+                                                 placeholder="Enter your email-Id" 
+                                                 autoFocus 
+                                                 required />
+                                          <span>
+                                            <input type="submit" className="btn btn-primary btn-lg btn-block reset-button-r" name=""
+                                              value="Send" />
+                                          </span>
+                                        </form>
+                                        <p className="forgot-password-r" onClick={this.forgotPassword}>Get back to login</p>
+                                        </React.Fragment>
+                                        :
+                      <React.Fragment>
                     <p className="login-title-r">Login</p>
                     <form onSubmit={this.resetPassword}>
                       <input type="text" 
@@ -115,7 +146,9 @@ export class HomePage extends React.Component {
                           value="Login" />
                       </span>
                     </form>
-                    <p className="forgot-password-r">Forgot Password ?</p>
+                    <p className="forgot-password-r" onClick={this.forgotPassword}>Forgot Password ?</p>
+                    </React.Fragment>
+  }
                   </div>
                 </div>
                 </div>

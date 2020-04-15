@@ -19,6 +19,9 @@ import Footer from 'components/Footer';
 import User from 'containers/User/Loadable'
 import Trader from 'containers/Trader/Loadable'
 import UserDetails from 'containers/UserDetails/Loadable'
+import Contact from 'containers/Contact/Loadable'
+import Services from 'containers/Services/Loadable'
+import AboutUs from 'containers/AboutUs/Loadable'
 
 
 import GlobalStyle from '../../global-styles';
@@ -46,6 +49,9 @@ export default function App() {
         <Route path="/user" component={User} />
         <Route path="/trader" component={Trader} />
         <Route path="/userDetails/:id?" component={UserDetails} />
+        <Route path="/contact" component={Contact} />
+        <Route path="/services" component={Services} />
+        <Route path="/aboutUs" component={AboutUs} />
         <Route path="" component={NotFoundPage} />
       </Switch>
       <Footer />
