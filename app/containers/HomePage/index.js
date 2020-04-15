@@ -22,61 +22,109 @@ import HeaderLink from '../../components/Header/HeaderLink';
 
 /* eslint-disable react/prefer-stateless-function */
 export class HomePage extends React.Component {
+
+  state = {
+    payload : {
+      oldPassword :"",
+      newPassword:""
+    }
+  }
+
+  nameChangeHandler = event => {
+    let payload =  JSON.parse(JSON.stringify(this.state.payload));
+    payload[event.target.id] = event.target.value;
+    this.setState({
+      payload
+    });
+  };
+
+  resetPassword = () =>{
+    event.preventDefault()
+  }
+
   render() {
     return (
       <div>
         <Helmet>
-          <title>HomePage</title>
+          <title>Login Page</title>
           <meta name="description" content="Description of HomePage" />
         </Helmet>
-        <nav className="navbar navbar-default">
-  <div className="container-fluid">
-    {/* <!-- Brand and toggle get grouped for better mobile display --> */}
-    <div className="navbar-header">
-      <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span className="sr-only">Toggle navigation</span>
-        <span className="icon-bar"></span>
-        <span className="icon-bar"></span>
-        <span className="icon-bar"></span>
-      </button>
-      <a style={{marginLeft: "44px"}} className="navbar-brand" href="#">Brand</a>
-    </div>
 
-    {/* <!-- Collect the nav links, forms, and other content for toggling --> */}
-    <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <ul className="nav navbar-nav navbar-right">
-                <HeaderLink to="/">
-                    Home
-                </HeaderLink>
-                <HeaderLink to="/user">
-                  User
-                </HeaderLink>
-                <HeaderLink to="/trader">
-                  Trader
-                </HeaderLink>
-                <HeaderLink to="/userDetails">
-                  userDetails
-                </HeaderLink>
-                <HeaderLink to="/userDetails">
-                  Login
-                </HeaderLink>
-                {/* <HeaderLink to="/userDetails">
-                  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span className="caret"></span></a>
-            <ul className="dropdown-menu" role="menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li className="divider"></li>
-              <li className="dropdown-header">Nav header</li>
-              <li><a href="#">Separated link</a></li>
-              <li><a href="#">One more separated link</a></li>
-            </ul>
-                </HeaderLink> */}
-            </ul>
-    </div>
-  </div>
-</nav>
-        <FormattedMessage {...messages.header} />
+<nav className="navbar navbar-default nav-bar-r">
+          <div className="container-fluid">
+            {/* <!-- Brand and toggle get grouped for better mobile display --> */}
+            <div className="navbar-header">
+              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span className="sr-only">Toggle navigation</span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+              </button>
+              <a style={{ marginLeft: "44px" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">Brand</a>
+            </div>
+
+            {/* <!-- Collect the nav links, forms, and other content for toggling --> */}
+            <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul className="nav navbar-nav navbar-right">
+                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/user') }} className="navbar-brand">User</a></li>
+                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/trader') }} className="navbar-brand">Trader</a></li>
+                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/userDetails') }} className="navbar-brand">UserDetails</a></li>
+                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">Logout</a></li>
+                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">About Us</a></li>
+                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">Services</a></li>
+                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">Contact</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <div className="loginBackgroundImage-r">
+        <div className="loginLayout-r">
+        <div className="container outer-box-r">
+        
+        <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 vertical-align-title-r">
+        <p className="title-r">XYZ</p>
+        <p className="sub-heading-r">"Your Own GST Software"</p>
+        <div className="text-center-r"><button type="button" className="btn btn-primary btn-lg button-r">Get in touch
+        </button></div>
+        </div>
+
+        <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 vertical-align-login-r">
+        <div className="login-box">
+        <div className="modal-body,input-group input-group-lg">
+                  <div className="reset-form-padding-r">
+                    <p className="login-title-r">Login</p>
+                    <form onSubmit={this.resetPassword}>
+                      <input type="text" 
+                             value={this.state.payload.oldPassword}
+                             onChange={this.nameChangeHandler} 
+                             id="oldPassword" 
+                             className="form-control reset-input-box-r"
+                             placeholder="Old Password" 
+                             autoFocus 
+                             required />
+                      <input type="password" 
+                             value={this.state.payload.newPassword}
+                             onChange={this.nameChangeHandler} 
+                             id="newPassword" 
+                             className="form-control reset-input-box-r"
+                             placeholder="New Password" 
+                             autoFocus 
+                             required />
+                      <span>
+                        <input type="submit" className="btn btn-primary btn-lg btn-block reset-button-r" name=""
+                          value="Login" />
+                      </span>
+                    </form>
+                    <p className="forgot-password-r">Forgot Password ?</p>
+                  </div>
+                </div>
+                </div>
+        </div>
+        
+        </div>
+
+        </div>
+        </div>
       </div>
     );
   }

@@ -466,18 +466,6 @@ export class UserDetails extends React.Component {
               <ul className="nav navbar-nav navbar-right">
                 <li><a style={{ marginTop: "-10px", color: "#255b7a" }} data-toggle="modal" data-target="#resetPassword" className="navbar-brand">Reset Password</a></li>
                 <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">Logout</a></li>
-                {/* <HeaderLink to="/userDetails">
-                  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span className="caret"></span></a>
-            <ul className="dropdown-menu" role="menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li className="divider"></li>
-              <li className="dropdown-header">Nav header</li>
-              <li><a href="#">Separated link</a></li>
-              <li><a href="#">One more separated link</a></li>
-            </ul>
-                </HeaderLink> */}
               </ul>
             </div>
           </div>
