@@ -1,0 +1,74 @@
+@media screen and (min-width: 480px) {
+	.aboutUs-title-r{
+		text-align: center;
+		font-size: 50px;
+		text-decoration: underline;
+		text-underline-position: under;
+    }
+    
+    .aboutUsTitle1-r{
+        margin: 0px;
+        font-size: 30px;
+        padding: 20px 0px;
+        text-decoration: underline;
+    }
+
+    .subHeading-1-r{
+        margin: 0px;
+        font-size: 20px;
+        text-align: justify;
+    }
+
+    .aboutus-img1-r{
+        margin-left: auto;
+        margin-right: auto;
+        width: 65%;
+        margin-top: 35px;
+    }
+
+    .img-1{
+        height: 250px
+    }
+
+    .aboutUs-form-r{
+		padding: 0px 100px;
+		margin: 0px;
+	}
+    
+}
+
+@media screen and (max-width: 479px) {
+	.aboutUs-title-r{
+		margin: 25px 0px;
+		text-align: center;
+		font-size: 25px;
+		text-decoration: underline;
+		text-underline-position: under;
+    }
+    
+    .aboutUsTitle1-r{
+        margin: 0px;
+        font-size: 30px;
+        padding: 20px 0px;
+        text-align: center;
+        text-decoration: underline;
+    }
+
+    .subHeading-1-r{
+        margin: 0px;
+        font-size: 20px;
+        text-align: justify;
+    }
+
+    .aboutus-img1-r{
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        margin-top: 25px;
+    }
+
+    .img-1{
+        margin-bottom: 60px;
+        height: 250px
+    }
+}

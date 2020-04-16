@@ -48,6 +48,7 @@ import'./assets/css/style.css';
 import'./assets/css/reactTable.css';
 import'./assets/css/login.css';
 import'./assets/css/contactUs.css';
+import'./assets/css/aboutUs.css';
 
 
 //import react-table
