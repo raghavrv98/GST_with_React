@@ -160,7 +160,7 @@ export class User extends React.Component {
                     <a data-toggle="modal" data-dismiss="modal" data-target="#warningmsg">
                       <i className="fa fa-times-circle icon-customization-download-r" aria-hidden="true"></i>
                     </a>
-                    <img className="card-image-r" src={require('../../assets/img/all/antornys-1.jpg')} />
+                    <img className="card-image-r" src={require('../../assets/img/antornys-1.jpg')} />
                     <textarea disabled defaultValue="comments if any .." className="form-control" name="address" required
                       rows="4" />
                     <div className="browse-upload-margin-r">
@@ -178,7 +178,7 @@ export class User extends React.Component {
                     <a data-toggle="modal" data-dismiss="modal" data-target="#warningmsg">
                       <i className="fa fa-times-circle icon-customization-download-r" aria-hidden="true"></i>
                     </a>
-                    <img className="card-image-r" src={require('../../assets/img/all/antornys-1.jpg')} />
+                    <img className="card-image-r" src={require('../../assets/img/antornys-1.jpg')} />
                     <textarea disabled defaultValue="comments if any .." className="form-control" name="address" required
                       rows="4" />
                     <div className="browse-upload-margin-r">
@@ -355,7 +355,7 @@ export class User extends React.Component {
               {
                 this.state.isActiveTab == "purchaseBills" ?
                   <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
-                    <img className="selected-image-r" src={require('../../assets/img/all/antornys-1.jpg')} />
+                    <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
                     <a data-toggle="modal" data-target="#warningmsg">
                       <i className="fa fa-times-circle icon-customization-r" aria-hidden="true"></i>
                     </a>
@@ -363,13 +363,13 @@ export class User extends React.Component {
                   this.state.isActiveTab == "saleBills" ?
                     <React.Fragment>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
-                        <img className="selected-image-r" src={require('../../assets/img/all/antornys-1.jpg')} />
+                        <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
                         <a data-toggle="modal" data-target="#warningmsg">
                           <i className="fa fa-times-circle icon-customization-r" aria-hidden="true"></i>
                         </a>
                       </div>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
-                        <img className="selected-image-r" src={require('../../assets/img/all/antornys-1.jpg')} />
+                        <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
                         <a data-toggle="modal" data-target="#warningmsg">
                           <i className="fa fa-times-circle icon-customization-r" aria-hidden="true"></i>
                         </a>
@@ -378,19 +378,19 @@ export class User extends React.Component {
                     :
                     <React.Fragment>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
-                        <img className="selected-image-r" src={require('../../assets/img/all/antornys-1.jpg')} />
+                        <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
                         <a data-toggle="modal" data-target="#warningmsg">
                           <i className="fa fa-times-circle icon-customization-r" aria-hidden="true"></i>
                         </a>
                       </div>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
-                        <img className="selected-image-r" src={require('../../assets/img/all/antornys-1.jpg')} />
+                        <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
                         <a data-toggle="modal" data-target="#warningmsg">
                           <i className="fa fa-times-circle icon-customization-r" aria-hidden="true"></i>
                         </a>
                       </div>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
-                        <img className="selected-image-r" src={require('../../assets/img/all/antornys-1.jpg')} />
+                        <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
                         <a data-toggle="modal" data-target="#warningmsg">
                           <i className="fa fa-times-circle icon-customization-r" aria-hidden="true"></i>
                         </a>

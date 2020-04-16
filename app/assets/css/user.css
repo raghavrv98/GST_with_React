@@ -153,7 +153,7 @@ body {
 		z-index: 100;
 	}
 	.filter-year-month-r {
-		margin: 0px auto 20px !important;
+		margin: 25px auto 20px !important;
 	}
 	.modal-width-r {
 		width: 700px !important;
@@ -162,7 +162,7 @@ body {
 
 @media screen and (max-width: 479px) {
 	.filter-year-month-r {
-		margin: 0px auto 0px;
+		margin: 25px auto 0px;
 	}
 	.download-button-r {
 		background-color: #f06d46 !important;

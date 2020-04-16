@@ -2,7 +2,7 @@
 	position: relative;
 	background: url('../img/main-banner.jpg') center;
 	background-size: cover;
-	height: 623px;
+	height: 623px !important;
 }
 
 .nav-bar-r{
@@ -30,6 +30,8 @@
 .forgot-password-r{
 	margin: 15px 0px;
 	color: #f06d46;
+	cursor: pointer;
+	display: inline-block;
 }
 
 .forgot-msg-r{

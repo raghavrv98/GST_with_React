@@ -358,7 +358,7 @@ export class UserDetails extends React.Component {
                     <a data-toggle="modal" data-dismiss="modal" data-target="#statusPassword">
                       <i className="fa fa-times-circle icon-customization-download-r" aria-hidden="true"></i>
                     </a>
-                    <img className="card-image-r" src={require('../../assets/img/all/antornys-1.jpg')} />
+                    <img className="card-image-r" src={require('../../assets/img/antornys-1.jpg')} />
                     <textarea disabled defaultValue="comments if any .." className="form-control" name="address" required
                       rows="4" />
                     <div className="browse-upload-margin-r">
@@ -409,7 +409,7 @@ export class UserDetails extends React.Component {
                     <div>
                       <a target="_blank" href=".//img/all/gst-bill.jpg">
                         <img className="img-bills-preview-selected-parent-r" src={require('../../assets/img/all/gst-bill.jpg')} />
-                        <img className="img-bills-preview-child-r" src={require('../../assets/img/all/download.png')} />
+                        <img className="img-bills-preview-child-r" src={require('../../assets/img/download.png')} />
                       </a>
                     </div>
                   </div>
@@ -436,7 +436,7 @@ export class UserDetails extends React.Component {
                       <div>
                         <a target="_blank" href=".//img/all/gst-bill.jpg">
                           <img className="img-bills-preview-parent-r" src={require('../../assets/img/all/gst-bill.jpg')} />
-                          {/* <img className="img-bills-preview-child-r" src={require('../../assets/img/all/download.png')} /> */}
+                          {/* <img className="img-bills-preview-child-r" src={require('../../assets/img/download.png')} /> */}
                         </a>
                       </div>
                     </div>

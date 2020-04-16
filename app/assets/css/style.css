@@ -1323,9 +1323,9 @@ body.dark .service-box:before {
 	margin-right: 5px
 }
 
-.banner {
+/* .banner {
 	background-image: url(../img/all/banner.jpg)
-}
+} */
 
 .banner:before {
 	background-color: rgba(0, 0, 0, .7);
@@ -1613,10 +1613,6 @@ body.dark .mixitup-btn a.filter {
 
 .mixitup-btn a.filter:last-child:after, .mixitup-btn a.filter:last-child:before {
 	display: none
-}
-
-.our-facts {
-	background-image: url(../img/all/facts-banner.jpg)
 }
 
 .our-facts:before {
