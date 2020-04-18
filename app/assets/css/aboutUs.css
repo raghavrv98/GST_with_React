@@ -28,7 +28,8 @@
     }
 
     .img-1{
-        height: 250px
+        height: 250px;
+        width: 100%;
     }
 
     .aboutUs-form-r{
@@ -40,7 +41,7 @@
 
 @media screen and (max-width: 479px) {
 	.aboutUs-title-r{
-		margin: 25px 0px;
+		margin: 10px 0px;
 		text-align: center;
 		font-size: 25px;
 		text-decoration: underline;
@@ -49,7 +50,7 @@
     
     .aboutUsTitle1-r{
         margin: 0px;
-        font-size: 30px;
+        font-size: 20px;
         padding: 10px 0px;
         text-align: center;
         text-decoration: underline;
@@ -70,6 +71,7 @@
 
     .img-1{
         margin-bottom: 60px;
-        height: 250px
+        height: 250px;
+        width :100%
     }
 }

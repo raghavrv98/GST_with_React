@@ -39,12 +39,6 @@ body {
 	padding: 10px;
 }
 
-.selected-image-r {
-	height: 200px;
-	position: relative;
-	margin: 0px auto 20px;
-}
-
 .browse-image-r {
 	height: 175px !important;
 	width: 100% !important;
@@ -127,6 +121,14 @@ body {
 }
 
 @media screen and (min-width: 480px) {
+
+	.selected-image-r {
+		height: 200px;
+		position: relative;
+		margin: 0px auto 20px;
+		width: 100%;
+	}
+
 	.download-button-r {
 		background-color: #f06d46 !important;
 		width: 100% !important;
@@ -161,6 +163,14 @@ body {
 }
 
 @media screen and (max-width: 479px) {
+	
+	.selected-image-r {
+		height: 130px;
+		position: relative;
+		margin: 0px auto 20px;
+		width: 100%;
+	}
+	
 	.filter-year-month-r {
 		margin: 25px auto 0px;
 	}
