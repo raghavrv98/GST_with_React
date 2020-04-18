@@ -47,9 +47,10 @@ export class AboutUs extends React.Component {
                 <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/user') }} className="navbar-brand">User</a></li>
                 <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/trader') }} className="navbar-brand">Trader</a></li>
                 <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/userDetails') }} className="navbar-brand">UserDetails</a></li>
-                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">Logout</a></li>
+                {/* <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">Logout</a></li> */}
+                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">Home</a></li>
                 <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/aboutUs') }} className="navbar-brand">About Us</a></li>
-                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/services') }} className="navbar-brand">Services</a></li>
+                {/* <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/services') }} className="navbar-brand">Services</a></li> */}
                 <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/contact') }} className="navbar-brand">Contact</a></li>
               </ul>
             </div>

@@ -160,15 +160,13 @@ export class UserDetails extends React.Component {
                      onChange={this.loadFile}
                      id="daily" 
                      type="file"
-                     disabled =  {(this.state.filteredData) && (this.state.filteredData[0].purchaseBills.length == 0  || this.state.filteredData[0].saleBills.length == 0 || this.state.filteredData[0].other.length == 0)}
                      required />
 
               <button type="button" 
-                     disabled =  {(this.state.filteredData) && (this.state.filteredData[0].purchaseBills.length == 0  || this.state.filteredData[0].saleBills.length == 0 || this.state.filteredData[0].other.length == 0)}
                       data-toggle="modal" 
                       data-target="#browseModal"
                       className="btn btn-primary btn-lg browse-button-css-r">
-                <label htmlFor="daily">Browse </label>
+                <label className="btn-text-r" htmlFor="daily">Browse </label>
               </button>
               {/* <input checked={row.original.status == "completed"} data-toggle="modal" data-target="#statusPassword" className="status-button-r" type="checkbox"/> */}
             </div>
@@ -407,8 +405,8 @@ export class UserDetails extends React.Component {
                       </div>
                     </div>
                     <div>
-                      <a target="_blank" href=".//img/all/gst-bill.jpg">
-                        <img className="img-bills-preview-selected-parent-r" src={require('../../assets/img/all/gst-bill.jpg')} />
+                      <a target="_blank" href="./img/gst-bill.jpg">
+                        <img className="img-bills-preview-selected-parent-r" src={require('../../assets/img/gst-bill.jpg')} />
                         <img className="img-bills-preview-child-r" src={require('../../assets/img/download.png')} />
                       </a>
                     </div>
@@ -434,8 +432,8 @@ export class UserDetails extends React.Component {
                         </div>
                       </div>
                       <div>
-                        <a target="_blank" href=".//img/all/gst-bill.jpg">
-                          <img className="img-bills-preview-parent-r" src={require('../../assets/img/all/gst-bill.jpg')} />
+                        <a target="_blank" href="./img/gst-bill.jpg">
+                          <img className="img-bills-preview-parent-r" src={require('../../assets/img/gst-bill.jpg')} />
                           {/* <img className="img-bills-preview-child-r" src={require('../../assets/img/download.png')} /> */}
                         </a>
                       </div>
@@ -525,7 +523,7 @@ export class UserDetails extends React.Component {
                       type="file" required />
                     <button type="button" data-toggle="modal" data-target="#browseModal"
                       className="btn btn-primary btn-lg browse-GST-button-css-r">
-                      <label style={{ cursor: "pointer", color: "white", margin:"0px"}} htmlFor="gst">Upload GST Report</label>
+                      <label className="btn-text-r" htmlFor="gst">Upload GST Report</label>
                     </button>
                   </div>
                 </div>

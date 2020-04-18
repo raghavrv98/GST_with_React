@@ -332,3 +332,9 @@ body {
 .disabled-r{
 	cursor: not-allowed;
 }
+
+.btn-text-r{
+	cursor: pointer;
+	color: white;
+	margin: 0px;
+}

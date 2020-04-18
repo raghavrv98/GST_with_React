@@ -3,13 +3,14 @@
 		text-align: center;
 		font-size: 50px;
 		text-decoration: underline;
-		text-underline-position: under;
+        text-underline-position: under;
+        margin: 0px;
     }
     
     .aboutUsTitle1-r{
         margin: 0px;
         font-size: 30px;
-        padding: 20px 0px;
+        padding: 10px 0px;
         text-decoration: underline;
     }
 
@@ -31,7 +32,7 @@
     }
 
     .aboutUs-form-r{
-		padding: 0px 100px;
+		padding: 25px 100px;
 		margin: 0px;
 	}
     
@@ -49,7 +50,7 @@
     .aboutUsTitle1-r{
         margin: 0px;
         font-size: 30px;
-        padding: 20px 0px;
+        padding: 10px 0px;
         text-align: center;
         text-decoration: underline;
     }
