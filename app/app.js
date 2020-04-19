@@ -31,7 +31,7 @@ import configureStore from './configureStore';
 
 //Import CSS
 import'./assets/css/trader.css';
-import'./assets/css/user.css';
+// import'./assets/css/user.css';
 import'./assets/css/userDetails.css';
 import'./assets/css/style.css';
 import'./assets/css/reactTable.css';

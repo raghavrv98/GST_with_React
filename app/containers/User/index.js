@@ -94,10 +94,9 @@ export class User extends React.Component {
                              placeholder="New Password" 
                              autoFocus 
                              required />
-                      <span>
-                        <input type="submit" className="btn btn-primary btn-lg btn-block reset-button-r" name=""
-                          defaultValue="Reset" />
-                      </span>
+                      <div className="text-align-center-r">
+                      <input type="submit" className="btn btn-primary btn-text-r" name="" value="Reset" />
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -120,14 +119,12 @@ export class User extends React.Component {
                     <div className="icon-margin-r">
                       <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <span>
-                          <a style={{ cursor: "pointer" }} data-dismiss="modal"><i className="fa fa-times"
-                            style={{ fontSize: '30px', color: "red" }}></i></a>
+                          <p className="margin-0-r cross-r" data-dismiss="modal"><i className="fa fa-times"></i></p>
                         </span>
                       </div>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <span>
-                          <a href="user.html" style={{ cursor: "pointer" }}><i className="fa fa-check"
-                            style={{ fontSize: '30px', color: "green" }}></i></a>
+                      <span>
+                          <p className="margin-0-r check-r" data-dismiss="modal"><i className="fa fa-check"></i></p>
                         </span>
                       </div>
                     </div>
@@ -165,8 +162,7 @@ export class User extends React.Component {
                       rows="4" />
                     <div className="browse-upload-margin-r">
                       <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <input className="btn btn-primary btn-lg download-button-r" type="submit"
-                          defaultValue="Download" />
+                      <input type="submit" className="btn btn-primary btn-text-r full-width-r" name="" value="Download" />
                       </div>
                     </div>
                   </div>
@@ -183,8 +179,7 @@ export class User extends React.Component {
                       rows="4" />
                     <div className="browse-upload-margin-r">
                       <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <input className="btn btn-primary btn-lg download-button-r" type="submit"
-                          defaultValue="Download" />
+                      <input type="submit" className="btn btn-primary btn-text-r full-width-r" name="" value="Download" />
                       </div>
                     </div>
                   </div>
@@ -195,42 +190,6 @@ export class User extends React.Component {
         </div>
 
         {/* <!--view Reports for user download modal end--> */}
-
-
-
-        {/* <header id="header">
-          <div id="main-menu" className="wa-main-menu sticky-nav">
-            <div className="wathemes-menu relative">
-              <div className="navbar navbar-default mar0" role="navigation">
-                <div className="container">
-                  <div className="row">
-                    <div className="col-md-12 head-box">
-                      <div className="navbar-header">
-                        <button type="button" className="navbar-toggle" data-toggle="collapse"
-                          data-target=".navbar-collapse">
-                          <span className="sr-only">Toggle navigation</span>
-                          <span className="icon-bar"></span>
-                          <span className="icon-bar"></span>
-                          <span className="icon-bar"></span>
-                        </button>
-                        <a className="navbar-brand" href="index.html">
-                          <span style={{color: "#255b7a"}}>GST</span>
-                        </a>
-                      </div>
-                      <div className="navbar-collapse collapse">
-                        <ul className="nav navbar-nav">
-                          <li><a data-toggle="modal" style={{color: "#255b7a"}}
-                            data-target="#resetPassword">Reset Password</a></li>
-                          <li><a style={{color: "#255b7a"}} href="index.html">Logout</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </header> */}
 
 <nav className="navbar navbar-default nav-bar-r">
   <div className="container-fluid">
@@ -297,8 +256,8 @@ export class User extends React.Component {
                   <option defaultValue="december">December</option>
                 </select>
               </div>
-              <div className="col-xs-12 col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 view-reports-r">
-                <a data-toggle="modal" style={{ color: "#255b7a" }} data-target="#openmodal">view Reports</a>
+              <div className="col-xs-12 col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
+              <div className="text-align-center-r"><p data-toggle="modal" className="view-reports-r" data-target="#openmodal">view Reports</p></div>
               </div>
             </div>
           </div>
@@ -334,18 +293,17 @@ export class User extends React.Component {
                   <img className="browse-image-r" id="output" />
                 </div>
 
-                <input style={{ display: "none" }} accept="image/*" onChange={this.loadFile} id="file-input"
+                <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="file-input"
                   type="file" required />
 
                 <div className="browse-upload-margin-r">
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <button type="button" className="btn btn-primary btn-lg browse-button-r">
-                      <label style={{ cursor: "pointer", color: "white" }} htmlFor="file-input">Browse
-                            </label>
-                    </button>
+                  <div><button type="button" className="btn btn-primary btn-text-r full-width-r">
+                    <label className="cursor-pointer-r margin-0-r" htmlFor="file-input">Browse</label>
+                  </button></div>
                   </div>
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <input className="btn btn-primary btn-lg upload-button-r" type="submit" defaultValue="Upload" />
+                    <input type="submit" className="btn btn-primary btn-text-r full-width-r" name="" value="Upload" />
                   </div>
                 </div>
               </div>
@@ -356,22 +314,22 @@ export class User extends React.Component {
                 this.state.isActiveTab == "purchaseBills" ?
                   <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
                     <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
-                    <a data-toggle="modal" data-target="#warningmsg">
-                      <i className="fa fa-times-circle icon-customization-r" aria-hidden="true"></i>
+                    <a className="delete-icon-r" data-toggle="modal" data-target="#warningmsg">
+                      <i className="fa fa-times-circle" aria-hidden="true"></i>
                     </a>
                   </div> :
                   this.state.isActiveTab == "saleBills" ?
                     <React.Fragment>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
                         <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
-                        <a data-toggle="modal" data-target="#warningmsg">
-                          <i className="fa fa-times-circle icon-customization-r" aria-hidden="true"></i>
+                        <a className="delete-icon-r" data-toggle="modal" data-target="#warningmsg">
+                          <i className="fa fa-times-circle" aria-hidden="true"></i>
                         </a>
                       </div>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
                         <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
-                        <a data-toggle="modal" data-target="#warningmsg">
-                          <i className="fa fa-times-circle icon-customization-r" aria-hidden="true"></i>
+                        <a className="delete-icon-r" data-toggle="modal" data-target="#warningmsg">
+                          <i className="fa fa-times-circle" aria-hidden="true"></i>
                         </a>
                       </div>
                     </React.Fragment>
@@ -379,20 +337,20 @@ export class User extends React.Component {
                     <React.Fragment>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
                         <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
-                        <a data-toggle="modal" data-target="#warningmsg">
-                          <i className="fa fa-times-circle icon-customization-r" aria-hidden="true"></i>
+                        <a className="delete-icon-r" data-toggle="modal" data-target="#warningmsg">
+                          <i className="fa fa-times-circle" aria-hidden="true"></i>
                         </a>
                       </div>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
                         <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
-                        <a data-toggle="modal" data-target="#warningmsg">
-                          <i className="fa fa-times-circle icon-customization-r" aria-hidden="true"></i>
+                        <a className="delete-icon-r" data-toggle="modal" data-target="#warningmsg">
+                          <i className="fa fa-times-circle" aria-hidden="true"></i>
                         </a>
                       </div>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
                         <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
-                        <a data-toggle="modal" data-target="#warningmsg">
-                          <i className="fa fa-times-circle icon-customization-r" aria-hidden="true"></i>
+                        <a className="delete-icon-r" data-toggle="modal" data-target="#warningmsg">
+                          <i className="fa fa-times-circle" aria-hidden="true"></i>
                         </a>
                       </div>
                     </React.Fragment>
@@ -403,10 +361,6 @@ export class User extends React.Component {
             </div>
           </div>
         </div>
-
-        <a style={{ backgroundColor: "#255b7a", borderRadius: "50%" }} id="scroll-top"><i className="fa fa-angle-double-up"
-          aria-hidden="true"></i></a>
-
       </div>
     );
   }

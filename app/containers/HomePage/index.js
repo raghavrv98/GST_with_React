@@ -92,7 +92,7 @@ export class HomePage extends React.Component {
         <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 vertical-align-title-r">
         <p className="title-r">XYZ</p>
         <p className="sub-heading-r">"Your Own GST Software"</p>
-        <div className="text-center-r"><button type="button" className="btn btn-primary btn-lg button-r">Get in touch
+        <div className="text-align-center-r"><button type="button" className="btn btn-primary btn-text-r">Get in touch
         </button></div>
         </div>
 
@@ -114,7 +114,7 @@ export class HomePage extends React.Component {
                                                  autoFocus 
                                                  required />
                                           <span>
-                                            <input type="submit" className="btn btn-primary btn-lg btn-block reset-button-r" name=""
+                                            <input type="submit" className="btn btn-primary btn-text-r" name=""
                                               value="Send" />
                                           </span>
                                         </form>
@@ -141,7 +141,7 @@ export class HomePage extends React.Component {
                              autoFocus 
                              required />
                       <span>
-                        <input type="submit" className="btn btn-primary btn-lg btn-block reset-button-r" name=""
+                        <input type="submit" className="btn btn-primary btn-text-r" name=""
                           value="Login" />
                       </span>
                     </form>
