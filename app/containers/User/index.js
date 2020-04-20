@@ -18,17 +18,18 @@ import makeSelectUser from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import HeaderLink from '../../components/Header/HeaderLink';
-
+import ConfirmModal from '../../components/ConfirmModal/Loadable'
 /* eslint-disable react/prefer-stateless-function */
 export class User extends React.Component {
 
   state = {
     tabActive: true,
     isActiveTab: "purchaseBills",
-    payload : {
-      oldPassword :"",
-      newPassword:""
+    isConfirmModal: false,
+    isResetModal: false,
+    payload: {
+      oldPassword: "",
+      newPassword: ""
     }
   }
 
@@ -46,16 +47,46 @@ export class User extends React.Component {
   }
 
   nameChangeHandler = event => {
-    let payload =  JSON.parse(JSON.stringify(this.state.payload));
+    let payload = JSON.parse(JSON.stringify(this.state.payload));
     payload[event.target.id] = event.target.value;
     this.setState({
       payload
     });
   };
 
-  resetPassword = () =>{
-    event.preventDefault()
+  confirmModalHandler = () => {
+    this.setState({
+      isConfirmModal: true
+    })
   }
+
+  modalCloseHandler = () => {
+    this.setState({
+      isConfirmModal: false,
+      isResetModal : false
+    })
+  }
+
+  confirmDeleteData = (id) => {
+    event.preventDefault()
+    this.setState({
+      isConfirmModal: false
+    })
+  }
+
+  resetPasswordHandler=() =>{
+    this.setState({
+      isResetModal :true
+    })
+  }
+
+  resetPassword =(id) =>{
+    event.preventDefault()
+    this.setState({
+      isResetModal : false
+    })
+  }
+
   render() {
     return (
       <div>
@@ -65,13 +96,13 @@ export class User extends React.Component {
         </Helmet>
 
         {/* <!-- reset password modal start --> */}
+      { this.state.isResetModal ?
         <div className="container">
-          <div className="modal fade" id="resetPassword" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div className="modal-dialog modal-dialog-centered" role="document">
               <div className="modal-content">
                 <div className="modal-header" style={{ backgroundColor: "#f06d46" }}>
                   <span style={{ color: "white" }}>Reset Password</span>
-                  <button type="button" className="close" data-dismiss="modal" aria-label="Close"><i
+                  <button type="button" className="close" onClick={this.modalCloseHandler} aria-label="Close"><i
                     className="fa fa-times" aria-hidden="true"></i></button>
                 </div>
 
@@ -102,9 +133,8 @@ export class User extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
-
-        </div>
+        </div> : null
+  }
         {/* <!-- reset password modal end --> */}
 
 
@@ -162,7 +192,7 @@ export class User extends React.Component {
                       rows="4" />
                     <div className="browse-upload-margin-r">
                       <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                      <input type="submit" className="btn btn-primary btn-text-r full-width-r" name="" value="Download" />
+                        <input type="submit" className="btn btn-primary btn-text-r full-width-r" name="" value="Download" />
                       </div>
                     </div>
                   </div>
@@ -179,7 +209,7 @@ export class User extends React.Component {
                       rows="4" />
                     <div className="browse-upload-margin-r">
                       <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                      <input type="submit" className="btn btn-primary btn-text-r full-width-r" name="" value="Download" />
+                        <input type="submit" className="btn btn-primary btn-text-r full-width-r" name="" value="Download" />
                       </div>
                     </div>
                   </div>
@@ -191,41 +221,33 @@ export class User extends React.Component {
 
         {/* <!--view Reports for user download modal end--> */}
 
-<nav className="navbar navbar-default nav-bar-r">
-  <div className="container-fluid">
-    {/* <!-- Brand and toggle get grouped for better mobile display --> */}
-    <div className="navbar-header">
-      <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span className="sr-only">Toggle navigation</span>
-        <span className="icon-bar"></span>
-        <span className="icon-bar"></span>
-        <span className="icon-bar"></span>
-      </button>
-      <a style={{marginLeft: "44px"}} onClick={() => { this.props.history.push('/')}} className="navbar-brand">Brand</a>
-    </div>
+        <nav className="navbar navbar-default nav-bar-r">
+          <div className="container-fluid">
+            {/* <!-- Brand and toggle get grouped for better mobile display --> */}
+            <div className="navbar-header">
+              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span className="sr-only">Toggle navigation</span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+              </button>
+              <a style={{ marginLeft: "44px" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">Brand</a>
+            </div>
 
-    {/* <!-- Collect the nav links, forms, and other content for toggling --> */}
-    <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <ul className="nav navbar-nav navbar-right">
-      <li><a style={{ marginTop: "-10px", color: "#255b7a"}} data-toggle="modal" data-target="#resetPassword" className="navbar-brand">Reset Password</a></li>
-      <li><a style={{ marginTop: "-10px", color: "#255b7a"}} onClick={() => { this.props.history.push('/')}} className="navbar-brand">Logout</a></li>
-                {/* <HeaderLink to="/userDetails">
-                  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span className="caret"></span></a>
-            <ul className="dropdown-menu" role="menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li className="divider"></li>
-              <li className="dropdown-header">Nav header</li>
-              <li><a href="#">Separated link</a></li>
-              <li><a href="#">One more separated link</a></li>
-            </ul>
-                </HeaderLink> */}
-            </ul>
-    </div>
-  </div>
-</nav>
-
+            {/* <!-- Collect the nav links, forms, and other content for toggling --> */}
+            <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul className="nav navbar-nav navbar-right">
+                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={this.resetPasswordHandler} className="navbar-brand">Reset Password</a></li>
+                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">Logout</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        
+        {this.state.isConfirmModal ? <ConfirmModal
+          onClose={this.modalCloseHandler}
+          onConfirm={() => this.confirmDeleteData("1")}
+        /> : null}
 
         <div className="container outer-box-r">
           <div className="container filter-year-month-r">
@@ -257,7 +279,7 @@ export class User extends React.Component {
                 </select>
               </div>
               <div className="col-xs-12 col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
-              <div className="text-align-center-r"><p data-toggle="modal" className="view-reports-r" data-target="#openmodal">view Reports</p></div>
+                <div className="text-align-center-r"><p data-toggle="modal" className="view-reports-r" data-target="#openmodal">view Reports</p></div>
               </div>
             </div>
           </div>
@@ -298,9 +320,9 @@ export class User extends React.Component {
 
                 <div className="browse-upload-margin-r">
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <div><button type="button" className="btn btn-primary btn-text-r full-width-r">
-                    <label className="cursor-pointer-r margin-0-r" htmlFor="file-input">Browse</label>
-                  </button></div>
+                    <div><button type="button" className="btn btn-primary btn-text-r full-width-r">
+                      <label className="cursor-pointer-r margin-0-r" htmlFor="file-input">Browse</label>
+                    </button></div>
                   </div>
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <input type="submit" className="btn btn-primary btn-text-r full-width-r" name="" value="Upload" />
@@ -308,54 +330,51 @@ export class User extends React.Component {
                 </div>
               </div>
             </form>
-
             <div className="col-xs-12 col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10">
               {
                 this.state.isActiveTab == "purchaseBills" ?
                   <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
                     <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
-                    <a className="delete-icon-r" data-toggle="modal" data-target="#warningmsg">
+                    <span onClick={this.confirmModalHandler} className="delete-icon-r">
                       <i className="fa fa-times-circle" aria-hidden="true"></i>
-                    </a>
+                    </span>
                   </div> :
                   this.state.isActiveTab == "saleBills" ?
                     <React.Fragment>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
                         <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
-                        <a className="delete-icon-r" data-toggle="modal" data-target="#warningmsg">
+                        <span className="delete-icon-r">
                           <i className="fa fa-times-circle" aria-hidden="true"></i>
-                        </a>
+                        </span>
                       </div>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
                         <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
-                        <a className="delete-icon-r" data-toggle="modal" data-target="#warningmsg">
+                        <span className="delete-icon-r">
                           <i className="fa fa-times-circle" aria-hidden="true"></i>
-                        </a>
+                        </span>
                       </div>
                     </React.Fragment>
                     :
                     <React.Fragment>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
                         <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
-                        <a className="delete-icon-r" data-toggle="modal" data-target="#warningmsg">
+                        <span className="delete-icon-r">
                           <i className="fa fa-times-circle" aria-hidden="true"></i>
-                        </a>
+                        </span>
                       </div>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
                         <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
-                        <a className="delete-icon-r" data-toggle="modal" data-target="#warningmsg">
+                        <span className="delete-icon-r">
                           <i className="fa fa-times-circle" aria-hidden="true"></i>
-                        </a>
+                        </span>
                       </div>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2">
                         <img className="selected-image-r" src={require('../../assets/img/antornys-1.jpg')} />
-                        <a className="delete-icon-r" data-toggle="modal" data-target="#warningmsg">
+                        <span className="delete-icon-r">
                           <i className="fa fa-times-circle" aria-hidden="true"></i>
-                        </a>
+                        </span>
                       </div>
                     </React.Fragment>
-
-
               }
 
             </div>

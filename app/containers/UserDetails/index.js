@@ -19,8 +19,6 @@ import reducer from './reducer';
 import saga from './saga';
 import moment from 'moment';
 import messages from './messages';
-import HeaderLink from '../../components/Header/HeaderLink';
-
 
 /* eslint-disable react/prefer-stateless-function */
 export class UserDetails extends React.Component {

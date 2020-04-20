@@ -99,6 +99,15 @@ body {
 	width: 100%;
 }
 
+	/* delete icon css */
+	.delete-icon-r {
+		font-size: 20px;
+		margin: -10px;
+		color: black;
+		cursor: pointer;
+		position: absolute;
+	}
+	/* ----------------------- */
 @media screen and (min-width: 480px) {
 	/* button class "btn btn-primary btn-text-r" */
 	.btn-text-r {
@@ -123,15 +132,6 @@ body {
 		display: inline-block;
 	}
 	/* --------------------------------------------------- */
-	/* delete icon css */
-	.delete-icon-r {
-		font-size: 20px;
-		position: absolute;
-		margin: -10px;
-		color: black;
-		cursor: pointer;
-	}
-	/* ----------------------- */
 	/* outer-box css */
 	.outer-box-r {
 		padding: 0px 20px !important;
@@ -175,14 +175,6 @@ body {
 		display: inline-block;
 	}
 	/* --------------------------------------------------- */
-	/* delete icon css */
-	.delete-icon-r {
-		font-size: 20px;
-		position: absolute;
-		margin: -10px;
-		cursor: pointer;
-	}
-	/* ----------------------- */
 	/* outer-box css */
 	.outer-box-r {
 		padding: 0px !important;
