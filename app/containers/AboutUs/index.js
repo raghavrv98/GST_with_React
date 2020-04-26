@@ -28,32 +28,32 @@ export class AboutUs extends React.Component {
           <title>AboutUs</title>
           <meta name="description" content="Description of AboutUs" />
         </Helmet>
-        <div className="container"> 
+        <div className="container">
           <div className="aboutUs-form-r">
-          <p className="aboutUs-title-r">About Us</p>
+            <p className="aboutUs-title-r">About Us</p>
             {/* <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
         </div> */}
-        <div className="container">
-        <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <p className="aboutUsTitle1-r">
-                Who we are ?
+            <div className="container">
+              <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <p className="aboutUsTitle1-r">
+                  Who we are ?
           </p>
-              <p className="subHeading-1-r">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut unde possimus velit in cupiditate iusto expedita nemo voluptates aliquam necessitatibus mollitia laborum, non sequi illum illo tempora animi beatae! Maiores?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut unde possimus velit in cupiditate iusto expedita nemo voluptates aliquam necessitatibus mollitia laborum, non sequi illum illo tempora animi beatae! Maiores?</p>
+                <p className="subHeading-1-r">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut unde possimus velit in cupiditate iusto expedita nemo voluptates aliquam necessitatibus mollitia laborum, non sequi illum illo tempora animi beatae! Maiores?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut unde possimus velit in cupiditate iusto expedita nemo voluptates aliquam necessitatibus mollitia laborum, non sequi illum illo tempora animi beatae! Maiores?</p>
+              </div>
             </div>
-      </div>
-      <div className="container">
-        <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <p className="aboutUsTitle1-r">
-                Who we are ?
+            <div className="container">
+              <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <p className="aboutUsTitle1-r">
+                  Who we are ?
           </p>
-              <p className="subHeading-1-r">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut unde possimus velit in cupiditate iusto expedita nemo voluptates aliquam necessitatibus mollitia laborum, non sequi illum illo tempora animi beatae! Maiores?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut unde possimus velit in cupiditate iusto expedita nemo voluptates aliquam necessitatibus mollitia laborum, non sequi illum illo tempora animi beatae! Maiores?</p>
+                <p className="subHeading-1-r">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut unde possimus velit in cupiditate iusto expedita nemo voluptates aliquam necessitatibus mollitia laborum, non sequi illum illo tempora animi beatae! Maiores?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut unde possimus velit in cupiditate iusto expedita nemo voluptates aliquam necessitatibus mollitia laborum, non sequi illum illo tempora animi beatae! Maiores?</p>
+              </div>
+              <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <div className="aboutus-img1-r"><img className="img-1" src={require('../../assets/img/aboutUs1.jpg')} /></div>
+              </div>
             </div>
-        <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-        <div className="aboutus-img1-r"><img className="img-1" src={require('../../assets/img/aboutUs1.jpg')} /></div>
+          </div>
         </div>
-        </div>
-      </div>
-      </div>
       </div>
     );
   }

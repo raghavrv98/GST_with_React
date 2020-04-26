@@ -103,10 +103,8 @@ class Header extends React.Component {
                 <span className="icon-bar" />
               </button>
               <NavLink
-                style={{ color: '#255b7a' }}
-                className="navbar-brand"
+                className="navbar-brand text-color-r"
                 exact
-                activeClassName="active"
                 to="/"
               >
                 GST
@@ -120,24 +118,21 @@ class Header extends React.Component {
               >
                 <ul className="nav navbar-nav navbar-right">
                   <NavLink
-                    style={{ color: '#255b7a' }}
-                    className="navbar-brand"
+                    className="navbar-brand text-color-r"
                     exact
                     to="/aboutUs"
                   >
                     AboutUs
                   </NavLink>
                   <NavLink
-                    style={{ color: '#255b7a' }}
-                    className="navbar-brand"
+                    className="navbar-brand text-color-r"
                     exact
                     to="/contact"
                   >
                     Contact
                   </NavLink>
                   <NavLink
-                    style={{ color: '#255b7a' }}
-                    className="navbar-brand"
+                    className="navbar-brand text-color-r"
                     onClick={this.resetPasswordHandler}
                     exact
                     to="/user"
@@ -145,8 +140,7 @@ class Header extends React.Component {
                     Reset Password
                   </NavLink>
                   <NavLink
-                    style={{ color: '#255b7a' }}
-                    className="navbar-brand"
+                    className="navbar-brand text-color-r"
                     onClick={this.userLogout}
                     exact
                     to="/"
@@ -162,16 +156,14 @@ class Header extends React.Component {
               >
                 <ul className="nav navbar-nav navbar-right">
                 <NavLink
-                    style={{ color: '#255b7a' }}
-                    className="navbar-brand"
+                    className="navbar-brand text-color-r"
                     exact
                     to="/"
                   >
                     Home
                   </NavLink>
                   <NavLink
-                    style={{ color: '#255b7a' }}
-                    className="navbar-brand"
+                    className="navbar-brand text-color-r"
                     onClick={this.userLogin}
                     exact
                     to="/user"
@@ -179,8 +171,7 @@ class Header extends React.Component {
                     User
                   </NavLink>
                   <NavLink
-                    style={{ color: '#255b7a' }}
-                    className="navbar-brand"
+                    className="navbar-brand text-color-r"
                     onClick={this.traderLogin}
                     exact
                     to="/trader"
@@ -188,8 +179,7 @@ class Header extends React.Component {
                     Trader
                   </NavLink>
                   <NavLink
-                    style={{ color: '#255b7a' }}
-                    className="navbar-brand"
+                    className="navbar-brand text-color-r"
                     onClick={this.traderLogin}
                     exact
                     to="/userDetails"
@@ -197,16 +187,14 @@ class Header extends React.Component {
                     UserDetails
                   </NavLink>
                   <NavLink
-                    style={{ color: '#255b7a' }}
-                    className="navbar-brand"
+                    className="navbar-brand text-color-r"
                     exact
                     to="/aboutUs"
                   >
                     AboutUs
                   </NavLink>
                   <NavLink
-                    style={{ color: '#255b7a' }}
-                    className="navbar-brand"
+                    className="navbar-brand text-color-r"
                     exact
                     to="/contact"
                   >
@@ -223,10 +211,9 @@ class Header extends React.Component {
             <div className="modal-dialog modal-dialog-centered" role="document">
               <div className="modal-content">
                 <div
-                  className="modal-header"
-                  style={{ backgroundColor: '#f06d46' }}
+                  className="modal-header background-color-r"
                 >
-                  <span style={{ color: 'white' }}>Reset Password</span>
+                  <span className="text-color-white-r">Reset Password</span>
                   <button
                     type="button"
                     className="close"

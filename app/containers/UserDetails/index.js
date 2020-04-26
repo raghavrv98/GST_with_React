@@ -141,7 +141,7 @@ export class UserDetails extends React.Component {
         Cell: row =>
           (
             <div>
-              <a data-toggle="modal" data-target="#openmodal"><u>view</u></a>
+              <a className="view-reports-r" data-toggle="modal" data-target="#openmodal"><u>view</u></a>
             </div>
           )
       },
@@ -153,45 +153,21 @@ export class UserDetails extends React.Component {
         Cell: row =>
           (
             <div>
-              <input style={{ display: "none" }} 
-                     accept="image/*" 
-                     onChange={this.loadFile}
-                     id="daily" 
-                     type="file"
-                     required />
+              <input style={{ display: "none" }}
+                accept="image/*"
+                onChange={this.loadFile}
+                id="daily"
+                type="file"
+                required />
 
-              <button type="button" 
-                      data-toggle="modal" 
-                      data-target="#browseModal"
-                      className="btn btn-primary btn-lg browse-button-css-r">
-                <label className="btn-text-r" htmlFor="daily">Browse </label>
-              </button>
+              <div><button type="button" data-toggle="modal" data-target="#browseModal" className="btn btn-primary btn-text-r">
+                <label className="cursor-pointer-r margin-0-r" htmlFor="daily">Browse</label>
+              </button></div>
+
               {/* <input checked={row.original.status == "completed"} data-toggle="modal" data-target="#statusPassword" className="status-button-r" type="checkbox"/> */}
             </div>
           )
       },
-      // { 
-      //   Header: 'Status',
-      //   accessor: 'status',
-      //   width :80,
-      //   Cell: row => 
-      //       (
-      //         <div>
-      //           <input checked={row.original.status == "completed"} data-toggle="modal" data-target="#statusPassword" className="status-button-r" type="checkbox"/>
-      //         </div>
-      //       )
-      // },
-      // {
-      //   Header: 'Actions',
-      //   sortable : false,
-      //   width:100,
-      //   Cell: row => 
-      //   (<div style={{textAlign: "center"}}>
-      //     <span className = "editButton"><i className="fas fa-pen" /></span>
-      //     <a data-toggle="modal" data-dismiss="modal" data-target="#warningmsg" className="deleteButton"><i className="far fa-trash-alt" /></a>
-      //   </div>
-      //   )
-      // },  
     ]
     return (
       <div>
@@ -200,57 +176,13 @@ export class UserDetails extends React.Component {
           <meta name="description" content="Description of UserDetails" />
         </Helmet>
 
-        {/* <!-- reset password modal start --> */}
-        <div className="container">
-          <div className="modal fade" id="resetPassword" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div className="modal-content">
-                <div className="modal-header" style={{ backgroundColor: "#f06d46" }}>
-                  <span style={{ color: "white" }}>Reset Password</span>
-                  <button type="button" className="close" data-dismiss="modal" aria-label="Close"><i
-                    className="fa fa-times" aria-hidden="true"></i></button>
-                </div>
-
-                <div className="modal-body,input-group input-group-lg">
-                  <div className="reset-form-padding-r">
-                    <form onSubmit={this.resetPassword}>
-                      <input type="text"
-                        defaultValue={this.state.payload.oldPassword}
-                        onChange={this.nameChangeHandler}
-                        id="oldPassword"
-                        className="form-control reset-input-box-r"
-                        placeholder="Old Password"
-                        autoFocus
-                        required />
-                      <input type="password"
-                        defaultValue={this.state.payload.newPassword}
-                        onChange={this.nameChangeHandler}
-                        id="newPassword"
-                        className="form-control reset-input-box-r"
-                        placeholder="New Password"
-                        autoFocus
-                        required />
-                      <span>
-                        <input type="submit" className="btn btn-primary btn-lg btn-block reset-button-r" name=""
-                          defaultValue="Reset" />
-                      </span>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        {/* <!-- reset password modal end --> */}
-
         {/* <!-- status password modal start --> */}
         <div className="container">
           <div className="modal fade" id="statusPassword" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div className="modal-dialog modal-dialog-centered" role="document">
               <div className="modal-content">
-                <div className="modal-header" style={{ backgroundColor: "#f06d46" }}>
-                  <span style={{ color: "white" }}>Delete Report</span>
+                <div className="modal-header background-color-r">
+                  <span className="text-color-white-r">Delete Report</span>
                   <button type="button" className="close" data-dismiss="modal" aria-label="Close"><i
                     className="fa fa-times" aria-hidden="true"></i></button>
                 </div>
@@ -278,8 +210,8 @@ export class UserDetails extends React.Component {
           <div className="modal fade" id="browseModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div className="modal-dialog modal-dialog-centered" role="document">
               <div className="modal-content">
-                <div className="modal-header" style={{ backgroundColor: "#f06d46" }}>
-                  <span style={{ color: "white" }}>Upload Report</span>
+                <div className="modal-header background-color-r">
+                  <span className="text-color-white-r">Upload Report</span>
                   <button type="button" className="close" data-dismiss="modal" aria-label="Close"><i
                     className="fa fa-times" aria-hidden="true"></i></button>
                 </div>
@@ -292,10 +224,9 @@ export class UserDetails extends React.Component {
                         <textarea rows="5" defaultValue="comments if any .." name="Password" className="form-control reset-input-box-r"
                           placeholder="Comments.." required />
                       </div>
-                      <span>
-                        <input type="submit" className="btn btn-primary btn-lg btn-block reset-button-r" name=""
-                          defaultValue="Upload" />
-                      </span>
+                      <div className="text-align-center-r">
+                        <input type="submit" className="btn btn-primary btn-text-r" name="" value="Upload" />
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -308,8 +239,8 @@ export class UserDetails extends React.Component {
           <div className="modal fade" id="returnModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div className="modal-dialog modal-dialog-centered" role="document">
               <div className="modal-content">
-                <div className="modal-header" style={{ backgroundColor: "#f06d46" }}>
-                  <span style={{ color: "white" }}>Return Report</span>
+                <div className="modal-header background-color-r">
+                  <span className="text-color-white-r">Return Report</span>
                   <button type="button" className="close" data-dismiss="modal" aria-label="Close"><i
                     className="fa fa-times" aria-hidden="true"></i></button>
                 </div>
@@ -338,8 +269,8 @@ export class UserDetails extends React.Component {
           <div className="modal fade" id="openmodal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div className="modal-dialog modal-dialog-centered modal-width-r" role="document">
               <div className="modal-content">
-                <div className="modal-header" style={{ backgroundColor: "#f06d46" }}>
-                  <span style={{ color: "white" }}>Download Reports</span>
+                <div className="modal-header background-color-r">
+                  <span className="text-color-white-r">Download Reports</span>
                   <button type="button" className="close" data-dismiss="modal" aria-label="Close"><i
                     className="fa fa-times" aria-hidden="true"></i></button>
                 </div>
@@ -373,8 +304,8 @@ export class UserDetails extends React.Component {
         <div className="modal fade" id="openBills" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div className="modal-dialog modal-dialog-centered" role="document">
             <div className="modal-content">
-              <div className="modal-header" style={{ backgroundColor: "#f06d46" }}>
-                <span style={{ color: "white" }}>Purchase Bills</span>
+              <div className="modal-header background-color-r">
+                <span className="text-color-white-r">Purchase Bills</span>
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close"><i
                   className="fa fa-times" aria-hidden="true"></i></button>
               </div>
@@ -443,22 +374,23 @@ export class UserDetails extends React.Component {
             </div>
           </div>
         </div>
+
         <div className="container">
           <div className="container outer-box-r">
-            <div className="container name-mobile-reports-r">
+            <div className="container margin-top-25-r margin-10-r">
               <div className="row">
-                <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                  <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <p className="details-heading-r">{this.state.filteredData && this.state.filteredData.length > 0 ? this.state.filteredData[0].legalName + "'s Details" : null}</p>
+                <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-align-center-r">
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
+                    <p className="view-reports-r font-30-r">{this.state.filteredData && this.state.filteredData.length > 0 ? this.state.filteredData[0].legalName + "'s Details" : null}</p>
                   </div>
-                  <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <p className="details-heading-mobile-r">{this.state.filteredData && this.state.filteredData.length > 0 ? '(' + this.state.filteredData[0].mobileNumber + ')' : null}</p>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
+                    <p className="view-reports-r font-20-r font-11-r">{this.state.filteredData && this.state.filteredData.length > 0 ? '(' + this.state.filteredData[0].mobileNumber + ')' : null}</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="container margin-bottom-r">
+            <div className="container margin-top-25-r">
               <div className="row">
                 <div className="col-xs-12 col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -488,23 +420,22 @@ export class UserDetails extends React.Component {
                     </select>
                   </div>
                 </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                  <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 view-reports-r">
-                    <a data-toggle="modal" style={{ color: "#255b7a" }} data-target="#openmodal">view Reports</a>
+                <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 margin-10-r">
+                  <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <button type="button" data-toggle="modal" className="btn btn-primary btn-text-r full-width-r" data-target="#openmodal">view Reports</button>
                   </div>
-                  <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 view-reports-r">
+                  <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <input style={{ display: "none" }} accept="image/*" onChange={this.loadFile} id="gst"
                       type="file" required />
-                    <button type="button" data-toggle="modal" data-target="#browseModal"
-                      className="btn btn-primary btn-lg browse-GST-button-css-r">
-                      <label className="btn-text-r" htmlFor="gst">Upload GST Report</label>
-                    </button>
+                    <div><button type="button" data-toggle="modal" data-target="#browseModal" className="btn btn-primary btn-text-r full-width-r">
+                      <label className="cursor-pointer-r margin-0-r font-11-r" htmlFor="gst">Upload GST Report</label>
+                    </button></div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="customReactTableBox">
+            <div className="customReactTableBox margin-top-25-r">
               <ReactTable
                 className="customReactTable"
                 data={this.state.filteredData}

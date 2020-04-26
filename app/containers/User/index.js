@@ -63,7 +63,7 @@ export class User extends React.Component {
   modalCloseHandler = () => {
     this.setState({
       isConfirmModal: false,
-      isResetModal : false
+      isResetModal: false
     })
   }
 
@@ -74,16 +74,16 @@ export class User extends React.Component {
     })
   }
 
-  resetPasswordHandler=() =>{
+  resetPasswordHandler = () => {
     this.setState({
-      isResetModal :true
+      isResetModal: true
     })
   }
 
-  resetPassword =(id) =>{
+  resetPassword = (id) => {
     event.preventDefault()
     this.setState({
-      isResetModal : false
+      isResetModal: false
     })
   }
 

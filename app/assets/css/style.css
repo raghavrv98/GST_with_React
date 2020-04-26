@@ -31,11 +31,15 @@ input[type=email], input[type=number], input[type=password], input[type=search],
 }
 
 .text-color-r {
-	color: #255b7a;
+	color: #255b7a !important;
+}
+
+.text-color-white-r {
+	color: #ffffff !important;
 }
 
 .background-color-r {
-	color: #f06d46;
+	background-color: #f17b58 !important;
 }
 
 .cross-r {
@@ -64,6 +68,10 @@ input[type=email], input[type=number], input[type=password], input[type=search],
 body {
 	margin: 0px !important;
 	padding: 0px !important;
+}
+
+.font-20-r{
+	font-size: 20px !important;
 }
 
 .tab-inactive-r {
@@ -99,6 +107,52 @@ body {
 	width: 100%;
 }
 
+.delete-modal-padding-r {
+	padding: 20px;
+	height: 130px;
+}
+
+.warning-msg-r {
+	font-size: 20px;
+	color: #255b7a;
+	text-align: center;
+	margin: 0px;
+}
+
+.icon-margin-r {
+	text-align: center;
+	margin: 20px;
+}
+
+.reset-input-box-r {
+	color: #255b7a !important;
+	border-color: #f06d46 !important;
+	margin: 0px auto 20px !important;
+}
+
+.image-center-r{
+	display: flex;
+	justify-content: center;
+}
+.editButton-r{
+	color: blue;
+	margin: 0px 7px;
+	cursor: pointer;
+}
+
+.infoButton-r{
+	color: blue;
+	margin: 0px 7px;
+	cursor: pointer;
+}
+
+.deleteButton-r{
+	color: red;
+	margin: 0px 7px;
+	cursor: pointer;
+}
+
+
 	/* delete icon css */
 	.delete-icon-r {
 		font-size: 20px;
@@ -107,12 +161,19 @@ body {
 		cursor: pointer;
 		position: absolute;
 	}
+
+	.status-button-r{
+		visibility: visible !important;
+		height: 20px;
+		width: 20px;
+		position: relative !important;
+	}
 	/* ----------------------- */
 @media screen and (min-width: 480px) {
 	/* button class "btn btn-primary btn-text-r" */
 	.btn-text-r {
 		border-radius: 5px;
-		background-color: #f06d46 !important;
+		background-color: #f17b58 !important;
 		padding: 0px !important;
 		height: 35px !important;
 		display: inline-block !important;
@@ -125,7 +186,7 @@ body {
 	.view-reports-r {
 		text-align: center;
 		color: #255b7a;
-		font-size: 25px;
+		font-size: 20px;
 		text-decoration: underline;
 		margin: 0px !important;
 		cursor: pointer;
@@ -150,27 +211,34 @@ body {
 		width: 100%;
 	}
 	/* ---------------------- */
+
+	.margin-top-25-r{
+		margin-top: 25px !important;
+	}
+
+	.font-30-r{
+		font-size: 30px !important;
+	}
+	
 }
 
 @media screen and (max-width:479px) {
 	/* button class "btn btn-primary btn-text-r" */
 	.btn-text-r {
 		border-radius: 5px;
-		background-color: #f06d46 !important;
-		padding: 0px !important;
+		background-color: #f17b58 !important;
 		height: 35px !important;
 		display: inline-block !important;
 		color: white;
-		width: 30%;
 		text-align: center;
 	}
 	/* ----------------------------------------------- */
 	/* view reports css */
 	.view-reports-r {
 		color: #255b7a;
-		font-size: 25px;
+		font-size: 20px;
 		text-decoration: underline #255b7a;
-		margin: 10px !important;
+		margin: 0px !important;
 		cursor: pointer;
 		display: inline-block;
 	}
@@ -193,4 +261,13 @@ body {
 		width: 100%;
 	}
 	/* --------------------- */
+
+	.font-11-r{
+		font-size: 11px !important;
+	}
+
+	.margin-10-r{
+		margin: 10px 0px !important;
+	}
+	
 }
