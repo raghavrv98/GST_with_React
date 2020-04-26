@@ -23,22 +23,49 @@ export class HomePage extends React.Component {
 
   state = {
     payload: {
-      oldPassword: "",
-      newPassword: ""
+      name: "",
+      password: ""
     },
-    isResetActive: false
+    isResetActive: false,
+    loginError : false
   }
+
+  componentWillMount(){
+    localStorage.setItem("user","user")
+    localStorage.setItem("password","0000")
+    localStorage.setItem("trader","trader")
+    }
 
   nameChangeHandler = event => {
     let payload = JSON.parse(JSON.stringify(this.state.payload));
     payload[event.target.id] = event.target.value;
     this.setState({
-      payload
+      payload,
+      loginError : false
     });
   };
 
-  resetPassword = () => {
+  loginHandler = () => {
     event.preventDefault()
+   if(this.state.payload.name === localStorage.getItem("user") && this.state.payload.password === localStorage.getItem("password")){
+     sessionStorage.setItem('user',this.state.payload.name)
+     this.props.history.push('/user')
+     this.setState({
+      loginError : false
+     })
+   }
+   else if(this.state.payload.name === localStorage.getItem("trader") && this.state.payload.password === localStorage.getItem("password")){
+    sessionStorage.setItem('trader',this.state.payload.name)
+    this.props.history.push('/trader')
+    this.setState({
+     loginError : false
+    })
+  }
+   else{
+     this.setState({
+       loginError:true
+     })
+   }
   }
 
   forgotPassword = () => {
@@ -49,6 +76,10 @@ export class HomePage extends React.Component {
     })
   }
 
+  contactHandler = () =>{
+    this.props.history.push('/contact')
+  }
+  
   render() {
     return (
       <div>
@@ -63,7 +94,7 @@ export class HomePage extends React.Component {
               <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 vertical-align-title-r">
                 <p className="title-r">XYZ</p>
                 <p className="sub-heading-r">"Your Own GST Software"</p>
-                <div className="text-align-center-r"><button type="button" className="btn btn-primary btn-text-r">Get in touch
+                <div className="text-align-center-r"><button type="button" onClick={this.contactHandler} className="btn btn-primary btn-text-r">Get in touch
         </button></div>
               </div>
 
@@ -85,8 +116,7 @@ export class HomePage extends React.Component {
                               autoFocus
                               required />
                             <span>
-                              <input type="submit" className="btn btn-primary btn-text-r" name=""
-                                value="Send" />
+                              <button type="submit" className="btn btn-primary btn-text-r">Send</button>
                             </span>
                           </form>
                           <p className="forgot-password-r" onClick={this.forgotPassword}>Get back to login</p>
@@ -94,26 +124,26 @@ export class HomePage extends React.Component {
                         :
                         <React.Fragment>
                           <p className="login-title-r">Login</p>
-                          <form onSubmit={this.resetPassword}>
+                          {this.state.loginError ? <p className="error-msg-r">Username or password is incorrect</p> : null}
+                          <form onSubmit={this.loginHandler}>
                             <input type="text"
-                              value={this.state.payload.oldPassword}
+                              value={this.state.payload.name}
                               onChange={this.nameChangeHandler}
-                              id="oldPassword"
+                              id="name"
                               className="form-control reset-input-box-r"
-                              placeholder="Old Password"
+                              placeholder="Enter your Username"
                               autoFocus
                               required />
                             <input type="password"
-                              value={this.state.payload.newPassword}
+                              value={this.state.payload.password}
                               onChange={this.nameChangeHandler}
-                              id="newPassword"
+                              id="password"
                               className="form-control reset-input-box-r"
-                              placeholder="New Password"
+                              placeholder="Enter your password"
                               autoFocus
                               required />
                             <span>
-                              <input type="submit" className="btn btn-primary btn-text-r" name=""
-                                value="Login" />
+                              <button className="btn btn-primary btn-text-r">Login</button>
                             </span>
                           </form>
                           <p className="forgot-password-r" onClick={this.forgotPassword}>Forgot Password ?</p>

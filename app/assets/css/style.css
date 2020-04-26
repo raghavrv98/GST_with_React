@@ -152,6 +152,12 @@ body {
 	cursor: pointer;
 }
 
+.error-msg-r{
+	margin: 0px auto 5px !important;
+	color:#f06d46 !important;
+	font-size: 15px !important;
+}
+
 
 	/* delete icon css */
 	.delete-icon-r {

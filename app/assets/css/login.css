@@ -35,7 +35,7 @@
 }
 
 .forgot-msg-r{
-color: black;
+color: #f06d46;
 margin-bottom: 10px;
 
 }
@@ -83,7 +83,7 @@ margin-bottom: 10px;
 	}
 
 	.login-title-r{
-		margin-bottom: 20px;
+		margin-bottom: 15px;
 		font-size: 30px;
 		color: #f06d46;
 	}

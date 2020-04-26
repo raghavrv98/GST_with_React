@@ -4,19 +4,12 @@ import { NavLink } from 'react-router-dom';
 /* eslint-disable react/prefer-stateless-function */
 class Header extends React.Component {
   state = {
-    isUserLogin: false,
-    isTraderLogin: false,
     isResetModal: false,
     payload: {
       oldPassword: '',
       newPassword: '',
     },
   };
-
-  componentWillMount() {
-    localStorage.setItem('User', 'test');
-    localStorage.setItem('Trader', 'trader1');
-  }
 
   nameChangeHandler = event => {
     let payload = JSON.parse(JSON.stringify(this.state.payload));
@@ -46,41 +39,9 @@ class Header extends React.Component {
     });
   };
 
-  userLogin = () => {
-    event.preventDefault();
-    if (localStorage.getItem('User') == 'test') {
-      this.setState({
-        isUserLogin: true,
-      });
-    } else {
-      localStorage.setItem('User', 'test');
-      this.setState({
-        isUserLogin: true,
-      });
-    }
-  };
-
-  traderLogin = () => {
-    event.preventDefault();
-    if (localStorage.getItem('Trader') == 'trader1') {
-      this.setState({
-        isTraderLogin: true,
-      });
-    } else {
-      localStorage.setItem('Trader', 'trader1');
-      this.setState({
-        isTraderLogin: true,
-      });
-    }
-  };
-
   userLogout = () => {
     event.preventDefault();
-    localStorage.clear();
-    this.setState({
-      isUserLogin: false,
-      isTraderLogin: false,
-    });
+    sessionStorage.clear();
   };
 
   render() {
@@ -111,7 +72,7 @@ class Header extends React.Component {
               </NavLink>
             </div>
 
-            {this.state.isUserLogin || this.state.isTraderLogin ? (
+            { sessionStorage.getItem('user') || sessionStorage.getItem('trader') ? (
               <div
                 className="collapse navbar-collapse"
                 id="bs-example-navbar-collapse-1"
@@ -162,30 +123,30 @@ class Header extends React.Component {
                   >
                     Home
                   </NavLink>
-                  <NavLink
+                  {/* <NavLink
                     className="navbar-brand text-color-r"
                     onClick={this.userLogin}
                     exact
                     to="/user"
                   >
                     User
-                  </NavLink>
-                  <NavLink
+                  </NavLink> */}
+                  {/* <NavLink
                     className="navbar-brand text-color-r"
                     onClick={this.traderLogin}
                     exact
                     to="/trader"
                   >
                     Trader
-                  </NavLink>
-                  <NavLink
+                  </NavLink> */}
+                  {/* <NavLink
                     className="navbar-brand text-color-r"
                     onClick={this.traderLogin}
                     exact
                     to="/userDetails"
                   >
                     UserDetails
-                  </NavLink>
+                  </NavLink> */}
                   <NavLink
                     className="navbar-brand text-color-r"
                     exact
