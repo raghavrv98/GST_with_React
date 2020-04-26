@@ -18,6 +18,7 @@ import makeSelectTrader from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+import ConfirmModal from '../../components/ConfirmModal/Loadable'
 
 
 /* eslint-disable react/prefer-stateless-function */
@@ -289,7 +290,28 @@ this.setState({
       reactTableData
     })
   }
-    
+  
+  confirmModalHandler = () => {
+    this.setState({
+      isConfirmModal: true
+    })
+  }
+
+  modalCloseHandler = () => {
+    this.setState({
+      isConfirmModal: false,
+      isResetModal : false
+    })
+  }
+
+  confirmDeleteData = (id) => {
+    event.preventDefault()
+    this.setState({
+      isConfirmModal: false
+    })
+  }
+
+
     render() {
       const columns = [{ 
         Header: 'Serial No.',
@@ -332,7 +354,7 @@ this.setState({
         (<div>
           <a className = "infoButton-r" onClick={() => { this.props.history.push('/userDetails/'+row.original.userId)}}><i class="fa fa-info" aria-hidden="true"></i></a>
           <span className = "editButton-r"><i className="fas fa-pen" /></span>
-          <a className="deleteButton-r" data-toggle="modal" data-dismiss="modal" data-target="#warningmsg"><i className="far fa-trash-alt" /></a>
+          <a className="deleteButton-r" onClick={this.confirmModalHandler} ><i className="far fa-trash-alt" /></a>
         </div>
         )
       },  
@@ -345,35 +367,10 @@ this.setState({
           <meta name="description" content="Description of Trader" />
         </Helmet>
 
-        <div className="container">
-		<div className="modal fade" id="resetPassword" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
-			<div className="modal-dialog modal-dialog-centered" role="document">
-				<div className="modal-content">
-					<div className="modal-header" style={{backgroundColor:"#f06d46"}}>
-						<span style={{color:"white"}}>Reset Password</span>
-						<button type="button" className="close" data-dismiss="modal" aria-label="Close"><i
-								className="fa fa-times" aria-hidden="true"></i></button>
-					</div>
-
-					<div className="modal-body,input-group input-group-lg">
-						<div className="reset-form-padding-r">
-							<form method="post" action="user.html">
-								<input type="text" name="oldPassword" className="form-control reset-input-box-r"
-									placeholder="Old Password" required/>
-								<input type="text" name="NewPassword" className="form-control reset-input-box-r"
-									placeholder="New Password" required/>
-								<span>
-									<input type="submit" className="btn btn-primary btn-lg btn-block reset-button-r" name=""
-										value="Reset"/>
-								</span>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
+        {this.state.isConfirmModal ? <ConfirmModal
+          onClose={this.modalCloseHandler}
+          onConfirm={() => this.confirmDeleteData("1")}
+        /> : null}
 
   <div className="container">
 		<div className="modal fade" id="statusPassword" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -387,7 +384,7 @@ this.setState({
 
 					<div className="modal-body,input-group input-group-lg">
 						<div className="reset-form-padding-r">
-							<form method="post" action="user.html">
+               <form method="post" action="user.html">
 								<input type="text" name="NewPassword" className="form-control reset-input-box-r"
 									placeholder="Status Password" required/>
 								<span>
@@ -502,29 +499,6 @@ this.setState({
 			</div>
 		</div>
 	</div>
-  <nav className="navbar navbar-default nav-bar-r">
-  <div className="container-fluid">
-    {/* <!-- Brand and toggle get grouped for better mobile display --> */}
-    <div className="navbar-header">
-      <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span className="sr-only">Toggle navigation</span>
-        <span className="icon-bar"></span>
-        <span className="icon-bar"></span>
-        <span className="icon-bar"></span>
-      </button>
-      <a style={{marginLeft: "44px"}} onClick={() => { this.props.history.push('/')}} className="navbar-brand">Brand</a>
-    </div>
-
-    {/* <!-- Collect the nav links, forms, and other content for toggling --> */}
-    <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <ul className="nav navbar-nav navbar-right">
-    <li><a style={{ marginTop: "-10px", color: "#255b7a"}} data-toggle="modal" data-target="#resetPassword" className="navbar-brand">Reset Password</a></li>
-    <li><a style={{ marginTop: "-10px", color: "#255b7a"}} onClick={() => { this.props.history.push('/')}} className="navbar-brand">Logout</a></li>
-            </ul>
-    </div>
-  </div>
-</nav>
-
   <div className="container outer-box-r">
 <div className="container filter-year-month-r">
   <div style={{marginBottom: "20px"}} className="row">
@@ -663,41 +637,6 @@ this.state.filteredData && this.state.filteredData.length > 0  || this.state.fil
   //   </div> */}
 
 </div>
-
-        {/* <!--warning message start--> */}
-        <div>
-          <div className="modal fade" id="warningmsg" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div className="modal-dialog" role="document">
-              <div className="modal-content">
-                <div className="delete-modal-padding-r">
-                  <form method="post" action="/login">
-                    <p className="warning-msg-r">Are you sure want to delete ?</p>
-                    <div className="icon-margin-r">
-                      <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <span>
-                          <a style={{ cursor: "pointer" }} data-dismiss="modal"><i className="fa fa-times"
-                            style={{ fontSize: '30px', color: "red" }}></i></a>
-                        </span>
-                      </div>
-                      <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <span>
-                          <a href="user.html" style={{ cursor: "pointer" }}><i className="fa fa-check"
-                            style={{ fontSize: '30px', color: "green" }}></i></a>
-                        </span>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* <!--warning message end--> */}
-
-<a style={{backgroundColor: "#255b7a", borderRadius: '50%'}} id="scroll-top" className=""><i className="fa fa-angle-double-up"
-  aria-hidden="true"></i></a>
-
-
       </div>
     );
   }

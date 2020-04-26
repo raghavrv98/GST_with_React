@@ -95,77 +95,6 @@ export class User extends React.Component {
           <meta name="description" content="Description of User" />
         </Helmet>
 
-        {/* <!-- reset password modal start --> */}
-      { this.state.isResetModal ?
-        <div className="container">
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div className="modal-content">
-                <div className="modal-header" style={{ backgroundColor: "#f06d46" }}>
-                  <span style={{ color: "white" }}>Reset Password</span>
-                  <button type="button" className="close" onClick={this.modalCloseHandler} aria-label="Close"><i
-                    className="fa fa-times" aria-hidden="true"></i></button>
-                </div>
-
-                <div className="modal-body,input-group input-group-lg">
-                  <div className="reset-form-padding-r">
-                    <form onSubmit={this.resetPassword}>
-                      <input type="text" 
-                             value={this.state.payload.oldPassword}
-                             onChange={this.nameChangeHandler} 
-                             id="oldPassword" 
-                             className="form-control reset-input-box-r"
-                             placeholder="Old Password" 
-                             autoFocus 
-                             required />
-                      <input type="password" 
-                             value={this.state.payload.newPassword}
-                             onChange={this.nameChangeHandler} 
-                             id="newPassword" 
-                             className="form-control reset-input-box-r"
-                             placeholder="New Password" 
-                             autoFocus 
-                             required />
-                      <div className="text-align-center-r">
-                      <input type="submit" className="btn btn-primary btn-text-r" name="" value="Reset" />
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-        </div> : null
-  }
-        {/* <!-- reset password modal end --> */}
-
-
-        {/* <!--warning message start--> */}
-        <div>
-          <div className="modal fade" id="warningmsg" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div className="modal-dialog" role="document">
-              <div className="modal-content">
-                <div className="delete-modal-padding-r">
-                  <form method="post" action="/login">
-                    <p className="warning-msg-r">Are you sure want to delete ?</p>
-                    <div className="icon-margin-r">
-                      <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <span>
-                          <p className="margin-0-r cross-r" data-dismiss="modal"><i className="fa fa-times"></i></p>
-                        </span>
-                      </div>
-                      <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                      <span>
-                          <p className="margin-0-r check-r" data-dismiss="modal"><i className="fa fa-check"></i></p>
-                        </span>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* <!--warning message end--> */}
-
         {/* <!--view Reports for user modal start--> */}
 
         <div className="container">
@@ -221,29 +150,6 @@ export class User extends React.Component {
 
         {/* <!--view Reports for user download modal end--> */}
 
-        <nav className="navbar navbar-default nav-bar-r">
-          <div className="container-fluid">
-            {/* <!-- Brand and toggle get grouped for better mobile display --> */}
-            <div className="navbar-header">
-              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span className="sr-only">Toggle navigation</span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-              </button>
-              <a style={{ marginLeft: "44px" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">Brand</a>
-            </div>
-
-            {/* <!-- Collect the nav links, forms, and other content for toggling --> */}
-            <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <ul className="nav navbar-nav navbar-right">
-                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={this.resetPasswordHandler} className="navbar-brand">Reset Password</a></li>
-                <li><a style={{ marginTop: "-10px", color: "#255b7a" }} onClick={() => { this.props.history.push('/') }} className="navbar-brand">Logout</a></li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-        
         {this.state.isConfirmModal ? <ConfirmModal
           onClose={this.modalCloseHandler}
           onConfirm={() => this.confirmDeleteData("1")}
