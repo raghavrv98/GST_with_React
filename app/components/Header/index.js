@@ -78,20 +78,13 @@ class Header extends React.Component {
                 id="bs-example-navbar-collapse-1"
               >
                 <ul className="nav navbar-nav navbar-right">
-                  <NavLink
+                 { sessionStorage.getItem("id") ? null : <NavLink
                     className="navbar-brand text-color-r"
                     exact
-                    to="/aboutUs"
+                    to="/addOrEditUser"
                   >
-                    AboutUs
-                  </NavLink>
-                  <NavLink
-                    className="navbar-brand text-color-r"
-                    exact
-                    to="/contact"
-                  >
-                    Contact
-                  </NavLink>
+                    New Registraion
+                  </NavLink>}
                   <NavLink
                     className="navbar-brand text-color-r"
                     onClick={this.resetPasswordHandler}
@@ -123,30 +116,6 @@ class Header extends React.Component {
                   >
                     Home
                   </NavLink>
-                  {/* <NavLink
-                    className="navbar-brand text-color-r"
-                    onClick={this.userLogin}
-                    exact
-                    to="/user"
-                  >
-                    User
-                  </NavLink> */}
-                  {/* <NavLink
-                    className="navbar-brand text-color-r"
-                    onClick={this.traderLogin}
-                    exact
-                    to="/trader"
-                  >
-                    Trader
-                  </NavLink> */}
-                  {/* <NavLink
-                    className="navbar-brand text-color-r"
-                    onClick={this.traderLogin}
-                    exact
-                    to="/userDetails"
-                  >
-                    UserDetails
-                  </NavLink> */}
                   <NavLink
                     className="navbar-brand text-color-r"
                     exact

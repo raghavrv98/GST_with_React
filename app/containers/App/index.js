@@ -21,7 +21,7 @@ import UserDetails from 'containers/UserDetails/Loadable'
 import Contact from 'containers/Contact/Loadable'
 import Services from 'containers/Services/Loadable'
 import AboutUs from 'containers/AboutUs/Loadable'
-
+import AddOrEditUser from 'containers/AddOrEditUser/Loadable'
 export default function App() {
   return (
     <div>
@@ -34,12 +34,13 @@ export default function App() {
       <Header/>
       <Switch>
       <Route exact path="/" component={HomePage} />
-        <Route path="/user" component={User} />
-        <Route path="/trader" component={Trader} />
-        <Route path="/userDetails/:id?" component={UserDetails} />
-        <Route path="/contact" component={Contact} />
-        <Route path="/services" component={Services} />
-        <Route path="/aboutUs" component={AboutUs} />
+        <Route exact path="/user" component={User} />
+        <Route exact path="/trader" component={Trader} />
+        <Route exact path="/userDetails/:id?" component={UserDetails} />
+        <Route exact path="/contact" component={Contact} />
+        <Route exact path="/services" component={Services} />
+        <Route exact path="/aboutUs" component={AboutUs} />
+        <Route exact path="/addOrEditUser/:id?" component={AddOrEditUser} />
         {/* <Route path="" component={NotFoundPage} /> */}
       </Switch>
       <Footer />

@@ -377,7 +377,7 @@ export class UserDetails extends React.Component {
 
         <div className="container">
           <div className="container outer-box-r">
-            <div className="container margin-top-25-r margin-10-r">
+            <div className="container margin-10-r">
               <div className="row">
                 <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-align-center-r">
                   <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
@@ -446,6 +446,8 @@ export class UserDetails extends React.Component {
                 }
                 loading={this.state.isFetching}
                 loadingText={"Loading ..."}
+                PreviousComponent={(props) => <button type="button"{...props}><i className="fas fa-angle-left"></i></button>}
+                NextComponent={(props) => <button type="button" {...props}><i className="fas fa-angle-right"></i></button>}
               />
             </div>
 

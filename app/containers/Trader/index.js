@@ -353,7 +353,7 @@ export class Trader extends React.Component {
       Cell: row =>
         (<div>
           <a className="infoButton-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}><i className="fa fa-info" aria-hidden="true"></i></a>
-          <span className="editButton-r"><i className="fas fa-pen" /></span>
+          <span className="editButton-r" onClick={() => { this.props.history.push('/addOrEditUser/' + row.original.userId) }}><i className="fas fa-pen" /></span>
           <a className="deleteButton-r" onClick={this.confirmModalHandler} ><i className="far fa-trash-alt" /></a>
         </div>
         )
@@ -398,107 +398,7 @@ export class Trader extends React.Component {
             </div>
           </div>
         </div>
-
-
-        <div className="container">
-          <div className="modal fade" id="registration" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div id="#registration" className="modal-content">
-                <div className="modal-header" style={{ backgroundColor: "#f06d46" }}>
-                  <span style={{ color: "white" }}>New Registration</span>
-                  <button type="button" className="close" data-dismiss="modal" aria-label="Close"><i
-                    className="fa fa-times" aria-hidden="true"></i></button>
-                </div>
-
-                <div className="modal-body,input-group input-group-lg registration-body-padding-r">
-                  <form method="post" action="trader.html">
-                    <div className="row registration-row-margin-r">
-                      <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <input type="text" name="name" className="form-control input-registration-r"
-                          placeholder="Name" required />
-                      </div>
-
-                      <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <input type="tel" name="phone" pattern="[1-9]{1}[0-9]{9}"
-                          title="Enter 10 digit mobile number" name="telephone"
-                          className="form-control input-registration-r" placeholder="Mobile" required />
-                      </div>
-                    </div>
-                    <div className="row registration-row-margin-r">
-                      <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <input type="email" name="email" className="form-control input-registration-r"
-                          placeholder="Email-Id" required />
-                      </div>
-                      <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <input type="text" name="pan" className="form-control input-registration-r"
-                          placeholder="PAN Number" required />
-                      </div>
-                    </div>
-                    <div className="row registration-row-margin-r">
-                      <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <input type="text" name="gst" className="form-control input-registration-r"
-                          placeholder="GST Number" required />
-                      </div>
-                      <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <input type="text" name="trade" className="form-control input-registration-r"
-                          placeholder="Trade Name" required />
-                      </div>
-                    </div>
-                    <div className="row registration-row-margin-r">
-                      <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <input type="text" name="principlePlace" className="form-control input-registration-r"
-                          placeholder="Principle Place Of Business" required />
-                      </div>
-                      <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <input type="text" name="additionalPlace" className="form-control input-registration-r"
-                          placeholder="Additional Place Of Business" required />
-                      </div>
-                    </div>
-                    <div className="row registration-row-margin-r">
-                      <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <select className="custom-select registration-dropdown-r" name="lectureId" required>
-                          <option value="">Constitution Type</option>
-                          <option value="2017">2017-2018</option>
-                          <option value="2018">2018-2019</option>
-                          <option value="2019">2019-2020</option>
-                          <option value="2020">2020-2021</option>
-                        </select>
-                      </div>
-                      <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <select className="custom-select registration-dropdown-r" name="lectureId" required>
-                          <option value="">Registration Type</option>
-                          <option value="2017">2017-2018</option>
-                          <option value="2018">2018-2019</option>
-                          <option value="2019">2019-2020</option>
-                          <option value="2020">2020-2021</option>
-                        </select>
-                      </div>
-                      <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <select className="custom-select registration-dropdown-r" name="lectureId" required>
-                          <option value="">Return Type</option>
-                          <option value="2017">2017-2018</option>
-                          <option value="2018">2018-2019</option>
-                          <option value="2019">2019-2020</option>
-                          <option value="2020">2020-2021</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                      <textarea className="form-control input-registration-r registration-row-margin-r"
-                        placeholder="Address" name="address" required rows="5">
-                      </textarea>
-                    </div>
-                    <span>
-                      <input type="submit"
-                        className="btn btn-primary btn-lg btn-block registration-submit-button-r" name=""
-                        value="Register" />
-                    </span>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        
         <div className="container outer-box-r">
           <div className="container filter-year-month-r">
             <div style={{ marginBottom: "20px" }} className="row">
@@ -557,6 +457,8 @@ export class Trader extends React.Component {
                 }
                 loading={this.state.isFetching}
                 loadingText={"Loading ..."}
+                PreviousComponent={(props) => <button type="button"{...props}><i className="fas fa-angle-left"></i></button>}
+                NextComponent={(props) => <button type="button" {...props}><i className="fas fa-angle-right"></i></button>}
               />
             </div>
           </div>

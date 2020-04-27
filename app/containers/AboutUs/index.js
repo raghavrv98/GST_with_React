@@ -30,9 +30,7 @@ export class AboutUs extends React.Component {
         </Helmet>
         <div className="container">
           <div className="aboutUs-form-r">
-            <p className="aboutUs-title-r">About Us</p>
-            {/* <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-        </div> */}
+            <p className="main-title-r">About Us</p>
             <div className="container">
               <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <p className="aboutUsTitle1-r">

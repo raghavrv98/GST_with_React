@@ -50,8 +50,8 @@ export class Contact extends React.Component {
         </Helmet>
         <div className="container">
           <div className="contact-form-r">
-            <p className="contact-title-r">Contact Us</p>
-            <div className="modal-body,input-group input-group-lg">
+            <p className="main-title-r">Contact Us</p>
+            <div className="modal-body,input-group input-group-lg margin-top-25-r">
               <form onSubmit={this.resetPassword}>
                 <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                   <input type="text"

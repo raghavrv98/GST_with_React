@@ -4,7 +4,6 @@
     .customReactTableBox {
         width: 100%;
         margin: 0 auto;
-        text-align: center;
     }
     .customReactTable.ReactTable {
         border: 0;
@@ -69,47 +68,56 @@
         cursor: default !important;
     }
     .customReactTable.ReactTable .-pagination {
+        border: none;
+        padding: 4px 8px;
+        align-items: center;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, .1);
+        border-radius: 6px;
         background-color: var(--white);
-        box-shadow: none;
-        border: 1px solid #f2f0f1;
-        padding: 5px;
-        border-radius: 3px;
     }
-    .customReactTable.ReactTable .-pagination .-btn {
-        background-color: var(--secondaryColor) !important;
-        opacity: 1 !important;
-        padding: 0;
-        position: relative !important;
-        width: 100px;
-        color: var(--labelColor);
+    
+    .customReactTable.ReactTable .-pagination .-previous button, .customReactTable.ReactTable .-pagination .-next button {
+        position: relative;
+        color: var(--white);
+        font-size: 16px;
+        padding: 6px 12px;
+        border-radius: 5px;
+        background-color: var(--secondaryColor);
+        text-transform: capitalize;
+        transition: all ease-in-out 0.3s;
+        cursor: pointer;
+        border: none;
+        box-shadow: 2px 2px 4px rgba(0,0,0,.2);
     }
-    .customReactTable.ReactTable .-pagination .-previous .-btn::before, .customReactTable.ReactTable .-pagination .-next .-btn::before {
-        content: "\2039";
-        font-size: 24px;
-        color: var(--labelColor) !important;
-        position: absolute;
-        top: 0;
-        left: 10px;
-        line-height: normal;
+    
+    .customReactTable.ReactTable .-pagination .-previous button:hover, .customReactTable.ReactTable .-pagination .-next button:hover {
+        transition: all ease-in-out 0.3s;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, .2);
     }
-    .customReactTable.ReactTable .-pagination .-previous .-btn {
-        margin-left: 10px;
-        padding-left: 20px;
+    
+    .customReactTable.ReactTable .-pagination .-next {
+        text-align: right;
     }
-    .customReactTable.ReactTable .-pagination .-next .-btn {
-        float: right;
-        margin-right: 10px;
-        padding-right: 20px;
+    
+    .customReactTable.ReactTable .-pagination .-previous {
+        text-align: left;
     }
-    .customReactTable.ReactTable .-pagination .-next .-btn::before {
-        content: "\203A";
-        right: 10px;
-        left: initial;
+    
+    .customReactTable.ReactTable .-pagination .-center {
+        justify-content: center
     }
-    .customReactTable.ReactTable .-pagination .-btn[disabled] {
-        opacity: 0.5 !important;
+    
+    .customReactTable.ReactTable .-pagination .-pageInfo, .customReactTable.ReactTable .-pagination input, .customReactTable.ReactTable .-pagination select {
+        color: var(--textColor);
+        font-size: 14px;
+        font-weight: 500;
+    }
+    
+    .customReactTable.ReactTable .-pagination button:disabled {
+        opacity: 0.5;
         cursor: not-allowed;
     }
+    
     .customReactTable.ReactTable .-loading {
         background: rgba(255, 255, 255, 0.8);
         z-index: 1;

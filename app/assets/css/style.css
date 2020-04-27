@@ -70,7 +70,7 @@ body {
 	padding: 0px !important;
 }
 
-.font-20-r{
+.font-20-r {
 	font-size: 20px !important;
 }
 
@@ -130,51 +130,57 @@ body {
 	margin: 0px auto 20px !important;
 }
 
-.image-center-r{
+.image-center-r {
 	display: flex;
 	justify-content: center;
 }
-.editButton-r{
+
+.editButton-r {
 	color: blue;
 	margin: 0px 7px;
 	cursor: pointer;
 }
 
-.infoButton-r{
+.infoButton-r {
 	color: blue;
 	margin: 0px 7px;
 	cursor: pointer;
 }
 
-.deleteButton-r{
+.deleteButton-r {
 	color: red;
 	margin: 0px 7px;
 	cursor: pointer;
 }
 
-.error-msg-r{
+.error-msg-r {
 	margin: 0px auto 5px !important;
-	color:#f06d46 !important;
+	color: #f06d46 !important;
 	font-size: 15px !important;
 }
 
+.delete-icon-r {
+	font-size: 20px;
+	margin: -10px;
+	color: black;
+	cursor: pointer;
+	position: absolute;
+}
 
-	/* delete icon css */
-	.delete-icon-r {
-		font-size: 20px;
-		margin: -10px;
-		color: black;
-		cursor: pointer;
-		position: absolute;
-	}
+.status-button-r {
+	visibility: visible !important;
+	height: 20px;
+	width: 20px;
+	position: relative !important;
+}
 
-	.status-button-r{
-		visibility: visible !important;
-		height: 20px;
-		width: 20px;
-		position: relative !important;
-	}
-	/* ----------------------- */
+.margin-top-b-25-r {
+	margin-top: 25px !important;
+}
+
+
+/* -------------------------------------------------------------------------------------------------------------------- */
+
 @media screen and (min-width: 480px) {
 	/* button class "btn btn-primary btn-text-r" */
 	.btn-text-r {
@@ -201,7 +207,7 @@ body {
 	/* --------------------------------------------------- */
 	/* outer-box css */
 	.outer-box-r {
-		padding: 0px 20px !important;
+		padding: 25px 20px !important;
 	}
 	/* ------------------------------ */
 	/* filter-year-month */
@@ -217,16 +223,30 @@ body {
 		width: 100%;
 	}
 	/* ---------------------- */
-
-	.margin-top-25-r{
+	.margin-top-25-r {
 		margin-top: 25px !important;
 	}
-
-	.font-30-r{
+	.font-30-r {
 		font-size: 30px !important;
 	}
-	
+
+	.main-title-r{
+		text-align: center;
+		font-size: 25px;
+		text-decoration: underline;
+        text-underline-position: under;
+		margin: 0px 0px 10px;
+    }
 }
+
+.inputBox-r{
+	height: 40px;
+    width: 100%;
+    color: black;
+    margin: 20px 0px 0px;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------------- */
 
 @media screen and (max-width:479px) {
 	/* button class "btn btn-primary btn-text-r" */
@@ -251,7 +271,7 @@ body {
 	/* --------------------------------------------------- */
 	/* outer-box css */
 	.outer-box-r {
-		padding: 0px !important;
+		padding: 0px 0px 50px !important;
 	}
 	/* --------------------------- */
 	/* filter-year-month */
@@ -267,13 +287,19 @@ body {
 		width: 100%;
 	}
 	/* --------------------- */
-
-	.font-11-r{
+	.font-11-r {
 		font-size: 11px !important;
 	}
-
-	.margin-10-r{
+	.margin-10-r {
 		margin: 10px 0px !important;
 	}
-	
+
+	.main-title-r{
+		margin: 5px 0px;
+		text-align: center;
+		font-size: 25px;
+		text-decoration: underline;
+		text-underline-position: under;
+    }
+    
 }
