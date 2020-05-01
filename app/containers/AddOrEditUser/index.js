@@ -81,7 +81,7 @@ export class AddOrEditUser extends React.Component {
         </Helmet>
         <div className="container outer-box-r">
           <div className="container">
-    <p className="main-title-r">{this.props.match.params.id ? "Edit User" : "Create User"}</p>
+    <p className="main-title-r">{this.props.match.params.id ? "Update User" : "Create User"}</p>
             <form onSubmit={this.SubmitUserHandler}>
               <div className="row">
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">

@@ -37,6 +37,7 @@ import'./assets/css/login.css';
 import'./assets/css/contactUs.css';
 import'./assets/css/aboutUs.css';
 import './assets/css/customReactTable.css';
+import './assets/css/admin.css';
 
 
 // Import i18n messages

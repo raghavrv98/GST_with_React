@@ -42,6 +42,7 @@ class Header extends React.Component {
   userLogout = () => {
     event.preventDefault();
     sessionStorage.clear();
+    localStorage.clear();
   };
 
   render() {
@@ -66,33 +67,60 @@ class Header extends React.Component {
               <NavLink
                 className="navbar-brand text-color-r"
                 exact
-                to="/"
+                to="#"
               >
                 GST
               </NavLink>
             </div>
 
-            { sessionStorage.getItem('user') || sessionStorage.getItem('trader') ? (
+            {sessionStorage.getItem('user') || sessionStorage.getItem('trader') || sessionStorage.getItem('admin') ? (
               <div
                 className="collapse navbar-collapse"
                 id="bs-example-navbar-collapse-1"
               >
                 <ul className="nav navbar-nav navbar-right">
-                 { sessionStorage.getItem("id") ? null : <NavLink
-                    className="navbar-brand text-color-r"
-                    exact
-                    to="/addOrEditUser"
-                  >
-                    New Registraion
-                  </NavLink>}
+                  {sessionStorage.getItem('trader') ?
+                    <NavLink
+                      className="navbar-brand text-color-r"
+                      exact
+                      to="/addOrEditUser"
+                    >
+                      New User
+                  </NavLink>
+                    : null
+                  }
+                  {sessionStorage.getItem('admin') ?
+                    <React.Fragment>
+
+                      <NavLink
+                        className="navbar-brand text-color-r"
+                        exact
+                        to="/manageTrader"
+                      >
+                        Manage Trader
+                  </NavLink>
+
+                      <NavLink
+                        className="navbar-brand text-color-r"
+                        exact
+                        to="/addOrEditTrader"
+                      >
+                        New Trader
+                  </NavLink>
+                    </React.Fragment>
+
+
+                    : null
+                  }
                   <NavLink
                     className="navbar-brand text-color-r"
                     onClick={this.resetPasswordHandler}
                     exact
-                    to="/user"
+                    to="#"
                   >
                     Reset Password
                   </NavLink>
+
                   <NavLink
                     className="navbar-brand text-color-r"
                     onClick={this.userLogout}
@@ -104,35 +132,35 @@ class Header extends React.Component {
                 </ul>
               </div>
             ) : (
-              <div
-                className="collapse navbar-collapse"
-                id="bs-example-navbar-collapse-1"
-              >
-                <ul className="nav navbar-nav navbar-right">
-                <NavLink
-                    className="navbar-brand text-color-r"
-                    exact
-                    to="/"
-                  >
-                    Home
+                <div
+                  className="collapse navbar-collapse"
+                  id="bs-example-navbar-collapse-1"
+                >
+                  <ul className="nav navbar-nav navbar-right">
+                    <NavLink
+                      className="navbar-brand text-color-r"
+                      exact
+                      to="/"
+                    >
+                      Home
                   </NavLink>
-                  <NavLink
-                    className="navbar-brand text-color-r"
-                    exact
-                    to="/aboutUs"
-                  >
-                    AboutUs
+                    <NavLink
+                      className="navbar-brand text-color-r"
+                      exact
+                      to="/aboutUs"
+                    >
+                      AboutUs
                   </NavLink>
-                  <NavLink
-                    className="navbar-brand text-color-r"
-                    exact
-                    to="/contact"
-                  >
-                    ContactUs
+                    <NavLink
+                      className="navbar-brand text-color-r"
+                      exact
+                      to="/contact"
+                    >
+                      ContactUs
                   </NavLink>
-                </ul>
-              </div>
-            )}
+                  </ul>
+                </div>
+              )}
           </div>
         </nav>
         {/* <!-- reset password modal start --> */}

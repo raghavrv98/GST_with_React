@@ -37,7 +37,11 @@
 .forgot-msg-r{
 color: #f06d46;
 margin-bottom: 10px;
+}
 
+
+.outer-box-login-r{
+	padding: 0px !important;
 }
 
 @media screen and (min-width: 480px) {
