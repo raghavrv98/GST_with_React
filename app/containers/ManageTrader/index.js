@@ -209,18 +209,31 @@ export class ManageTrader extends React.Component {
       userBills: []
     }],
     payload: {
-      year: "",
-      month: "",
-      userType: "",
+      year: "2020",
+      month: "january",
+      userType: "all",
     },
     filteredData: [],
     reactTableData: [],
-    isFetching: false
-
+    isFetching: false,
+    showHideClassName: 'modal display-none container',
   }
 
   componentWillMount() {
     setTimeout(this.loadingTime, 500);
+    let filteredData = JSON.parse(JSON.stringify(this.state.traderList))
+    var reactTableData = filteredData.map(val => {
+      return {
+        userId: val.userId,
+        traderId: val.traderDetails.traderId,
+        name: val.traderDetails.name,
+        mobileNumber: val.traderDetails.mobileNumber,
+        status: val.traderDetails.status
+      }
+    })
+    this.setState({
+      reactTableData
+    })
   }
 
   loadingTime = () => {
@@ -271,10 +284,9 @@ export class ManageTrader extends React.Component {
 
       else
         filteredData = []
-      payload.year = ""
-      payload.month = ""
-    }
-
+        payload.year = ""
+        payload.month = ""
+      }
     var reactTableData = filteredData.map(val => {
       return {
         userId: val.userId,
@@ -291,23 +303,29 @@ export class ManageTrader extends React.Component {
     })
   }
 
-  confirmModalHandler = () => {
+  confirmModalHandler = (event) => {
+    let id = event.target.id
     this.setState({
-      isConfirmModal: true
+      showHideClassName: 'modal display-block container',
+      deleteId: id,
+      deleteName: name
     })
   }
 
   modalCloseHandler = () => {
     this.setState({
-      isConfirmModal: false,
-      isResetModal: false
+      isResetModal: false,
+      showHideClassName: 'modal display-none container',
+      deleteId: "",
+      deleteName: ""
     })
   }
+
 
   confirmDeleteData = (id) => {
     event.preventDefault()
     this.setState({
-      isConfirmModal: false
+      showHideClassName: 'modal display-none container',
     })
   }
 
@@ -366,10 +384,12 @@ export class ManageTrader extends React.Component {
           <title>ManageTrader</title>
           <meta name="description" content="Description of ManageTrader" />
         </Helmet>
-        {this.state.isConfirmModal ? <ConfirmModal
+
+        <ConfirmModal
+          showHideClassName={this.state.showHideClassName}
           onClose={this.modalCloseHandler}
-          onConfirm={() => this.confirmDeleteData("1")}
-        /> : null}
+          onConfirm={() => this.confirmDeleteData(this.state.deleteId, this.state.deleteName)}
+        />
 
         <div className="container">
           <div className="modal fade" id="statusPassword" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -446,6 +466,7 @@ export class ManageTrader extends React.Component {
           </div>
           <div className="container">
             <div className="customReactTableBox">
+              {console.log('{this.state.reactTableData}: ', this.state.reactTableData)}
               <ReactTable
                 className="customReactTable"
                 data={this.state.reactTableData}

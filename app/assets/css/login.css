@@ -2,20 +2,21 @@
 	position: relative;
 	background: url('../img/main-banner.jpg') center;
 	background-size: cover;
-	height: 674px !important;
+	height: 725px !important;
 }
 
 .nav-bar-r{
-	position: sticky !important;
+	position: fixed !important;
 		top: 0 !important;
 		z-index: 1000 !important;
 		background-color: #F9FDFE !important;
 		margin: auto;
+		width: 100% !important;
 }
 
 .loginLayout-r {
 	background-color: rgba(0, 0, 0, .4);
-	height: 674px;
+	height: 725px;
 }
 
 .text-center-r{
@@ -47,12 +48,12 @@ margin-bottom: 10px;
 @media screen and (min-width: 480px) {
 
 	.vertical-align-title-r{
-		padding: 148px 0;
+		padding: 188px 0;
 		text-align: center;
 	}
 	
 	.vertical-align-login-r{
-		padding: 187px 0;
+		padding: 226px 0;
 		text-align: center;
 	}
 

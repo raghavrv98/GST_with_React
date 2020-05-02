@@ -24,6 +24,7 @@ import ManageTrader from 'containers/ManageTrader/Loadable'
 import ManageUser from 'containers/ManageUser/Loadable'
 import Admin from 'containers/Admin/Loadable'
 import LoginPage from 'containers/LoginPage/Loadable'
+import ManageUserReports from 'containers/ManageUserReports/Loadable'
 
 export default function App() {
   return (
@@ -47,6 +48,7 @@ export default function App() {
         <Route exact path="/manageTrader" component={ManageTrader} />
         <Route exact path="/manageUser/:id?" component={ManageUser} />
         <Route exact path="/admin" component={Admin} />
+        <Route exact path="/manageUserReports" component={ManageUserReports} />
         {/* <Route path="" component={NotFoundPage} /> */}
       </Switch>
       <Footer />

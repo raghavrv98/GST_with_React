@@ -24,7 +24,7 @@ import ConfirmModal from '../../components/ConfirmModal/Loadable'
 export class ManageUser extends React.Component {
 
   state = {
-    traderList: [{
+    userList: [{
       "userId": 1,
       "userDetails": {
         "year": "2017",
@@ -209,18 +209,36 @@ export class ManageUser extends React.Component {
       userBills: []
     }],
     payload: {
-      year: "",
-      month: "",
-      userType: "",
+      year: "2020",
+      month: "january",
+      userType: "all",
+    },
+    statusPayload : {
+      id : "",
+      Password:""
     },
     filteredData: [],
     reactTableData: [],
-    isFetching: false
+    isFetching: false,
+    showHideClassName: 'modal display-none container',
 
   }
 
   componentWillMount() {
     setTimeout(this.loadingTime, 500);
+    let filteredData = JSON.parse(JSON.stringify(this.state.userList))
+    var reactTableData = filteredData.map(val => {
+      return {
+        userId: val.userId,
+        clientId: val.userDetails.clientId,
+        tradeName: val.userDetails.tradeName,
+        legalName: val.userDetails.tradeName,
+        status: val.userDetails.status
+      }
+    })
+    this.setState({
+      reactTableData
+    })
   }
 
   loadingTime = () => {
@@ -234,22 +252,22 @@ export class ManageUser extends React.Component {
     let payload = JSON.parse(JSON.stringify(this.state.payload))
     payload[event.target.id] = event.target.value
     if (event.target.id == "year") {
-      filteredData = this.state.traderList.filter(val => val.userDetails.year == event.target.value);
+      filteredData = this.state.userList.filter(val => val.userDetails.year == event.target.value);
       payload.month = ""
       payload.userType = ""
     }
     else if (event.target.id == "month") {
-      filteredData = this.state.traderList.filter(val => val.userDetails.month == event.target.value);
+      filteredData = this.state.userList.filter(val => val.userDetails.month == event.target.value);
       payload.year = ""
       payload.userType = ""
     }
     else if (event.target.id == "userType") {
       if (event.target.value == "completed" || event.target.value == "pending") {
-        filteredData = this.state.traderList.filter(val => val.userDetails.status == event.target.value);
+        filteredData = this.state.userList.filter(val => val.userDetails.status == event.target.value);
       }
 
       else if (event.target.value == "active" || event.target.value == "inActive") {
-        filteredData = this.state.traderList.filter(val => val.userDetails.state == event.target.value);
+        filteredData = this.state.userList.filter(val => val.userDetails.state == event.target.value);
       }
 
       else if (event.target.value == "withData" || event.target.value == "withoutData") {
@@ -257,17 +275,17 @@ export class ManageUser extends React.Component {
         if (event.target.value == "withData") {
           filteredData = this.state.reports.map(val => { if (val.userBills.length > 0) return val.userId });
           filteredData = filteredData.filter(val => { if (val != undefined) return val });
-          filteredData = this.state.traderList.filter(val => filteredData.includes(val.userId))
+          filteredData = this.state.userList.filter(val => filteredData.includes(val.userId))
         }
         else {
           filteredData = this.state.reports.map(val => { if (val.userBills.length == 0) return val.userId });
           filteredData = filteredData.filter(val => { if (val != undefined) return val });
-          filteredData = this.state.traderList.filter(val => filteredData.includes(val.userId))
+          filteredData = this.state.userList.filter(val => filteredData.includes(val.userId))
         }
 
       }
       else if (event.target.value == "all")
-        filteredData = this.state.traderList;
+        filteredData = this.state.userList;
 
       else
         filteredData = []
@@ -291,16 +309,23 @@ export class ManageUser extends React.Component {
     })
   }
 
-  confirmModalHandler = () => {
+  confirmModalHandler = (event) => {
+    let id = event.target.id
+    console.log('id: ', id);
+    let name = event.target.name
     this.setState({
-      isConfirmModal: true
+      showHideClassName: 'modal display-block container',
+      deleteId: id,
+      deleteName: name
     })
   }
 
   modalCloseHandler = () => {
     this.setState({
-      isConfirmModal: false,
-      isResetModal: false
+      isResetModal: false,
+      showHideClassName: 'modal display-none container',
+      deleteId: "",
+      deleteName: ""
     })
   }
 
@@ -308,6 +333,28 @@ export class ManageUser extends React.Component {
     event.preventDefault()
     this.setState({
       isConfirmModal: false
+    })
+  }
+
+  statusHandler = (event) => {
+    let id = event.target.id
+    this.setState({
+      showHideClassName: 'modal display-block container',
+      statusId: id,
+    })
+  }
+
+  statusChangeHandler = event => {
+    let statusPayload = JSON.parse(JSON.stringify(this.state.statusPayload));
+    statusPayload[event.target.id] = event.target.value;
+    this.setState({
+      statusPayload,
+    });
+  };
+
+  submitStatusChangeHandler = (statusPayload) => {
+    event.preventDefault()
+    this.setState({
     })
   }
 
@@ -342,7 +389,7 @@ export class ManageUser extends React.Component {
       Cell: row =>
         (
           <div>
-            <input checked={row.original.status == "completed"} data-toggle="modal" data-target="#statusPassword" className="status-button-r" type="checkbox" />
+            <input id={row.original.userId} onChange={this.statusHandler} checked={row.original.status == "completed"} className="status-button-r" type="checkbox" />
           </div>
         )
     },
@@ -354,7 +401,7 @@ export class ManageUser extends React.Component {
         (<div>
           <a className="infoButton-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}><i className="fa fa-info" aria-hidden="true"></i></a>
           <span className="editButton-r" onClick={() => { this.props.history.push('/addOrEditUser/' + row.original.userId) }}><i className="fas fa-pen" /></span>
-          <a className="deleteButton-r" onClick={this.confirmModalHandler} ><i className="far fa-trash-alt" /></a>
+          <button id={row.original.userId} onClick={this.confirmModalHandler} className="deleteButton-r far fa-trash-alt"></button>
         </div>
         )
     },
@@ -366,29 +413,39 @@ export class ManageUser extends React.Component {
           <meta name="description" content="Description of ManageUser" />
         </Helmet>
 
-        {this.state.isConfirmModal ? <ConfirmModal
+        <ConfirmModal
+          showHideClassName={this.state.showHideClassName}
           onClose={this.modalCloseHandler}
-          onConfirm={() => this.confirmDeleteData("1")}
-        /> : null}
+          onConfirm={() => this.confirmDeleteData(this.state.deleteId, this.state.deleteName)}
+        />
 
-        <div className="container">
-          <div className="modal fade" id="statusPassword" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div className={this.state.showHideClassName} >
             <div className="modal-dialog modal-dialog-centered" role="document">
               <div className="modal-content">
                 <div className="modal-header" style={{ backgroundColor: "#f06d46" }}>
                   <span style={{ color: "white" }}>Status Password</span>
-                  <button type="button" className="close" data-dismiss="modal" aria-label="Close"><i
-                    className="fa fa-times" aria-hidden="true"></i></button>
+                  <button
+                    type="button"
+                    className="close"
+                    onClick={this.modalCloseHandler}
+                    aria-label="Close"
+                  >
+                    <i className="fa fa-times" aria-hidden="true" />
+                  </button>
                 </div>
 
                 <div className="modal-body,input-group input-group-lg">
                   <div className="reset-form-padding-r">
-                    <form method="post" action="user.html">
-                      <input type="text" name="NewPassword" className="form-control reset-input-box-r"
-                        placeholder="Status Password" required />
+                    <form onSubmit={this.submitStatusChangeHandler}>
+                      <input type="text"
+                             value={this.state.status} 
+                             id="status"
+                             className="form-control reset-input-box-r"
+                             placeholder="Status Password" 
+                             onChange={this.statusChangeHandler}
+                             required />
                       <div className="text-align-center-r">
-                        <input type="submit" className="btn btn-primary btn-text-r" name=""
-                          value="Submit" />
+                        <button className="btn btn-primary btn-text-r">Submit</button>
                       </div>
                     </form>
                   </div>
@@ -396,7 +453,7 @@ export class ManageUser extends React.Component {
               </div>
             </div>
           </div>
-        </div>
+
         
         <div className="container outer-box-r">
           <div className="container filter-year-month-r">
