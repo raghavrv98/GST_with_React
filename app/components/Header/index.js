@@ -9,6 +9,7 @@ class Header extends React.Component {
       oldPassword: '',
       newPassword: '',
     },
+    showHideClassName : 'modal display-none container'
   };
 
   nameChangeHandler = event => {
@@ -23,12 +24,14 @@ class Header extends React.Component {
     this.setState({
       isConfirmModal: false,
       isResetModal: false,
+      showHideClassName : 'modal display-none container'
     });
   };
 
   resetPasswordHandler = () => {
     this.setState({
       isResetModal: true,
+      showHideClassName : 'modal display-block container'
     });
   };
 
@@ -36,6 +39,7 @@ class Header extends React.Component {
     event.preventDefault();
     this.setState({
       isResetModal: false,
+      showHideClassName : 'modal display-none container'
     });
   };
 
@@ -163,9 +167,10 @@ class Header extends React.Component {
               )}
           </div>
         </nav>
+
         {/* <!-- reset password modal start --> */}
-        {this.state.isResetModal ? (
-          <div className="container">
+
+        <div className={this.state.showHideClassName} >
             <div className="modal-dialog modal-dialog-centered" role="document">
               <div className="modal-content">
                 <div
@@ -219,7 +224,7 @@ class Header extends React.Component {
               </div>
             </div>
           </div>
-        ) : null}
+
         {/* <!-- reset password modal end --> */}
       </div>
     );
