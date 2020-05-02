@@ -63,7 +63,12 @@ export class UserDetails extends React.Component {
     ],
     filteredData: [],
     reactTableData: [],
-    isFetching: false
+    isFetching: false,
+    uploadGstReports : [],
+    uploadDailyReports : [],
+    showHideClassName: 'modal display-none container',
+    outputImage :"",
+    id:""
   }
 
   componentWillMount() {
@@ -87,11 +92,53 @@ export class UserDetails extends React.Component {
     })
   }
 
-  loadFile = () => {
-    var output = document.getElementById('output');
-    output.src = URL.createObjectURL(event.target.files[0]);
+  loadFile = (event) => {
+    let id = event.target.id;
+    console.log('id: ', id);
+      var output = document.getElementById('output');
+      output.src = URL.createObjectURL(event.target.files[0]);
+      this.setState({
+        outputImage: output.src,
+        showHideClassName: 'modal display-block container',
+        id
+      })
   };
 
+uploadFileHandler = () =>{
+  event.preventDefault()
+  let id = this.state.id
+  if(id==="gst"){
+    let uploadGstReports = JSON.parse(JSON.stringify(this.state.uploadGstReports))
+    uploadGstReports.push(this.state.outputImage)
+    var output = document.getElementById('output');
+    output.src = "";
+    console.log('uploadGstReports: ', uploadGstReports);
+    this.setState({
+      uploadGstReports,
+      showHideClassName: 'modal display-none container',
+    })
+  }
+  else if(id==="daily"){
+    let uploadDailyReports = JSON.parse(JSON.stringify(this.state.uploadDailyReports))
+    uploadDailyReports.push(this.state.outputImage)
+    var output = document.getElementById('output');
+    output.src = "";
+    console.log('uploadDailyReports: ', uploadDailyReports);
+    this.setState({
+      uploadDailyReports,
+      showHideClassName: 'modal display-none container',
+    })
+  }
+  }
+
+  modalCloseHandler = () => {
+    var output = document.getElementById('output');
+    output.src = "";
+    this.setState({
+      isResetModal: false,
+      showHideClassName: 'modal display-none container',
+    })
+  }
 
   render() {
     const columns = [
@@ -104,6 +151,7 @@ export class UserDetails extends React.Component {
         Header: 'Date',
         // accessor: 'timestamp',
         // filterable: true,
+        sortable: false,
         Cell: row => (this.state.filteredData[0].timestamp ? moment(row.original.timestamp).format("DD MMM YYYY HH:mm") : '-')
       },
       {
@@ -112,8 +160,7 @@ export class UserDetails extends React.Component {
         sortable: false,
         // filterable: true,
         Cell: row =>
-          <div className="counter-box-r"><a data-toggle="modal"
-            data-target="#openBills">{(row.original.purchaseBills.length) + "/" + (row.original.purchaseBills.length)}</a></div>
+        <span className="view-reports-r" onClick={()=>{this.props.history.push('/userBillDetails/purchaseBills')}}>{(row.original.purchaseBills.length) + "/" + (row.original.purchaseBills.length)}</span>
       },
       {
         Header: 'Sale Bills',
@@ -121,8 +168,7 @@ export class UserDetails extends React.Component {
         sortable: false,
         // filterable: true,
         Cell: row =>
-          <div className="counter-box-r"><a data-toggle="modal"
-            data-target="#openBills">{(row.original.saleBills.length) + "/" + (row.original.saleBills.length)}</a></div>
+        <span className="view-reports-r" onClick={()=>{this.props.history.push('/userBillDetails/saleBills')}}>{(row.original.saleBills.length) + "/" + (row.original.saleBills.length)}</span>
       },
       {
         Header: 'Other',
@@ -130,8 +176,7 @@ export class UserDetails extends React.Component {
         sortable: false,
         // filterable: true,
         Cell: row =>
-          <div className="counter-box-r"><a data-toggle="modal"
-            data-target="#openBills">{(row.original.other.length) + "/" + (row.original.other.length)}</a></div>
+        <span className="view-reports-r" onClick={()=>{this.props.history.push('/userBillDetails/other')}}>{(row.original.other.length) + "/" + (row.original.other.length)}</span>
       },
       {
         Header: 'Daily Reports',
@@ -141,7 +186,7 @@ export class UserDetails extends React.Component {
         Cell: row =>
           (
             <div>
-              <a className="view-reports-r" data-toggle="modal" data-target="#openmodal"><u>view</u></a>
+              <p className="view-reports-r" onClick={()=>{this.props.history.push('/manageTraderReports/daily')}}>View</p>
             </div>
           )
       },
@@ -160,11 +205,9 @@ export class UserDetails extends React.Component {
                 type="file"
                 required />
 
-              <div><button type="button" data-toggle="modal" data-target="#browseModal" className="btn btn-primary btn-text-r">
+              <div><button type="button" className="btn btn-primary btn-text-r">
                 <label className="cursor-pointer-r margin-0-r" htmlFor="daily">Browse</label>
               </button></div>
-
-              {/* <input checked={row.original.status == "completed"} data-toggle="modal" data-target="#statusPassword" className="status-button-r" type="checkbox"/> */}
             </div>
           )
       },
@@ -176,56 +219,31 @@ export class UserDetails extends React.Component {
           <meta name="description" content="Description of UserDetails" />
         </Helmet>
 
-        {/* <!-- status password modal start --> */}
-        <div className="container">
-          <div className="modal fade" id="statusPassword" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div className="modal-content">
-                <div className="modal-header background-color-r">
-                  <span className="text-color-white-r">Delete Report</span>
-                  <button type="button" className="close" data-dismiss="modal" aria-label="Close"><i
-                    className="fa fa-times" aria-hidden="true"></i></button>
-                </div>
-
-                <div className="modal-body,input-group input-group-lg">
-                  <div className="reset-form-padding-r">
-                    <form method="post" action="user.html">
-                      <input type="text" name="Password" className="form-control reset-input-box-r"
-                        placeholder="Password" required />
-                      <span>
-                        <input type="submit" className="btn btn-primary btn-lg btn-block reset-button-r" name=""
-                          defaultValue="Delete" />
-                      </span>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* <!-- status password modal end --> */}
-
-
-        <div className="container">
-          <div className="modal fade" id="browseModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div className={this.state.showHideClassName} >
             <div className="modal-dialog modal-dialog-centered" role="document">
               <div className="modal-content">
                 <div className="modal-header background-color-r">
                   <span className="text-color-white-r">Upload Report</span>
-                  <button type="button" className="close" data-dismiss="modal" aria-label="Close"><i
-                    className="fa fa-times" aria-hidden="true"></i></button>
+                  <button
+                    type="button"
+                    className="close"
+                    onClick={this.modalCloseHandler}
+                    aria-label="Close"
+                  >
+                    <i className="fa fa-times" aria-hidden="true" />
+                  </button>
                 </div>
 
                 <div className="modal-body,input-group input-group-lg">
                   <div className="reset-form-padding-r">
-                    <form method="post" action="user.html">
+                    <form onSubmit={this.uploadFileHandler}>
                       <div>
                         <img id="output" className="browse-upload-report-r" />
-                        <textarea rows="5" defaultValue="comments if any .." name="Password" className="form-control reset-input-box-r"
+                        <textarea rows="5" defaultValue="comments if any .." className="form-control reset-input-box-r"
                           placeholder="Comments.." required />
                       </div>
                       <div className="text-align-center-r">
-                        <input type="submit" className="btn btn-primary btn-text-r" name="" value="Upload" />
+                        <button className="btn btn-primary btn-text-r">Upload</button>
                       </div>
                     </form>
                   </div>
@@ -233,147 +251,6 @@ export class UserDetails extends React.Component {
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="container">
-          <div className="modal fade" id="returnModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div className="modal-content">
-                <div className="modal-header background-color-r">
-                  <span className="text-color-white-r">Return Report</span>
-                  <button type="button" className="close" data-dismiss="modal" aria-label="Close"><i
-                    className="fa fa-times" aria-hidden="true"></i></button>
-                </div>
-
-                <div className="modal-body,input-group input-group-lg">
-                  <div className="reset-form-padding-r">
-                    <form method="post" action="user.html">
-                      <div>
-                        <textarea rows="5" defaultValue="comments if any .." name="Password" className="form-control reset-input-box-r"
-                          placeholder="Comments.." required />
-                      </div>
-                      <span>
-                        <input type="submit" className="btn btn-primary btn-lg btn-block reset-button-r" name=""
-                          defaultValue="Return" />
-                      </span>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div className="container">
-          <div className="modal fade" id="openmodal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div className="modal-dialog modal-dialog-centered modal-width-r" role="document">
-              <div className="modal-content">
-                <div className="modal-header background-color-r">
-                  <span className="text-color-white-r">Download Reports</span>
-                  <button type="button" className="close" data-dismiss="modal" aria-label="Close"><i
-                    className="fa fa-times" aria-hidden="true"></i></button>
-                </div>
-
-                <div className="container">
-
-                  <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-3 col-xl-3 card-margin-r">
-                    <div className="card card-price-r">
-                      <h4 className="card-heading-r"> Summary Report</h4>
-                      <h5 className="card-sub-heading-r"> Created at: 21-03-2020</h5>
-                    </div>
-                    <a data-toggle="modal" data-dismiss="modal" data-target="#statusPassword">
-                      <i className="fa fa-times-circle icon-customization-download-r" aria-hidden="true"></i>
-                    </a>
-                    <img className="card-image-r" src={require('../../assets/img/antornys-1.jpg')} />
-                    <textarea disabled defaultValue="comments if any .." className="form-control" name="address" required
-                      rows="4" />
-                    <div className="browse-upload-margin-r">
-                      <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <input className="btn btn-primary btn-lg download-button-r" type="submit"
-                          defaultValue="Resend" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="modal fade" id="openBills" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
-          <div className="modal-dialog modal-dialog-centered" role="document">
-            <div className="modal-content">
-              <div className="modal-header background-color-r">
-                <span className="text-color-white-r">Purchase Bills</span>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close"><i
-                  className="fa fa-times" aria-hidden="true"></i></button>
-              </div>
-
-              <div className="container">
-
-                <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 card-margin-r">
-                  <div>
-                    <div>
-                      <input type="password" className="form-control status-input-button-r" id="pwd"
-                        placeholder="Enter password" name="pwd" />
-                      <button type="submit" className="btn btn-default status-submit-button-r"><i
-                        className="fa fa-check submit-icon-r" aria-hidden="true"></i></button>
-                    </div>
-                    <div>
-                      <input className="upload-status-button-r" type="checkbox" />
-                      <p className="bill-heading-r"> Purchase Bills</p>
-                      <div className="dropdown">
-                        <button style={{ fontSize: "13px" }} className="dropbtn"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </button>
-                        <div className="dropdown-content">
-                          <a href="#">Transfer to Sales</a>
-                          <a href="#">Transfer to Other</a>
-                          <a data-toggle="modal" data-dismiss="modal" href="#returnModal">Return</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <a target="_blank" href="./img/gst-bill.jpg">
-                        <img className="img-bills-preview-selected-parent-r" src={require('../../assets/img/gst-bill.jpg')} />
-                        <img className="img-bills-preview-child-r" src={require('../../assets/img/download.png')} />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 card-margin-r">
-                  <div>
-                    <div>
-                      {/* <input type="password" className="form-control status-input-button-r" id="pwd" placeholder="Enter password" name="pwd">
-										<button type="submit" className="btn btn-default status-submit-button-r"><i className="fa fa-check submit-icon-r" aria-hidden="true"></i></button>
-									</div> */}
-                      <div>
-                        <input className="upload-status-button-r" type="checkbox" />
-                        <p className="bill-heading-r"> Purchase Bills</p>
-                        <div style={{ fontSize: "13px" }} className="dropdown">
-                          <button className="dropbtn"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
-                          </button>
-                          <div className="dropdown-content">
-                            <a href="#">Transfer to Sales</a>
-                            <a href="#">Transfer to Other</a>
-                            <a data-toggle="modal" data-dismiss="modal" href="#returnModal">Return</a>
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        <a target="_blank" href="./img/gst-bill.jpg">
-                          <img className="img-bills-preview-parent-r" src={require('../../assets/img/gst-bill.jpg')} />
-                          {/* <img className="img-bills-preview-child-r" src={require('../../assets/img/download.png')} /> */}
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <div className="container">
           <div className="container outer-box-r">
@@ -422,12 +299,12 @@ export class UserDetails extends React.Component {
                 </div>
                 <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 margin-10-r">
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <button type="button" data-toggle="modal" className="btn btn-primary btn-text-r full-width-r" data-target="#openmodal">view Reports</button>
+                    <button type="button" onClick={()=>{this.props.history.push('/manageTraderReports/gst')}} className="btn btn-primary btn-text-r full-width-r">view GST Reports</button>
                   </div>
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <input style={{ display: "none" }} accept="image/*" onChange={this.loadFile} id="gst"
                       type="file" required />
-                    <div><button type="button" data-toggle="modal" data-target="#browseModal" className="btn btn-primary btn-text-r full-width-r">
+                    <div><button type="button" className="btn btn-primary btn-text-r full-width-r">
                       <label className="cursor-pointer-r margin-0-r font-11-r" htmlFor="gst">Upload GST Report</label>
                     </button></div>
                   </div>
@@ -450,58 +327,6 @@ export class UserDetails extends React.Component {
                 NextComponent={(props) => <button type="button" {...props}><i className="fas fa-angle-right"></i></button>}
               />
             </div>
-
-            {/* <div className="container">
-              <div className="row">
-                <div className="col-xs-12 col-sm-12 col-lg-12">
-                  <div style={{color: "#255b7a"}} className="table-responsive table-margin-r">
-                    <table className="table table-hover">
-                      <thead>
-                        <tr>
-                          <th style={{textAlign: "center"}} scope="col">Sno.</th>
-                          <th style={{textAlign: "center"}} scope="col">Date</th>
-                          <th style={{textAlign: "center"}} scope="col">Purchase Bills</th>
-                          <th style={{textAlign: "center"}} scope="col">Sale Bills</th>
-                          <th style={{textAlign: "center"}} scope="col">Other</th>
-                          <th style={{textAlign: "center"}} scope="col">Daily Reports</th>
-                          <th style={{textAlign: "center"}} scope="col">upload Summary</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th style={{textAlign: "center"}} scope="row">1</th>
-                          <td>8 march, 2020</td>
-                          <td>
-                            <div className="counter-box-r"><a data-toggle="modal"
-                              data-target="#openBills">0/4</a></div>
-                          </td>
-                          <td>
-                            <div className="counter-box-r"><a data-toggle="modal"
-                              data-target="#openBills">0/4</a></div>
-                          </td>
-                          <td>
-                            <div className="counter-box-r"><a data-toggle="modal"
-                              data-target="#openBills">0/4</a></div>
-                          </td>
-                          <td>
-                            <a data-toggle="modal" data-target="#openmodal"><u>view</u></a>
-                          </td>
-                          <td>
-                            <input style={{display: "none"}} accept="image/*" onChange={this.loadFile}
-                              id="daily" type="file" required />
-                            <button type="button" data-toggle="modal" data-target="#browseModal"
-                              className="btn btn-primary btn-lg browse-button-css-r">
-                              <label style={{cursor: "pointer", color: "white"}} htmlFor="daily">Browse </label>
-                            </button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-
           </div>
         </div>
       </div>

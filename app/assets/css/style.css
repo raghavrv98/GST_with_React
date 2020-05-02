@@ -228,6 +228,41 @@ body {
   width: 100%;
 }
 
+.card-parent-img-r {
+  height: 100px;
+  width: 80%;
+  position: relative !important;
+  opacity: 0.4;
+  margin: 15px 0px 0px !important;
+}
+
+.card-child-img-r {
+  height: 80px;
+  position: absolute;
+  margin: 20px -110px;
+}
+
+.card-drop-down-r{
+  font-size: 15px;
+  position: absolute;
+  top: -50px;
+  left: 10px;
+  color: black !important;
+}
+
+.card-status-button-r {
+  visibility: visible !important;
+  margin-left: -107px !important;
+  margin-top: -23px !important;
+  color: black;
+  cursor: pointer;
+  position: absolute;
+  height: 25px;
+  width: 25px;
+}
+
+
+
 .card-heading-r {
   text-align: center;
   color: #121a30 !important;
