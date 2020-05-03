@@ -265,6 +265,7 @@ export class User extends React.Component {
                       <React.Fragment key={index}>
                         <div className="card-base-r">
                           <img className="selected-image-r" src={val} />
+                          <p className="card-sub-heading-r">Purchase Bill.png</p>
                           <p className="card-sub-heading-r">Created At : 21-04-2020</p>
                         </div>
                         <span className="delete-report-icon-r">
@@ -306,6 +307,7 @@ export class User extends React.Component {
                         <React.Fragment key={index}>
                           <div className="card-base-r">
                             <img className="selected-image-r" src={val} />
+                            <p className="card-sub-heading-r">Sale Bill.png</p>
                             <p className="card-sub-heading-r">Created At : 21-04-2020</p>
                           </div>
                           <span className="delete-report-icon-r">
@@ -347,6 +349,7 @@ export class User extends React.Component {
                         <React.Fragment key={index}>
                           <div className="card-base-r">
                             <img className="selected-image-r" src={val} />
+                            <p className="card-sub-heading-r">Other Bill.png</p>
                             <p className="card-sub-heading-r">Created At : 21-04-2020</p>
                           </div>
                           <span className="delete-report-icon-r">

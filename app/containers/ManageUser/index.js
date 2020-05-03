@@ -18,7 +18,7 @@ import makeSelectManageUser from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import ConfirmModal from '../../components/ConfirmModal/Loadable'
+// import ConfirmModal from '../../components/ConfirmModal/Loadable'
 
 /* eslint-disable react/prefer-stateless-function */
 export class ManageUser extends React.Component {
@@ -309,16 +309,16 @@ export class ManageUser extends React.Component {
     })
   }
 
-  confirmModalHandler = (event) => {
-    let id = event.target.id
-    console.log('id: ', id);
-    let name = event.target.name
-    this.setState({
-      showHideClassName: 'modal display-block container',
-      deleteId: id,
-      deleteName: name
-    })
-  }
+  // confirmModalHandler = (event) => {
+  //   let id = event.target.id
+  //   console.log('id: ', id);
+  //   let name = event.target.name
+  //   this.setState({
+  //     showHideClassName: 'modal display-block container',
+  //     deleteId: id,
+  //     deleteName: name
+  //   })
+  // }
 
   modalCloseHandler = () => {
     this.setState({
@@ -329,12 +329,12 @@ export class ManageUser extends React.Component {
     })
   }
 
-  confirmDeleteData = (id) => {
-    event.preventDefault()
-    this.setState({
-      isConfirmModal: false
-    })
-  }
+  // confirmDeleteData = (id) => {
+  //   event.preventDefault()
+  //   this.setState({
+  //     isConfirmModal: false
+  //   })
+  // }
 
   statusHandler = (event) => {
     let id = event.target.id
@@ -400,8 +400,8 @@ export class ManageUser extends React.Component {
       Cell: row =>
         (<div>
           <a className="infoButton-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}><i className="fa fa-info" aria-hidden="true"></i></a>
-          <span className="editButton-r" onClick={() => { this.props.history.push('/addOrEditUser/' + row.original.userId) }}><i className="fas fa-pen" /></span>
-          <button id={row.original.userId} onClick={this.confirmModalHandler} className="deleteButton-r far fa-trash-alt"></button>
+          <span className="editButton-r" onClick={() => { this.props.history.push('/addOrEditUser/' + row.original.userId) }}><i className="far fa-edit"></i></span>
+          {/* <button id={row.original.userId} onClick={this.confirmModalHandler} className="deleteButton-r far fa-trash-alt"></button> */}
         </div>
         )
     },
@@ -413,17 +413,17 @@ export class ManageUser extends React.Component {
           <meta name="description" content="Description of ManageUser" />
         </Helmet>
 
-        <ConfirmModal
+        {/* <ConfirmModal
           showHideClassName={this.state.showHideClassName}
           onClose={this.modalCloseHandler}
           onConfirm={() => this.confirmDeleteData(this.state.deleteId, this.state.deleteName)}
-        />
+        /> */}
 
         <div className={this.state.showHideClassName} >
             <div className="modal-dialog modal-dialog-centered" role="document">
               <div className="modal-content">
-                <div className="modal-header" style={{ backgroundColor: "#f06d46" }}>
-                  <span style={{ color: "white" }}>Status Password</span>
+                <div className="modal-header background-color-r">
+                  <span className="text-color-white-r" >Status Password</span>
                   <button
                     type="button"
                     className="close"

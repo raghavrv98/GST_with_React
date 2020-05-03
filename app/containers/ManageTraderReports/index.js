@@ -81,9 +81,9 @@ export class ManageTraderReports extends React.Component {
           <p className="card-sub-heading-r">Created At : 21-04-2020</p>
           <p className="card-text-r">ipisicing elit. Fugiat reprehenderit unde obcaecati non modi vel, consectetur vero</p>
           </div>
-          <span className="delete-report-icon-r">
+          {/* <span className="delete-report-icon-r">
           <button name="purchaseBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-        </span>
+        </span> */}
           </React.Fragment>
           )}
           </div>
@@ -100,9 +100,9 @@ export class ManageTraderReports extends React.Component {
         <p className="card-sub-heading-r">Created At : 21-04-2020</p>
         <p className="card-text-r">ipisicing elit. Fugiat reprehenderit unde obcaecati non modi vel, consectetur vero</p>
         </div>
-        <span className="delete-report-icon-r">
+        {/* <span className="delete-report-icon-r">
         <button name="purchaseBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-      </span>
+      </span> */}
         </React.Fragment>
         )}
         </div>
