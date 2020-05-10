@@ -106,7 +106,7 @@ export class LoginPage extends React.Component {
         <div className="container outer-box-r">
              
               <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 vertical-align-title-r">
-                <p className="title-r">XYZ</p>
+                <p className="title-r">GST</p>
                 <p className="sub-heading-r">"Your Own GST Software"</p>
                 <div className="text-align-center-r">
                   <button

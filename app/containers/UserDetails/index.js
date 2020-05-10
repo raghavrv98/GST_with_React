@@ -238,12 +238,12 @@ uploadFileHandler = () =>{
                   <div className="reset-form-padding-r">
                     <form onSubmit={this.uploadFileHandler}>
                       <div>
-                        <img id="output" className="browse-upload-report-r" />
-                        <textarea rows="5" defaultValue="comments if any .." className="form-control reset-input-box-r"
+                        <img id="output" className="upload-modal-r" />
+                        <textarea rows="2" defaultValue="comments if any .." className="form-control reset-input-box-r"
                           placeholder="Comments.." required />
                       </div>
                       <div className="text-align-center-r">
-                        <button className="button-base-r width-50-r">Upload</button>
+                        <button className="button-base-r width-40-r">Upload</button>
                       </div>
                     </form>
                   </div>

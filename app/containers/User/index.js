@@ -260,21 +260,21 @@ export class User extends React.Component {
           <div className="container tab-space-r">
             <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
               <div className={this.state.isActiveTab == "purchaseBills" ? "tab-active-base-r" : "tab-inactive-base-r"}>
-                <p id="purchaseBills" onClick={this.tabActive}>
+                <p className="margin-0-r" id="purchaseBills" onClick={this.tabActive}>
                   Purchase Bills<br />({this.state.purchaseBillImages.length} entries)</p>
               </div>
             </div>
 
             <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
               <div className={this.state.isActiveTab == "saleBills" ? "tab-active-base-r" : "tab-inactive-base-r"}>
-                <p id="saleBills" onClick={this.tabActive} className ="">
+                <p className="margin-0-r" id="saleBills" onClick={this.tabActive} className ="">
                   Sale Bills<br />({this.state.saleBillImages.length} entries)</p>
               </div>
             </div>
 
             <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
               <div className={this.state.isActiveTab == "otherBills" ? "tab-active-base-r" : "tab-inactive-base-r"}>
-                <p id="otherBills" onClick={this.tabActive} className ="">
+                <p className="margin-0-r" id="otherBills" onClick={this.tabActive} className ="">
                   Other<br />({this.state.otherBillImages.length} entries)</p>
               </div>
             </div>

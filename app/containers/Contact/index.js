@@ -89,10 +89,9 @@ export class Contact extends React.Component {
                   <textarea defaultValue="Enter your message here..." className="form-control message-body-r" name="address" required
                     rows="8" />
                 </div>
-                <span>
-                  <input type="submit" className="btn btn-primary btn-lg btn-block reset-button-r" name=""
-                    value="Send" />
-                </span>
+                <div className="text-align-center-r">
+                  <button type="submit" className="button-base-r width-40-r width-30-r" name="">Send</button>
+                </div>
               </form>
             </div>
           </div>
