@@ -469,7 +469,7 @@ body {
 }
 
 .static-title-r {
-  margin: 0px 0px 20px !important;
+  margin: 10px 0px 20px !important;
   text-align: center;
   font-size: 25px;
   color: #255b7a;
@@ -506,7 +506,6 @@ body {
 
 
   .aboutus-img1-r {
-    margin: 35px auto 45px;
     width: 65%;
     box-shadow: 1px 3px 5px rgba(24, 50, 115, 0.6);
   }
@@ -536,9 +535,10 @@ body {
   }
 
   .static-form-r {
-    padding: 80px 100px 0px !important;
+    padding: 25px 100px !important;
     margin: 0px !important;
   }
+  
   .newEntry-r {
     float: right !important;
     margin: 0px auto 20px !important;
@@ -558,7 +558,6 @@ body {
 }
 
   .static-form-r {
-    padding: 60px 0px !important;
     margin: 0px !important;
   }
   .aboutus-img1-r {

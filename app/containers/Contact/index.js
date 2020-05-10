@@ -48,9 +48,9 @@ export class Contact extends React.Component {
           <title>Contact</title>
           <meta name="description" content="Description of Contact" />
         </Helmet>
-        <div className="container">
-          <div className="static-form-r">
+        <div className="container outer-box-r">
             <p className="static-title-r">Contact Us</p>
+          <div className="static-form-r">
             <div className="modal-body,input-group input-group-lg margin-top-25-r">
               <form onSubmit={this.resetPassword}>
                 <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">

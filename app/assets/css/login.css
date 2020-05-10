@@ -2,7 +2,7 @@
 	position: relative;
 	background: url('../img/main-banner.jpg') center;
 	background-size: cover;
-	height: 725px !important;
+	height: 640px !important;
 }
 
 .nav-bar-r{
@@ -16,7 +16,7 @@
 
 .loginLayout-r {
 	background-color: rgba(0, 0, 0, .4);
-	height: 725px;
+	height: 640px;
 }
 
 .text-center-r{
@@ -47,12 +47,12 @@ margin-bottom: 10px;
 @media screen and (min-width: 480px) {
 
 	.vertical-align-title-r{
-		padding: 188px 0;
+		padding: 110px 0;
 		text-align: center;
 	}
 	
 	.vertical-align-login-r{
-		padding: 226px 0;
+		padding: 150px 0;
 		text-align: center;
 	}
 
