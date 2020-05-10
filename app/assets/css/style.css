@@ -1,9 +1,4 @@
-input[type='email'],
-input[type='number'],
-input[type='password'],
-input[type='search'],
-input[type='text'],
-select {
+input[type='email'], input[type='number'], input[type='password'], input[type='search'], input[type='text'], select {
   padding: 5px 20px;
   border: 0;
   display: inline-block;
@@ -106,6 +101,13 @@ body {
   width: 100% !important;
 }
 
+.browse-multiple-image-r {
+  height: 70px !important;
+  width: 100% !important;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
 .browse-upload-margin-r {
   margin: 10px auto;
   display: inline-block;
@@ -205,10 +207,20 @@ body {
   display: none;
 }
 
+.padding-5-r {
+  padding: 5px !important;
+}
+
 .scroll-r {
   padding: 20px !important;
   overflow: auto;
   height: 400px !important;
+}
+
+.card-scroll-r {
+  padding: 20px !important;
+  overflow: auto;
+  height: 280px;
 }
 
 .card-base-r {
@@ -236,7 +248,7 @@ body {
   border-radius: 10px;
 }
 
-.opacity-r{
+.opacity-r {
   opacity: 0.4 !important;
 }
 
@@ -299,23 +311,27 @@ body {
 }
 
 /* width */
+
 ::-webkit-scrollbar {
   width: 7px;
 }
 
 /* Track */
+
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 16px;
 }
 
 /* Handle */
+
 ::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 16px;
 }
 
 /* Handle on hover */
+
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
@@ -342,8 +358,9 @@ body {
 .selected-image-r {
   height: 200px;
   position: relative;
-  /* margin: 0px auto 10px; */
+  border: 0.1px solid black;
   width: 100%;
+  border-radius: 16px;
 }
 
 .aboutUsTitle1-r {
@@ -387,8 +404,8 @@ body {
   margin-left: 27px !important;
   border-radius: 10px;
   font-size: 13px !important;
-    font-weight: 400 !important;
-    line-height: 10px !important;
+  font-weight: 400 !important;
+  line-height: 10px !important;
 }
 
 /* Links inside the dropdown */
@@ -426,7 +443,6 @@ body {
     width: 65%;
     box-shadow: 1px 3px 5px rgba(24, 50, 115, 0.6);
   }
-
   /* button class "btn btn-primary btn-text-r" */
   .btn-text-r {
     border-radius: 5px;
@@ -458,17 +474,15 @@ body {
   /* ------------------------------ */
   /* filter-year-month */
   .filter-year-month-r {
-    margin: 35px auto 25px !important;
+    margin: 35px auto 0px !important;
   }
   /* ---------------------------------- */
-
   .margin-top-25-r {
     margin-top: 25px !important;
   }
   .font-30-r {
     font-size: 30px !important;
   }
-
   .main-title-r {
     text-align: center;
     font-size: 25px;
@@ -476,10 +490,14 @@ body {
     text-underline-position: under;
     margin: 0px 0px 10px;
   }
-
   .static-form-r {
     padding: 80px 100px 0px !important;
     margin: 0px !important;
+  }
+  .newEntry-r {
+    float: right !important;
+    margin: 0px auto 20px !important;
+    width: 10% !important;
   }
 }
 
@@ -490,13 +508,11 @@ body {
     padding: 60px 0px !important;
     margin: 0px !important;
   }
-
   .aboutus-img1-r {
     width: 100%;
     margin: 35px auto;
     box-shadow: 1px 3px 5px rgba(24, 50, 115, 0.6);
   }
-
   /* button class "btn btn-primary btn-text-r" */
   .btn-text-r {
     border-radius: 5px;
@@ -528,14 +544,12 @@ body {
     margin: 25px auto 0px;
   }
   /* --------------------------------- */
-
   .font-11-r {
     font-size: 11px !important;
   }
   .margin-10-r {
     margin: 10px 0px !important;
   }
-
   .main-title-r {
     margin: 5px 0px;
     text-align: center;
@@ -543,8 +557,12 @@ body {
     text-decoration: underline;
     text-underline-position: under;
   }
-
   .text-align-center-min-r {
     text-align: center !important;
+  }
+  .newEntry-r {
+    float: right !important;
+    margin: 0px auto 20px !important;
+    width: 26% !important;
   }
 }

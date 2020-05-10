@@ -502,6 +502,9 @@ export class ManageUser extends React.Component {
             </div>
           </div>
           <div className="container">
+          <button type="button" onClick={()=>{this.props.history.push('/addOrEditUser')}} className="btn btn-primary btn-text-r newEntry-r">New User</button>
+          </div>
+          <div className="container">
             <div className="customReactTableBox">
               <ReactTable
                 className="customReactTable"

@@ -40,15 +40,51 @@ export class User extends React.Component {
     deleteId: "",
     deleteName: "",
     showHideClassName: 'modal display-none container',
+    browseBillImages: []
   }
 
-  loadFile = () => {
-    var output = document.getElementById('output');
-    output.src = URL.createObjectURL(event.target.files[0]);
+  loadFile = (event) => {
+    let id = event.target.id
+
+    if (id === "purchase") {
+      let purchaseBillImages = JSON.parse(JSON.stringify(this.state.purchaseBillImages))
+      for (let i = 0; i < event.target.files.length; i++) {
+        purchaseBillImages.push(URL.createObjectURL(event.target.files[i]))
+      }
+      this.setState({
+        purchaseBillImages,
+        browseBillImages: purchaseBillImages
+      })
+    }
+
+    if (id === "sale") {
+      let saleBillImages = JSON.parse(JSON.stringify(this.state.saleBillImages))
+      for (let i = 0; i < event.target.files.length; i++) {
+        saleBillImages.push(URL.createObjectURL(event.target.files[i]))
+      }
+      this.setState({
+        saleBillImages,
+        browseBillImages: saleBillImages
+      })
+    }
+
+    if (id === "other") {
+      let otherBillImages = JSON.parse(JSON.stringify(this.state.otherBillImages))
+      for (let i = 0; i < event.target.files.length; i++) {
+        otherBillImages.push(URL.createObjectURL(event.target.files[i]))
+      }
+      this.setState({
+        otherBillImages,
+        browseBillImages: otherBillImages
+      })
+    }
+
+    // output.src = URL.createObjectURL(event.target.files[0]);
     // let imgData = this.getBase64Image(output);
-    this.setState({
-      outputImage: output.src
-    })
+    // console.log('output.src: ', output.src);
+    // this.setState({
+    //   outputImage: output.src
+    // })
   };
 
   getBase64Image = (img) => {
@@ -69,7 +105,8 @@ export class User extends React.Component {
     let id = event.target.id
 
     this.setState({
-      isActiveTab: id
+      isActiveTab: id,
+      browseBillImages: []
     })
   }
 
@@ -105,10 +142,10 @@ export class User extends React.Component {
     if (name === "purchaseBillImages") {
       let purchaseBillImages = JSON.parse(JSON.stringify(this.state.purchaseBillImages))
       purchaseBillImages.splice(id, 1)
-      console.log('purchaseBillImages: ', purchaseBillImages);
       this.setState({
         showHideClassName: 'modal display-none container',
-        purchaseBillImages
+        purchaseBillImages,
+        browseBillImages: purchaseBillImages
       })
     }
     else if (name === "saleBillImages") {
@@ -116,53 +153,59 @@ export class User extends React.Component {
       saleBillImages.splice(id, 1)
       this.setState({
         showHideClassName: 'modal display-none container',
-        saleBillImages
+        saleBillImages,
+        browseBillImages: saleBillImages
       })
     }
+    // else if (name === "saleBillImages") {
+    //   let saleBillImages = JSON.parse(JSON.stringify(this.state.saleBillImages))
+    //   saleBillImages.splice(id, 1)
+    //   this.setState({
+    //     showHideClassName: 'modal display-none container',
+    //     saleBillImages
+    //   })
+    // }
     else if (name === "otherBillImages") {
       let otherBillImages = JSON.parse(JSON.stringify(this.state.otherBillImages))
       otherBillImages.splice(id, 1)
       this.setState({
         showHideClassName: 'modal display-none container',
-        otherBillImages
+        otherBillImages,
+        browseBillImages: otherBillImages
       })
     }
+    // else if (name === "otherBillImages") {
+    //   let otherBillImages = JSON.parse(JSON.stringify(this.state.otherBillImages))
+    //   otherBillImages.splice(id, 1)
+    //   this.setState({
+    //     showHideClassName: 'modal display-none container',
+    //     otherBillImages
+    //   })
+    // }
   }
 
   billUploadHandler = (event) => {
     event.preventDefault()
     let id = event.target.id
+    let browseBillImages = this.state.browseBillImages
     if (id === "purchaseBillImages") {
-      let purchaseBillImages = JSON.parse(JSON.stringify(this.state.purchaseBillImages))
-      purchaseBillImages.push(this.state.outputImage)
-      var output = document.getElementById('output');
-      output.src = "";
+      browseBillImages = [];
       this.setState({
-        purchaseBillImages
+        browseBillImages
       })
     }
     else if (id === "saleBillImages") {
-      let saleBillImages = JSON.parse(JSON.stringify(this.state.saleBillImages))
-      saleBillImages.push(this.state.outputImage)
-      var output = document.getElementById('output');
-      output.src = "";
-      console.log('saleBillImages: ', saleBillImages);
+      browseBillImages = [];
       this.setState({
-        saleBillImages
+        browseBillImages
       })
     }
-    else if (id == "otherBillImages") {
-      let otherBillImages = JSON.parse(JSON.stringify(this.state.otherBillImages))
-      otherBillImages.push(this.state.outputImage)
-      var output = document.getElementById('output');
-      output.src = "";
-      console.log('otherBillImages: ', otherBillImages);
+    else if (id === "otherBillImages") {
+      browseBillImages = [];
       this.setState({
-        otherBillImages
+        browseBillImages
       })
     }
-    // localStorage.setItem("purchaseBillImages", purchaseBillImages);
-    // var purchaseBillImages = localStorage.getItem('purchaseBillImages');
   }
 
   render() {
@@ -231,7 +274,7 @@ export class User extends React.Component {
 
             <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
               <div className="card-body-margin-r">
-                <p id="other" onClick={this.tabActive} className={this.state.isActiveTab == "other" ? "btn btn-primary btn-lg btn-block tab-active-r" : "btn btn-primary btn-lg btn-block tab-inactive-r"}>
+                <p id="otherBills" onClick={this.tabActive} className={this.state.isActiveTab == "otherBills" ? "btn btn-primary btn-lg btn-block tab-active-r" : "btn btn-primary btn-lg btn-block tab-inactive-r"}>
                   Other<br />({this.state.otherBillImages.length} entries)</p>
               </div>
             </div>
@@ -241,15 +284,27 @@ export class User extends React.Component {
               <div className="container card-button-r">
                 <form id="purchaseBillImages" onSubmit={this.billUploadHandler}>
                   <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-align-center-r">
-                    <div className="card-base-r">
-                      <img className="browse-image-r" id="output" alt="" />
+                    <div className="card-base-r card-scroll-r">
+                      {
+                        this.state.browseBillImages.length == 1 ?
+                          <div className="text-align-center-r">
+                            <img className="browse-image-r" src={this.state.browseBillImages[0]} id="output" alt="" />
+                          </div>
+                          :
+                          this.state.browseBillImages.map((val, index) => {
+                            return <div key={index} className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-align-center-r padding-5-r">
+                              <img className="browse-multiple-image-r" src={val} id="output" alt="" />
+                            </div>
+                          }
+                          )
+                      }
                     </div>
-                    <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="file-input"
-                      type="file" required />
+                    <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="purchase"
+                      type="file" multiple required />
                     <div className="browse-upload-margin-r">
                       <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <div><button type="button" className="btn btn-primary btn-text-r full-width-r">
-                          <label className="cursor-pointer-r margin-0-r" htmlFor="file-input">Browse</label>
+                          <label className="cursor-pointer-r margin-0-r" htmlFor="purchase">Browse</label>
                         </button></div>
                       </div>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -282,15 +337,27 @@ export class User extends React.Component {
                 <div className="container card-button-r">
                   <form id="saleBillImages" onSubmit={this.billUploadHandler}>
                     <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-align-center-r">
-                      <div className="card-base-r">
-                        <img className="browse-image-r" id="output" alt="" />
+                      <div className="card-base-r card-scroll-r">
+                        {
+                          this.state.browseBillImages.length == 1 ?
+                            <div className="text-align-center-r">
+                              <img className="browse-image-r" src={this.state.browseBillImages[0]} id="output" alt="" />
+                            </div>
+                            :
+                            this.state.browseBillImages.map((val, index) => {
+                              return <div key={index} className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-align-center-r padding-5-r">
+                                <img className="browse-multiple-image-r" src={val} id="output" alt="" />
+                              </div>
+                            }
+                            )
+                        }
                       </div>
-                      <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="file-input"
-                        type="file" required />
+                      <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="sale"
+                        type="file" multiple required />
                       <div className="browse-upload-margin-r">
                         <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                           <div><button type="button" className="btn btn-primary btn-text-r full-width-r">
-                            <label className="cursor-pointer-r margin-0-r" htmlFor="file-input">Browse</label>
+                            <label className="cursor-pointer-r margin-0-r" htmlFor="sale">Browse</label>
                           </button></div>
                         </div>
                         <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -322,18 +389,31 @@ export class User extends React.Component {
                   </div>
                 </div>
                 :
+
                 <div className="container card-button-r">
                   <form id="otherBillImages" onSubmit={this.billUploadHandler}>
                     <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-align-center-r">
-                      <div className="card-base-r">
-                        <img className="browse-image-r" id="output" alt="" />
+                      <div className="card-base-r card-scroll-r">
+                        {
+                          this.state.browseBillImages.length == 1 ?
+                            <div className="text-align-center-r">
+                              <img className="browse-image-r" src={this.state.browseBillImages[0]} id="output" alt="" />
+                            </div>
+                            :
+                            this.state.browseBillImages.map((val, index) => {
+                              return <div key={index} className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-align-center-r padding-5-r">
+                                <img className="browse-multiple-image-r" src={val} id="output" alt="" />
+                              </div>
+                            }
+                            )
+                        }
                       </div>
-                      <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="file-input"
-                        type="file" required />
+                      <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="other"
+                        type="file" multiple required />
                       <div className="browse-upload-margin-r">
                         <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                           <div><button type="button" className="btn btn-primary btn-text-r full-width-r">
-                            <label className="cursor-pointer-r margin-0-r" htmlFor="file-input">Browse</label>
+                            <label className="cursor-pointer-r margin-0-r" htmlFor="other">Browse</label>
                           </button></div>
                         </div>
                         <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -343,6 +423,7 @@ export class User extends React.Component {
                     </div>
                   </form>
                   <div className="col-xs-12 col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10">
+
                     <div className="text-align-center-min-r">
 
                       {this.state.otherBillImages.map((val, index) =>
@@ -359,8 +440,63 @@ export class User extends React.Component {
                       )}
 
                     </div>
+
+
                   </div>
                 </div>
+
+
+            // <div className="container card-button-r">
+            //   <form id="otherBillImages" onSubmit={this.billUploadHandler}>
+            //     <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-align-center-r">
+            //     <div className="card-base-r card-scroll-r">
+            //       {
+            //       this.state.browseBillImages.length == 1 ?
+            //         <div className="text-align-center-r">
+            //         <img className="browse-image-r" src={this.state.browseBillImages[0]} id="output" alt="" />
+            //        </div>
+            //         :
+            //       this.state.browseBillImages.map((val, index) =>{
+            //       return <div key={index} className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-align-center-r padding-5-r">
+            //         <img className="browse-multiple-image-r" src={val} id="output" alt="" />
+            //        </div>
+            //       }
+            //       )
+            //       }
+            //     </div>
+            //       <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="other"
+            //         type="file" multiple required />
+            //       <div className="browse-upload-margin-r">
+            //         <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+            //           <div><button type="button" className="btn btn-primary btn-text-r full-width-r">
+            //             <label className="cursor-pointer-r margin-0-r" htmlFor="other">Browse</label>
+            //           </button></div>
+            //         </div>
+            //         <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+            //           <button className="btn btn-primary btn-text-r full-width-r"> Upload </button>
+            //         </div>
+            //       </div>
+            //     </div>
+            //   </form>
+            //   <div className="col-xs-12 col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10">
+            //     <div className="text-align-center-min-r">
+
+            //       {this.state.otherBillImages.map((val, index) =>
+            //         <React.Fragment key={index}>
+            //           <div className="card-base-r">
+            //             <img className="selected-image-r" src={val} />
+            //             <p className="card-sub-heading-r">Other Bill.png</p>
+            //             <p className="card-sub-heading-r">Created At : 21-04-2020</p>
+            //           </div>
+            //           <span className="delete-report-icon-r">
+            //             <button name="otherBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+            //           </span>
+            //         </React.Fragment>
+            //       )}
+
+            //     </div>
+            //   </div>
+            // </div>
           }
 
         </div>

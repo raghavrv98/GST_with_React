@@ -83,19 +83,7 @@ class Header extends React.Component {
                 id="bs-example-navbar-collapse-1"
               >
                 <ul className="nav navbar-nav navbar-right">
-                  {sessionStorage.getItem('trader') ?
-                    <NavLink
-                      className="navbar-brand text-color-r"
-                      exact
-                      to="/addOrEditUser"
-                    >
-                      New User
-                  </NavLink>
-                    : null
-                  }
                   {sessionStorage.getItem('admin') ?
-                    <React.Fragment>
-
                       <NavLink
                         className="navbar-brand text-color-r"
                         exact
@@ -103,17 +91,6 @@ class Header extends React.Component {
                       >
                         Manage Trader
                   </NavLink>
-
-                      <NavLink
-                        className="navbar-brand text-color-r"
-                        exact
-                        to="/addOrEditTrader"
-                      >
-                        New Trader
-                  </NavLink>
-                    </React.Fragment>
-
-
                     : null
                   }
                   <NavLink

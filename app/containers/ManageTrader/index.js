@@ -465,6 +465,9 @@ export class ManageTrader extends React.Component {
             </div>
           </div>
           <div className="container">
+          <button type="button" onClick={()=>{this.props.history.push('/addOrEditTrader')}} className="btn btn-primary btn-text-r newEntry-r">New Trader</button>
+          </div>
+          <div className="container">
             <div className="customReactTableBox">
               {console.log('{this.state.reactTableData}: ', this.state.reactTableData)}
               <ReactTable
