@@ -481,12 +481,14 @@ body {
   text-align: center;
   font-size: 25px;
   color: #255b7a;
+  margin: 10px 0px 0px !important;
 }
 
 .sub-title-r {
   text-align: center;
   font-size: 20px;
   color: #255b7a;
+  margin: 10px 0px 0px !important;
 }
 
 .container {

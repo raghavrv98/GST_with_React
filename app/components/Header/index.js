@@ -88,6 +88,8 @@ class Header extends React.Component {
                         className="navbar-brand text-color-r"
                         exact
                         to="/manageTrader"
+                        data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1"
                       >
                         Manage Trader
                   </NavLink>
@@ -98,6 +100,8 @@ class Header extends React.Component {
                     onClick={this.resetPasswordHandler}
                     exact
                     to="#"
+                    data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1"
                   >
                     Reset Password
                   </NavLink>
@@ -107,6 +111,8 @@ class Header extends React.Component {
                     onClick={this.userLogout}
                     exact
                     to="/"
+                    data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1"
                   >
                     Logout
                   </NavLink>
@@ -122,6 +128,8 @@ class Header extends React.Component {
                       className="navbar-brand text-color-r"
                       exact
                       to="/"
+                      data-toggle="collapse"
+                      data-target="#bs-example-navbar-collapse-1"
                     >
                       Home
                   </NavLink>
@@ -129,6 +137,8 @@ class Header extends React.Component {
                       className="navbar-brand text-color-r"
                       exact
                       to="/aboutUs"
+                      data-toggle="collapse"
+                      data-target="#bs-example-navbar-collapse-1"
                     >
                       AboutUs
                   </NavLink>
@@ -136,6 +146,8 @@ class Header extends React.Component {
                       className="navbar-brand text-color-r"
                       exact
                       to="/contact"
+                      data-toggle="collapse"
+                      data-target="#bs-example-navbar-collapse-1"
                     >
                       ContactUs
                   </NavLink>
