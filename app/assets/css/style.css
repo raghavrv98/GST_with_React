@@ -62,7 +62,6 @@ input[type='email'], input[type='number'], input[type='password'], input[type='s
 
 .card-body-margin-r {
   margin: 5px auto;
-  border-radius: 5px;
 }
 
 body {
@@ -74,19 +73,7 @@ body {
   font-size: 20px !important;
 }
 
-.tab-inactive-r {
-  background-color: #f17b58 !important;
-  height: 70px;
-}
-
-.tab-active-r {
-  background-color: #c05738 !important;
-  height: 70px;
-  /* box-shadow : 1px 3px 5px rgba(24,50,115,0.6); */
-  color: white !important;
-}
-
-.card-button-r {
+.tab-space-r {
   margin: 35px auto;
 }
 
@@ -99,6 +86,7 @@ body {
 .browse-image-r {
   height: 240px !important;
   width: 100% !important;
+  border-radius: 16px
 }
 
 .browse-multiple-image-r {
@@ -221,6 +209,46 @@ body {
   padding: 20px !important;
   overflow: auto;
   height: 280px;
+}
+
+.tab-active-base-r {
+  display: inline-block !important;
+  margin: 0px 0px 10px !important;
+  color: #ffffff;
+  background: #c05738;
+  height: 75px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 1px 3px 5px rgba(24, 50, 115, 0.6);
+  cursor: pointer;
+  text-align: center !important;
+}
+
+.tab-inactive-base-r {
+  display: inline-block !important;
+  margin: 0px 0px 10px !important;
+  color: #ffffff;
+  background: #f06d46;
+  height: 75px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 1px 3px 5px rgba(24, 50, 115, 0.6);
+  cursor: pointer;
+  text-align: center !important;
+}
+
+.button-base-r {
+  display: inline-block !important;
+  color: #ffffff;
+  background: #f06d46;
+  height: 30px;
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 1px 3px 5px rgba(24, 50, 115, 0.6);
+  cursor: pointer;
+  text-align: center !important;
 }
 
 .card-base-r {
@@ -435,6 +463,21 @@ body {
   background-color: #3e8e41;
 }
 
+.filter-year-month-r {
+  margin: 25px 0px !important;
+}
+
+
+.view-reports-r {
+  color: #255b7a;
+  font-size: 20px;
+  text-decoration: underline #255b7a;
+  margin: 0px !important;
+  cursor: pointer;
+  display: inline-block;
+
+}
+
 /* -------------------------------------------------------------------------------------------------------------------- */
 
 @media screen and (min-width: 480px) {
@@ -454,27 +497,11 @@ body {
     width: 30%;
     text-align: center;
   }
-  /* ---------------------------------------------- */
-  /* view reports css */
-  .view-reports-r {
-    text-align: center;
-    color: #255b7a;
-    font-size: 16px;
-    text-decoration: underline;
-    margin: 0px !important;
-    cursor: pointer;
-    display: inline-block;
-  }
   /* --------------------------------------------------- */
   /* outer-box css */
   .outer-box-r {
     padding: 25px 20px !important;
     margin-top: 50px;
-  }
-  /* ------------------------------ */
-  /* filter-year-month */
-  .filter-year-month-r {
-    margin: 35px auto 0px !important;
   }
   /* ---------------------------------- */
   .margin-top-25-r {
@@ -522,26 +549,11 @@ body {
     color: white;
     text-align: center;
   }
-  /* ----------------------------------------------- */
-  /* view reports css */
-  .view-reports-r {
-    color: #255b7a;
-    font-size: 20px;
-    text-decoration: underline #255b7a;
-    margin: 0px !important;
-    cursor: pointer;
-    display: inline-block;
-  }
   /* --------------------------------------------------- */
   /* outer-box css */
   .outer-box-r {
     padding: 0px 0px 50px !important;
     margin-top: 50px;
-  }
-  /* --------------------------- */
-  /* filter-year-month */
-  .filter-year-month-r {
-    margin: 25px auto 0px;
   }
   /* --------------------------------- */
   .font-11-r {

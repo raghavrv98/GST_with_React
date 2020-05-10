@@ -226,29 +226,29 @@ export class User extends React.Component {
           <div className="container filter-year-month-r">
             <div className="row">
               <div className="col-xs-6 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-5">
-                <select className="custom-select year-month-border-r" name="lectureId">
-                  <option defaultValue="">Select Year</option>
-                  <option defaultValue="2017">2017-2018</option>
-                  <option defaultValue="2018">2018-2019</option>
-                  <option defaultValue="2019">2019-2020</option>
-                  <option defaultValue="2020">2020-2021</option>
+                <select className="year-month-border-r" name="year">
+                  <option value="">Select Year</option>
+                  <option value="2017">2017-2018</option>
+                  <option value="2018">2018-2019</option>
+                  <option value="2019">2019-2020</option>
+                  <option value="2020">2020-2021</option>
                 </select>
               </div>
               <div className="col-xs-6 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-5">
-                <select className="custom-select year-month-border-r" name="lectureId">
-                  <option defaultValue="">Select Month</option>
-                  <option defaultValue="january">January</option>
-                  <option defaultValue="february">February</option>
-                  <option defaultValue="march">March</option>
-                  <option defaultValue="april">April</option>
-                  <option defaultValue="may">May</option>
-                  <option defaultValue="june">June</option>
-                  <option defaultValue="july">July</option>
-                  <option defaultValue="august">August</option>
-                  <option defaultValue="september">September</option>
-                  <option defaultValue="october">October</option>
-                  <option defaultValue="november">November</option>
-                  <option defaultValue="december">December</option>
+                <select className="year-month-border-r" name="month">
+                  <option value="">Select Month</option>
+                  <option value="january">January</option>
+                  <option value="february">February</option>
+                  <option value="march">March</option>
+                  <option value="april">April</option>
+                  <option value="may">May</option>
+                  <option value="june">June</option>
+                  <option value="july">July</option>
+                  <option value="august">August</option>
+                  <option value="september">September</option>
+                  <option value="october">October</option>
+                  <option value="november">November</option>
+                  <option value="december">December</option>
                 </select>
               </div>
               <div className="col-xs-12 col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
@@ -257,31 +257,32 @@ export class User extends React.Component {
             </div>
           </div>
 
-          <div className="container">
+          <div className="container tab-space-r">
             <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-              <div className="card-body-margin-r">
-                <p id="purchaseBills" onClick={this.tabActive} className={this.state.isActiveTab == "purchaseBills" ? "btn btn-primary btn-lg btn-block tab-active-r" : "btn btn-primary btn-lg btn-block tab-inactive-r"}>
+              <div className={this.state.isActiveTab == "purchaseBills" ? "tab-active-base-r" : "tab-inactive-base-r"}>
+                <p id="purchaseBills" onClick={this.tabActive}>
                   Purchase Bills<br />({this.state.purchaseBillImages.length} entries)</p>
               </div>
             </div>
 
             <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-              <div className="card-body-margin-r">
-                <p id="saleBills" onClick={this.tabActive} className={this.state.isActiveTab == "saleBills" ? "btn btn-primary btn-lg btn-block tab-active-r" : "btn btn-primary btn-lg btn-block tab-inactive-r"}>
+              <div className={this.state.isActiveTab == "saleBills" ? "tab-active-base-r" : "tab-inactive-base-r"}>
+                <p id="saleBills" onClick={this.tabActive} className ="">
                   Sale Bills<br />({this.state.saleBillImages.length} entries)</p>
               </div>
             </div>
 
             <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-              <div className="card-body-margin-r">
-                <p id="otherBills" onClick={this.tabActive} className={this.state.isActiveTab == "otherBills" ? "btn btn-primary btn-lg btn-block tab-active-r" : "btn btn-primary btn-lg btn-block tab-inactive-r"}>
+              <div className={this.state.isActiveTab == "otherBills" ? "tab-active-base-r" : "tab-inactive-base-r"}>
+                <p id="otherBills" onClick={this.tabActive} className ="">
                   Other<br />({this.state.otherBillImages.length} entries)</p>
               </div>
             </div>
           </div>
+          
           {
             this.state.isActiveTab == "purchaseBills" ?
-              <div className="container card-button-r">
+              <div className="container">
                 <form id="purchaseBillImages" onSubmit={this.billUploadHandler}>
                   <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-align-center-r">
                     <div className="card-base-r card-scroll-r">
@@ -301,14 +302,14 @@ export class User extends React.Component {
                     </div>
                     <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="purchase"
                       type="file" multiple required />
-                    <div className="browse-upload-margin-r">
+                    <div>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <div><button type="button" className="btn btn-primary btn-text-r full-width-r">
+                        <div><button type="button" className="button-base-r">
                           <label className="cursor-pointer-r margin-0-r" htmlFor="purchase">Browse</label>
                         </button></div>
                       </div>
                       <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <button className="btn btn-primary btn-text-r full-width-r"> Upload </button>
+                        <button className="button-base-r"> Upload </button>
                       </div>
                     </div>
                   </div>
@@ -334,7 +335,7 @@ export class User extends React.Component {
               </div>
               :
               this.state.isActiveTab == "saleBills" ?
-                <div className="container card-button-r">
+                <div className="container">
                   <form id="saleBillImages" onSubmit={this.billUploadHandler}>
                     <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-align-center-r">
                       <div className="card-base-r card-scroll-r">
@@ -354,14 +355,14 @@ export class User extends React.Component {
                       </div>
                       <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="sale"
                         type="file" multiple required />
-                      <div className="browse-upload-margin-r">
+                      <div>
                         <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                          <div><button type="button" className="btn btn-primary btn-text-r full-width-r">
+                          <div><button type="button" className="button-base-r">
                             <label className="cursor-pointer-r margin-0-r" htmlFor="sale">Browse</label>
                           </button></div>
                         </div>
                         <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                          <button className="btn btn-primary btn-text-r full-width-r"> Upload </button>
+                          <button className="button-base-r"> Upload </button>
                         </div>
                       </div>
                     </div>
@@ -384,13 +385,11 @@ export class User extends React.Component {
                       )}
 
                     </div>
-
-
                   </div>
                 </div>
                 :
 
-                <div className="container card-button-r">
+                <div className="container">
                   <form id="otherBillImages" onSubmit={this.billUploadHandler}>
                     <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-align-center-r">
                       <div className="card-base-r card-scroll-r">
@@ -410,14 +409,14 @@ export class User extends React.Component {
                       </div>
                       <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="other"
                         type="file" multiple required />
-                      <div className="browse-upload-margin-r">
+                      <div>
                         <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                          <div><button type="button" className="btn btn-primary btn-text-r full-width-r">
+                          <div><button type="button" className="button-base-r">
                             <label className="cursor-pointer-r margin-0-r" htmlFor="other">Browse</label>
                           </button></div>
                         </div>
                         <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                          <button className="btn btn-primary btn-text-r full-width-r"> Upload </button>
+                          <button className="button-base-r"> Upload </button>
                         </div>
                       </div>
                     </div>
@@ -444,59 +443,6 @@ export class User extends React.Component {
 
                   </div>
                 </div>
-
-
-            // <div className="container card-button-r">
-            //   <form id="otherBillImages" onSubmit={this.billUploadHandler}>
-            //     <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-align-center-r">
-            //     <div className="card-base-r card-scroll-r">
-            //       {
-            //       this.state.browseBillImages.length == 1 ?
-            //         <div className="text-align-center-r">
-            //         <img className="browse-image-r" src={this.state.browseBillImages[0]} id="output" alt="" />
-            //        </div>
-            //         :
-            //       this.state.browseBillImages.map((val, index) =>{
-            //       return <div key={index} className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-align-center-r padding-5-r">
-            //         <img className="browse-multiple-image-r" src={val} id="output" alt="" />
-            //        </div>
-            //       }
-            //       )
-            //       }
-            //     </div>
-            //       <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="other"
-            //         type="file" multiple required />
-            //       <div className="browse-upload-margin-r">
-            //         <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-            //           <div><button type="button" className="btn btn-primary btn-text-r full-width-r">
-            //             <label className="cursor-pointer-r margin-0-r" htmlFor="other">Browse</label>
-            //           </button></div>
-            //         </div>
-            //         <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-            //           <button className="btn btn-primary btn-text-r full-width-r"> Upload </button>
-            //         </div>
-            //       </div>
-            //     </div>
-            //   </form>
-            //   <div className="col-xs-12 col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10">
-            //     <div className="text-align-center-min-r">
-
-            //       {this.state.otherBillImages.map((val, index) =>
-            //         <React.Fragment key={index}>
-            //           <div className="card-base-r">
-            //             <img className="selected-image-r" src={val} />
-            //             <p className="card-sub-heading-r">Other Bill.png</p>
-            //             <p className="card-sub-heading-r">Created At : 21-04-2020</p>
-            //           </div>
-            //           <span className="delete-report-icon-r">
-            //             <button name="otherBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-            //           </span>
-            //         </React.Fragment>
-            //       )}
-
-            //     </div>
-            //   </div>
-            // </div>
           }
 
         </div>
