@@ -62,6 +62,58 @@ export class ManageTrader extends React.Component {
         "name": "Michel",
         "mobileNumber": "2222222222"
       }
+    },
+    {
+      "userId": 3,
+      "traderDetails": {
+        "year": "2019",
+        "month": "march",
+        "status": "completed",
+        "state": "active",
+        "timestamp": "09-04-2020",
+        "traderId": "1003",
+        "name": "Michel",
+        "mobileNumber": "2222222222"
+      }
+    },
+    {
+      "userId": 3,
+      "traderDetails": {
+        "year": "2019",
+        "month": "march",
+        "status": "completed",
+        "state": "active",
+        "timestamp": "09-04-2020",
+        "traderId": "1003",
+        "name": "Michel",
+        "mobileNumber": "2222222222"
+      }
+    },
+    {
+      "userId": 3,
+      "traderDetails": {
+        "year": "2019",
+        "month": "march",
+        "status": "completed",
+        "state": "active",
+        "timestamp": "09-04-2020",
+        "traderId": "1003",
+        "name": "Michel",
+        "mobileNumber": "2222222222"
+      }
+    },
+    {
+      "userId": 3,
+      "traderDetails": {
+        "year": "2019",
+        "month": "march",
+        "status": "completed",
+        "state": "active",
+        "timestamp": "09-04-2020",
+        "traderId": "1003",
+        "name": "Michel",
+        "mobileNumber": "2222222222"
+      }
     }
     ],
     reports: [{
@@ -284,9 +336,9 @@ export class ManageTrader extends React.Component {
 
       else
         filteredData = []
-        payload.year = ""
-        payload.month = ""
-      }
+      payload.year = ""
+      payload.month = ""
+    }
     var reactTableData = filteredData.map(val => {
       return {
         userId: val.userId,
@@ -417,12 +469,12 @@ export class ManageTrader extends React.Component {
             </div>
           </div>
         </div>
-        
+
         <div className="container outer-box-r">
           <div className="container filter-year-month-r">
-            <div style={{ marginBottom: "20px" }} className="row">
+            <div className="row">
               <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                <select id="year" onChange={this.nameChangeHandler} value={this.state.payload.year} className="custom-select year-month-border-r"
+                <select id="year" onChange={this.nameChangeHandler} value={this.state.payload.year} className="year-month-border-r"
                   name="lectureId">
                   <option value="">Select Year</option>
                   <option value="2017">2017-2018</option>
@@ -432,7 +484,7 @@ export class ManageTrader extends React.Component {
                 </select>
               </div>
               <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                <select id="month" onChange={this.nameChangeHandler} value={this.state.payload.month} className="custom-select year-month-border-r"
+                <select id="month" onChange={this.nameChangeHandler} value={this.state.payload.month} className="year-month-border-r"
                   name="lectureId">
                   <option value="">Select Month</option>
                   <option value="january">January</option>
@@ -450,7 +502,7 @@ export class ManageTrader extends React.Component {
                 </select>
               </div>
               <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                <select id="userType" onChange={this.nameChangeHandler} value={this.state.payload.userType} className="custom-select year-month-border-r"
+                <select id="userType" onChange={this.nameChangeHandler} value={this.state.payload.userType} className="year-month-border-r"
                   name="lectureId">
                   <option value="">Select Trader</option>
                   <option value="all">All Traders</option>
@@ -465,7 +517,7 @@ export class ManageTrader extends React.Component {
             </div>
           </div>
           <div className="container">
-          <button type="button" onClick={()=>{this.props.history.push('/addOrEditTrader')}} className="btn btn-primary btn-text-r newEntry-r">New Trader</button>
+            <button type="button" onClick={() => { this.props.history.push('/addOrEditTrader') }} className="button-base-r newEntry-r">New Trader</button>
           </div>
           <div className="container">
             <div className="customReactTableBox">

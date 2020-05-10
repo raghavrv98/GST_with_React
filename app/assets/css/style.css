@@ -375,14 +375,6 @@ body {
   margin: 20px 0px 30px !important;
 }
 
-.static-title-r {
-  margin: 0px 0px 20px !important;
-  text-align: center !important;
-  font-size: 25px !important;
-  text-decoration: underline !important;
-  text-underline-position: under !important;
-}
-
 .selected-image-r {
   height: 200px;
   position: relative;
@@ -467,20 +459,52 @@ body {
   margin: 25px 0px !important;
 }
 
-
 .view-reports-r {
   color: #255b7a;
-  font-size: 20px;
+  font-size: 18px;
   text-decoration: underline #255b7a;
   margin: 0px !important;
   cursor: pointer;
   display: inline-block;
+}
 
+.static-title-r {
+  margin: 0px 0px 20px !important;
+  text-align: center;
+  font-size: 25px;
+  color: #255b7a;
+  text-decoration: underline !important;
+  text-underline-position: under !important;
+}
+
+.main-title-r {
+  text-align: center;
+  font-size: 25px;
+  color: #255b7a;
+}
+
+.sub-title-r {
+  text-align: center;
+  font-size: 20px;
+  color: #255b7a;
 }
 
 /* -------------------------------------------------------------------------------------------------------------------- */
 
 @media screen and (min-width: 480px) {
+  .width-50-r{
+    width: 50% !important;
+  }
+
+  .width-40-r{
+    width: 40% !important;
+  }
+  
+  .width-30-r{
+    width: 30% !important;
+  }
+
+
   .aboutus-img1-r {
     margin: 35px auto 45px;
     width: 65%;
@@ -510,13 +534,7 @@ body {
   .font-30-r {
     font-size: 30px !important;
   }
-  .main-title-r {
-    text-align: center;
-    font-size: 25px;
-    text-decoration: underline;
-    text-underline-position: under;
-    margin: 0px 0px 10px;
-  }
+
   .static-form-r {
     padding: 80px 100px 0px !important;
     margin: 0px !important;
@@ -531,6 +549,14 @@ body {
 /* ----------------------------------------------------------------------------------------------------------------------------------- */
 
 @media screen and (max-width: 479px) {
+.button-margin-top{
+  margin: 15px 0px 0px !important;
+}
+
+.width-40-r{
+  width: 40% !important;
+}
+
   .static-form-r {
     padding: 60px 0px !important;
     margin: 0px !important;
@@ -561,13 +587,6 @@ body {
   }
   .margin-10-r {
     margin: 10px 0px !important;
-  }
-  .main-title-r {
-    margin: 5px 0px;
-    text-align: center;
-    font-size: 25px;
-    text-decoration: underline;
-    text-underline-position: under;
   }
   .text-align-center-min-r {
     text-align: center !important;

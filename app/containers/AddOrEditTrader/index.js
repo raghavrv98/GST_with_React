@@ -159,7 +159,7 @@ export class AddOrEditTrader extends React.Component {
                   required>
                 </textarea>
               <div className="text-align-center-r">
-                <button className="btn btn-primary btn-text-r margin-top-b-25-r">{this.props.match.params.id ? "Update Trader" : "Create Trader"}</button>
+                <button className="button-base-r width-40-r margin-top-b-25-r">{this.props.match.params.id ? "Update Trader" : "Create Trader"}</button>
               </div>
             </form>
           </div>

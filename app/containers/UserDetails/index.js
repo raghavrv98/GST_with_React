@@ -205,7 +205,7 @@ uploadFileHandler = () =>{
                 type="file"
                 required />
 
-              <div><button type="button" className="btn btn-primary btn-text-r">
+              <div><button type="button" className="button-base-r width-50-r">
                 <label className="cursor-pointer-r margin-0-r" htmlFor="daily">Browse</label>
               </button></div>
             </div>
@@ -243,7 +243,7 @@ uploadFileHandler = () =>{
                           placeholder="Comments.." required />
                       </div>
                       <div className="text-align-center-r">
-                        <button className="btn btn-primary btn-text-r">Upload</button>
+                        <button className="button-base-r width-50-r">Upload</button>
                       </div>
                     </form>
                   </div>
@@ -252,26 +252,26 @@ uploadFileHandler = () =>{
             </div>
           </div>
 
-        <div className="container">
           <div className="container outer-box-r">
+            
             <div className="container margin-10-r">
               <div className="row">
-                <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-align-center-r">
+                <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                   <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
-                    <p className="view-reports-r font-30-r">{this.state.filteredData && this.state.filteredData.length > 0 ? this.state.filteredData[0].legalName + "'s Details" : null}</p>
+                    <p className="main-title-r">{this.state.filteredData && this.state.filteredData.length > 0 ? this.state.filteredData[0].legalName + "'s Details" : null}</p>
                   </div>
                   <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
-                    <p className="view-reports-r font-20-r font-11-r">{this.state.filteredData && this.state.filteredData.length > 0 ? '(' + this.state.filteredData[0].mobileNumber + ')' : null}</p>
+                    <p className="sub-title-r">{this.state.filteredData && this.state.filteredData.length > 0 ? '(' + this.state.filteredData[0].mobileNumber + ')' : null}</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="container margin-top-25-r">
+          <div className="container filter-year-month-r">
               <div className="row">
                 <div className="col-xs-12 col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <select className="custom-select year-month-border-r" name="lectureId">
+                    <select className="year-month-border-r" name="lectureId">
                       <option defaultValue="">Select Year</option>
                       <option defaultValue="2017">2017-2018</option>
                       <option defaultValue="2018">2018-2019</option>
@@ -280,7 +280,7 @@ uploadFileHandler = () =>{
                     </select>
                   </div>
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <select className="custom-select year-month-border-r" name="lectureId">
+                    <select className="year-month-border-r" name="lectureId">
                       <option defaultValue="">Select Month</option>
                       <option defaultValue="january">January</option>
                       <option defaultValue="february">February</option>
@@ -297,22 +297,24 @@ uploadFileHandler = () =>{
                     </select>
                   </div>
                 </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 margin-10-r">
+                <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 button-margin-top">
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <button type="button" onClick={()=>{this.props.history.push('/manageTraderReports/gst')}} className="btn btn-primary btn-text-r full-width-r">view GST Reports</button>
+                    <button type="button" onClick={()=>{this.props.history.push('/manageTraderReports/gst')}} className="button-base-r">view GST Reports</button>
                   </div>
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <input style={{ display: "none" }} accept="image/*" onChange={this.loadFile} id="gst"
                       type="file" required />
-                    <div><button type="button" className="btn btn-primary btn-text-r full-width-r">
+                    <div><button type="button" className="button-base-r">
                       <label className="cursor-pointer-r margin-0-r font-11-r" htmlFor="gst">Upload GST Report</label>
                     </button></div>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <div className="customReactTableBox margin-top-25-r">
+                </div>
+                </div>
+
+            <div className="container">
+            <div className="customReactTableBox">
               <ReactTable
                 className="customReactTable"
                 data={this.state.filteredData}
@@ -328,7 +330,7 @@ uploadFileHandler = () =>{
               />
             </div>
           </div>
-        </div>
+          </div>
       </div>
     );
   }

@@ -188,12 +188,11 @@ class Header extends React.Component {
                         required
                       />
                       <div className="text-align-center-r">
-                        <input
+                        <button
                           type="submit"
-                          className="btn btn-primary btn-text-r"
+                          className="button-base-r width-40-r width-30-r"
                           name=""
-                          value="Reset"
-                        />
+                        >Reset</button>
                       </div>
                     </form>
                   </div>

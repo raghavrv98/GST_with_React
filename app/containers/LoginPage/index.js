@@ -104,7 +104,7 @@ export class LoginPage extends React.Component {
               <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 vertical-align-title-r">
                 <p className="title-r">XYZ</p>
                 <p className="sub-heading-r">"Your Own GST Software"</p>
-                <div className="text-align-center-r"><button type="button" onClick={this.contactHandler} className="btn btn-primary btn-text-r">Get in touch
+                <div className="text-align-center-r"><button type="button" onClick={this.contactHandler} className="button-base-r width-30-r width-40-r">Get in touch
         </button></div>
               </div>
 
@@ -126,7 +126,7 @@ export class LoginPage extends React.Component {
                               autoFocus
                               required />
                             <span>
-                              <button type="submit" className="btn btn-primary btn-text-r">Send</button>
+                              <button type="submit" className="button-base-r width-40-r">Send</button>
                             </span>
                           </form>
                           <p className="forgot-password-r" onClick={this.forgotPassword}>Get back to login</p>
@@ -153,7 +153,7 @@ export class LoginPage extends React.Component {
                               autoFocus
                               required />
                             <span>
-                              <button className="btn btn-primary btn-text-r">Login</button>
+                              <button className="button-base-r width-40-r">Login</button>
                             </span>
                           </form>
                           <p className="forgot-password-r" onClick={this.forgotPassword}>Forgot Password ?</p>

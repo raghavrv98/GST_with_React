@@ -28,9 +28,9 @@ export class Admin extends React.Component {
           <title>Admin</title>
           <meta name="description" content="Description of Admin" />
         </Helmet>
-        {/* <div className="adminBackgroundImage-r"> */}
+        <div className="container outer-box-r">
         <img className="adminPage-r" src={require('../../assets/img/admin2.png')} />
-        {/* </div> */}
+      </div>
       </div>
     );
   }
