@@ -18,7 +18,7 @@ import makeSelectUser from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import ConfirmModal from '../../components/ConfirmModal/Loadable'
+// import ConfirmModal from '../../components/ConfirmModal/Loadable'
 /* eslint-disable react/prefer-stateless-function */
 export class User extends React.Component {
 
@@ -118,15 +118,15 @@ export class User extends React.Component {
     });
   };
 
-  confirmModalHandler = (event) => {
-    let id = event.target.id
-    let name = event.target.name
-    this.setState({
-      showHideClassName: 'modal display-block container',
-      deleteId: id,
-      deleteName: name
-    })
-  }
+  // confirmModalHandler = (event) => {
+  //   let id = event.target.id
+  //   let name = event.target.name
+  //   this.setState({
+  //     showHideClassName: 'modal display-block container',
+  //     deleteId: id,
+  //     deleteName: name
+  //   })
+  // }
 
   modalCloseHandler = () => {
     this.setState({
@@ -137,8 +137,10 @@ export class User extends React.Component {
     })
   }
 
-  confirmDeleteData = (id, name) => {
+  confirmDeleteData = () => {
     event.preventDefault()
+    let name = event.target.name
+    let id = event.target.id
     if (name === "purchaseBillImages") {
       let purchaseBillImages = JSON.parse(JSON.stringify(this.state.purchaseBillImages))
       purchaseBillImages.splice(id, 1)
@@ -215,12 +217,12 @@ export class User extends React.Component {
           <title>User</title>
           <meta name="description" content="Description of User" />
         </Helmet>
-
+        {/* 
         <ConfirmModal
           showHideClassName={this.state.showHideClassName}
           onClose={this.modalCloseHandler}
           onConfirm={() => this.confirmDeleteData(this.state.deleteId, this.state.deleteName)}
-        />
+        /> */}
 
         <div className="container outer-box-r">
           <div className="container filter-year-month-r">
@@ -267,14 +269,14 @@ export class User extends React.Component {
 
             <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
               <div className={this.state.isActiveTab == "saleBills" ? "tab-active-base-r" : "tab-inactive-base-r"}>
-                <p className="margin-0-r" id="saleBills" onClick={this.tabActive} className ="">
+                <p className="margin-0-r" id="saleBills" onClick={this.tabActive} className="">
                   Sale Bills<br />({this.state.saleBillImages.length} entries)</p>
               </div>
             </div>
 
             <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
               <div className={this.state.isActiveTab == "otherBills" ? "tab-active-base-r" : "tab-inactive-base-r"}>
-                <p className="margin-0-r" id="otherBills" onClick={this.tabActive} className ="">
+                <p className="margin-0-r" id="otherBills" onClick={this.tabActive} className="">
                   Other<br />({this.state.otherBillImages.length} entries)</p>
               </div>
             </div>
@@ -325,7 +327,7 @@ export class User extends React.Component {
                           <p className="card-sub-heading-r">Created At : 21-04-2020</p>
                         </div>
                         <span className="delete-report-icon-r">
-                          <button name="purchaseBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                          <button name="purchaseBillImages" id={index} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
                         </span>
                       </React.Fragment>
                     )}
@@ -379,7 +381,7 @@ export class User extends React.Component {
                             <p className="card-sub-heading-r">Created At : 21-04-2020</p>
                           </div>
                           <span className="delete-report-icon-r">
-                            <button name="saleBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                            <button name="saleBillImages" id={index} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
                           </span>
                         </React.Fragment>
                       )}
@@ -433,7 +435,7 @@ export class User extends React.Component {
                             <p className="card-sub-heading-r">Created At : 21-04-2020</p>
                           </div>
                           <span className="delete-report-icon-r">
-                            <button name="otherBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                            <button name="otherBillImages" id={index} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
                           </span>
                         </React.Fragment>
                       )}

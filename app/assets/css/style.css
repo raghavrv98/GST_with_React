@@ -14,6 +14,22 @@ input[type='email'], input[type='number'], input[type='password'], input[type='s
   cursor: pointer !important;
 }
 
+.tooltipText {
+  max-width: 280px;
+}
+
+.tooltipText p {
+  font-size: 12px;
+  margin: 0;
+  text-transform: capitalize;
+  color: var(--white) !important;
+}
+
+.onClick-cell-r{
+  height: 28px !important;
+  cursor: pointer !important;
+}
+
 .margin-0-r {
   margin: 0px !important;
 }
@@ -274,6 +290,7 @@ body {
   position: relative !important;
   margin-bottom: 10px !important;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .opacity-r {
@@ -284,6 +301,7 @@ body {
   height: 80px;
   position: absolute;
   margin: 35px -110px;
+  cursor: pointer;
 }
 
 .card-drop-down-r {
@@ -293,6 +311,12 @@ body {
   left: 10px;
   color: black !important;
 }
+
+.background-hover-r:hover{
+  background-color: #e0dcdc;
+  border-radius: 5px;
+}
+
 
 .card-status-button-r {
   visibility: visible !important;
@@ -558,6 +582,14 @@ body {
     margin: 0px auto 20px !important;
     width: 10% !important;
   }
+
+  .card-full-view-parent-img-r {
+    height: 500px;
+    width: 100%;
+    position: relative !important;
+    border-radius: 10px;
+  }
+
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------- */
@@ -609,4 +641,12 @@ body {
     margin: 0px auto 20px !important;
     width: 26% !important;
   }
+
+  .card-full-view-parent-img-r {
+    height: 250px;
+    width: 100%;
+    position: relative !important;
+    border-radius: 10px;
+  }
+
 }

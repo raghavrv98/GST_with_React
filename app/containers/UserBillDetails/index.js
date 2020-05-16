@@ -26,7 +26,8 @@ export class UserBillDetails extends React.Component {
   state = {
     card: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
     showHideClassName: 'modal display-none container',
-    statusBoxArray:[]
+    statusBoxArray:[],
+    fullViewModalClassName : 'modal display-none container' 
   }
 
   confirmModalHandler = (event) => {
@@ -42,6 +43,7 @@ export class UserBillDetails extends React.Component {
     this.setState({
       isResetModal: false,
       showHideClassName: 'modal display-none container',
+      fullViewModalClassName : 'modal display-none container',
       deleteId: "",
       deleteName: ""
     })
@@ -83,6 +85,12 @@ export class UserBillDetails extends React.Component {
     })
   }
 
+  fullviewModal =()=>{
+    this.setState({
+      fullViewModalClassName: 'modal display-block container',
+    })
+  }
+
   render() {
     return (
       <div>
@@ -90,6 +98,32 @@ export class UserBillDetails extends React.Component {
           <title>UserBillDetails</title>
           <meta name="description" content="Description of UserBillDetails" />
         </Helmet>
+        
+        <div className={this.state.fullViewModalClassName} >
+            <div className="modal-dialog modal-dialog-centered" role="document">
+              <div className="modal-content">
+                <div className="modal-header background-color-r">
+                  <span className="text-color-white-r">Bill Full View</span>
+                  <button
+                    type="button"
+                    className="close"
+                    onClick={this.modalCloseHandler}
+                    aria-label="Close"
+                  >
+                    <i className="fa fa-times" aria-hidden="true" />
+                  </button>
+                </div>
+
+                <div className="modal-body,input-group input-group-lg">
+                  <div className="full-view-form-padding-r">
+                  <img className="card-full-view-parent-img-r" src={require('../../assets/img/aboutUs1.jpg')} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+        
         {
           this.props.match.params.id === "purchaseBills" ?
             <div className="container outer-box-r">
@@ -107,15 +141,15 @@ export class UserBillDetails extends React.Component {
                           className="fa fa-check submit-icon-r" aria-hidden="true"></i></button>
                       </div> */}
                     <div>
-                      <img className={ this.state.statusBoxArray.includes("s"+index)? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={require('../../assets/img/aboutUs1.jpg')} />
-                    { this.state.statusBoxArray.includes("s"+index) ? <img className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null }
+                      <img onClick={this.fullviewModal} className={ this.state.statusBoxArray.includes("s"+index)? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={require('../../assets/img/aboutUs1.jpg')} />
+                    { this.state.statusBoxArray.includes("s"+index) ? <img onClick={this.fullviewModal} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null }
                       <div className="dropdown">
                         <button className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </button>
                         <div className="dropdown-content">
-                          <a href="#">Transfer to sale</a>
-                          <a href="#">Transfer to other</a>
-                          <a data-toggle="modal" data-dismiss="modal" href="#returnModal">Return</a>
+                          <a className="background-hover-r" href="#">Transfer to sale</a>
+                          <a className="background-hover-r" href="#">Transfer to other</a>
+                          <a className="background-hover-r" href="#">Return</a>
                         </div>
                       </div>
                     </div>
@@ -160,9 +194,9 @@ export class UserBillDetails extends React.Component {
                         <button className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </button>
                         <div className="dropdown-content">
-                          <a href="#">Transfer to purchase</a>
-                          <a href="#">Transfer to other</a>
-                          <a data-toggle="modal" data-dismiss="modal" href="#returnModal">Return</a>
+                          <a className="background-hover-r" href="#">Transfer to purchase</a>
+                          <a className="background-hover-r" href="#">Transfer to other</a>
+                          <a  className="background-hover-r" href="#">Return</a>
                         </div>
                       </div>
                     </div>
@@ -206,9 +240,9 @@ export class UserBillDetails extends React.Component {
                         <button className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </button>
                         <div className="dropdown-content">
-                          <a href="#">Transfer to purchase</a>
-                          <a href="#">Transfer to sale</a>
-                          <a data-toggle="modal" data-dismiss="modal" href="#returnModal">Return</a>
+                          <a className="background-hover-r" href="#">Transfer to purchase</a>
+                          <a className="background-hover-r" href="#">Transfer to sale</a>
+                          <a  className="background-hover-r" href="#">Return</a>
                         </div>
                       </div>
                     </div>

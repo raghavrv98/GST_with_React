@@ -358,12 +358,13 @@ export class ManageUser extends React.Component {
     })
   }
 
-
   render() {
     const columns = [{
       Header: 'Serial No.',
       accessor: 'userId',
-      // filterable : true,
+      Cell: row =>(
+        <div className="onClick-cell-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}>{row.original.userId}</div>
+        ),
       width: 100,
     },
     {
@@ -371,16 +372,25 @@ export class ManageUser extends React.Component {
       accessor: 'clientId',
       width: 150,
       filterable: true,
+      Cell: row =>(
+      <div className="onClick-cell-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}>{row.original.clientId}</div>
+      )
     },
     {
       Header: 'Trade Name',
       accessor: 'tradeName',
       filterable: true,
+      Cell: row =>(
+      <div className="onClick-cell-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}>{row.original.tradeName}</div>
+      )
     },
     {
       Header: 'Legal Name',
       accessor: 'legalName',
       filterable: true,
+      Cell: row =>(
+        <div className="onClick-cell-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}>{row.original.legalName}</div>
+        )
     },
     {
       Header: 'Status',
@@ -399,7 +409,7 @@ export class ManageUser extends React.Component {
       width: 150,
       Cell: row =>
         (<div>
-          <a className="infoButton-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}><i className="fa fa-info" aria-hidden="true"></i></a>
+          {/* <a className="infoButton-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}><i className="fa fa-info" aria-hidden="true"></i></a> */}
           <span className="editButton-r" onClick={() => { this.props.history.push('/addOrEditUser/' + row.original.userId) }}><i className="far fa-edit"></i></span>
           {/* <button id={row.original.userId} onClick={this.confirmModalHandler} className="deleteButton-r far fa-trash-alt"></button> */}
         </div>
