@@ -66,7 +66,7 @@ export class AddOrEditUser extends React.Component {
     Object.entries(this.state.payload).map(key =>
       localStorage.setItem(key[0],key[1])
     )
-    this.props.history.push('/trader')
+    this.props.history.push('/manageAccountant')
   }
 
   render() {

@@ -1,6 +1,6 @@
 /**
  *
- * ManageUser
+ * ManageAccountant
  *
  */
 
@@ -14,55 +14,105 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectManageUser from './selectors';
+import makeSelectManageAccountant from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+import ConfirmModal from '../../components/ConfirmModal/Loadable'
 import ReactTooltip from 'react-tooltip';
-
-// import ConfirmModal from '../../components/ConfirmModal/Loadable'
-
 /* eslint-disable react/prefer-stateless-function */
-export class ManageUser extends React.Component {
+export class ManageAccountant extends React.Component {
 
   state = {
-    userList: [{
+    accountantList: [{
       "userId": 1,
-      "userDetails": {
+      "accountantDetails": {
         "year": "2017",
         "month": "january",
         "status": "pending",
         "state": "inActive",
         "timestamp": "09-04-2020",
-        "clientId": "1001",
-        "tradeName": "Ram Provision Store",
-        "legalName": "Ram"
+        "accountantId": "1001",
+        "name": "John",
+        "mobileNumber": "0000000000"
       }
     },
     {
       "userId": 2,
-      "userDetails": {
+      "accountantDetails": {
         "year": "2018",
         "month": "february",
         "status": "completed",
         "state": "active",
         "timestamp": "09-04-2020",
-        "clientId": "1002",
-        "tradeName": "shyam Provision Store",
-        "legalName": "shyam"
+        "accountantId": "1002",
+        "name": "Jacob",
+        "mobileNumber": "1111111111"
       }
     },
     {
       "userId": 3,
-      "userDetails": {
+      "accountantDetails": {
         "year": "2019",
         "month": "march",
         "status": "completed",
         "state": "active",
         "timestamp": "09-04-2020",
-        "clientId": "1003",
-        "tradeName": "rohan Provision Store",
-        "legalName": "rohan"
+        "accountantId": "1003",
+        "name": "Michel",
+        "mobileNumber": "2222222222"
+      }
+    },
+    {
+      "userId": 3,
+      "accountantDetails": {
+        "year": "2019",
+        "month": "march",
+        "status": "completed",
+        "state": "active",
+        "timestamp": "09-04-2020",
+        "accountantId": "1003",
+        "name": "Michel",
+        "mobileNumber": "2222222222"
+      }
+    },
+    {
+      "userId": 3,
+      "accountantDetails": {
+        "year": "2019",
+        "month": "march",
+        "status": "completed",
+        "state": "active",
+        "timestamp": "09-04-2020",
+        "accountantId": "1003",
+        "name": "Michel",
+        "mobileNumber": "2222222222"
+      }
+    },
+    {
+      "userId": 3,
+      "accountantDetails": {
+        "year": "2019",
+        "month": "march",
+        "status": "completed",
+        "state": "active",
+        "timestamp": "09-04-2020",
+        "accountantId": "1003",
+        "name": "Michel",
+        "mobileNumber": "2222222222"
+      }
+    },
+    {
+      "userId": 3,
+      "accountantDetails": {
+        "year": "2019",
+        "month": "march",
+        "status": "completed",
+        "state": "active",
+        "timestamp": "09-04-2020",
+        "accountantId": "1003",
+        "name": "Michel",
+        "mobileNumber": "2222222222"
       }
     }
     ],
@@ -215,27 +265,22 @@ export class ManageUser extends React.Component {
       month: "january",
       userType: "all",
     },
-    statusPayload : {
-      id : "",
-      Password:""
-    },
     filteredData: [],
     reactTableData: [],
     isFetching: false,
     showHideClassName: 'modal display-none container',
-
   }
 
   componentWillMount() {
     setTimeout(this.loadingTime, 500);
-    let filteredData = JSON.parse(JSON.stringify(this.state.userList))
+    let filteredData = JSON.parse(JSON.stringify(this.state.accountantList))
     var reactTableData = filteredData.map(val => {
       return {
         userId: val.userId,
-        clientId: val.userDetails.clientId,
-        tradeName: val.userDetails.tradeName,
-        legalName: val.userDetails.legalName,
-        status: val.userDetails.status
+        accountantId: val.accountantDetails.accountantId,
+        name: val.accountantDetails.name,
+        mobileNumber: val.accountantDetails.mobileNumber,
+        status: val.accountantDetails.status
       }
     })
     this.setState({
@@ -254,22 +299,22 @@ export class ManageUser extends React.Component {
     let payload = JSON.parse(JSON.stringify(this.state.payload))
     payload[event.target.id] = event.target.value
     if (event.target.id == "year") {
-      filteredData = this.state.userList.filter(val => val.userDetails.year == event.target.value);
+      filteredData = this.state.accountantList.filter(val => val.accountantDetails.year == event.target.value);
       payload.month = ""
       payload.userType = ""
     }
     else if (event.target.id == "month") {
-      filteredData = this.state.userList.filter(val => val.userDetails.month == event.target.value);
+      filteredData = this.state.accountantList.filter(val => val.accountantDetails.month == event.target.value);
       payload.year = ""
       payload.userType = ""
     }
     else if (event.target.id == "userType") {
       if (event.target.value == "completed" || event.target.value == "pending") {
-        filteredData = this.state.userList.filter(val => val.userDetails.status == event.target.value);
+        filteredData = this.state.accountantList.filter(val => val.accountantDetails.status == event.target.value);
       }
 
       else if (event.target.value == "active" || event.target.value == "inActive") {
-        filteredData = this.state.userList.filter(val => val.userDetails.state == event.target.value);
+        filteredData = this.state.accountantList.filter(val => val.accountantDetails.state == event.target.value);
       }
 
       else if (event.target.value == "withData" || event.target.value == "withoutData") {
@@ -277,31 +322,30 @@ export class ManageUser extends React.Component {
         if (event.target.value == "withData") {
           filteredData = this.state.reports.map(val => { if (val.userBills.length > 0) return val.userId });
           filteredData = filteredData.filter(val => { if (val != undefined) return val });
-          filteredData = this.state.userList.filter(val => filteredData.includes(val.userId))
+          filteredData = this.state.accountantList.filter(val => filteredData.includes(val.userId))
         }
         else {
           filteredData = this.state.reports.map(val => { if (val.userBills.length == 0) return val.userId });
           filteredData = filteredData.filter(val => { if (val != undefined) return val });
-          filteredData = this.state.userList.filter(val => filteredData.includes(val.userId))
+          filteredData = this.state.accountantList.filter(val => filteredData.includes(val.userId))
         }
 
       }
       else if (event.target.value == "all")
-        filteredData = this.state.userList;
+        filteredData = this.state.accountantList;
 
       else
         filteredData = []
       payload.year = ""
       payload.month = ""
     }
-
     var reactTableData = filteredData.map(val => {
       return {
         userId: val.userId,
-        clientId: val.userDetails.clientId,
-        tradeName: val.userDetails.tradeName,
-        legalName: val.userDetails.legalName,
-        status: val.userDetails.status
+        accountantId: val.accountantDetails.accountantId,
+        name: val.accountantDetails.name,
+        mobileNumber: val.accountantDetails.mobileNumber,
+        status: val.accountantDetails.status
       }
     })
 
@@ -311,16 +355,14 @@ export class ManageUser extends React.Component {
     })
   }
 
-  // confirmModalHandler = (event) => {
-  //   let id = event.target.id
-  //   console.log('id: ', id);
-  //   let name = event.target.name
-  //   this.setState({
-  //     showHideClassName: 'modal display-block container',
-  //     deleteId: id,
-  //     deleteName: name
-  //   })
-  // }
+  confirmModalHandler = (event) => {
+    let id = event.target.id
+    this.setState({
+      showHideClassName: 'modal display-block container',
+      deleteId: id,
+      deleteName: name
+    })
+  }
 
   modalCloseHandler = () => {
     this.setState({
@@ -331,12 +373,13 @@ export class ManageUser extends React.Component {
     })
   }
 
-  // confirmDeleteData = (id) => {
-  //   event.preventDefault()
-  //   this.setState({
-  //     isConfirmModal: false
-  //   })
-  // }
+
+  confirmDeleteData = (id) => {
+    event.preventDefault()
+    this.setState({
+      showHideClassName: 'modal display-none container',
+    })
+  }
 
   statusHandler = (event) => {
     let id = event.target.id
@@ -360,51 +403,53 @@ export class ManageUser extends React.Component {
     })
   }
 
+
+
   render() {
     const columns = [{
       Header: 'Serial No.',
       accessor: 'userId',
-      Cell: row =>(
-        <div className="onClick-cell-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}>{row.original.userId}</div>
-        ),
+      // filterable : true,
       width: 100,
-    },
-    {
-      Header: 'client Id',
-      accessor: 'clientId',
-      width: 150,
-      filterable: true,
       Cell: row =>(
-      <div className="onClick-cell-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}>{row.original.clientId}</div>
-      )
-    },
-    {
-      Header: 'Legal Name',
-      accessor: 'legalName',
-      filterable: true,
-      Cell: row =>(
-        <div className="onClick-cell-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}>{row.original.legalName}</div>
+        <div className="onClick-cell-r" onClick={() => { this.props.history.push('/manageUser/' + row.original.userId) }}>{row.original.userId}</div>
         )
     },
     {
-      Header: 'Trade Name',
-      accessor: 'tradeName',
+      Header: 'Accountant Id',
+      accessor: 'accountantId',
+      width: 150,
       filterable: true,
       Cell: row =>(
-      <div className="onClick-cell-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}>{row.original.tradeName}</div>
-      )
+        <div className="onClick-cell-r" onClick={() => { this.props.history.push('/manageUser/' + row.original.userId) }}>{row.original.accountantId}</div>
+        )
+    },
+    {
+      Header: 'Name',
+      accessor: 'name',
+      filterable: true,
+      Cell: row =>(
+        <div className="onClick-cell-r" onClick={() => { this.props.history.push('/manageUser/' + row.original.userId) }}>{row.original.name}</div>
+        )
+    },
+    {
+      Header: 'Mobile Number',
+      accessor: 'mobileNumber',
+      // filterable: true,
+      Cell: row =>(
+        <div className="onClick-cell-r" onClick={() => { this.props.history.push('/manageUser/' + row.original.userId) }}>{row.original.mobileNumber}</div>
+        )
     },
     {
       Header: 'Status',
       accessor: 'status',
-      width: 100,
+      width: 80,
       Cell: row =>
         (
-          // <div className="table-status-pending-r">
-          // Pending
-          // </div>
           <div>
+            {/* <input checked={row.original.status == "completed"} data-toggle="modal" data-target="#statusPassword" className="status-button-r" type="checkbox" /> */}
             <input id={row.original.userId} onChange={this.statusHandler} checked={row.original.status == "completed"} className="status-button-r" type="checkbox" />
+          
           </div>
         )
     },
@@ -414,9 +459,9 @@ export class ManageUser extends React.Component {
       width: 150,
       Cell: row =>
         (<div>
-          {/* <a className="infoButton-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}><i className="fa fa-info" aria-hidden="true"></i></a> */}
-          <span className="editButton-r" data-tip data-for="edit" onClick={() => { this.props.history.push('/addOrEditUser/' + row.original.userId) }}><i className="far fa-edit"></i><ReactTooltip id="edit" type="dark" ><div className="tooltipText"><p>Edit</p></div></ReactTooltip></span>
-          {/* <button id={row.original.userId} onClick={this.confirmModalHandler} className="deleteButton-r far fa-trash-alt"></button> */}
+          {/* <a className="infoButton-r" onClick={() => { this.props.history.push('/manageUser/' + row.original.userId) }}><i className="fa fa-info" aria-hidden="true"></i></a> */}
+          <span className="editButton-r" data-tip data-for="edit" onClick={() => { this.props.history.push('/addOrEditaccountant/' + row.original.userId) }}><i className="far fa-edit" /><ReactTooltip id="edit" type="dark" ><div className="tooltipText"><p>Edit</p></div></ReactTooltip></span>
+          <a className="deleteButton-r" data-tip data-for="delete" onClick={this.confirmModalHandler} ><i className="far fa-trash-alt" /><ReactTooltip id="delete" type="dark" ><div className="tooltipText"><p>Delete</p></div></ReactTooltip></a>
         </div>
         )
     },
@@ -424,17 +469,17 @@ export class ManageUser extends React.Component {
     return (
       <div>
         <Helmet>
-          <title>ManageUser</title>
-          <meta name="description" content="Description of ManageUser" />
+          <title>ManageAccountant</title>
+          <meta name="description" content="Description of ManageAccountant" />
         </Helmet>
 
-        {/* <ConfirmModal
+        <ConfirmModal
           showHideClassName={this.state.showHideClassName}
           onClose={this.modalCloseHandler}
           onConfirm={() => this.confirmDeleteData(this.state.deleteId, this.state.deleteName)}
-        /> */}
+        />
 
-        <div className={this.state.showHideClassName} >
+<div className={this.state.showHideClassName} >
             <div className="modal-dialog modal-dialog-centered" role="document">
               <div className="modal-content">
                 <div className="modal-header background-color-r">
@@ -468,8 +513,6 @@ export class ManageUser extends React.Component {
               </div>
             </div>
           </div>
-
-        
         <div className="container outer-box-r">
           <div className="container filter-year-month-r">
             <div className="row">
@@ -504,10 +547,10 @@ export class ManageUser extends React.Component {
               <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                 <select id="userType" onChange={this.nameChangeHandler} value={this.state.payload.userType} className="year-month-border-r"
                   name="lectureId">
-                  <option value="">Select User</option>
-                  <option value="all">All Users</option>
-                  <option value="withData">User with Data</option>
-                  <option value="withoutData">User without Data</option>
+                  <option value="">Select accountant</option>
+                  <option value="all">All accountants</option>
+                  <option value="withData">accountant with Data</option>
+                  <option value="withoutData">accountant without Data</option>
                   <option value="completed">Status Completed</option>
                   <option value="pending">Status Pending</option>
                   <option value="inActive">InActive</option>
@@ -517,21 +560,14 @@ export class ManageUser extends React.Component {
             </div>
           </div>
           <div className="container">
-          <button type="button" onClick={()=>{this.props.history.push('/addOrEditUser')}} className="button-base-r newEntry-r">New User</button>
+            <button type="button" onClick={() => { this.props.history.push('/addOrEditAccountant') }} className="button-base-r newEntry-r">New Accountant</button>
           </div>
           <div className="container">
             <div className="customReactTableBox">
+              {console.log('{this.state.reactTableData}: ', this.state.reactTableData)}
               <ReactTable
                 className="customReactTable"
                 data={this.state.reactTableData}
-                // getTrProps={(state, rowInfo, column, instance) => ({
-                //   onClick: (e) => {
-                //     this.props.history.push('/addOrEditUser/' + rowInfo.original.userId)
-                //   },
-                //   style: {
-                //     cursor: "pointer"
-                //   }
-                // })}  
                 columns={columns}
                 defaultPageSize={5}
                 noDataText={
@@ -548,14 +584,15 @@ export class ManageUser extends React.Component {
       </div>
     );
   }
+
 }
 
-ManageUser.propTypes = {
+ManageAccountant.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  manageUser: makeSelectManageUser(),
+  manageAccountant: makeSelectManageAccountant(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -569,11 +606,11 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'manageUser', reducer });
-const withSaga = injectSaga({ key: 'manageUser', saga });
+const withReducer = injectReducer({ key: 'manageAccountant', reducer });
+const withSaga = injectSaga({ key: 'manageAccountant', saga });
 
 export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(ManageUser);
+)(ManageAccountant);

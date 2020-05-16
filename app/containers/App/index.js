@@ -16,17 +16,16 @@ import Footer from 'components/Footer';
 import User from 'containers/User/Loadable'
 import UserDetails from 'containers/UserDetails/Loadable'
 import Contact from 'containers/Contact/Loadable'
-import Services from 'containers/Services/Loadable'
 import AboutUs from 'containers/AboutUs/Loadable'
 import AddOrEditUser from 'containers/AddOrEditUser/Loadable'
-import AddOrEditTrader from 'containers/AddOrEditTrader/Loadable'
-import ManageTrader from 'containers/ManageTrader/Loadable'
+import AddOrEditAccountant from 'containers/AddOrEditAccountant/Loadable'
 import ManageUser from 'containers/ManageUser/Loadable'
 import Admin from 'containers/Admin/Loadable'
 import LoginPage from 'containers/LoginPage/Loadable'
 import ManageUserReports from 'containers/ManageUserReports/Loadable'
-import ManageTraderReports from 'containers/ManageTraderReports/Loadable'
+import ManageAccountantReports from 'containers/ManageAccountantReports/Loadable'
 import UserBillDetails from 'containers/UserBillDetails/Loadable'
+import ManageAccountant from 'containers/ManageAccountant/Loadable'
 
 export default function App() {
   return (
@@ -43,15 +42,14 @@ export default function App() {
         <Route exact path="/user" component={User} />
         <Route exact path="/userDetails/:id?" component={UserDetails} />
         <Route exact path="/contact" component={Contact} />
-        <Route exact path="/services" component={Services} />
         <Route exact path="/aboutUs" component={AboutUs} />
         <Route exact path="/addOrEditUser/:id?" component={AddOrEditUser} />
-        <Route exact path="/addOrEditTrader/:id?" component={AddOrEditTrader} />
-        <Route exact path="/manageTrader" component={ManageTrader} />
+        <Route exact path="/addOrEditAccountant/:id?" component={AddOrEditAccountant} />
+        <Route exact path="/manageAccountant" component={ManageAccountant} />
         <Route exact path="/manageUser/:id?" component={ManageUser} />
         <Route exact path="/admin" component={Admin} />
         <Route exact path="/manageUserReports" component={ManageUserReports} />
-        <Route exact path="/manageTraderReports/:id" component={ManageTraderReports} />
+        <Route exact path="/manageAccountantReports/:id" component={ManageAccountantReports} />
         <Route exact path="/userBillDetails/:id" component={UserBillDetails} />
         {/* <Route path="" component={NotFoundPage} /> */}
       </Switch>

@@ -15,14 +15,13 @@ input[type='email'], input[type='number'], input[type='password'], input[type='s
 }
 
 .tooltipText {
-  max-width: 280px;
+  max-width: 200px;
 }
 
 .tooltipText p {
   font-size: 12px;
   margin: 0;
-  text-transform: capitalize;
-  color: var(--white) !important;
+  color: white !important;
 }
 
 .onClick-cell-r{
@@ -48,6 +47,11 @@ input[type='email'], input[type='number'], input[type='password'], input[type='s
 
 .text-color-r {
   color: #255b7a !important;
+}
+
+.text-color-r:hover{
+  color: #f06d46 !important;
+  text-decoration: underline;
 }
 
 .text-color-white-r {
@@ -234,7 +238,7 @@ body {
   background: #c05738;
   height: 75px;
   width: 100%;
-  padding: 20px;
+  padding: 15px;
   border-radius: 16px;
   box-shadow: 1px 3px 5px rgba(24, 50, 115, 0.6);
   cursor: pointer;
@@ -248,7 +252,7 @@ body {
   background: #f06d46;
   height: 75px;
   width: 100%;
-  padding: 20px;
+  padding: 15px;
   border-radius: 16px;
   box-shadow: 1px 3px 5px rgba(24, 50, 115, 0.6);
   cursor: pointer;
@@ -316,7 +320,6 @@ body {
   background-color: #e0dcdc;
   border-radius: 5px;
 }
-
 
 .card-status-button-r {
   visibility: visible !important;
@@ -461,12 +464,6 @@ body {
   display: block;
 }
 
-/* Change color of dropdown links on hover */
-
-/* .dropdown-content a:hover {
-	background-color: #ddd;
-} */
-
 /* Show the dropdown menu on hover */
 
 .dropdown:hover .dropdown-content {
@@ -474,10 +471,6 @@ body {
 }
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-
-.dropdown:hover .dropbtn {
-  background-color: #3e8e41;
-}
 
 .filter-year-month-r {
   margin: 25px 0px !important;
@@ -525,6 +518,27 @@ body {
   border-radius: 10px !important;
   border: 1px solid;
   margin: 0px 0px 20px!important;
+}
+
+.table-status-approved-r{
+  background-color: #d2f7d2;
+    border-radius: 10px;
+    padding: 5px;
+    color: #57ab57;
+}
+
+.table-status-pending-r{
+  background-color: #fffe96;
+  border-radius: 10px;
+  padding: 5px;
+  color: #a19f1b;
+}
+
+.table-status-rejected-r{
+  background-color: #fa0202;
+  border-radius: 10px;
+  padding: 5px;
+  color: white;
 }
 
 /* -------------------------------------------------------------------------------------------------------------------- */

@@ -186,7 +186,7 @@ uploadFileHandler = () =>{
         Cell: row =>
           (
             <div>
-              <p className="view-reports-r" onClick={()=>{this.props.history.push('/manageTraderReports/daily')}}>View</p>
+              <p className="view-reports-r" onClick={()=>{this.props.history.push('/manageAccountantReports/daily')}}>View</p>
             </div>
           )
       },
@@ -299,7 +299,7 @@ uploadFileHandler = () =>{
                 </div>
                 <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 button-margin-top">
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <button type="button" onClick={()=>{this.props.history.push('/manageTraderReports/gst')}} className="button-base-r">view GST Reports</button>
+                    <button type="button" onClick={()=>{this.props.history.push('/manageAccountantReports/gst')}} className="button-base-r">view GST Reports</button>
                   </div>
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <input style={{ display: "none" }} accept="image/*" onChange={this.loadFile} id="gst"

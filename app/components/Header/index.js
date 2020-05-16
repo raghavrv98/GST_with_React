@@ -87,11 +87,11 @@ class Header extends React.Component {
                       <NavLink
                         className="navbar-brand text-color-r"
                         exact
-                        to="/manageTrader"
-                        data-toggle="collapse"
+                        to="/manageAccountant"
+                        // data-toggle="collapse"
                         data-target="#bs-example-navbar-collapse-1"
                       >
-                        Manage Trader
+                        Manage Accountant
                   </NavLink>
                     : null
                   }
@@ -100,7 +100,7 @@ class Header extends React.Component {
                     onClick={this.resetPasswordHandler}
                     exact
                     to="#"
-                    data-toggle="collapse"
+                    // data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1"
                   >
                     Reset Password
@@ -111,7 +111,7 @@ class Header extends React.Component {
                     onClick={this.userLogout}
                     exact
                     to="/"
-                    data-toggle="collapse"
+                    // data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1"
                   >
                     Logout
@@ -128,7 +128,7 @@ class Header extends React.Component {
                       className="navbar-brand text-color-r"
                       exact
                       to="/"
-                      data-toggle="collapse"
+                      // data-toggle="collapse"
                       data-target="#bs-example-navbar-collapse-1"
                     >
                       Home
@@ -137,7 +137,7 @@ class Header extends React.Component {
                       className="navbar-brand text-color-r"
                       exact
                       to="/aboutUs"
-                      data-toggle="collapse"
+                      // data-toggle="collapse"
                       data-target="#bs-example-navbar-collapse-1"
                     >
                       AboutUs
@@ -146,7 +146,7 @@ class Header extends React.Component {
                       className="navbar-brand text-color-r"
                       exact
                       to="/contact"
-                      data-toggle="collapse"
+                      // data-toggle="collapse"
                       data-target="#bs-example-navbar-collapse-1"
                     >
                       ContactUs

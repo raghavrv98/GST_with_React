@@ -16,10 +16,6 @@ export default defineMessages({
     id: `${scope}.user`,
     defaultMessage: 'user',
   },
-  trader: {
-    id: `${scope}.trader`,
-    defaultMessage: 'trader',
-  },
   userDetails: {
     id: `${scope}.userDetails`,
     defaultMessage: 'userDetails',

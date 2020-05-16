@@ -16,7 +16,7 @@
         margin-bottom: 5px;
     }
     .customReactTable.ReactTable .rt-thead.-filters .rt-th {
-        border-right: 1px solid rgba(0, 0, 0, 0.05) !important;
+        /* border-right: 1px solid rgba(0, 0, 0, 0.05) !important; */
         padding: 10px 15px 10px 15px;
     }
     .customReactTable.ReactTable .rt-thead.-filters .rt-th:last-child {
