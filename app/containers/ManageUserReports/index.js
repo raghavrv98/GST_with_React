@@ -66,6 +66,12 @@ export class ManageUserReports extends React.Component {
         </Helmet>
 
         <div className="container outer-box-r">
+        <div>
+            <ul className="breadCrumb-bg-r">
+              <li onClick={()=>this.props.history.push('./user')} className="breadCrumb-li-child-1-r"><i class="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
+              <li className="breadCrumb-li-child-r"><i class="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >Reports</span></li>
+            </ul>
+          </div>
             <p className="static-title-r">View Reports</p>
           <div className="text-align-center-r">
           { this.state.card.map((val,index)=>

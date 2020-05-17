@@ -160,7 +160,7 @@ uploadFileHandler = () =>{
         sortable: false,
         // filterable: true,
         Cell: row =>
-        <span className="view-reports-r" onClick={()=>{this.props.history.push('/userBillDetails/purchaseBills')}}>{(row.original.purchaseBills.length) + "/" + (row.original.purchaseBills.length)}</span>
+        <span className="view-reports-r" onClick={()=>this.props.history.push(`/userDetails/${this.props.match.params.id}/userBillDetails/purchaseBills`)}>{(row.original.purchaseBills.length) + "/" + (row.original.purchaseBills.length)}</span>
       },
       {
         Header: 'Sale Bills',
@@ -168,7 +168,7 @@ uploadFileHandler = () =>{
         sortable: false,
         // filterable: true,
         Cell: row =>
-        <span className="view-reports-r" onClick={()=>{this.props.history.push('/userBillDetails/saleBills')}}>{(row.original.saleBills.length) + "/" + (row.original.saleBills.length)}</span>
+        <span className="view-reports-r" onClick={()=>this.props.history.push(`/userDetails/${this.props.match.params.id}/userBillDetails/saleBills`)}>{(row.original.saleBills.length) + "/" + (row.original.saleBills.length)}</span>
       },
       {
         Header: 'Other',
@@ -176,7 +176,7 @@ uploadFileHandler = () =>{
         sortable: false,
         // filterable: true,
         Cell: row =>
-        <span className="view-reports-r" onClick={()=>{this.props.history.push('/userBillDetails/other')}}>{(row.original.other.length) + "/" + (row.original.other.length)}</span>
+        <span className="view-reports-r" onClick={()=>this.props.history.push(`/userDetails/${this.props.match.params.id}/userBillDetails/other`)}>{(row.original.other.length) + "/" + (row.original.other.length)}</span>
       },
       {
         Header: 'Daily Reports',
@@ -186,7 +186,7 @@ uploadFileHandler = () =>{
         Cell: row =>
           (
             <div>
-              <p className="view-reports-r" onClick={()=>{this.props.history.push('/manageAccountantReports/daily')}}>View</p>
+              <p className="view-reports-r" onClick={()=>{this.props.history.push(`/userDetails/${this.props.match.params.id}/manageAccountantReports/daily`)}}>View</p>
             </div>
           )
       },
@@ -253,7 +253,12 @@ uploadFileHandler = () =>{
           </div>
 
           <div className="container outer-box-r">
-            
+          <div>
+            <ul className="breadCrumb-bg-r">
+              <li onClick={()=>this.props.history.push('/manageUser')} className="breadCrumb-li-child-1-r"><i class="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
+              <li className="breadCrumb-li-child-r"><i class="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >User Details</span></li>
+            </ul>
+          </div>
             <div className="container margin-10-r">
               <div className="row">
                 <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -299,7 +304,7 @@ uploadFileHandler = () =>{
                 </div>
                 <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 button-margin-top">
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <button type="button" onClick={()=>{this.props.history.push('/manageAccountantReports/gst')}} className="button-base-r">view GST Reports</button>
+                    <button type="button" onClick={()=>{this.props.history.push(`/userDetails/${this.props.match.params.id}/manageAccountantReports/gst`)}} className="button-base-r">view GST Reports</button>
                   </div>
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <input style={{ display: "none" }} accept="image/*" onChange={this.loadFile} id="gst"

@@ -26,8 +26,8 @@ export class UserBillDetails extends React.Component {
   state = {
     card: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
     showHideClassName: 'modal display-none container',
-    statusBoxArray:[],
-    fullViewModalClassName : 'modal display-none container' 
+    statusBoxArray: [],
+    fullViewModalClassName: 'modal display-none container'
   }
 
   confirmModalHandler = (event) => {
@@ -43,7 +43,7 @@ export class UserBillDetails extends React.Component {
     this.setState({
       isResetModal: false,
       showHideClassName: 'modal display-none container',
-      fullViewModalClassName : 'modal display-none container',
+      fullViewModalClassName: 'modal display-none container',
       deleteId: "",
       deleteName: ""
     })
@@ -60,24 +60,24 @@ export class UserBillDetails extends React.Component {
     })
   }
 
-  statusBoxHandler =(event) =>{
+  statusBoxHandler = (event) => {
     let id = event.target.id
 
     this.setState({
-      statusBoxIndex : id,
+      statusBoxIndex: id,
       showHideClassName: 'modal display-block container',
     })
   }
 
- 
+
   confirmStatusUpdate = (id) => {
     event.preventDefault()
     let statusBoxArray = this.state.statusBoxArray
-    
-    if(statusBoxArray.includes(id))
-    statusBoxArray.splice(statusBoxArray.indexOf(id),1)
+
+    if (statusBoxArray.includes(id))
+      statusBoxArray.splice(statusBoxArray.indexOf(id), 1)
     else
-    statusBoxArray.push(id)
+      statusBoxArray.push(id)
 
     this.setState({
       statusBoxArray,
@@ -85,7 +85,7 @@ export class UserBillDetails extends React.Component {
     })
   }
 
-  fullviewModal =()=>{
+  fullviewModal = () => {
     this.setState({
       fullViewModalClassName: 'modal display-block container',
     })
@@ -98,179 +98,186 @@ export class UserBillDetails extends React.Component {
           <title>UserBillDetails</title>
           <meta name="description" content="Description of UserBillDetails" />
         </Helmet>
-        
-        <div className={this.state.fullViewModalClassName} >
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div className="modal-content">
-                <div className="modal-header background-color-r">
-                  <span className="text-color-white-r">Bill Full View</span>
-                  <button
-                    type="button"
-                    className="close"
-                    onClick={this.modalCloseHandler}
-                    aria-label="Close"
-                  >
-                    <i className="fa fa-times" aria-hidden="true" />
-                  </button>
-                </div>
 
-                <div className="modal-body,input-group input-group-lg">
-                  <div className="full-view-form-padding-r">
+        <div className={this.state.fullViewModalClassName} >
+          <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-content">
+              <div className="modal-header background-color-r">
+                <span className="text-color-white-r">Bill Full View</span>
+                <button
+                  type="button"
+                  className="close"
+                  onClick={this.modalCloseHandler}
+                  aria-label="Close"
+                >
+                  <i className="fa fa-times" aria-hidden="true" />
+                </button>
+              </div>
+
+              <div className="modal-body,input-group input-group-lg">
+                <div className="full-view-form-padding-r">
                   <img className="card-full-view-parent-img-r" src={require('../../assets/img/aboutUs1.jpg')} />
-                  </div>
                 </div>
               </div>
             </div>
           </div>
-        
-        
-        {
-          this.props.match.params.id === "purchaseBills" ?
-            <div className="container outer-box-r">
-              <p className="static-title-r">Purchase Bills</p>
-              <div className="text-align-center-r">
-                {this.state.card.map((val, index) =>
-                  <React.Fragment key={index}>
-                    <div className="card-base-r">
-                    <input className="card-status-button-r" onChange={this.statusBoxHandler} checked={this.state.statusBoxArray.includes("s"+index) } id={"s"+index} type="checkbox" />
-                    
-                      {/* <div>
-                        <input type="password" className="form-control status-input-button-r" id="pwd"
-                          placeholder="Enter password" name="pwd" />
-                        <button type="submit" className="btn btn-default status-submit-button-r"><i
-                          className="fa fa-check submit-icon-r" aria-hidden="true"></i></button>
-                      </div> */}
-                    <div>
-                      <img onClick={this.fullviewModal} className={ this.state.statusBoxArray.includes("s"+index)? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={require('../../assets/img/aboutUs1.jpg')} />
-                    { this.state.statusBoxArray.includes("s"+index) ? <img onClick={this.fullviewModal} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null }
-                      <div className="dropdown">
-                        <button className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </button>
-                        <div className="dropdown-content">
-                          <a className="background-hover-r" href="#">Transfer to sale</a>
-                          <a className="background-hover-r" href="#">Transfer to other</a>
-                          <a className="background-hover-r" href="#">Return</a>
-                        </div>
-                      </div>
-                    </div>
-                    <p className="card-sub-heading-r">purchaseBills.png</p>
-                      <textarea 
-                  className="form-control card-comment-box-r card-text-r"
-                  placeholder="Comment...." 
-                  // value={this.state.payload.returnComment}
-                  onChange={this.nameChangeHandler}
-                  id="returnComment" 
-                  rows="2"
-                  required>
-                </textarea>
-                    </div>
-                    {/* <span className="delete-report-icon-r">
-                      <button name="purchaseBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                    </span> */}
-                  </React.Fragment>
-                )}
-              </div>
-            </div>
-            :
-            this.props.match.params.id === "saleBills" ?
-              <div className="container outer-box-r">
-                <p className="static-title-r">Sale Bills</p>
-                <div className="text-align-center-r">
-                {this.state.card.map((val, index) =>
-                  <React.Fragment key={index}>
-                    <div className="card-base-r">
-                    <input className="card-status-button-r" onChange={this.statusBoxHandler} checked={this.state.statusBoxArray.includes("s"+index) } id={"s"+index} type="checkbox" />
-                    
-                      {/* <div>
-                        <input type="password" className="form-control status-input-button-r" id="pwd"
-                          placeholder="Enter password" name="pwd" />
-                        <button type="submit" className="btn btn-default status-submit-button-r"><i
-                          className="fa fa-check submit-icon-r" aria-hidden="true"></i></button>
-                      </div> */}
-                    <div>
-                      <img className={ this.state.statusBoxArray.includes("s"+index)? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={require('../../assets/img/aboutUs1.jpg')} />
-                    { this.state.statusBoxArray.includes("s"+index) ? <img className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null }
-                      <div className="dropdown">
-                        <button className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </button>
-                        <div className="dropdown-content">
-                          <a className="background-hover-r" href="#">Transfer to purchase</a>
-                          <a className="background-hover-r" href="#">Transfer to other</a>
-                          <a  className="background-hover-r" href="#">Return</a>
-                        </div>
-                      </div>
-                    </div>
-                    <p className="card-sub-heading-r">SaleBills.png</p>
-                      <textarea 
-                  className="form-control card-comment-box-r card-text-r"
-                  placeholder="Comment...." 
-                  // value={this.state.payload.returnComment}
-                  onChange={this.nameChangeHandler}
-                  id="returnComment" 
-                  rows="2"
-                  required>
-                </textarea>
-                    </div>
-                    {/* <span className="delete-report-icon-r">
-                      <button name="purchaseBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                    </span> */}
-                  </React.Fragment>
-                )}
-                </div>
-              </div>
-              :
-              <div className="container outer-box-r">
-                <p className="static-title-r">Other Bills</p>
-                <div className="text-align-center-r">
-                {this.state.card.map((val, index) =>
-                  <React.Fragment key={index}>
-                    <div className="card-base-r">
-                    <input className="card-status-button-r" onChange={this.statusBoxHandler} checked={this.state.statusBoxArray.includes("s"+index) } id={"s"+index} type="checkbox" />
-                    
-                      {/* <div>
-                        <input type="password" className="form-control status-input-button-r" id="pwd"
-                          placeholder="Enter password" name="pwd" />
-                        <button type="submit" className="btn btn-default status-submit-button-r"><i
-                          className="fa fa-check submit-icon-r" aria-hidden="true"></i></button>
-                      </div> */}
-                    <div>
-                      <img className={ this.state.statusBoxArray.includes("s"+index)? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={require('../../assets/img/aboutUs1.jpg')} />
-                    { this.state.statusBoxArray.includes("s"+index) ? <img className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null }
-                      <div className="dropdown">
-                        <button className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </button>
-                        <div className="dropdown-content">
-                          <a className="background-hover-r" href="#">Transfer to purchase</a>
-                          <a className="background-hover-r" href="#">Transfer to sale</a>
-                          <a  className="background-hover-r" href="#">Return</a>
-                        </div>
-                      </div>
-                    </div>
-                    <p className="card-sub-heading-r">OtherBills.png</p>
-                      <textarea 
-                  className="form-control card-comment-box-r card-text-r"
-                  placeholder="Comment...." 
-                  // value={this.state.payload.returnComment}
-                  onChange={this.nameChangeHandler}
-                  id="returnComment" 
-                  rows="2"
-                  required>
-                </textarea>
-                    </div>
-                    {/* <span className="delete-report-icon-r">
-                      <button name="purchaseBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                    </span> */}
-                  </React.Fragment>
-                )}
-                </div>
-              </div>
-        }
+        </div>
 
+        <div className="container outer-box-r">
+                <div>
+                  <ul className="breadCrumb-bg-r">
+                    <li onClick={() => this.props.history.push('/manageUser')} className="breadCrumb-li-child-1-r"><i class="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
+                    <li onClick={() => this.props.history.push(`/userDetails/${this.props.match.params.id}`)} className="breadCrumb-li-child-2-r"><i class="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >User Details</span></li>
+                    <li className="breadCrumb-li-child-r"><i class="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >{this.props.match.params.bill === "purchaseBills" ? "Purchase Bills" : this.props.match.params.bill === "saleBills" ? "Sale Bills" : "Other Bills"}</span></li>
+                  </ul>
+                </div>
+          {
+            this.props.match.params.bill === "purchaseBills" ?
+              <React.Fragment>
+                <p className="static-title-r">Purchase Bills</p>
+                <div className="text-align-center-r">
+                  {this.state.card.map((val, index) =>
+                    <React.Fragment key={index}>
+                      <div className="card-base-r">
+                        <input className="card-status-button-r" onChange={this.statusBoxHandler} checked={this.state.statusBoxArray.includes("s" + index)} id={"s" + index} type="checkbox" />
+
+                        {/* <div>
+                        <input type="password" className="form-control status-input-button-r" id="pwd"
+                          placeholder="Enter password" name="pwd" />
+                        <button type="submit" className="btn btn-default status-submit-button-r"><i
+                          className="fa fa-check submit-icon-r" aria-hidden="true"></i></button>
+                      </div> */}
+                        <div>
+                          <img onClick={this.fullviewModal} className={this.state.statusBoxArray.includes("s" + index) ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={require('../../assets/img/aboutUs1.jpg')} />
+                          {this.state.statusBoxArray.includes("s" + index) ? <img onClick={this.fullviewModal} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
+                          <div className="dropdown">
+                            <button className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </button>
+                            <div className="dropdown-content">
+                              <a className="background-hover-r" href="#">Transfer to sale</a>
+                              <a className="background-hover-r" href="#">Transfer to other</a>
+                              <a className="background-hover-r" href="#">Return</a>
+                            </div>
+                          </div>
+                        </div>
+                        <p className="card-sub-heading-r">purchaseBills.png</p>
+                        <textarea
+                          className="form-control card-comment-box-r card-text-r"
+                          placeholder="Comment...."
+                          // value={this.state.payload.returnComment}
+                          onChange={this.nameChangeHandler}
+                          id="returnComment"
+                          rows="2"
+                          required>
+                        </textarea>
+                      </div>
+                      {/* <span className="delete-report-icon-r">
+                      <button name="purchaseBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                    </span> */}
+                    </React.Fragment>
+                  )}
+                </div>
+              </React.Fragment>
+              :
+              this.props.match.params.bill === "saleBills" ?
+                <React.Fragment>
+                  <p className="static-title-r">Sale Bills</p>
+                  <div className="text-align-center-r">
+                    {this.state.card.map((val, index) =>
+                      <React.Fragment key={index}>
+                        <div className="card-base-r">
+                          <input className="card-status-button-r" onChange={this.statusBoxHandler} checked={this.state.statusBoxArray.includes("s" + index)} id={"s" + index} type="checkbox" />
+
+                          {/* <div>
+                        <input type="password" className="form-control status-input-button-r" id="pwd"
+                          placeholder="Enter password" name="pwd" />
+                        <button type="submit" className="btn btn-default status-submit-button-r"><i
+                          className="fa fa-check submit-icon-r" aria-hidden="true"></i></button>
+                      </div> */}
+                          <div>
+                            <img className={this.state.statusBoxArray.includes("s" + index) ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={require('../../assets/img/aboutUs1.jpg')} />
+                            {this.state.statusBoxArray.includes("s" + index) ? <img className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
+                            <div className="dropdown">
+                              <button className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
+                              </button>
+                              <div className="dropdown-content">
+                                <a className="background-hover-r" href="#">Transfer to purchase</a>
+                                <a className="background-hover-r" href="#">Transfer to other</a>
+                                <a className="background-hover-r" href="#">Return</a>
+                              </div>
+                            </div>
+                          </div>
+                          <p className="card-sub-heading-r">SaleBills.png</p>
+                          <textarea
+                            className="form-control card-comment-box-r card-text-r"
+                            placeholder="Comment...."
+                            // value={this.state.payload.returnComment}
+                            onChange={this.nameChangeHandler}
+                            id="returnComment"
+                            rows="2"
+                            required>
+                          </textarea>
+                        </div>
+                        {/* <span className="delete-report-icon-r">
+                      <button name="purchaseBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                    </span> */}
+                      </React.Fragment>
+                    )}
+                  </div>
+                </React.Fragment>
+                :
+                <React.Fragment>
+                  <p className="static-title-r">Other Bills</p>
+                  <div className="text-align-center-r">
+                    {this.state.card.map((val, index) =>
+                      <React.Fragment key={index}>
+                        <div className="card-base-r">
+                          <input className="card-status-button-r" onChange={this.statusBoxHandler} checked={this.state.statusBoxArray.includes("s" + index)} id={"s" + index} type="checkbox" />
+
+                          {/* <div>
+                        <input type="password" className="form-control status-input-button-r" id="pwd"
+                          placeholder="Enter password" name="pwd" />
+                        <button type="submit" className="btn btn-default status-submit-button-r"><i
+                          className="fa fa-check submit-icon-r" aria-hidden="true"></i></button>
+                      </div> */}
+                          <div>
+                            <img className={this.state.statusBoxArray.includes("s" + index) ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={require('../../assets/img/aboutUs1.jpg')} />
+                            {this.state.statusBoxArray.includes("s" + index) ? <img className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
+                            <div className="dropdown">
+                              <button className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
+                              </button>
+                              <div className="dropdown-content">
+                                <a className="background-hover-r" href="#">Transfer to purchase</a>
+                                <a className="background-hover-r" href="#">Transfer to sale</a>
+                                <a className="background-hover-r" href="#">Return</a>
+                              </div>
+                            </div>
+                          </div>
+                          <p className="card-sub-heading-r">OtherBills.png</p>
+                          <textarea
+                            className="form-control card-comment-box-r card-text-r"
+                            placeholder="Comment...."
+                            // value={this.state.payload.returnComment}
+                            onChange={this.nameChangeHandler}
+                            id="returnComment"
+                            rows="2"
+                            required>
+                          </textarea>
+                        </div>
+                        {/* <span className="delete-report-icon-r">
+                      <button name="purchaseBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                    </span> */}
+                      </React.Fragment>
+                    )}
+                  </div>
+                </React.Fragment>
+          }
+        </div>
         <ConfirmModal
           showHideClassName={this.state.showHideClassName}
           onClose={this.modalCloseHandler}
           onConfirm={() => this.confirmStatusUpdate(this.state.statusBoxIndex)}
-          confirmMessage = "Are you sure want to update ?"
+          confirmMessage="Are you sure want to update ?"
         />
       </div>
     );

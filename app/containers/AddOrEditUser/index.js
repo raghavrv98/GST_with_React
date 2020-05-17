@@ -80,6 +80,12 @@ export class AddOrEditUser extends React.Component {
           />
         </Helmet>
         <div className="container outer-box-r">
+        <div>
+            <ul className="breadCrumb-bg-r">
+              <li onClick={()=>this.props.history.push('/manageUser')} className="breadCrumb-li-child-1-r"><i class="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
+              <li className="breadCrumb-li-child-r"><i class="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >{this.props.match.params.id ? "Update User" : "Create User"}</span></li>
+            </ul>
+          </div>
           <div className="container">
     <p className="main-title-r">{this.props.match.params.id ? "Update User" : "Create User"}</p>
             <form onSubmit={this.SubmitUserHandler}>

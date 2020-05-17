@@ -68,10 +68,18 @@ export class ManageAccountantReports extends React.Component {
             content="Description of ManageAccountantReports"
           />
         </Helmet>
-        {
-          this.props.match.params.id === "gst" ?
         <div className="container outer-box-r">
-            <p className="static-title-r">GST Reports</p>
+        <div>
+            <ul className="breadCrumb-bg-r">
+              <li className="breadCrumb-li-child-1-r" onClick={()=>this.props.history.push('/manageUser')} ><i class="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
+              <li className="breadCrumb-li-child-2-r" onClick={()=>this.props.history.push(`/userDetails/${this.props.match.params.id}`)} ><i class="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >User Details</span></li>
+              <li className="breadCrumb-li-child-r"><i class="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >{this.props.match.params.report === "gst" ? "GST Reports" : "Daily Reports"}</span></li>
+            </ul>
+          </div>
+        {
+          this.props.match.params.report === "gst" ?
+         <React.Fragment>  
+          <p className="static-title-r">GST Reports</p>
           <div className="text-align-center-r">
           { this.state.card.map((val,index)=>
           <React.Fragment key={index}>
@@ -87,9 +95,9 @@ export class ManageAccountantReports extends React.Component {
           </React.Fragment>
           )}
           </div>
-          </div>
+          </React.Fragment>
           :
-          <div className="container outer-box-r">
+          <React.Fragment>
           <p className="static-title-r">Daily Reports</p>
         <div className="text-align-center-r">
         { this.state.card.map((val,index)=>
@@ -106,7 +114,7 @@ export class ManageAccountantReports extends React.Component {
         </React.Fragment>
         )}
         </div>
-        </div>
+        </React.Fragment>
   }
 
           <ConfirmModal
@@ -114,6 +122,7 @@ export class ManageAccountantReports extends React.Component {
           onClose={this.modalCloseHandler}
           onConfirm={() => this.confirmDeleteData(this.state.deleteId)}
         />
+      </div>
       </div>
     );
   }
