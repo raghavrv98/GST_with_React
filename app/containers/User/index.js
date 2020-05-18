@@ -18,7 +18,10 @@ import makeSelectUser from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-// import ConfirmModal from '../../components/ConfirmModal/Loadable'
+import axios from 'axios';
+import moment from 'moment';
+
+import ConfirmModal from '../../components/ConfirmModal/Loadable'
 /* eslint-disable react/prefer-stateless-function */
 export class User extends React.Component {
 
@@ -40,7 +43,7 @@ export class User extends React.Component {
     deleteId: "",
     deleteName: "",
     showHideClassName: 'modal display-none container',
-    browseBillImages: []
+    getbill: {}
   }
 
   loadFile = (event) => {
@@ -53,7 +56,6 @@ export class User extends React.Component {
       }
       this.setState({
         purchaseBillImages,
-        browseBillImages: purchaseBillImages
       })
     }
 
@@ -64,7 +66,6 @@ export class User extends React.Component {
       }
       this.setState({
         saleBillImages,
-        browseBillImages: saleBillImages
       })
     }
 
@@ -75,7 +76,6 @@ export class User extends React.Component {
       }
       this.setState({
         otherBillImages,
-        browseBillImages: otherBillImages
       })
     }
 
@@ -87,18 +87,18 @@ export class User extends React.Component {
     // })
   };
 
-  getBase64Image = (img) => {
-    var canvas = document.createElement("canvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
+  // getBase64Image = (img) => {
+  //   var canvas = document.createElement("canvas");
+  //   canvas.width = img.width;
+  //   canvas.height = img.height;
 
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0);
+  //   var ctx = canvas.getContext("2d");
+  //   ctx.drawImage(img, 0, 0);
 
-    var dataURL = canvas.toDataURL("image/png");
+  //   var dataURL = canvas.toDataURL("image/png");
 
-    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-  }
+  //   return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+  // }
 
 
   tabActive = (event) => {
@@ -106,27 +106,18 @@ export class User extends React.Component {
 
     this.setState({
       isActiveTab: id,
-      browseBillImages: []
     })
   }
 
-  nameChangeHandler = event => {
-    let payload = JSON.parse(JSON.stringify(this.state.payload));
-    payload[event.target.id] = event.target.value;
+  confirmModalHandler = (event) => {
+    let id = event.target.id
+    let name = event.target.name
     this.setState({
-      payload
-    });
-  };
-
-  // confirmModalHandler = (event) => {
-  //   let id = event.target.id
-  //   let name = event.target.name
-  //   this.setState({
-  //     showHideClassName: 'modal display-block container',
-  //     deleteId: id,
-  //     deleteName: name
-  //   })
-  // }
+      showHideClassName: 'modal display-block container',
+      deleteId: id,
+      deleteName: name
+    })
+  }
 
   modalCloseHandler = () => {
     this.setState({
@@ -147,7 +138,6 @@ export class User extends React.Component {
       this.setState({
         showHideClassName: 'modal display-none container',
         purchaseBillImages,
-        browseBillImages: purchaseBillImages
       })
     }
     else if (name === "saleBillImages") {
@@ -156,34 +146,24 @@ export class User extends React.Component {
       this.setState({
         showHideClassName: 'modal display-none container',
         saleBillImages,
-        browseBillImages: saleBillImages
       })
     }
-    // else if (name === "saleBillImages") {
-    //   let saleBillImages = JSON.parse(JSON.stringify(this.state.saleBillImages))
-    //   saleBillImages.splice(id, 1)
-    //   this.setState({
-    //     showHideClassName: 'modal display-none container',
-    //     saleBillImages
-    //   })
-    // }
     else if (name === "otherBillImages") {
       let otherBillImages = JSON.parse(JSON.stringify(this.state.otherBillImages))
       otherBillImages.splice(id, 1)
       this.setState({
         showHideClassName: 'modal display-none container',
         otherBillImages,
-        browseBillImages: otherBillImages
       })
     }
-    // else if (name === "otherBillImages") {
-    //   let otherBillImages = JSON.parse(JSON.stringify(this.state.otherBillImages))
-    //   otherBillImages.splice(id, 1)
-    //   this.setState({
-    //     showHideClassName: 'modal display-none container',
-    //     otherBillImages
-    //   })
-    // }
+  }
+
+  confirmDeleteBill = (id,name) => {
+    event.preventDefault()
+    this.deleteBills('5ec0f15d8590cd2bed990a59',id,name)
+    this.setState({
+      showHideClassName: 'modal display-none container',
+  })
   }
 
   billUploadHandler = (event) => {
@@ -210,6 +190,68 @@ export class User extends React.Component {
     }
   }
 
+  // getHeaders = () => {
+  // 	let auth = `Bearer ${window.location.host.split('.')[0] === 'app' ? sessionStorage.token : localStorage.token}`;
+  // 	return {
+  // 		headers: {
+  // 			'X-Authorization': auth,
+  // 			'x-project-id': localStorage.selectedProjectId
+  // 		}
+  // 	}
+  // }
+
+  errorCheck(error) {
+    let errorMes = '';
+    if (error.response) {
+      if (error.response.data.status == 404) {
+        errorMes = error.response.data.error;
+      } else if (error.response.data.code == 400) {
+        errorMes = error.response.data.message;
+      } else {
+        errorMes = error.response.data.message;
+      }
+    } else {
+      errorMes = error.message;
+    }
+    this.setState({ errorMes, messageModal: true, isLoading: false }, () => this.timeOutFunction());
+  }
+
+
+  componentWillMount() {
+    this.getbill('5ec0f15d8590cd2bed990a59', '05', '2020')
+  }
+
+
+  getbill = (id, month, year) => {
+    // let url = window.location.origin + '/';
+    axios
+      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
+      .get(`http://localhost:3000/bill/${id}/${month}/${year}`)
+      .then((res) => {
+        const getbill = res.data.data;
+        this.setState({ getbill });
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        this.errorCheck(error);
+      });
+  };
+
+  deleteBills = (id, deleteId, deleteType) => {
+    // let url = window.location.origin + '/';
+    axios
+      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
+      .delete(`http://localhost:3000/bill/${id}/${deleteId}/${deleteType}`)
+      .then((res) => {
+        const deletedMessage = res.data.data.message;
+        this.setState({ deletedMessage },()=> this.getbill('5ec0f15d8590cd2bed990a59', '05', '2020'));
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        this.errorCheck(error);
+      });
+  };
+
   render() {
     return (
       <div>
@@ -217,46 +259,46 @@ export class User extends React.Component {
           <title>User</title>
           <meta name="description" content="Description of User" />
         </Helmet>
-        {/* 
+         
         <ConfirmModal
           showHideClassName={this.state.showHideClassName}
           onClose={this.modalCloseHandler}
-          onConfirm={() => this.confirmDeleteData(this.state.deleteId, this.state.deleteName)}
-        /> */}
+          onConfirm={() => this.confirmDeleteBill(this.state.deleteId, this.state.deleteName)}
+        />
 
 
         <div className="container outer-box-r">
           <div>
             <ul className="breadCrumb-bg-r">
-              <li className="breadCrumb-li-r"><i class="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
+              <li className="breadCrumb-li-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
             </ul>
           </div>
           <div className="container filter-year-month-r">
             <div className="row">
               <div className="col-xs-6 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-5">
-                <select className="year-month-border-r" name="year">
+                <select value="2020" className="year-month-border-r" name="year">
                   <option value="">Select Year</option>
-                  <option value="2017">2017-2018</option>
-                  <option value="2018">2018-2019</option>
-                  <option value="2019">2019-2020</option>
                   <option value="2020">2020-2021</option>
+                  <option value="2019">2019-2020</option>
+                  <option value="2018">2018-2019</option>
+                  <option value="2017">2017-2018</option>
                 </select>
               </div>
               <div className="col-xs-6 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-5">
-                <select className="year-month-border-r" name="month">
+                <select value = "5" className="year-month-border-r" name="month">
                   <option value="">Select Month</option>
-                  <option value="january">January</option>
-                  <option value="february">February</option>
-                  <option value="march">March</option>
-                  <option value="april">April</option>
-                  <option value="may">May</option>
-                  <option value="june">June</option>
-                  <option value="july">July</option>
-                  <option value="august">August</option>
-                  <option value="september">September</option>
-                  <option value="october">October</option>
-                  <option value="november">November</option>
-                  <option value="december">December</option>
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5">May</option>
+                  <option value="6">June</option>
+                  <option value="7">July</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
                 </select>
               </div>
               <div className="col-xs-12 col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
@@ -269,21 +311,21 @@ export class User extends React.Component {
             <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
               <div className={this.state.isActiveTab == "purchaseBills" ? "tab-active-base-r" : "tab-inactive-base-r"}>
                 <p className="margin-0-r" id="purchaseBills" onClick={this.tabActive}>
-                  Purchase Bills<br />({this.state.purchaseBillImages.length} entries)</p>
+                  Purchase Bills<br />({this.state.getbill.purchaseBills && this.state.getbill.purchaseBills.length} entries)</p>
               </div>
             </div>
 
             <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
               <div className={this.state.isActiveTab == "saleBills" ? "tab-active-base-r" : "tab-inactive-base-r"}>
                 <p className="margin-0-r" id="saleBills" onClick={this.tabActive} className="">
-                  Sale Bills<br />({this.state.saleBillImages.length} entries)</p>
+                  Sale Bills<br />({this.state.getbill.saleBills && this.state.getbill.saleBills.length} entries)</p>
               </div>
             </div>
 
             <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
               <div className={this.state.isActiveTab == "otherBills" ? "tab-active-base-r" : "tab-inactive-base-r"}>
                 <p className="margin-0-r" id="otherBills" onClick={this.tabActive} className="">
-                  Other<br />({this.state.otherBillImages.length} entries)</p>
+                  Other<br />({this.state.getbill.otherBills && this.state.getbill.otherBills.length} entries)</p>
               </div>
             </div>
           </div>
@@ -293,16 +335,27 @@ export class User extends React.Component {
               <div className="container">
                 <form id="purchaseBillImages" onSubmit={this.billUploadHandler}>
                   <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-align-center-r">
-                    <div className="card-base-r card-scroll-r">
+                    <div className="card-scroll-r">
+                      {console.log('this.state.purchaseBillImages: ', this.state.purchaseBillImages)}
                       {
-                        this.state.browseBillImages.length == 1 ?
-                          <div className="text-align-center-r">
-                            <img className="browse-image-r" src={this.state.browseBillImages[0]} id="output" alt="" />
-                          </div>
+                        this.state.purchaseBillImages.length == 1 ?
+                          <React.Fragment>
+                            <div className="card-browse-one-r">
+                              <img className="browse-one-image-r" src={this.state.purchaseBillImages[0]} />
+                            </div>
+                            <span className="delete-one-browse-icon">
+                              <button name="purchaseBillImages" id={0} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
+                            </span>
+                          </React.Fragment>
                           :
-                          this.state.browseBillImages.map((val, index) => {
+                          this.state.purchaseBillImages.map((val, index) => {
                             return <div key={index} className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-align-center-r padding-5-r">
-                              <img className="browse-multiple-image-r" src={val} id="output" alt="" />
+                              <div className="card-browse-r">
+                                <img className="browse-image-r" src={val} />
+                              </div>
+                              <span className="delete-one-browse-icon">
+                                <button name="purchaseBillImages" id={index} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
+                              </span>
                             </div>
                           }
                           )
@@ -325,15 +378,15 @@ export class User extends React.Component {
                 <div className="col-xs-12 col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10">
                   <div className="text-align-center-min-r">
 
-                    {this.state.purchaseBillImages.map((val, index) =>
+                    {this.state.getbill.purchaseBills && this.state.getbill.purchaseBills.map((val, index) =>
                       <React.Fragment key={index}>
-                        <div className="card-base-r">
-                          <img className="selected-image-r" src={val} />
-                          <p className="card-sub-heading-r">Purchase Bill.png</p>
-                          <p className="card-sub-heading-r">Created At : 21-04-2020</p>
+                        <div className="card-selected-image-r">
+                          <img className="selected-image-r" src={require('../../assets/img/aboutUs1.jpg')} />
+                          <p className="card-selected-sub-heading-r">{val.img}</p>
+                          <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                         </div>
-                        <span className="delete-report-icon-r">
-                          <button name="purchaseBillImages" id={index} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
+                        <span className="delete-bill-icon-r">
+                          <button name="purchase" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                         </span>
                       </React.Fragment>
                     )}
@@ -342,20 +395,31 @@ export class User extends React.Component {
                 </div>
               </div>
               :
+
               this.state.isActiveTab == "saleBills" ?
                 <div className="container">
                   <form id="saleBillImages" onSubmit={this.billUploadHandler}>
                     <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-align-center-r">
-                      <div className="card-base-r card-scroll-r">
+                      <div className="card-scroll-r">
                         {
-                          this.state.browseBillImages.length == 1 ?
-                            <div className="text-align-center-r">
-                              <img className="browse-image-r" src={this.state.browseBillImages[0]} id="output" alt="" />
-                            </div>
+                          this.state.saleBillImages.length == 1 ?
+                            <React.Fragment>
+                              <div className="card-browse-one-r">
+                                <img className="browse-one-image-r" src={this.state.saleBillImages[0]} />
+                              </div>
+                              <span className="delete-one-browse-icon">
+                                <button name="saleBillImages" id={0} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
+                              </span>
+                            </React.Fragment>
                             :
-                            this.state.browseBillImages.map((val, index) => {
+                            this.state.saleBillImages.map((val, index) => {
                               return <div key={index} className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-align-center-r padding-5-r">
-                                <img className="browse-multiple-image-r" src={val} id="output" alt="" />
+                                <div className="card-browse-r">
+                                  <img className="browse-image-r" src={val} />
+                                </div>
+                                <span className="delete-one-browse-icon">
+                                  <button name="saleBillImages" id={index} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
+                                </span>
                               </div>
                             }
                             )
@@ -376,18 +440,17 @@ export class User extends React.Component {
                     </div>
                   </form>
                   <div className="col-xs-12 col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10">
-
                     <div className="text-align-center-min-r">
 
-                      {this.state.saleBillImages.map((val, index) =>
+                      {this.state.getbill.saleBills && this.state.getbill.saleBills.map((val, index) =>
                         <React.Fragment key={index}>
-                          <div className="card-base-r">
-                            <img className="selected-image-r" src={val} />
-                            <p className="card-sub-heading-r">Sale Bill.png</p>
-                            <p className="card-sub-heading-r">Created At : 21-04-2020</p>
+                          <div className="card-selected-image-r">
+                            <img className="selected-image-r" src={require('../../assets/img/aboutUs1.jpg')} />
+                            <p className="card-selected-sub-heading-r">{val.img}</p>
+                            <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                           </div>
-                          <span className="delete-report-icon-r">
-                            <button name="saleBillImages" id={index} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
+                          <span className="delete-bill-icon-r">
+                            <button name="sale" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                           </span>
                         </React.Fragment>
                       )}
@@ -395,21 +458,32 @@ export class User extends React.Component {
                     </div>
                   </div>
                 </div>
+
                 :
 
                 <div className="container">
                   <form id="otherBillImages" onSubmit={this.billUploadHandler}>
                     <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-align-center-r">
-                      <div className="card-base-r card-scroll-r">
+                      <div className="card-scroll-r">
                         {
-                          this.state.browseBillImages.length == 1 ?
-                            <div className="text-align-center-r">
-                              <img className="browse-image-r" src={this.state.browseBillImages[0]} id="output" alt="" />
-                            </div>
+                          this.state.otherBillImages.length == 1 ?
+                            <React.Fragment>
+                              <div className="card-browse-one-r">
+                                <img className="browse-one-image-r" src={this.state.otherBillImages[0]} />
+                              </div>
+                              <span className="delete-one-browse-icon">
+                                <button name="otherBillImages" id={0} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
+                              </span>
+                            </React.Fragment>
                             :
-                            this.state.browseBillImages.map((val, index) => {
+                            this.state.otherBillImages.map((val, index) => {
                               return <div key={index} className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-align-center-r padding-5-r">
-                                <img className="browse-multiple-image-r" src={val} id="output" alt="" />
+                                <div className="card-browse-r">
+                                  <img className="browse-image-r" src={val} />
+                                </div>
+                                <span className="delete-one-browse-icon">
+                                  <button name="otherBillImages" id={index} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
+                                </span>
                               </div>
                             }
                             )
@@ -430,27 +504,27 @@ export class User extends React.Component {
                     </div>
                   </form>
                   <div className="col-xs-12 col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10">
-
                     <div className="text-align-center-min-r">
 
-                      {this.state.otherBillImages.map((val, index) =>
+                      {this.state.getbill.otherBills && this.state.getbill.otherBills.map((val, index) =>
                         <React.Fragment key={index}>
-                          <div className="card-base-r">
-                            <img className="selected-image-r" src={val} />
-                            <p className="card-sub-heading-r">Other Bill.png</p>
-                            <p className="card-sub-heading-r">Created At : 21-04-2020</p>
+                          <div className="card-selected-image-r">
+                            <img className="selected-image-r" src={require('../../assets/img/aboutUs1.jpg')} />
+                            <p className="card-selected-sub-heading-r">{val.img}</p>
+                            <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                           </div>
-                          <span className="delete-report-icon-r">
-                            <button name="otherBillImages" id={index} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
+                          <span className="delete-bill-icon-r">
+                            <button name="other" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                           </span>
                         </React.Fragment>
                       )}
 
                     </div>
-
-
                   </div>
                 </div>
+
+
+
           }
 
         </div>

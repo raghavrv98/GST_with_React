@@ -19,16 +19,73 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import ConfirmModal from '../../components/ConfirmModal/Loadable'
+import moment from 'moment';
+import axios from 'axios';
 
 /* eslint-disable react/prefer-stateless-function */
 export class ManageUserReports extends React.Component {
-  state={
-    card :[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
+  state = {
     showHideClassName: 'modal display-none container',
+    getReports: {}
   }
+
+  errorCheck(error) {
+    let errorMes = '';
+    if (error.response) {
+      if (error.response.data.status == 404) {
+        errorMes = error.response.data.error;
+      } else if (error.response.data.code == 400) {
+        errorMes = error.response.data.message;
+      } else {
+        errorMes = error.response.data.message;
+      }
+    } else {
+      errorMes = error.message;
+    }
+    this.setState({ errorMes, messageModal: true, isLoading: false }, () => this.timeOutFunction());
+  }
+
+  componentWillMount() {
+    this.getReports('5ec0f15d8590cd2bed990a59', '05', '2020')
+  }
+
+
+  getReports = (id, month, year) => {
+    // let url = window.location.origin + '/';
+    axios
+      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
+      .get(`http://localhost:3000/report/${id}/${month}/${year}`)
+      .then((res) => {
+        const getReports = res.data.data;
+        console.log('getReports: ', getReports);
+        this.setState({ getReports, reactTableLoading: false });
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        this.errorCheck(error);
+      });
+  };
+
+  deleteReports = (id, deleteId, deleteType) => {
+    // let url = window.location.origin + '/';
+    axios
+      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
+      .delete(`http://localhost:3000/report/${id}/${deleteId}/${deleteType}`)
+      .then((res) => {
+        const deletedMessage = res.data.data.message;
+        this.setState({
+          deletedMessage
+        },()=> this.getReports('5ec0f15d8590cd2bed990a59', '05', '2020'))
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        this.errorCheck(error);
+      });
+  };
 
   confirmModalHandler = (event) => {
     let id = event.target.id
+    let name = event.target.name
     this.setState({
       showHideClassName: 'modal display-block container',
       deleteId: id,
@@ -45,16 +102,12 @@ export class ManageUserReports extends React.Component {
     })
   }
 
-  confirmDeleteData = (id) => {
-    console.log('id: ', id);
+  confirmDeleteData = (id,name) => {
     event.preventDefault()
-    let card = JSON.parse(JSON.stringify(this.state.card))
-    card.splice(id,1)
+    this.deleteReports('5ec0f15d8590cd2bed990a59',id,name)
     this.setState({
-      card,
       showHideClassName: 'modal display-none container',
-    })
-
+  })
   }
 
   render() {
@@ -66,34 +119,77 @@ export class ManageUserReports extends React.Component {
         </Helmet>
 
         <div className="container outer-box-r">
-        <div>
+
+          <div>
             <ul className="breadCrumb-bg-r">
-              <li onClick={()=>this.props.history.push('./user')} className="breadCrumb-li-child-1-r"><i class="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
-              <li className="breadCrumb-li-child-r"><i class="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >Reports</span></li>
+              <li onClick={() => this.props.history.push('./user')} className="breadCrumb-li-child-1-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
+              <li className="breadCrumb-li-child-r"><i className="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >Reports</span></li>
             </ul>
           </div>
-            <p className="static-title-r">View Reports</p>
-          <div className="text-align-center-r">
-          { this.state.card.map((val,index)=>
-          <React.Fragment key={index}>
-          <div className="card-base-r">
-            <img className="card-img-r" src={require('../../assets/img/aboutUs1.jpg')} />
-          <p className="card-heading-r">Summary Report</p>
-          <p className="card-sub-heading-r">Created At : 21-04-2020</p>
-          <p className="card-text-r">ipisicing elit. Fugiat reprehenderit unde obcaecati non modi vel, consectetur vero</p>
-          </div>
-          <span className="delete-report-icon-r">
-          <button name="purchaseBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-        </span>
-          </React.Fragment>
-          )}
-          </div>
+
+          <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <p className="static-title-r">Daily Reports</p>
+            <div className="report-card-scroll">
+              {this.state.getReports.dailyReports && this.state.getReports.dailyReports.map((val, index) =>
+                <React.Fragment key={index}>
+                  <div className="card-report-r">
+                    <span className="delete-report-icon-r">
+                      <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                    </span>
+                    <img className="selected-report-image-r" src={require('../../assets/img/aboutUs1.jpg')} />
+                    <p className="card-selected-sub-heading-r">{val.img}</p>
+                    <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                    <p className="card-text-r">{val.comment}</p>
+                  </div>
+                </React.Fragment>
+              )}
+            </div>
           </div>
 
-          <ConfirmModal
+          <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+            <p className="static-title-r">GST Reports</p>
+            <div className="report-card-scroll">
+              {this.state.getReports.gstReports && this.state.getReports.gstReports.map((val, index) =>
+                <React.Fragment key={index}>
+                  <div className="card-report-r">
+                    <span className="delete-report-icon-r">
+                      <button name="gst" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                    </span>
+                    <img className="selected-report-image-r" src={require('../../assets/img/aboutUs1.jpg')} />
+                    <p className="card-selected-sub-heading-r">{val.img}</p>
+                    <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                    <p className="card-text-r">{val.comment}</p>
+                  </div>
+                </React.Fragment>
+              )}
+            </div>
+          </div>
+
+          <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+            <p className="static-title-r">Faulty Bills</p>
+            <div className="report-card-scroll">
+              {this.state.getReports.faultyBills && this.state.getReports.faultyBills.map((val, index) =>
+                <React.Fragment key={index}>
+                  <div className="card-report-r">
+                    <span className="delete-report-icon-r">
+                      <button name="faulty" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                    </span>
+                    <img className="selected-report-image-r" src={require('../../assets/img/aboutUs1.jpg')} />
+                    <p className="card-selected-sub-heading-r">{val.img}</p>
+                    <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                    <p className="card-text-r">{val.comment}</p>
+                  </div>
+                </React.Fragment>
+              )}
+            </div>
+          </div>
+
+        </div>
+
+        <ConfirmModal
           showHideClassName={this.state.showHideClassName}
           onClose={this.modalCloseHandler}
-          onConfirm={() => this.confirmDeleteData(this.state.deleteId)}
+          onConfirm={() => this.confirmDeleteData(this.state.deleteId,this.state.deleteName)}
         />
 
       </div>
