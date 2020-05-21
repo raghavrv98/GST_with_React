@@ -55,7 +55,7 @@ export class ManageUserReports extends React.Component {
   }
 
   componentWillMount() {
-    this.getReports('5ec0f15d8590cd2bed990a59', '05', '2020')
+    this.getReports('5ec0f15d8590cd2bed990a59', this.props.match.params.month, this.props.match.params.year)
   }
 
 
@@ -66,7 +66,6 @@ export class ManageUserReports extends React.Component {
       .get(`http://localhost:3000/report/${id}/${month}/${year}`)
       .then((res) => {
         const getReports = res.data.data;
-        console.log('getReports: ', getReports);
         this.setState({ getReports, isLoading: false });
       })
       .catch((error) => {
@@ -139,7 +138,7 @@ export class ManageUserReports extends React.Component {
 
             <div>
               <ul className="breadCrumb-bg-r">
-                <li onClick={() => this.props.history.push('./user')} className="breadCrumb-li-child-1-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
+                <li onClick={() => this.props.history.push('/user')} className="breadCrumb-li-child-1-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
                 <li className="breadCrumb-li-child-r"><i className="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >Reports</span></li>
               </ul>
             </div>
