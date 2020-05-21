@@ -22,13 +22,14 @@ import axios from 'axios';
 import moment from 'moment';
 
 import ConfirmModal from '../../components/ConfirmModal/Loadable'
+import MessageModal from '../../components/MessageModal/Loadable'
+
 /* eslint-disable react/prefer-stateless-function */
 export class User extends React.Component {
 
   state = {
     tabActive: true,
     isActiveTab: "purchaseBills",
-    isResetModal: false,
     payload: {
       oldPassword: "",
       newPassword: ""
@@ -43,39 +44,85 @@ export class User extends React.Component {
     deleteId: "",
     deleteName: "",
     showHideClassName: 'modal display-none container',
-    getbill: {}
+    getbill: {},
+    isLoading: true,
+    year: '2020',
+    month: '1',
+    billType: 'purchaseBills',
+    browseBillImages: [],
+    isOpenClassName: 'modal display-none container'
+
+  }
+
+  modalTime = () => {
+    this.setState({
+      isOpenClassName: 'modal display-none container'
+    })
   }
 
   loadFile = (event) => {
     let id = event.target.id
-
+    let browseBillImages = []
     if (id === "purchase") {
       let purchaseBillImages = JSON.parse(JSON.stringify(this.state.purchaseBillImages))
+      // console.log('URL.createObjectURL(event.target.files[i]): ', (event.target.files[0]));
       for (let i = 0; i < event.target.files.length; i++) {
-        purchaseBillImages.push(URL.createObjectURL(event.target.files[i]))
+        purchaseBillImages.push(event.target.files[i])
+        browseBillImages.push(URL.createObjectURL(event.target.files[i]))
       }
+
+      var formData = new FormData();
+      formData.append('year', this.state.year);
+      formData.append('month', this.state.month);
+      formData.append('billType', 'purchase');
+      for (let i = 0; i < purchaseBillImages.length; i++) {
+        formData.append('bill', purchaseBillImages[i])
+      }
+
       this.setState({
-        purchaseBillImages,
+        purchaseBillImages, formData, browseBillImages
       })
     }
 
-    if (id === "sale") {
+    else if (id === "sale") {
       let saleBillImages = JSON.parse(JSON.stringify(this.state.saleBillImages))
       for (let i = 0; i < event.target.files.length; i++) {
-        saleBillImages.push(URL.createObjectURL(event.target.files[i]))
+        saleBillImages.push(event.target.files[i])
+        browseBillImages.push(URL.createObjectURL(event.target.files[i]))
+
       }
+
+      var formData = new FormData();
+      formData.append('year', this.state.year);
+      formData.append('month', this.state.month);
+      formData.append('billType', 'sale');
+      for (let i = 0; i < saleBillImages.length; i++) {
+        formData.append('bill', saleBillImages[i])
+      }
+
       this.setState({
-        saleBillImages,
+        saleBillImages, formData, browseBillImages
       })
     }
 
-    if (id === "other") {
+    else if (id === "other") {
       let otherBillImages = JSON.parse(JSON.stringify(this.state.otherBillImages))
       for (let i = 0; i < event.target.files.length; i++) {
-        otherBillImages.push(URL.createObjectURL(event.target.files[i]))
+        otherBillImages.push(event.target.files[i])
+        browseBillImages.push(URL.createObjectURL(event.target.files[i]))
       }
+
+      var formData = new FormData();
+      formData.append('year', this.state.year);
+      formData.append('month', this.state.month);
+      formData.append('billType', 'other');
+      for (let i = 0; i < otherBillImages.length; i++) {
+        formData.append('bill', otherBillImages[i])
+      }
+
+
       this.setState({
-        otherBillImages,
+        otherBillImages, formData, browseBillImages
       })
     }
 
@@ -106,6 +153,7 @@ export class User extends React.Component {
 
     this.setState({
       isActiveTab: id,
+      browseBillImages: []
     })
   }
 
@@ -120,9 +168,10 @@ export class User extends React.Component {
   }
 
   modalCloseHandler = () => {
+    console.log("hello");
     this.setState({
-      isResetModal: false,
       showHideClassName: 'modal display-none container',
+      isOpenClassName: 'modal display-none container',
       deleteId: "",
       deleteName: ""
     })
@@ -158,36 +207,31 @@ export class User extends React.Component {
     }
   }
 
-  confirmDeleteBill = (id,name) => {
+  confirmDeleteBill = (id, name) => {
     event.preventDefault()
-    this.deleteBills('5ec0f15d8590cd2bed990a59',id,name)
+    this.deleteBills('5ec0f15d8590cd2bed990a59', id, name)
     this.setState({
       showHideClassName: 'modal display-none container',
-  })
+      isLoading: true
+    })
   }
 
   billUploadHandler = (event) => {
     event.preventDefault()
     let id = event.target.id
-    let browseBillImages = this.state.browseBillImages
     if (id === "purchaseBillImages") {
-      browseBillImages = [];
-      this.setState({
-        browseBillImages
-      })
+      this.putbill('5ec0f15d8590cd2bed990a59')
     }
     else if (id === "saleBillImages") {
-      browseBillImages = [];
-      this.setState({
-        browseBillImages
-      })
+      this.putbill('5ec0f15d8590cd2bed990a59')
     }
     else if (id === "otherBillImages") {
-      browseBillImages = [];
-      this.setState({
-        browseBillImages
-      })
+      this.putbill('5ec0f15d8590cd2bed990a59')
     }
+    this.setState({
+      browseBillImages: [],
+      isLoading: true
+    })
   }
 
   // getHeaders = () => {
@@ -213,12 +257,13 @@ export class User extends React.Component {
     } else {
       errorMes = error.message;
     }
-    this.setState({ errorMes, messageModal: true, isLoading: false }, () => this.timeOutFunction());
+    this.setState({ errorMes, isOpenClassName: 'modal display-block container', type:"failure", isLoading: false },()=>setTimeout(this.modalTime, 1500)
+    );
   }
 
 
   componentWillMount() {
-    this.getbill('5ec0f15d8590cd2bed990a59', '05', '2020')
+    this.getbill('5ec0f15d8590cd2bed990a59', this.state.month, this.state.year)
   }
 
 
@@ -229,7 +274,7 @@ export class User extends React.Component {
       .get(`http://localhost:3000/bill/${id}/${month}/${year}`)
       .then((res) => {
         const getbill = res.data.data;
-        this.setState({ getbill });
+        this.setState({ getbill, isLoading: false });
       })
       .catch((error) => {
         console.log('error: ', error);
@@ -243,14 +288,53 @@ export class User extends React.Component {
       // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
       .delete(`http://localhost:3000/bill/${id}/${deleteId}/${deleteType}`)
       .then((res) => {
-        const deletedMessage = res.data.data.message;
-        this.setState({ deletedMessage },()=> this.getbill('5ec0f15d8590cd2bed990a59', '05', '2020'));
+        const deletedMessage = res.data.message;
+        this.setState({ 
+          deletedMessage, 
+          type:"success", 
+          isOpenClassName: 'modal display-block container', 
+          isLoading: false }, () => this.getbill('5ec0f15d8590cd2bed990a59', this.state.month, this.state.year), setTimeout(this.modalTime, 1500));
       })
       .catch((error) => {
         console.log('error: ', error);
         this.errorCheck(error);
       });
   };
+
+  putbill = (id) => {
+    // let url = window.location.origin + '/';
+    axios
+      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
+      .put(`http://localhost:3000/bill/${id}`, this.state.formData)
+      .then((res) => {
+        const putbill = res.data.data;
+        this.setState({ putbill, isLoading: false }, () => this.getbill('5ec0f15d8590cd2bed990a59', this.state.month, this.state.year));
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        this.errorCheck(error);
+      });
+  };
+
+  nameChangeHandler = (event) => {
+    let id = event.target.id
+    let year = this.state.year
+    let month = this.state.month
+    let billType = this.state.billType
+
+    if (id == "year") {
+      year = event.target.value
+    }
+    else if (id == "month") {
+      month = event.target.value
+    }
+    else {
+      billType = event.target.value
+    }
+    this.setState({
+      year, month, billType
+    }, () => this.getbill('5ec0f15d8590cd2bed990a59', this.state.month, this.state.year))
+  }
 
   render() {
     return (
@@ -259,178 +343,122 @@ export class User extends React.Component {
           <title>User</title>
           <meta name="description" content="Description of User" />
         </Helmet>
-         
+
         <ConfirmModal
           showHideClassName={this.state.showHideClassName}
           onClose={this.modalCloseHandler}
           onConfirm={() => this.confirmDeleteBill(this.state.deleteId, this.state.deleteName)}
         />
+        <MessageModal showHideClassName={this.state.isOpenClassName} modalType={this.state.type} message={this.state.deletedMessage} onClose={this.modalCloseHandler} />
 
-
-        <div className="container outer-box-r">
-          <div>
-            <ul className="breadCrumb-bg-r">
-              <li className="breadCrumb-li-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
-            </ul>
-          </div>
-          <div className="container filter-year-month-r">
-            <div className="row">
-              <div className="col-xs-6 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-5">
-                <select value="2020" className="year-month-border-r" name="year">
-                  <option value="">Select Year</option>
-                  <option value="2020">2020-2021</option>
-                  <option value="2019">2019-2020</option>
-                  <option value="2018">2018-2019</option>
-                  <option value="2017">2017-2018</option>
-                </select>
-              </div>
-              <div className="col-xs-6 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-5">
-                <select value = "5" className="year-month-border-r" name="month">
-                  <option value="">Select Month</option>
-                  <option value="1">January</option>
-                  <option value="2">February</option>
-                  <option value="3">March</option>
-                  <option value="4">April</option>
-                  <option value="5">May</option>
-                  <option value="6">June</option>
-                  <option value="7">July</option>
-                  <option value="8">August</option>
-                  <option value="9">September</option>
-                  <option value="10">October</option>
-                  <option value="11">November</option>
-                  <option value="12">December</option>
-                </select>
-              </div>
-              <div className="col-xs-12 col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
-                <div className="text-align-center-r"><p className="view-reports-r" onClick={() => { this.props.history.push('/manageUserReports') }}>view Reports</p></div>
-              </div>
+        {this.state.isLoading ?
+          <div className="lds-facebook"><div></div><div></div><div></div><span className="loading-text-r">Loading... </span></div>
+          :
+          <div className="container outer-box-r">
+            <div>
+              <ul className="breadCrumb-bg-r">
+                <li className="breadCrumb-li-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
+              </ul>
             </div>
-          </div>
-
-          <div className="container tab-space-r">
-            <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-              <div className={this.state.isActiveTab == "purchaseBills" ? "tab-active-base-r" : "tab-inactive-base-r"}>
-                <p className="margin-0-r" id="purchaseBills" onClick={this.tabActive}>
-                  Purchase Bills<br />({this.state.getbill.purchaseBills && this.state.getbill.purchaseBills.length} entries)</p>
-              </div>
-            </div>
-
-            <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-              <div className={this.state.isActiveTab == "saleBills" ? "tab-active-base-r" : "tab-inactive-base-r"}>
-                <p className="margin-0-r" id="saleBills" onClick={this.tabActive} className="">
-                  Sale Bills<br />({this.state.getbill.saleBills && this.state.getbill.saleBills.length} entries)</p>
-              </div>
-            </div>
-
-            <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-              <div className={this.state.isActiveTab == "otherBills" ? "tab-active-base-r" : "tab-inactive-base-r"}>
-                <p className="margin-0-r" id="otherBills" onClick={this.tabActive} className="">
-                  Other<br />({this.state.getbill.otherBills && this.state.getbill.otherBills.length} entries)</p>
-              </div>
-            </div>
-          </div>
-
-          {
-            this.state.isActiveTab == "purchaseBills" ?
-              <div className="container">
-                <form id="purchaseBillImages" onSubmit={this.billUploadHandler}>
-                  <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-align-center-r">
-                    <div className="card-scroll-r">
-                      {console.log('this.state.purchaseBillImages: ', this.state.purchaseBillImages)}
-                      {
-                        this.state.purchaseBillImages.length == 1 ?
-                          <React.Fragment>
-                            <div className="card-browse-one-r">
-                              <img className="browse-one-image-r" src={this.state.purchaseBillImages[0]} />
-                            </div>
-                            <span className="delete-one-browse-icon">
-                              <button name="purchaseBillImages" id={0} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
-                            </span>
-                          </React.Fragment>
-                          :
-                          this.state.purchaseBillImages.map((val, index) => {
-                            return <div key={index} className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-align-center-r padding-5-r">
-                              <div className="card-browse-r">
-                                <img className="browse-image-r" src={val} />
-                              </div>
-                              <span className="delete-one-browse-icon">
-                                <button name="purchaseBillImages" id={index} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
-                              </span>
-                            </div>
-                          }
-                          )
-                      }
-                    </div>
-                    <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="purchase"
-                      type="file" multiple required />
-                    <div>
-                      <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <div><button type="button" className="button-base-r">
-                          <label className="cursor-pointer-r margin-0-r" htmlFor="purchase">Browse</label>
-                        </button></div>
-                      </div>
-                      <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <button className="button-base-r"> Upload </button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-                <div className="col-xs-12 col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10">
-                  <div className="text-align-center-min-r">
-
-                    {this.state.getbill.purchaseBills && this.state.getbill.purchaseBills.map((val, index) =>
-                      <React.Fragment key={index}>
-                        <div className="card-selected-image-r">
-                          <img className="selected-image-r" src={require('../../assets/img/aboutUs1.jpg')} />
-                          <p className="card-selected-sub-heading-r">{val.img}</p>
-                          <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
-                        </div>
-                        <span className="delete-bill-icon-r">
-                          <button name="purchase" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                        </span>
-                      </React.Fragment>
-                    )}
-
-                  </div>
+            <div className="container filter-year-month-r">
+              <div className="row">
+                <div className="col-xs-6 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-5">
+                  <select value={this.state.year} onChange={this.nameChangeHandler} className="year-month-border-r" id="year">
+                    <option value="">Select Year</option>
+                    <option value="2020">2020-2021</option>
+                    <option value="2019">2019-2020</option>
+                    <option value="2018">2018-2019</option>
+                    <option value="2017">2017-2018</option>
+                  </select>
+                </div>
+                <div className="col-xs-6 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-5">
+                  <select value={this.state.month} onChange={this.nameChangeHandler} className="year-month-border-r" id="month">
+                    <option value="">Select Month</option>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                  </select>
+                </div>
+                <div className="col-xs-12 col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
+                  <div className="text-align-center-r"><p className="view-reports-r" onClick={() => { this.props.history.push('/manageUserReports') }}>view Reports</p></div>
                 </div>
               </div>
-              :
+            </div>
 
-              this.state.isActiveTab == "saleBills" ?
+            <div className="container tab-space-r">
+              <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                <div className={this.state.isActiveTab == "purchaseBills" ? "tab-active-base-r" : "tab-inactive-base-r"}>
+                  <p className="margin-0-r" id="purchaseBills" onClick={this.tabActive}>
+                    Purchase Bills<br />({this.state.getbill.purchaseBills && this.state.getbill.purchaseBills.length} entries)</p>
+                </div>
+              </div>
+
+              <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                <div className={this.state.isActiveTab == "saleBills" ? "tab-active-base-r" : "tab-inactive-base-r"}>
+                  <p className="margin-0-r" id="saleBills" onClick={this.tabActive} className="">
+                    Sale Bills<br />({this.state.getbill.saleBills && this.state.getbill.saleBills.length} entries)</p>
+                </div>
+              </div>
+
+              <div className="col-xs-12 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                <div className={this.state.isActiveTab == "otherBills" ? "tab-active-base-r" : "tab-inactive-base-r"}>
+                  <p className="margin-0-r" id="otherBills" onClick={this.tabActive} className="">
+                    Other<br />({this.state.getbill.otherBills && this.state.getbill.otherBills.length} entries)</p>
+                </div>
+              </div>
+            </div>
+
+            {
+              this.state.isActiveTab == "purchaseBills" ?
                 <div className="container">
-                  <form id="saleBillImages" onSubmit={this.billUploadHandler}>
+                  <form id="purchaseBillImages" onSubmit={this.billUploadHandler}>
                     <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-align-center-r">
                       <div className="card-scroll-r">
                         {
-                          this.state.saleBillImages.length == 1 ?
+                          this.state.browseBillImages.length == 1 ?
                             <React.Fragment>
                               <div className="card-browse-one-r">
-                                <img className="browse-one-image-r" src={this.state.saleBillImages[0]} />
+                                <img className="browse-one-image-r" src={this.state.browseBillImages[0]} />
                               </div>
                               <span className="delete-one-browse-icon">
-                                <button name="saleBillImages" id={0} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
+                                <button name="purchaseBillImages" id={0} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
                               </span>
                             </React.Fragment>
                             :
-                            this.state.saleBillImages.map((val, index) => {
-                              return <div key={index} className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-align-center-r padding-5-r">
-                                <div className="card-browse-r">
-                                  <img className="browse-image-r" src={val} />
-                                </div>
-                                <span className="delete-one-browse-icon">
-                                  <button name="saleBillImages" id={index} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
-                                </span>
-                              </div>
-                            }
-                            )
+                            this.state.browseBillImages.length > 1 ?
+                              <React.Fragment>
+                                {
+                                  this.state.browseBillImages.map((val, index) => {
+                                    return <div key={index} className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-align-center-r padding-5-r">
+                                      <div className="card-browse-r">
+                                        <img className="browse-image-r" src={val} />
+                                      </div>
+                                      <span className="delete-one-browse-icon">
+                                        <button name="purchaseBillImages" id={index} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
+                                      </span>
+                                    </div>
+                                  }
+                                  )
+                                }
+                              </React.Fragment>
+                              : null
                         }
                       </div>
-                      <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="sale"
+                      <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="purchase"
                         type="file" multiple required />
                       <div>
                         <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                           <div><button type="button" className="button-base-r">
-                            <label className="cursor-pointer-r margin-0-r" htmlFor="sale">Browse</label>
+                            <label className="cursor-pointer-r margin-0-r" htmlFor="purchase">Browse</label>
                           </button></div>
                         </div>
                         <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -442,15 +470,15 @@ export class User extends React.Component {
                   <div className="col-xs-12 col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10">
                     <div className="text-align-center-min-r">
 
-                      {this.state.getbill.saleBills && this.state.getbill.saleBills.map((val, index) =>
+                      {this.state.getbill.purchaseBills && this.state.getbill.purchaseBills.map((val, index) =>
                         <React.Fragment key={index}>
                           <div className="card-selected-image-r">
-                            <img className="selected-image-r" src={require('../../assets/img/aboutUs1.jpg')} />
-                            <p className="card-selected-sub-heading-r">{val.img}</p>
+                            <img className="selected-image-r" src={"http://localhost:3000/bills/" + val.img} />
+                            <p className="card-selected-sub-heading-r">{val.originalName}</p>
                             <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                           </div>
                           <span className="delete-bill-icon-r">
-                            <button name="sale" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                            <button name="purchase" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                           </span>
                         </React.Fragment>
                       )}
@@ -458,76 +486,150 @@ export class User extends React.Component {
                     </div>
                   </div>
                 </div>
-
                 :
 
-                <div className="container">
-                  <form id="otherBillImages" onSubmit={this.billUploadHandler}>
-                    <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-align-center-r">
-                      <div className="card-scroll-r">
-                        {
-                          this.state.otherBillImages.length == 1 ?
-                            <React.Fragment>
-                              <div className="card-browse-one-r">
-                                <img className="browse-one-image-r" src={this.state.otherBillImages[0]} />
-                              </div>
-                              <span className="delete-one-browse-icon">
-                                <button name="otherBillImages" id={0} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
-                              </span>
-                            </React.Fragment>
-                            :
-                            this.state.otherBillImages.map((val, index) => {
-                              return <div key={index} className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-align-center-r padding-5-r">
-                                <div className="card-browse-r">
-                                  <img className="browse-image-r" src={val} />
+                this.state.isActiveTab == "saleBills" ?
+                  <div className="container">
+                    <form id="saleBillImages" onSubmit={this.billUploadHandler}>
+                      <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-align-center-r">
+                        <div className="card-scroll-r">
+                          {
+                            this.state.browseBillImages.length == 1 ?
+                              <React.Fragment>
+                                <div className="card-browse-one-r">
+                                  <img className="browse-one-image-r" src={this.state.browseBillImages[0]} />
                                 </div>
                                 <span className="delete-one-browse-icon">
-                                  <button name="otherBillImages" id={index} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
+                                  <button name="saleBillImages" id={0} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
                                 </span>
-                              </div>
-                            }
-                            )
-                        }
-                      </div>
-                      <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="other"
-                        type="file" multiple required />
-                      <div>
-                        <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                          <div><button type="button" className="button-base-r">
-                            <label className="cursor-pointer-r margin-0-r" htmlFor="other">Browse</label>
-                          </button></div>
+                              </React.Fragment>
+                              :
+                              this.state.browseBillImages.length > 1 ?
+                                <React.Fragment>
+                                  {
+                                    this.state.browseBillImages.map((val, index) => {
+                                      return <div key={index} className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-align-center-r padding-5-r">
+                                        <div className="card-browse-r">
+                                          <img className="browse-image-r" src={val} />
+                                        </div>
+                                        <span className="delete-one-browse-icon">
+                                          <button name="saleBillImages" id={index} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
+                                        </span>
+                                      </div>
+                                    }
+                                    )}
+                                </React.Fragment>
+                                : null
+                          }
                         </div>
-                        <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                          <button className="button-base-r"> Upload </button>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                  <div className="col-xs-12 col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10">
-                    <div className="text-align-center-min-r">
-
-                      {this.state.getbill.otherBills && this.state.getbill.otherBills.map((val, index) =>
-                        <React.Fragment key={index}>
-                          <div className="card-selected-image-r">
-                            <img className="selected-image-r" src={require('../../assets/img/aboutUs1.jpg')} />
-                            <p className="card-selected-sub-heading-r">{val.img}</p>
-                            <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                        <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="sale"
+                          type="file" multiple required />
+                        <div>
+                          <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                            <div><button type="button" className="button-base-r">
+                              <label className="cursor-pointer-r margin-0-r" htmlFor="sale">Browse</label>
+                            </button></div>
                           </div>
-                          <span className="delete-bill-icon-r">
-                            <button name="other" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                          </span>
-                        </React.Fragment>
-                      )}
+                          <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                            <button className="button-base-r"> Upload </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                    <div className="col-xs-12 col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10">
+                      <div className="text-align-center-min-r">
 
+                        {this.state.getbill.saleBills && this.state.getbill.saleBills.map((val, index) =>
+                          <React.Fragment key={index}>
+                            <div className="card-selected-image-r">
+                              <img className="selected-image-r" src={"http://localhost:3000/bills/" + val.img} />
+                              <p className="card-selected-sub-heading-r">{val.originalName}</p>
+                              <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                            </div>
+                            <span className="delete-bill-icon-r">
+                              <button name="sale" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                            </span>
+                          </React.Fragment>
+                        )}
+
+                      </div>
                     </div>
                   </div>
-                </div>
 
+                  :
 
+                  <div className="container">
+                    <form id="otherBillImages" onSubmit={this.billUploadHandler}>
+                      <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-align-center-r">
+                        <div className="card-scroll-r">
+                          {
+                            this.state.browseBillImages.length == 1 ?
+                              <React.Fragment>
+                                <div className="card-browse-one-r">
+                                  <img className="browse-one-image-r" src={this.state.browseBillImages[0]} />
+                                </div>
+                                <span className="delete-one-browse-icon">
+                                  <button name="otherBillImages" id={0} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
+                                </span>
+                              </React.Fragment>
+                              :
+                              this.state.browseBillImages.length > 1 ?
+                                <React.Fragment>
+                                  {
+                                    this.state.browseBillImages.map((val, index) => {
+                                      return <div key={index} className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-align-center-r padding-5-r">
+                                        <div className="card-browse-r">
+                                          <img className="browse-image-r" src={val} />
+                                        </div>
+                                        <span className="delete-one-browse-icon">
+                                          <button name="otherBillImages" id={index} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
+                                        </span>
+                                      </div>
+                                    }
+                                    )
+                                  }
+                                </React.Fragment>
+                                : null
+                          }
+                        </div>
+                        <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="other"
+                          type="file" multiple required />
+                        <div>
+                          <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                            <div><button type="button" className="button-base-r">
+                              <label className="cursor-pointer-r margin-0-r" htmlFor="other">Browse</label>
+                            </button></div>
+                          </div>
+                          <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                            <button className="button-base-r"> Upload </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                    <div className="col-xs-12 col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10">
+                      <div className="text-align-center-min-r">
 
-          }
+                        {this.state.getbill.otherBills && this.state.getbill.otherBills.map((val, index) =>
+                          <React.Fragment key={index}>
+                            <div className="card-selected-image-r">
+                              <img className="selected-image-r" src={"http://localhost:3000/bills/" + val.img} />
+                              <p className="card-selected-sub-heading-r">{val.originalName}</p>
+                              <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                            </div>
+                            <span className="delete-bill-icon-r">
+                              <button name="other" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                            </span>
+                          </React.Fragment>
+                        )}
 
-        </div>
+                      </div>
+                    </div>
+                  </div>
+
+            }
+
+          </div>
+        }
       </div>
     );
   }
