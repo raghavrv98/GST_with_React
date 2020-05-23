@@ -36,11 +36,11 @@ export default function App() {
       >
         <meta name="description" content="A React.js Boilerplate application" />
       </Helmet> */}
-      <Header/>
+      <Header />
       <Switch>
-      <Route exact path="/" component={LoginPage} />
+        <Route exact path="/" component={LoginPage} />
         <Route exact path="/user" component={User} />
-        <Route exact path="/userDetails/:id?" component={UserDetails} />
+        <Route exact path="/userDetails/:id/:month/:year" component={UserDetails} />
         <Route exact path="/contact" component={Contact} />
         <Route exact path="/aboutUs" component={AboutUs} />
         <Route exact path="/addOrEditUser/:id?" component={AddOrEditUser} />
@@ -49,8 +49,8 @@ export default function App() {
         <Route exact path="/manageUser/:id?" component={ManageUser} />
         <Route exact path="/admin" component={Admin} />
         <Route exact path="/manageUserReports/:month/:year" component={ManageUserReports} />
-        <Route exact path="/userDetails/:id/manageAccountantReports/:report" component={ManageAccountantReports} />
-        <Route exact path="/userDetails/:id/userBillDetails/:bill" component={UserBillDetails} />
+        <Route exact path="/userDetails/:id/manageAccountantReports/:report/:month/:year" component={ManageAccountantReports} />
+        <Route exact path="/userDetails/:id/userBillDetails/:bill/:month/:year" component={UserBillDetails} />
 
         {/* <Route path="" component={NotFoundPage} /> */}
       </Switch>

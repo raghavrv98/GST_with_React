@@ -32,12 +32,6 @@ export class ManageUserReports extends React.Component {
     isOpenClassName: 'modal display-none container'
   }
 
-  modalTime = () => {
-    this.setState({
-      isOpenClassName: 'modal display-none container'
-    })
-  }
-
   errorCheck(error) {
     let errorMes = '';
     if (error.response) {
@@ -53,11 +47,6 @@ export class ManageUserReports extends React.Component {
     }
     this.setState({ errorMes, isOpenClassName: 'modal display-block container', isLoading: false }, () => setTimeout(this.modalTime, 1500));
   }
-
-  componentWillMount() {
-    this.getReports('5ec0f15d8590cd2bed990a59', this.props.match.params.month, this.props.match.params.year)
-  }
-
 
   getReports = (id, month, year) => {
     // let url = window.location.origin + '/';
@@ -86,13 +75,23 @@ export class ManageUserReports extends React.Component {
           isLoading: false,
           type: "success",
           isOpenClassName: 'modal display-block container'
-        }, () => this.getReports('5ec0f15d8590cd2bed990a59', '05', '2020'), setTimeout(this.modalTime, 1500))
+        }, () => this.getReports('5ec90c578dd81634c4067ed8', '05', '2020'), setTimeout(this.modalTime, 1500))
       })
       .catch((error) => {
         console.log('error: ', error);
         this.errorCheck(error);
       });
   };
+
+  componentWillMount() {
+    this.getReports('5ec90c578dd81634c4067ed8', this.props.match.params.month, this.props.match.params.year)
+  }
+
+  modalTime = () => {
+    this.setState({
+      isOpenClassName: 'modal display-none container'
+    })
+  }
 
   confirmModalHandler = (event) => {
     let id = event.target.id
@@ -116,7 +115,7 @@ export class ManageUserReports extends React.Component {
 
   confirmDeleteData = (id, name) => {
     event.preventDefault()
-    this.deleteReports('5ec0f15d8590cd2bed990a59', id, name)
+    this.deleteReports('5ec90c578dd81634c4067ed8', id, name)
     this.setState({
       showHideClassName: 'modal display-none container',
       isLoading: true
@@ -130,6 +129,20 @@ export class ManageUserReports extends React.Component {
           <title>ManageUserReports</title>
           <meta name="description" content="Description of ManageUserReports" />
         </Helmet>
+
+
+        <ConfirmModal
+          showHideClassName={this.state.showHideClassName}
+          onClose={this.modalCloseHandler}
+          onConfirm={() => this.confirmDeleteData(this.state.deleteId, this.state.deleteName)}
+        />
+
+        <MessageModal
+          showHideClassName={this.state.isOpenClassName}
+          modalType={this.state.type}
+          message={this.state.deletedMessage}
+          onClose={this.modalCloseHandler}
+        />
 
         {this.state.isLoading ?
           <div className="lds-facebook"><div></div><div></div><div></div><span className="loading-text-r">Loading... </span></div>
@@ -204,14 +217,6 @@ export class ManageUserReports extends React.Component {
 
           </div>
         }
-        <ConfirmModal
-          showHideClassName={this.state.showHideClassName}
-          onClose={this.modalCloseHandler}
-          onConfirm={() => this.confirmDeleteData(this.state.deleteId, this.state.deleteName)}
-        />
-
-        <MessageModal showHideClassName={this.state.isOpenClassName} modalType={this.state.type} message={this.state.deletedMessage} onClose={this.modalCloseHandler} />
-
 
       </div>
     );

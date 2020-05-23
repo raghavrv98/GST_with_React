@@ -19,407 +19,181 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import ReactTooltip from 'react-tooltip';
+import axios from 'axios';
+import moment from 'moment';
 
-// import ConfirmModal from '../../components/ConfirmModal/Loadable'
+import MessageModal from '../../components/MessageModal/Loadable'
 
 /* eslint-disable react/prefer-stateless-function */
 export class ManageUser extends React.Component {
 
   state = {
-    userList: [{
-      "userId": 1,
-      "userDetails": {
-        "year": "2017",
-        "month": "january",
-        "status": "pending",
-        "state": "inActive",
-        "timestamp": "09-04-2020",
-        "clientId": "1001",
-        "tradeName": "Ram Provision Store",
-        "legalName": "Ram"
-      }
-    },
-    {
-      "userId": 2,
-      "userDetails": {
-        "year": "2018",
-        "month": "february",
-        "status": "completed",
-        "state": "active",
-        "timestamp": "09-04-2020",
-        "clientId": "1002",
-        "tradeName": "shyam Provision Store",
-        "legalName": "shyam"
-      }
-    },
-    {
-      "userId": 3,
-      "userDetails": {
-        "year": "2019",
-        "month": "march",
-        "status": "completed",
-        "state": "active",
-        "timestamp": "09-04-2020",
-        "clientId": "1003",
-        "tradeName": "rohan Provision Store",
-        "legalName": "rohan"
-      }
-    }
-    ],
-    reports: [{
-      userId: 1,
-      userBills: [{
-        year: "2017",
-        month: "january",
-        type: "purchase",
-        docs: [{
-          doc_Url: "image_url",
-          timestamp: "09-04-2020"
-        },
-        {
-          doc_Url: "image_url",
-          timestamp: "09-04-2020"
-        },
-        {
-          doc_Url: "image_url",
-          timestamp: "09-04-2020"
-        },
-        {
-          doc_Url: "pdf_url",
-          timestamp: "09-04-2020"
-        }
-        ]
-      },
-      {
-        year: "2017",
-        month: "january",
-        type: "sales",
-        docs: [{
-          doc_Url: "image_url",
-          timestamp: "09-04-2020"
-        },
-        {
-          doc_Url: "image_url",
-          timestamp: "09-04-2020"
-        },
-        {
-          doc_Url: "image_url",
-          timestamp: "09-04-2020"
-        },
-        {
-          doc_Url: "pdf_url",
-          timestamp: "09-04-2020"
-        }
-        ]
-      },
-      {
-        year: "2017",
-        month: "january",
-        type: "other",
-        docs: [{
-          doc_Url: "image_url",
-          timestamp: "09-04-2020"
-        },
-        {
-          doc_Url: "image_url",
-          timestamp: "09-04-2020"
-        },
-        {
-          doc_Url: "image_url",
-          timestamp: "09-04-2020"
-        },
-        {
-          doc_Url: "pdf_url",
-          timestamp: "09-04-2020"
-        }
-        ]
-      }
-      ]
-    },
-    {
-      userId: 2,
-      userBills: [{
-        year: "2018",
-        month: "february",
-        type: "purchase",
-        docs: [{
-          doc_Url: "image_url",
-          timestamp: "10-04-2020"
-        },
-        {
-          doc_Url: "image_url",
-          timestamp: "10-04-2020"
-        },
-        {
-          doc_Url: "image_url",
-          timestamp: "10-04-2020"
-        },
-        {
-          doc_Url: "pdf_url",
-          timestamp: "10-04-2020"
-        }
-        ]
-      },
-      {
-        year: "2018",
-        month: "february",
-        type: "sales",
-        docs: [{
-          doc_Url: "image_url",
-          timestamp: "10-04-2020"
-        },
-        {
-          doc_Url: "image_url",
-          timestamp: "10-04-2020"
-        },
-        {
-          doc_Url: "image_url",
-          timestamp: "10-04-2020"
-        },
-        {
-          doc_Url: "pdf_url",
-          timestamp: "10-04-2020"
-        }
-        ]
-      },
-      {
-        year: "2018",
-        month: "february",
-        type: "other",
-        docs: [{
-          doc_Url: "image_url",
-          timestamp: "10-04-2020"
-        },
-        {
-          doc_Url: "image_url",
-          timestamp: "10-04-2020"
-        },
-        {
-          doc_Url: "image_url",
-          timestamp: "10-04-2020"
-        },
-        {
-          doc_Url: "pdf_url",
-          timestamp: "10-04-2020"
-        }
-        ]
-      }
-      ]
-    },
-    {
-      userId: 3,
-      userBills: []
-    }],
-    payload: {
-      year: "2020",
-      month: "january",
-      userType: "all",
-    },
-    statusPayload : {
-      id : "",
-      Password:""
-    },
-    filteredData: [],
-    reactTableData: [],
+    month: 1,
+    year: 2020,
+    userType: "all",
     isFetching: false,
-    showHideClassName: 'modal display-none container',
-
+    isOpenClassName: 'modal display-none container'
   }
+
+  errorCheck(error) {
+    let errorMes = '';
+    if (error.response) {
+      if (error.response.data.status == 404) {
+        errorMes = error.response.data.error;
+      } else if (error.response.data.code == 400) {
+        errorMes = error.response.data.message;
+      } else {
+        errorMes = error.response.data.message;
+      }
+    } else {
+      errorMes = error.message;
+    }
+    this.setState({ errorMes, isOpenClassName: 'modal display-block container', type: "failure" }, () => setTimeout(this.modalTime, 1500)
+    );
+  }
+
+  getUser = (traderId, month, year, userType) => {
+    axios.get(`http://localhost:3000/users/${traderId}/${month}/${year}/${userType}`)
+      .then((res) => {
+        const users = res.data.data;
+        this.setState({ users, isFetching: false });
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        this.errorCheck(error);
+      });
+  };
+
+  statusUpdate = (id, status) => {
+    let traderId = localStorage.getItem('traderId')
+
+    axios.put(`http://localhost:3000/changeStatus/${id}`, { 'status': status })
+      .then((res) => {
+        const message = res.data.message;
+        this.setState({
+          message,
+          isFetching: true,
+        }, () => this.getUser(traderId, this.state.month, this.state.year, this.state.userType));
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        this.errorCheck(error);
+      });
+  };
+
 
   componentWillMount() {
-    setTimeout(this.loadingTime, 500);
-    let filteredData = JSON.parse(JSON.stringify(this.state.userList))
-    var reactTableData = filteredData.map(val => {
-      return {
-        userId: val.userId,
-        clientId: val.userDetails.clientId,
-        tradeName: val.userDetails.tradeName,
-        legalName: val.userDetails.legalName,
-        status: val.userDetails.status
-      }
-    })
-    this.setState({
-      reactTableData
-    })
+    localStorage.setItem('traderId', '1')
+    let traderId = localStorage.getItem('traderId')
+    this.getUser(traderId, this.state.month, this.state.year, this.state.userType)
   }
 
-  loadingTime = () => {
+  modalTime = () => {
     this.setState({
+      isOpenClassName: 'modal display-none container',
       isFetching: false
     })
   }
 
   nameChangeHandler = (event) => {
-    var filteredData = []
-    let payload = JSON.parse(JSON.stringify(this.state.payload))
-    payload[event.target.id] = event.target.value
-    if (event.target.id == "year") {
-      filteredData = this.state.userList.filter(val => val.userDetails.year == event.target.value);
-      payload.month = ""
-      payload.userType = ""
-    }
-    else if (event.target.id == "month") {
-      filteredData = this.state.userList.filter(val => val.userDetails.month == event.target.value);
-      payload.year = ""
-      payload.userType = ""
-    }
-    else if (event.target.id == "userType") {
-      if (event.target.value == "completed" || event.target.value == "pending") {
-        filteredData = this.state.userList.filter(val => val.userDetails.status == event.target.value);
-      }
-
-      else if (event.target.value == "active" || event.target.value == "inActive") {
-        filteredData = this.state.userList.filter(val => val.userDetails.state == event.target.value);
-      }
-
-      else if (event.target.value == "withData" || event.target.value == "withoutData") {
-
-        if (event.target.value == "withData") {
-          filteredData = this.state.reports.map(val => { if (val.userBills.length > 0) return val.userId });
-          filteredData = filteredData.filter(val => { if (val != undefined) return val });
-          filteredData = this.state.userList.filter(val => filteredData.includes(val.userId))
-        }
-        else {
-          filteredData = this.state.reports.map(val => { if (val.userBills.length == 0) return val.userId });
-          filteredData = filteredData.filter(val => { if (val != undefined) return val });
-          filteredData = this.state.userList.filter(val => filteredData.includes(val.userId))
-        }
-
-      }
-      else if (event.target.value == "all")
-        filteredData = this.state.userList;
-
-      else
-        filteredData = []
-      payload.year = ""
-      payload.month = ""
-    }
-
-    var reactTableData = filteredData.map(val => {
-      return {
-        userId: val.userId,
-        clientId: val.userDetails.clientId,
-        tradeName: val.userDetails.tradeName,
-        legalName: val.userDetails.legalName,
-        status: val.userDetails.status
-      }
-    })
-
-    this.setState({
-      payload,
-      reactTableData
-    })
-  }
-
-  // confirmModalHandler = (event) => {
-  //   let id = event.target.id
-  //   console.log('id: ', id);
-  //   let name = event.target.name
-  //   this.setState({
-  //     showHideClassName: 'modal display-block container',
-  //     deleteId: id,
-  //     deleteName: name
-  //   })
-  // }
-
-  modalCloseHandler = () => {
-    this.setState({
-      isResetModal: false,
-      showHideClassName: 'modal display-none container',
-      deleteId: "",
-      deleteName: ""
-    })
-  }
-
-  // confirmDeleteData = (id) => {
-  //   event.preventDefault()
-  //   this.setState({
-  //     isConfirmModal: false
-  //   })
-  // }
-
-  statusHandler = (event) => {
+    let year = this.state.year
+    let month = this.state.month
+    let userType = this.state.userType
     let id = event.target.id
+    let traderId = localStorage.getItem('traderId')
+
+    if (id === "year") {
+      year = event.target.value
+    }
+    else if (id === "month") {
+      month = event.target.value
+    }
+    else if (id === "userType") {
+      userType = event.target.value
+    }
+
     this.setState({
-      showHideClassName: 'modal display-block container',
-      statusId: id,
-    })
+      year, month, userType, isFetching: true,
+    }, () => this.getUser(traderId, this.state.month, this.state.year, this.state.userType))
   }
 
-  statusChangeHandler = event => {
-    let statusPayload = JSON.parse(JSON.stringify(this.state.statusPayload));
-    statusPayload[event.target.id] = event.target.value;
+  statusChangeHandler = (event) => {
+    let id = event.target.id
+    let status = event.target.checked
     this.setState({
-      statusPayload,
-    });
+      isFetching: true,
+    }, () => this.statusUpdate(id, status));
   };
 
-  submitStatusChangeHandler = (statusPayload) => {
-    event.preventDefault()
-    this.setState({
-    })
-  }
-
   render() {
-    const columns = [{
-      Header: 'Serial No.',
-      accessor: 'userId',
-      Cell: row =>(
-        <div className="onClick-cell-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}>{row.original.userId}</div>
-        ),
-      width: 100,
-    },
-    {
-      Header: 'client Id',
-      accessor: 'clientId',
-      width: 150,
-      filterable: true,
-      Cell: row =>(
-      <div className="onClick-cell-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}>{row.original.clientId}</div>
-      )
-    },
-    {
-      Header: 'Legal Name',
-      accessor: 'legalName',
-      filterable: true,
-      Cell: row =>(
-        <div className="onClick-cell-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}>{row.original.legalName}</div>
+    const columns = [
+      //   {
+      //   Header: 'Serial No.',
+      //   accessor: '_id',
+      //   Cell: row => (
+      //     <div className="onClick-cell-r" onClick={() => { this.props.history.push('/userDetails/' + row.original._id) }}>{row.original._id}</div>
+      //   ),
+      //   width: 100,
+      // },
+      {
+        Header: 'Created At',
+        accessor: 'timestamp',
+        width: 200,
+        Cell: row => (
+          <div className="onClick-cell-r" onClick={() => { this.props.history.push(`/userDetails/${row.original._id}/${this.state.month}/${this.state.year}`) }}>{moment(row.original.timestamp).format("DD MMM YYYY HH:mm")}</div>
         )
-    },
-    {
-      Header: 'Trade Name',
-      accessor: 'tradeName',
-      filterable: true,
-      Cell: row =>(
-      <div className="onClick-cell-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}>{row.original.tradeName}</div>
-      )
-    },
-    {
-      Header: 'Status',
-      accessor: 'status',
-      width: 100,
-      Cell: row =>
-        (
-          // <div className="table-status-pending-r">
-          // Pending
-          // </div>
-          <div>
-            <input id={row.original.userId} onChange={this.statusHandler} checked={row.original.status == "completed"} className="status-button-r" type="checkbox" />
+      },
+      {
+        Header: 'Client Id',
+        accessor: 'clientId',
+        width: 150,
+        filterable: true,
+        Cell: row => (
+          <div className="onClick-cell-r" onClick={() => { this.props.history.push(`/userDetails/${row.original._id}/${this.state.month}/${this.state.year}`) }}>{row.original.clientId}</div>
+        )
+      },
+      {
+        Header: 'Legal Name',
+        accessor: 'legalName',
+        filterable: true,
+        Cell: row => (
+          <div className="onClick-cell-r" onClick={() => { this.props.history.push(`/userDetails/${row.original._id}/${this.state.month}/${this.state.year}`) }}>{row.original.legalName}</div>
+        )
+      },
+      {
+        Header: 'Trade Name',
+        accessor: 'tradeName',
+        filterable: true,
+        Cell: row => (
+          <div className="onClick-cell-r" onClick={() => { this.props.history.push(`/userDetails/${row.original._id}/${this.state.month}/${this.state.year}`) }}>{row.original.tradeName}</div>
+        )
+      },
+      {
+        Header: 'Status',
+        accessor: 'status',
+        width: 100,
+        Cell: row =>
+          (
+            // <div className="table-status-pending-r">
+            // Pending
+            // </div>
+            <div>
+              <input id={row.original._id} onChange={this.statusChangeHandler} checked={row.original.status} className="status-button-r" type="checkbox" />
+            </div>
+          )
+      },
+      {
+        Header: 'Actions',
+        sortable: false,
+        width: 150,
+        Cell: row =>
+          (<div>
+            {/* <a className="infoButton-r" onClick={() => { this.props.history.push('/userDetails/' + row.original._id) }}><i className="fa fa-info" aria-hidden="true"></i></a> */}
+            <span className="editButton-r" data-tip data-for="edit" onClick={() => { this.props.history.push('/addOrEditUser/' + row.original._id) }}><i className="far fa-edit"></i><ReactTooltip id="edit" type="dark" ><div className="tooltipText"><p>Edit</p></div></ReactTooltip></span>
+            {/* <button id={row.original._id} onClick={this.confirmModalHandler} className="deleteButton-r far fa-trash-alt"></button> */}
           </div>
-        )
-    },
-    {
-      Header: 'Actions',
-      sortable: false,
-      width: 150,
-      Cell: row =>
-        (<div>
-          {/* <a className="infoButton-r" onClick={() => { this.props.history.push('/userDetails/' + row.original.userId) }}><i className="fa fa-info" aria-hidden="true"></i></a> */}
-          <span className="editButton-r" data-tip data-for="edit" onClick={() => { this.props.history.push('/addOrEditUser/' + row.original.userId) }}><i className="far fa-edit"></i><ReactTooltip id="edit" type="dark" ><div className="tooltipText"><p>Edit</p></div></ReactTooltip></span>
-          {/* <button id={row.original.userId} onClick={this.confirmModalHandler} className="deleteButton-r far fa-trash-alt"></button> */}
-        </div>
-        )
-    },
+          )
+      },
     ]
     return (
       <div>
@@ -428,86 +202,87 @@ export class ManageUser extends React.Component {
           <meta name="description" content="Description of ManageUser" />
         </Helmet>
 
-        {/* <ConfirmModal
-          showHideClassName={this.state.showHideClassName}
+        <MessageModal
+          showHideClassName={this.state.isOpenClassName}
+          modalType={this.state.type}
+          message={this.state.message}
           onClose={this.modalCloseHandler}
-          onConfirm={() => this.confirmDeleteData(this.state.deleteId, this.state.deleteName)}
-        /> */}
+        />
 
-        <div className={this.state.showHideClassName} >
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div className="modal-content">
-                <div className="modal-header background-color-r">
-                  <span className="text-color-white-r" >Status Password</span>
-                  <button
-                    type="button"
-                    className="close"
-                    onClick={this.modalCloseHandler}
-                    aria-label="Close"
-                  >
-                    <i className="fa fa-times" aria-hidden="true" />
-                  </button>
-                </div>
+        {/* <div className={this.state.showHideClassName} >
+          <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-content">
+              <div className="modal-header background-color-r">
+                <span className="text-color-white-r" >Status Password</span>
+                <button
+                  type="button"
+                  className="close"
+                  onClick={this.modalCloseHandler}
+                  aria-label="Close"
+                >
+                  <i className="fa fa-times" aria-hidden="true" />
+                </button>
+              </div>
 
-                <div className="modal-body,input-group input-group-lg">
-                  <div className="reset-form-padding-r">
-                    <form onSubmit={this.submitStatusChangeHandler}>
-                      <input type="text"
-                             value={this.state.status} 
-                             id="status"
-                             className="form-control reset-input-box-r"
-                             placeholder="Status Password" 
-                             onChange={this.statusChangeHandler}
-                             required />
-                      <div className="text-align-center-r">
-                        <button className="btn btn-primary btn-text-r">Submit</button>
-                      </div>
-                    </form>
-                  </div>
+              <div className="modal-body,input-group input-group-lg">
+                <div className="reset-form-padding-r">
+                  <form onSubmit={this.submitStatusChangeHandler}>
+                    <input type="text"
+                      value={this.state.status}
+                      id="status"
+                      className="form-control reset-input-box-r"
+                      placeholder="Status Password"
+                      onChange={this.statusChangeHandler}
+                      required />
+                    <div className="text-align-center-r">
+                      <button className="btn btn-primary btn-text-r">Submit</button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
           </div>
+        </div> */}
 
-        
+
         <div className="container outer-box-r">
-        <div>
+          <div>
             <ul className="breadCrumb-bg-r">
-              <li className="breadCrumb-li-r"><i class="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
+              <li className="breadCrumb-li-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
             </ul>
           </div>
           <div className="container filter-year-month-r">
             <div className="row">
               <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                <select id="year" onChange={this.nameChangeHandler} value={this.state.payload.year} className="year-month-border-r"
+                <select id="year" onChange={this.nameChangeHandler} value={this.state.year} className="year-month-border-r"
                   name="lectureId">
                   <option value="">Select Year</option>
-                  <option value="2017">2017-2018</option>
-                  <option value="2018">2018-2019</option>
-                  <option value="2019">2019-2020</option>
                   <option value="2020">2020-2021</option>
+                  <option value="2019">2019-2020</option>
+                  <option value="2018">2018-2019</option>
+                  <option value="2017">2017-2018</option>
                 </select>
               </div>
               <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                <select id="month" onChange={this.nameChangeHandler} value={this.state.payload.month} className="year-month-border-r"
+                <select id="month" onChange={this.nameChangeHandler} value={this.state.month} className="year-month-border-r"
                   name="lectureId">
                   <option value="">Select Month</option>
-                  <option value="january">January</option>
-                  <option value="february">February</option>
-                  <option value="march">March</option>
-                  <option value="april">April</option>
-                  <option value="may">May</option>
-                  <option value="june">June</option>
-                  <option value="july">July</option>
-                  <option value="august">August</option>
-                  <option value="september">September</option>
-                  <option value="october">October</option>
-                  <option value="november">November</option>
-                  <option value="december">December</option>
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5">May</option>
+                  <option value="6">June</option>
+                  <option value="7">July</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
                 </select>
               </div>
               <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                <select id="userType" onChange={this.nameChangeHandler} value={this.state.payload.userType} className="year-month-border-r"
+                <select id="userType" onChange={this.nameChangeHandler} value={this.state.userType} className="year-month-border-r"
                   name="lectureId">
                   <option value="">Select User</option>
                   <option value="all">All Users</option>
@@ -522,21 +297,13 @@ export class ManageUser extends React.Component {
             </div>
           </div>
           <div className="container">
-          <button type="button" onClick={()=>{this.props.history.push('/addOrEditUser')}} className="button-base-r newEntry-r">New User</button>
+            <button type="button" onClick={() => { this.props.history.push('/addOrEditUser') }} className="button-base-r newEntry-r">New User</button>
           </div>
           <div className="container">
             <div className="customReactTableBox">
               <ReactTable
                 className="customReactTable"
-                data={this.state.reactTableData}
-                // getTrProps={(state, rowInfo, column, instance) => ({
-                //   onClick: (e) => {
-                //     this.props.history.push('/addOrEditUser/' + rowInfo.original.userId)
-                //   },
-                //   style: {
-                //     cursor: "pointer"
-                //   }
-                // })}  
+                data={this.state.users}
                 columns={columns}
                 defaultPageSize={5}
                 noDataText={

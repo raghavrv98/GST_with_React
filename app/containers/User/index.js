@@ -47,6 +47,93 @@ export class User extends React.Component {
     billImages: []
   }
 
+  // getHeaders = () => {
+  // 	let auth = `Bearer ${window.location.host.split('.')[0] === 'app' ? sessionStorage.token : localStorage.token}`;
+  // 	return {
+  // 		headers: {
+  // 			'X-Authorization': auth,
+  // 			'x-project-id': localStorage.selectedProjectId
+  // 		}
+  // 	}
+  // }
+
+  errorCheck(error) {
+    let errorMes = '';
+    if (error.response) {
+      if (error.response.data.status == 404) {
+        errorMes = error.response.data.error;
+      } else if (error.response.data.code == 400) {
+        errorMes = error.response.data.message;
+      } else {
+        errorMes = error.response.data.message;
+      }
+    } else {
+      errorMes = error.message;
+    }
+    this.setState({ errorMes, isOpenClassName: 'modal display-block container', type: "failure", isLoading: false }, () => setTimeout(this.modalTime, 1500)
+    );
+  }
+
+
+  getbill = (id, month, year) => {
+    // let url = window.location.origin + '/';
+    axios
+      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
+      .get(`http://localhost:3000/bill/${id}/${month}/${year}`)
+      .then((res) => {
+        const getbill = res.data.data;
+        this.setState({ getbill, isLoading: false });
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        this.errorCheck(error);
+      });
+  };
+
+  deleteBills = (id, deleteId, deleteType) => {
+    // let url = window.location.origin + '/';
+    axios
+      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
+      .delete(`http://localhost:3000/bill/${id}/${deleteId}/${deleteType}`)
+      .then((res) => {
+        const message = res.data.message;
+        this.setState({
+          message,
+          type: "success",
+          isOpenClassName: 'modal display-block container',
+          isLoading: false
+        }, () => this.getbill('5ec90c578dd81634c4067ed8', this.state.month, this.state.year), setTimeout(this.modalTime, 1500));
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        this.errorCheck(error);
+      });
+  };
+
+  putbill = (id, formData) => {
+    // let url = window.location.origin + '/';
+    axios
+      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
+      .put(`http://localhost:3000/bill/${id}`, formData)
+      .then((res) => {
+        const message = res.data.message;
+        this.setState({
+          message,
+          isLoading: false,
+          type: "success",
+          isOpenClassName: 'modal display-block container',
+        }, () => this.getbill('5ec90c578dd81634c4067ed8', this.state.month, this.state.year), setTimeout(this.modalTime, 1500));
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        this.errorCheck(error);
+      });
+  };
+
+  componentWillMount() {
+    this.getbill('5ec90c578dd81634c4067ed8', this.state.month, this.state.year)
+  }
+
   modalTime = () => {
     this.setState({
       isOpenClassName: 'modal display-none container'
@@ -110,7 +197,7 @@ export class User extends React.Component {
 
   confirmDeleteBill = (id, name) => {
     event.preventDefault()
-    this.deleteBills('5ec0f15d8590cd2bed990a59', id, name)
+    this.deleteBills('5ec90c578dd81634c4067ed8', id, name)
     this.setState({
       showHideClassName: 'modal display-none container',
       isLoading: true
@@ -127,100 +214,12 @@ export class User extends React.Component {
     for (let i = 0; i < billImages.length; i++) {
       formData.append('bill', billImages[i])
     }
-    this.putbill('5ec0f15d8590cd2bed990a59', formData)
+    this.putbill('5ec90c578dd81634c4067ed8', formData)
     this.setState({
       browseBillImages: [],
       isLoading: true
     })
   }
-
-  // getHeaders = () => {
-  // 	let auth = `Bearer ${window.location.host.split('.')[0] === 'app' ? sessionStorage.token : localStorage.token}`;
-  // 	return {
-  // 		headers: {
-  // 			'X-Authorization': auth,
-  // 			'x-project-id': localStorage.selectedProjectId
-  // 		}
-  // 	}
-  // }
-
-  errorCheck(error) {
-    let errorMes = '';
-    if (error.response) {
-      if (error.response.data.status == 404) {
-        errorMes = error.response.data.error;
-      } else if (error.response.data.code == 400) {
-        errorMes = error.response.data.message;
-      } else {
-        errorMes = error.response.data.message;
-      }
-    } else {
-      errorMes = error.message;
-    }
-    this.setState({ errorMes, isOpenClassName: 'modal display-block container', type: "failure", isLoading: false }, () => setTimeout(this.modalTime, 1500)
-    );
-  }
-
-
-  componentWillMount() {
-    this.getbill('5ec0f15d8590cd2bed990a59', this.state.month, this.state.year)
-  }
-
-
-  getbill = (id, month, year) => {
-    // let url = window.location.origin + '/';
-    axios
-      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
-      .get(`http://localhost:3000/bill/${id}/${month}/${year}`)
-      .then((res) => {
-        const getbill = res.data.data;
-        this.setState({ getbill, isLoading: false });
-      })
-      .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
-      });
-  };
-
-  deleteBills = (id, deleteId, deleteType) => {
-    // let url = window.location.origin + '/';
-    axios
-      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
-      .delete(`http://localhost:3000/bill/${id}/${deleteId}/${deleteType}`)
-      .then((res) => {
-        const message = res.data.message;
-        this.setState({
-          message,
-          type: "success",
-          isOpenClassName: 'modal display-block container',
-          isLoading: false
-        }, () => this.getbill('5ec0f15d8590cd2bed990a59', this.state.month, this.state.year), setTimeout(this.modalTime, 1500));
-      })
-      .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
-      });
-  };
-
-  putbill = (id, formData) => {
-    // let url = window.location.origin + '/';
-    axios
-      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
-      .put(`http://localhost:3000/bill/${id}`, formData)
-      .then((res) => {
-        const message = res.data.message;
-        this.setState({
-          message,
-          isLoading: false,
-          type: "success",
-          isOpenClassName: 'modal display-block container',
-        }, () => this.getbill('5ec0f15d8590cd2bed990a59', this.state.month, this.state.year));
-      })
-      .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
-      });
-  };
 
   nameChangeHandler = (event) => {
     let id = event.target.id
@@ -239,7 +238,7 @@ export class User extends React.Component {
     }
     this.setState({
       year, month, billType, isLoading: true
-    }, () => this.getbill('5ec0f15d8590cd2bed990a59', this.state.month, this.state.year))
+    }, () => this.getbill('5ec90c578dd81634c4067ed8', this.state.month, this.state.year))
   }
 
   render() {
@@ -255,7 +254,13 @@ export class User extends React.Component {
           onClose={this.modalCloseHandler}
           onConfirm={() => this.confirmDeleteBill(this.state.deleteId, this.state.deleteName)}
         />
-        <MessageModal showHideClassName={this.state.isOpenClassName} modalType={this.state.type} message={this.state.message} onClose={this.modalCloseHandler} />
+
+        <MessageModal
+          showHideClassName={this.state.isOpenClassName}
+          modalType={this.state.type}
+          message={this.state.message}
+          onClose={this.modalCloseHandler}
+        />
 
         {this.state.isLoading ?
           <div className="lds-facebook"><div></div><div></div><div></div><span className="loading-text-r">Loading... </span></div>
