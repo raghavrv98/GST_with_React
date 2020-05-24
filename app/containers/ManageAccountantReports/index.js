@@ -98,6 +98,26 @@ export class ManageAccountantReports extends React.Component {
     })
   }
 
+  resendReport = (event) => {
+    let id = event.target.id
+    let userId = this.props.match.params.id
+    let report = this.props.match.params.report
+    axios.put(`http://localhost:3000/bill/${userId}/${id}/${report}`)
+      .then((res) => {
+        const message = res.data.message;
+        this.setState({
+          message,
+          isLoading: false,
+          type: "success",
+          isOpenClassName: 'modal display-block container',
+        }, () => setTimeout(this.modalTime, 1500));
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        this.errorCheck(error);
+      });
+  }
+
 
   render() {
     return (
@@ -133,6 +153,9 @@ export class ManageAccountantReports extends React.Component {
                   {this.state.userReports.map((val, index) =>
                     <React.Fragment key={index}>
                       <div className="card-base-r">
+                        <span className="resend-report-icon-r">
+                          <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
+                        </span>
                         <img className="card-img-r" src={"http://localhost:3000/gst-reports/" + val.img} />
                         <p className="card-sub-heading-r">Created At: {moment(val.timestamp).format("DD MMM YYYY")}</p>
                         <p className="card-text-r">{val.comment}</p>
@@ -151,6 +174,9 @@ export class ManageAccountantReports extends React.Component {
                   {this.state.userReports.map((val, index) =>
                     <React.Fragment key={index}>
                       <div className="card-base-r">
+                        <span className="resend-report-icon-r">
+                          <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
+                        </span>
                         <img className="card-img-r" src={"http://localhost:3000/daily-reports/" + val.img} />
                         <p className="card-sub-heading-r">Created At: {moment(val.timestamp).format("DD MMM YYYY")}</p>
                         <p className="card-text-r">{val.comment}</p>

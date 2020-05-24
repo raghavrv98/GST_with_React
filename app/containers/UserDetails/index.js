@@ -63,7 +63,6 @@ export class UserDetails extends React.Component {
     axios.get(`http://localhost:3000/userBillSummary/${userId}/${month}/${year}`)
       .then((res) => {
         const userBillSummary = res.data.data;
-        console.log('userBillSummary: ', userBillSummary);
         this.setState({ userBillSummary, isFetching: false });
       })
       .catch((error) => {
@@ -156,14 +155,13 @@ export class UserDetails extends React.Component {
       report: [],
       showHideClassName: 'modal display-none container',
       isFetching: true
-    }, () => this.postReport('5ec90c578dd81634c4067ed8', formData))
+    }, () => this.postReport(this.props.match.params.id, formData))
   }
 
   nameChangeHandler = (event) => {
     let id = event.target.id
     let year = this.props.match.params.year
     let month = this.props.match.params.month
-    let comment = this.state.comment
     let userId = this.props.match.params.id
     if (id === "year") {
       year = event.target.value
@@ -171,30 +169,35 @@ export class UserDetails extends React.Component {
     else if (id === "month") {
       month = event.target.value
     }
-    else {
-      comment = event.target.value
-    }
     this.setState({
-      comment, year, month, isFetching: true
+      year, month, isFetching: true
     }, () => this.getUserBillSummary(userId, this.state.month, this.state.year))
+  }
+
+  commentChangeHandler = (event) => {
+    let comment = this.state.comment
+    comment = event.target.value
+    this.setState({
+      comment
+    })
   }
 
 
   render() {
     const columns = [
-      // {
-      //   Header: 'Created At',
-      //   accessor: 'timestamp',
-      //   sortable: false,
-      //   // Cell: row => (this.state.filteredData[0].timestamp ? moment(row.original.timestamp).format("DD MMM YYYY HH:mm") : '-')
-      // },
+      {
+        Header: 'Created At',
+        accessor: 'timestamp',
+        sortable: false,
+        // Cell: row => (this.state.filteredData[0].timestamp ? moment(row.original.timestamp).format("DD MMM YYYY HH:mm") : '-')
+      },
       {
         Header: 'Purchase Bills',
         accessor: 'purchaseBills',
         sortable: false,
         // filterable: true,
         Cell: row =>
-          <span className="view-reports-r" onClick={() => this.props.history.push(`/userDetails/${this.props.match.params.id}/userBillDetails/purchaseBills/${this.state.month}/${this.state.year}`)}>{(row.original.purchaseBills.complete) + "/" + (row.original.purchaseBills.total)}</span>
+          <span className="view-reports-r" onClick={() => this.props.history.push(`/userDetails/${this.props.match.params.id}/userBillDetails/purchase/${this.state.month}/${this.state.year}`)}>{(row.original.purchaseBills.complete) + "/" + (row.original.purchaseBills.total)}</span>
       },
       {
         Header: 'Sale Bills',
@@ -202,7 +205,7 @@ export class UserDetails extends React.Component {
         sortable: false,
         // filterable: true,
         Cell: row =>
-          <span className="view-reports-r" onClick={() => this.props.history.push(`/userDetails/${this.props.match.params.id}/userBillDetails/saleBills/${this.state.month}/${this.state.year}`)}>{(row.original.saleBills.complete) + "/" + (row.original.saleBills.total)}</span>
+          <span className="view-reports-r" onClick={() => this.props.history.push(`/userDetails/${this.props.match.params.id}/userBillDetails/sale/${this.state.month}/${this.state.year}`)}>{(row.original.saleBills.complete) + "/" + (row.original.saleBills.total)}</span>
       },
       {
         Header: 'Other',
@@ -220,7 +223,7 @@ export class UserDetails extends React.Component {
         Cell: row =>
           (
             <div>
-              <p className="view-reports-r" onClick={() => { this.props.history.push(`/userDetails/${this.props.match.params.id}/manageAccountantReports/daily/${this.props.match.params.month}/${this.props.match.params.year}`) }}>View</p>
+              <p className="view-reports-r" onClick={() => { this.props.history.push(`/userDetails/${this.props.match.params.id}/manageAccountantReports/daily/${this.state.month}/${this.state.year}`) }}>View</p>
             </div>
           )
       },
@@ -280,7 +283,7 @@ export class UserDetails extends React.Component {
                   <form onSubmit={this.reportUploadHandler}>
                     <div>
                       <img src={this.state.browseReport.length > 0 ? this.state.browseReport[0] : ""} className="upload-modal-r" />
-                      <textarea rows="2" id="comment" placeholder="comments if any .." onChange={this.nameChangeHandler} value={this.state.comment} className="form-control reset-input-box-r"
+                      <textarea rows="2" id="comment" placeholder="comments if any .." onChange={this.commentChangeHandler} value={this.state.comment} className="form-control reset-input-box-r"
                         placeholder="comments.." required />
                     </div>
                     <div className="text-align-center-r">
@@ -307,7 +310,7 @@ export class UserDetails extends React.Component {
                   <p className="main-title-r">{this.state.userBillSummary && this.state.userBillSummary.name + " Details"}</p>
                 </div>
                 <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
-                  <p className="sub-title-r">({this.state.userBillSummary && this.state.userBillSummary.name})</p>
+                  <p className="sub-title-r">({this.state.userBillSummary && this.state.userBillSummary.mobileNumber})</p>
                 </div>
               </div>
             </div>
@@ -345,7 +348,7 @@ export class UserDetails extends React.Component {
               </div>
               <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 button-margin-top">
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <button type="button" onClick={() => { this.props.history.push(`/userDetails/${this.props.match.params.id}/manageAccountantReports/gst/${this.props.match.params.month}/${this.props.match.params.year}`) }} className="button-base-r">view GST Reports</button>
+                  <button type="button" onClick={() => { this.props.history.push(`/userDetails/${this.props.match.params.id}/manageAccountantReports/gst/${this.state.month}/${this.state.year}`) }} className="button-base-r">view GST Reports</button>
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                   <input style={{ display: "none" }} accept="image/*" onChange={this.loadFile} id="gst"

@@ -52,8 +52,8 @@ export class ManageUser extends React.Component {
     );
   }
 
-  getUser = (traderId, month, year, userType) => {
-    axios.get(`http://localhost:3000/users/${traderId}/${month}/${year}/${userType}`)
+  getUser = (accountantId, month, year, userType) => {
+    axios.get(`http://localhost:3000/users/${accountantId}/${month}/${year}/${userType}`)
       .then((res) => {
         const users = res.data.data;
         this.setState({ users, isFetching: false });
@@ -65,7 +65,7 @@ export class ManageUser extends React.Component {
   };
 
   statusUpdate = (id, status) => {
-    let traderId = localStorage.getItem('traderId')
+    let accountantId = localStorage.getItem('accountantId')
 
     axios.put(`http://localhost:3000/changeStatus/${id}`, { 'status': status })
       .then((res) => {
@@ -73,7 +73,7 @@ export class ManageUser extends React.Component {
         this.setState({
           message,
           isFetching: true,
-        }, () => this.getUser(traderId, this.state.month, this.state.year, this.state.userType));
+        }, () => this.getUser(accountantId, this.state.month, this.state.year, this.state.userType));
       })
       .catch((error) => {
         console.log('error: ', error);
@@ -83,9 +83,8 @@ export class ManageUser extends React.Component {
 
 
   componentWillMount() {
-    localStorage.setItem('traderId', '1')
-    let traderId = localStorage.getItem('traderId')
-    this.getUser(traderId, this.state.month, this.state.year, this.state.userType)
+    let accountantId = localStorage.getItem('userId')
+    this.getUser(accountantId, this.state.month, this.state.year, this.state.userType)
   }
 
   modalTime = () => {
@@ -100,7 +99,7 @@ export class ManageUser extends React.Component {
     let month = this.state.month
     let userType = this.state.userType
     let id = event.target.id
-    let traderId = localStorage.getItem('traderId')
+    let accountantId = localStorage.getItem('userId')
 
     if (id === "year") {
       year = event.target.value
@@ -114,7 +113,7 @@ export class ManageUser extends React.Component {
 
     this.setState({
       year, month, userType, isFetching: true,
-    }, () => this.getUser(traderId, this.state.month, this.state.year, this.state.userType))
+    }, () => this.getUser(accountantId, this.state.month, this.state.year, this.state.userType))
   }
 
   statusChangeHandler = (event) => {

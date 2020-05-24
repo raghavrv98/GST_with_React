@@ -18,23 +18,81 @@ import makeSelectLoginPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+import axios from 'axios';
 
 /* eslint-disable react/prefer-stateless-function */
 export class LoginPage extends React.Component {
   state = {
     payload: {
-      name: '',
+      emailId: '',
       password: '',
     },
     isResetActive: false,
     loginError: false,
+    isLoading: false
   };
 
+  errorCheck(error) {
+    let errorMes = '';
+    if (error.response) {
+      if (error.response.data.status == 404) {
+        errorMes = error.response.data.error;
+      } else if (error.response.data.code == 400) {
+        errorMes = error.response.data.message;
+      } else {
+        errorMes = error.response.data.message;
+      }
+    } else {
+      errorMes = error.message;
+    }
+    this.setState({ errorMes, loginError: true, isLoading: false });
+  }
+
+  loginSubmitHandler = () => {
+    event.preventDefault()
+    this.setState({
+      isLoading: true
+    })
+    let payload = JSON.parse(JSON.stringify(this.state.payload));
+    if (payload.emailId === "admin@gmail.com" && payload.password === "0000") {
+      this.props.history.push('/admin')
+    }
+    axios.post(`http://localhost:3000/login`, payload)
+      .then((res) => {
+        const data = res.data.data;
+        localStorage.setItem('role', data.role)
+        localStorage.setItem('emailId', data.emailId)
+        localStorage.setItem('userId', data._id)
+        if (data.role === "accountant") {
+          this.props.history.push('/manageUser')
+        }
+        else if (data.role === "user") {
+          this.props.history.push('/user')
+        }
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        this.errorCheck(error);
+      });
+  }
+
+  forgotPasswordHandler = () => {
+    event.preventDefault()
+    this.setState({
+      isLoading: true
+    })
+    let payload = JSON.parse(JSON.stringify(this.state.payload));
+    axios.post(`http://localhost:3000/forgot`, payload)
+      .then((res) => {
+        const data = res.data.data;
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        this.errorCheck(error);
+      });
+  }
+
   componentWillMount() {
-    localStorage.setItem('user', 'user');
-    localStorage.setItem('password', '0000');
-    localStorage.setItem('trader', 'trader');
-    localStorage.setItem('admin', 'admin');
   }
 
   nameChangeHandler = event => {
@@ -44,42 +102,6 @@ export class LoginPage extends React.Component {
       payload,
       loginError: false,
     });
-  };
-
-  loginHandler = () => {
-    event.preventDefault();
-    if (
-      this.state.payload.name === localStorage.getItem('user') &&
-      this.state.payload.password === localStorage.getItem('password')
-    ) {
-      sessionStorage.setItem('user', this.state.payload.name);
-      this.props.history.push('/user');
-      this.setState({
-        loginError: false,
-      });
-    } else if (
-      this.state.payload.name === localStorage.getItem('trader') &&
-      this.state.payload.password === localStorage.getItem('password')
-    ) {
-      sessionStorage.setItem('trader', this.state.payload.name);
-      this.props.history.push('/manageUser');
-      this.setState({
-        loginError: false,
-      });
-    } else if (
-      this.state.payload.name === localStorage.getItem('admin') &&
-      this.state.payload.password === localStorage.getItem('password')
-    ) {
-      sessionStorage.setItem('admin', this.state.payload.name);
-      this.props.history.push('/admin');
-      this.setState({
-        loginError: false,
-      });
-    } else {
-      this.setState({
-        loginError: true,
-      });
-    }
   };
 
   forgotPassword = () => {
@@ -103,8 +125,8 @@ export class LoginPage extends React.Component {
         </Helmet>
         <div className="loginBackgroundImage-r">
           <div className="loginLayout-r">
-        <div className="container outer-box-r">
-             
+            <div className="container outer-box-r">
+
               <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 vertical-align-title-r">
                 <p className="title-r">GST</p>
                 <p className="sub-heading-r">"Your Own GST Software"</p>
@@ -123,90 +145,101 @@ export class LoginPage extends React.Component {
                 <div className="login-box">
                   <div className="modal-body,input-group input-group-lg">
                     <div className="reset-form-padding-r">
-                      {this.state.isResetActive ? (
+                      {this.state.isLoading ?
+                        <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                        :
                         <React.Fragment>
-                          <p className="forgot-title-r">Forgot Password</p>
-                          <form onSubmit={this.resetPassword}>
-                            <p className="forgot-msg-r">
-                              You will receive an e-mail along with your
-                              password.
+                          {this.state.isResetActive ? (
+                            <React.Fragment>
+                              <p className="forgot-title-r">Forgot Password</p>
+                              {this.state.loginError ? (
+                                <p className="error-msg-r">
+                                  Email-Id is incorrect
+                                </p>
+                              ) : null}
+                              <form onSubmit={this.forgotPasswordHandler}>
+                                <p className="forgot-msg-r">
+                                  You will receive an e-mail along with your
+                                  password.
                             </p>
-                            <input
-                              type="email"
-                              value={this.state.payload.oldPassword}
-                              onChange={this.nameChangeHandler}
-                              id="email"
-                              className="form-control reset-input-box-r"
-                              placeholder="Enter your email-Id"
-                              autoFocus
-                              required
-                            />
-                            <span>
-                              <button
-                                type="submit"
-                                className="button-base-r width-40-r"
+                                <input
+                                  type="email"
+                                  value={this.state.payload.emailId}
+                                  onChange={this.nameChangeHandler}
+                                  id="emailId"
+                                  className="form-control reset-input-box-r"
+                                  placeholder="Enter your email-Id"
+                                  autoFocus
+                                  required
+                                />
+                                <span>
+                                  <button
+                                    type="submit"
+                                    className="button-base-r width-40-r"
+                                  >
+                                    Send
+                              </button>
+                                </span>
+                              </form>
+                              <p
+                                className="forgot-password-r"
+                                onClick={this.forgotPassword}
                               >
-                                Send
-                              </button>
-                            </span>
-                          </form>
-                          <p
-                            className="forgot-password-r"
-                            onClick={this.forgotPassword}
-                          >
-                            Get back to login
+                                Get back to login
                           </p>
-                        </React.Fragment>
-                      ) : (
-                        <React.Fragment>
-                          <p className="login-title-r">Login</p>
-                          {this.state.loginError ? (
-                            <p className="error-msg-r">
-                              Username or password is incorrect
-                            </p>
-                          ) : null}
-                          <form onSubmit={this.loginHandler}>
-                            <input
-                              type="text"
-                              value={this.state.payload.name}
-                              onChange={this.nameChangeHandler}
-                              id="name"
-                              className="form-control reset-input-box-r"
-                              placeholder="Enter your Username"
-                              autoFocus
-                              required
-                            />
-                            <input
-                              type="password"
-                              value={this.state.payload.password}
-                              onChange={this.nameChangeHandler}
-                              id="password"
-                              className="form-control reset-input-box-r"
-                              placeholder="Enter your password"
-                              autoFocus
-                              required
-                            />
-                            <span>
-                              <button className="button-base-r width-40-r">
-                                Login
+                            </React.Fragment>
+                          ) : (
+                              <React.Fragment>
+                                <p className="login-title-r">Login</p>
+                                {this.state.loginError ? (
+                                  <p className="error-msg-r">
+                                    Username or password is incorrect
+                                  </p>
+                                ) : null}
+                                <form onSubmit={this.loginSubmitHandler}>
+                                  <input
+                                    type="email"
+                                    value={this.state.payload.emailId}
+                                    onChange={this.nameChangeHandler}
+                                    id="emailId"
+                                    className="form-control reset-input-box-r"
+                                    placeholder="Enter your EmailId"
+                                    autoFocus
+                                    required
+                                  />
+                                  <input
+                                    type="password"
+                                    value={this.state.payload.password}
+                                    onChange={this.nameChangeHandler}
+                                    id="password"
+                                    className="form-control reset-input-box-r"
+                                    placeholder="Enter your password"
+                                    autoFocus
+                                    required
+                                  />
+                                  <span>
+                                    <button className="button-base-r width-40-r">
+                                      Login
                               </button>
-                            </span>
-                          </form>
-                          <p
-                            className="forgot-password-r"
-                            onClick={this.forgotPassword}
-                          >
-                            Forgot Password ?
+                                  </span>
+                                </form>
+                                <p
+                                  className="forgot-password-r"
+                                  onClick={this.forgotPassword}
+                                >
+                                  Forgot Password ?
                           </p>
+                              </React.Fragment>
+                            )}
                         </React.Fragment>
-                      )}
+                      }
                     </div>
                   </div>
                 </div>
               </div>
-              
+
+            </div>
           </div>
-        </div>
         </div>
       </div>
     );

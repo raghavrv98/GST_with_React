@@ -64,27 +64,42 @@ export class ManageUserReports extends React.Component {
   };
 
   deleteReports = (id, deleteId, deleteType) => {
-    // let url = window.location.origin + '/';
-    axios
-      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
-      .delete(`http://localhost:3000/report/${id}/${deleteId}/${deleteType}`)
-      .then((res) => {
-        const deletedMessage = res.data.message;
-        this.setState({
-          deletedMessage,
-          isLoading: false,
-          type: "success",
-          isOpenClassName: 'modal display-block container'
-        }, () => this.getReports('5ec90c578dd81634c4067ed8', '05', '2020'), setTimeout(this.modalTime, 1500))
-      })
-      .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
-      });
+    if (deleteType === "faulty") {
+      axios.delete(`http://localhost:3000/bill/${id}/${deleteId}/${deleteType}`)
+        .then((res) => {
+          const deletedMessage = res.data.message;
+          this.setState({
+            deletedMessage,
+            isLoading: false,
+            type: "success",
+            isOpenClassName: 'modal display-block container'
+          }, () => this.getReports(localStorage.getItem('userId'), this.props.match.params.month, this.props.match.params.year), setTimeout(this.modalTime, 1500))
+        })
+        .catch((error) => {
+          console.log('error: ', error);
+          this.errorCheck(error);
+        });
+    }
+    else {
+      axios.delete(`http://localhost:3000/report/${id}/${deleteId}/${deleteType}`)
+        .then((res) => {
+          const deletedMessage = res.data.message;
+          this.setState({
+            deletedMessage,
+            isLoading: false,
+            type: "success",
+            isOpenClassName: 'modal display-block container'
+          }, () => this.getReports(localStorage.getItem('userId'), this.props.match.params.month, this.props.match.params.year), setTimeout(this.modalTime, 1500))
+        })
+        .catch((error) => {
+          console.log('error: ', error);
+          this.errorCheck(error);
+        });
+    }
   };
 
   componentWillMount() {
-    this.getReports('5ec90c578dd81634c4067ed8', this.props.match.params.month, this.props.match.params.year)
+    this.getReports(localStorage.getItem('userId'), this.props.match.params.month, this.props.match.params.year)
   }
 
   modalTime = () => {
@@ -115,7 +130,7 @@ export class ManageUserReports extends React.Component {
 
   confirmDeleteData = (id, name) => {
     event.preventDefault()
-    this.deleteReports('5ec90c578dd81634c4067ed8', id, name)
+    this.deleteReports(localStorage.getItem('userId'), id, name)
     this.setState({
       showHideClassName: 'modal display-none container',
       isLoading: true
@@ -165,7 +180,10 @@ export class ManageUserReports extends React.Component {
                       <span className="delete-report-icon-r">
                         <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                       </span>
-                      <img className="selected-report-image-r" src={"http://localhost:3000/bills/" + val.img} />
+                      <span className="download-report-icon-r">
+                        <a href={"http://localhost:3000/daily-reports/" + val.img} className="fa fa-download"></a>
+                      </span>
+                      <img className="selected-report-image-r" src={"http://localhost:3000/daily-reports/" + val.img} />
                       <p className="card-selected-sub-heading-r">{val.originalName}</p>
                       <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                       <p className="card-text-r">{val.comment}</p>
@@ -184,9 +202,12 @@ export class ManageUserReports extends React.Component {
                       <span className="delete-report-icon-r">
                         <button name="gst" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                       </span>
+                      <span className="download-report-icon-r">
+                        <a href={"http://localhost:3000/daily-reports/" + val.img} className="fa fa-download"></a>
+                      </span>
                       {/* <img className="selected-report-image-r" src={require('../../assets/img/aboutUs1.jpg')} />
                     <p className="card-selected-sub-heading-r">{val.img}</p> */}
-                      <img className="selected-report-image-r" src={"http://localhost:3000/bills/" + val.img} />
+                      <img className="selected-report-image-r" src={"http://localhost:3000/gst-reports/" + val.img} />
                       <p className="card-selected-sub-heading-r">{val.originalName}</p>
                       <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                       <p className="card-text-r">{val.comment}</p>
@@ -205,8 +226,11 @@ export class ManageUserReports extends React.Component {
                       <span className="delete-report-icon-r">
                         <button name="faulty" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                       </span>
-                      <img className="selected-report-image-r" src={require('../../assets/img/aboutUs1.jpg')} />
-                      <p className="card-selected-sub-heading-r">{val.img}</p>
+                      <span className="download-report-icon-r">
+                        <a href={"http://localhost:3000/daily-reports/" + val.img} className="fa fa-download"></a>
+                      </span>
+                      <img className="selected-report-image-r" src={"http://localhost:3000/bills/" + val.img} />
+                      <p className="card-selected-sub-heading-r">{val.originalName}</p>
                       <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                       <p className="card-text-r">{val.comment}</p>
                     </div>

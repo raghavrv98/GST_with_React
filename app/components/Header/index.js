@@ -1,16 +1,66 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-
+import MessageModal from '../../components/MessageModal/Loadable'
+import axios from 'axios';
 /* eslint-disable react/prefer-stateless-function */
 class Header extends React.Component {
   state = {
-    isResetModal: false,
     payload: {
+      _id: localStorage.getItem('userId'),
+      emailId: localStorage.getItem('emailId'),
       oldPassword: '',
       newPassword: '',
     },
-    showHideClassName : 'modal display-none container'
+    isOpenClassName: 'modal display-none container',
+    showHideClassName: 'modal display-none container'
   };
+
+  errorCheck(error) {
+    let errorMes = '';
+    if (error.response) {
+      if (error.response.data.status == 404) {
+        errorMes = error.response.data.error;
+      } else if (error.response.data.code == 400) {
+        errorMes = error.response.data.message;
+      } else {
+        errorMes = error.response.data.message;
+      }
+    } else {
+      errorMes = error.message;
+    }
+    this.setState({ errorMes, isOpenClassName: 'modal display-block container', type: "failure", isLoading: false }, () => setTimeout(this.modalTime, 1500)
+    );
+  }
+
+  resetPassword = () => {
+    event.preventDefault();
+    this.setState({
+      showHideClassName: 'modal display-none container'
+    })
+    let payload = JSON.parse(JSON.stringify(this.state.payload));
+
+    axios.post(`http://localhost:3000/changePassword`, payload)
+      .then((res) => {
+        const message = res.data.message;
+        this.setState({
+          message,
+          isLoading: false,
+          type: "success",
+          isOpenClassName: 'modal display-block container'
+        }, () => setTimeout(this.modalTime, 1500));
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        this.errorCheck(error);
+      });
+  };
+
+  modalTime = () => {
+    this.setState({
+      isOpenClassName: 'modal display-none container'
+    })
+  }
+
 
   nameChangeHandler = event => {
     let payload = JSON.parse(JSON.stringify(this.state.payload));
@@ -23,24 +73,19 @@ class Header extends React.Component {
   modalCloseHandler = () => {
     this.setState({
       isConfirmModal: false,
-      isResetModal: false,
-      showHideClassName : 'modal display-none container'
+      showHideClassName: 'modal display-none container'
     });
   };
 
   resetPasswordHandler = () => {
-    this.setState({
-      isResetModal: true,
-      showHideClassName : 'modal display-block container'
-    });
-  };
+    let payload = JSON.parse(JSON.stringify(this.state.payload));
+    payload.oldPassword = "",
+      payload.newPassword = "",
+      this.setState({
+        payload,
+        showHideClassName: 'modal display-block container'
 
-  resetPassword = id => {
-    event.preventDefault();
-    this.setState({
-      isResetModal: false,
-      showHideClassName : 'modal display-none container'
-    });
+      });
   };
 
   userLogout = () => {
@@ -52,6 +97,14 @@ class Header extends React.Component {
   render() {
     return (
       <div>
+
+        <MessageModal
+          showHideClassName={this.state.isOpenClassName}
+          modalType={this.state.type}
+          message={this.state.message}
+          onClose={this.modalCloseHandler}
+        />
+
         <nav className="navbar navbar-default nav-bar-r">
           <div className="container-fluid">
             {/* <!-- Brand and toggle get grouped for better mobile display --> */}
@@ -77,21 +130,21 @@ class Header extends React.Component {
               </NavLink>
             </div>
 
-            {sessionStorage.getItem('user') || sessionStorage.getItem('trader') || sessionStorage.getItem('admin') ? (
+            {localStorage.getItem('role') || localStorage.getItem('admin') === "admin" ? (
               <div
                 className="collapse navbar-collapse"
                 id="bs-example-navbar-collapse-1"
               >
                 <ul className="nav navbar-nav navbar-right">
-                  {sessionStorage.getItem('admin') ?
-                      <NavLink
-                        className="navbar-brand text-color-r"
-                        exact
-                        to="/manageAccountant"
-                        // data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1"
-                      >
-                        Manage Accountant
+                  {localStorage.getItem('admin') === "admin" ?
+                    <NavLink
+                      className="navbar-brand text-color-r"
+                      exact
+                      to="/manageAccountant"
+                      // data-toggle="collapse"
+                      data-target="#bs-example-navbar-collapse-1"
+                    >
+                      Manage Accountant
                   </NavLink>
                     : null
                   }
@@ -160,58 +213,58 @@ class Header extends React.Component {
         {/* <!-- reset password modal start --> */}
 
         <div className={this.state.showHideClassName} >
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div className="modal-content">
-                <div
-                  className="modal-header background-color-r"
+          <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-content">
+              <div
+                className="modal-header background-color-r"
+              >
+                <span className="text-color-white-r">Reset Password</span>
+                <button
+                  type="button"
+                  className="close"
+                  onClick={this.modalCloseHandler}
+                  aria-label="Close"
                 >
-                  <span className="text-color-white-r">Reset Password</span>
-                  <button
-                    type="button"
-                    className="close"
-                    onClick={this.modalCloseHandler}
-                    aria-label="Close"
-                  >
-                    <i className="fa fa-times" aria-hidden="true" />
-                  </button>
-                </div>
+                  <i className="fa fa-times" aria-hidden="true" />
+                </button>
+              </div>
 
-                <div className="modal-body,input-group input-group-lg">
-                  <div className="reset-form-padding-r">
-                    <form onSubmit={this.resetPassword}>
-                      <input
-                        type="text"
-                        value={this.state.payload.oldPassword}
-                        onChange={this.nameChangeHandler}
-                        id="oldPassword"
-                        className="form-control reset-input-box-r"
-                        placeholder="Old Password"
-                        autoFocus
-                        required
-                      />
-                      <input
-                        type="password"
-                        value={this.state.payload.newPassword}
-                        onChange={this.nameChangeHandler}
-                        id="newPassword"
-                        className="form-control reset-input-box-r"
-                        placeholder="New Password"
-                        autoFocus
-                        required
-                      />
-                      <div className="text-align-center-r">
-                        <button
-                          type="submit"
-                          className="button-base-r width-40-r width-30-r"
-                          name=""
-                        >Reset</button>
-                      </div>
-                    </form>
-                  </div>
+              <div className="modal-body,input-group input-group-lg">
+                <div className="reset-form-padding-r">
+                  <form onSubmit={this.resetPassword}>
+                    <input
+                      type="text"
+                      value={this.state.payload.oldPassword}
+                      onChange={this.nameChangeHandler}
+                      id="oldPassword"
+                      className="form-control reset-input-box-r"
+                      placeholder="Old Password"
+                      autoFocus
+                      required
+                    />
+                    <input
+                      type="password"
+                      value={this.state.payload.newPassword}
+                      onChange={this.nameChangeHandler}
+                      id="newPassword"
+                      className="form-control reset-input-box-r"
+                      placeholder="New Password"
+                      autoFocus
+                      required
+                    />
+                    <div className="text-align-center-r">
+                      <button
+                        type="submit"
+                        className="button-base-r width-40-r width-30-r"
+                        name=""
+                      >Reset</button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
         {/* <!-- reset password modal end --> */}
       </div>

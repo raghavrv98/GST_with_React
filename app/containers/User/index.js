@@ -30,10 +30,6 @@ export class User extends React.Component {
   state = {
     tabActive: true,
     isActiveTab: "purchase",
-    payload: {
-      oldPassword: "",
-      newPassword: ""
-    },
     deleteId: "",
     deleteName: "",
     showHideClassName: 'modal display-none container',
@@ -44,7 +40,8 @@ export class User extends React.Component {
     billType: 'purchase',
     browseBillImages: [],
     isOpenClassName: 'modal display-none container',
-    billImages: []
+    billImages: [],
+    isDeleteIcon: false
   }
 
   // getHeaders = () => {
@@ -87,6 +84,7 @@ export class User extends React.Component {
       .catch((error) => {
         console.log('error: ', error);
         this.errorCheck(error);
+
       });
   };
 
@@ -102,7 +100,7 @@ export class User extends React.Component {
           type: "success",
           isOpenClassName: 'modal display-block container',
           isLoading: false
-        }, () => this.getbill('5ec90c578dd81634c4067ed8', this.state.month, this.state.year), setTimeout(this.modalTime, 1500));
+        }, () => this.getbill(localStorage.getItem('userId'), this.state.month, this.state.year), setTimeout(this.modalTime, 1500));
       })
       .catch((error) => {
         console.log('error: ', error);
@@ -122,7 +120,7 @@ export class User extends React.Component {
           isLoading: false,
           type: "success",
           isOpenClassName: 'modal display-block container',
-        }, () => this.getbill('5ec90c578dd81634c4067ed8', this.state.month, this.state.year), setTimeout(this.modalTime, 1500));
+        }, () => this.getbill(localStorage.getItem('userId'), this.state.month, this.state.year), setTimeout(this.modalTime, 1500));
       })
       .catch((error) => {
         console.log('error: ', error);
@@ -131,7 +129,12 @@ export class User extends React.Component {
   };
 
   componentWillMount() {
-    this.getbill('5ec90c578dd81634c4067ed8', this.state.month, this.state.year)
+    this.getbill(localStorage.getItem('userId'), this.state.month, this.state.year)
+    setTimeout(this.deleteIcon, 5000)
+  }
+
+  deleteIcon = () => {
+    this.setState({ isDeleteIcon: true })
   }
 
   modalTime = () => {
@@ -197,7 +200,7 @@ export class User extends React.Component {
 
   confirmDeleteBill = (id, name) => {
     event.preventDefault()
-    this.deleteBills('5ec90c578dd81634c4067ed8', id, name)
+    this.deleteBills(localStorage.getItem('userId'), id, name)
     this.setState({
       showHideClassName: 'modal display-none container',
       isLoading: true
@@ -214,7 +217,7 @@ export class User extends React.Component {
     for (let i = 0; i < billImages.length; i++) {
       formData.append('bill', billImages[i])
     }
-    this.putbill('5ec90c578dd81634c4067ed8', formData)
+    this.putbill(localStorage.getItem('userId'), formData)
     this.setState({
       browseBillImages: [],
       isLoading: true
@@ -238,7 +241,7 @@ export class User extends React.Component {
     }
     this.setState({
       year, month, billType, isLoading: true
-    }, () => this.getbill('5ec90c578dd81634c4067ed8', this.state.month, this.state.year))
+    }, () => this.getbill(localStorage.getItem('userId'), this.state.month, this.state.year))
   }
 
   render() {
@@ -388,9 +391,11 @@ export class User extends React.Component {
                             <p className="card-selected-sub-heading-r">{val.originalName}</p>
                             <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                           </div>
-                          <span className="delete-bill-icon-r">
-                            <button name="purchase" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                          </span>
+                          {this.state.isDeleteIcon ? null :
+                            <span className="delete-bill-icon-r">
+                              <button name="purchase" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                            </span>
+                          }
                         </React.Fragment>
                       )}
 
@@ -457,9 +462,11 @@ export class User extends React.Component {
                               <p className="card-selected-sub-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                             </div>
-                            <span className="delete-bill-icon-r">
-                              <button name="sale" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                            </span>
+                            {this.state.isDeleteIcon ? null :
+                              <span className="delete-bill-icon-r">
+                                <button name="sale" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                              </span>
+                            }
                           </React.Fragment>
                         )}
 
@@ -527,9 +534,11 @@ export class User extends React.Component {
                               <p className="card-selected-sub-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                             </div>
-                            <span className="delete-bill-icon-r">
-                              <button name="other" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                            </span>
+                            {this.state.isDeleteIcon ? null :
+                              <span className="delete-bill-icon-r">
+                                <button name="other" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                              </span>
+                            }
                           </React.Fragment>
                         )}
 

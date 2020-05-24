@@ -187,6 +187,25 @@ body {
   left: 150px;
 }
 
+.download-report-icon-r {
+  font-size: 20px;
+  color: #255b7a;
+  cursor: pointer;
+  position: relative;
+  top: -8px;
+  left: -35px;
+}
+
+.resend-report-icon-r{
+  font-size: 20px;
+  color: #255b7a;
+  cursor: pointer;
+  position: relative;
+  top: -10px;
+  left: -80px;
+}
+
+
 .status-button-r {
   visibility: visible !important;
   height: 20px;
@@ -396,12 +415,12 @@ body {
 }
 
 .card-img-r {
-  height: 100px;
+  height: 180px;
   width: 100%;
 }
 
 .card-parent-img-r {
-  height: 150px;
+  height: 120px;
   width: 80%;
   position: relative !important;
   margin-bottom: 10px !important;
@@ -426,11 +445,6 @@ body {
   top: -80px;
   left: 10px;
   color: black !important;
-}
-
-.background-hover-r:hover{
-  background-color: #e0dcdc;
-  border-radius: 5px;
 }
 
 .card-status-button-r {
@@ -526,28 +540,16 @@ body {
   text-align: justify;
 }
 
-/* Dropdown Button */
-
-.dropbtn {
-  background-color: transparent !important;
-  color: black;
-  border: none;
-}
-
-/* The container <div> - needed to position the dropdown content */
-
 .dropdown {
   position: relative;
   display: inline-block;
 }
 
-/* Dropdown Content (Hidden by Default) */
-
 .dropdown-content {
   display: none;
   position: absolute;
   background-color: #f1f1f1;
-  min-width: 160px;
+  min-width: 150px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
   margin-top: -80px !important;
@@ -560,20 +562,21 @@ body {
 
 /* Links inside the dropdown */
 
-.dropdown-content a {
+.dropdown-content button {
   color: black;
-  padding: 12px 16px;
+  padding: 12px 14px;
   text-decoration: none;
-  display: block;
 }
 
-/* Show the dropdown menu on hover */
+.background-hover-r:hover{
+  background-color: #e0dcdc;
+  border-radius: 5px;
+  min-width: 150px;
+}
 
 .dropdown:hover .dropdown-content {
   display: block;
 }
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
 
 .filter-year-month-r {
   margin: 25px 0px !important;
@@ -789,6 +792,103 @@ body {
 .message-modal-failure-text-r{
   color: #d61515;
 }
+
+.card-alert-comment-box-r {
+  height: 40px;
+  width: 100%;
+  color: black;
+  margin: 10px 0px 0px;
+  border: 1px solid red;
+}
+
+.lds-roller {
+  display: inline-block;
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  top: 40%;
+  left: 45%;
+}
+.lds-roller div {
+  animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  transform-origin: 40px 40px;
+}
+.lds-roller div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f06d46;
+  margin: -4px 0 0 -4px;
+}
+.lds-roller div:nth-child(1) {
+  animation-delay: -0.036s;
+}
+.lds-roller div:nth-child(1):after {
+  top: 63px;
+  left: 63px;
+}
+.lds-roller div:nth-child(2) {
+  animation-delay: -0.072s;
+}
+.lds-roller div:nth-child(2):after {
+  top: 68px;
+  left: 56px;
+}
+.lds-roller div:nth-child(3) {
+  animation-delay: -0.108s;
+}
+.lds-roller div:nth-child(3):after {
+  top: 71px;
+  left: 48px;
+}
+.lds-roller div:nth-child(4) {
+  animation-delay: -0.144s;
+}
+.lds-roller div:nth-child(4):after {
+  top: 72px;
+  left: 40px;
+}
+.lds-roller div:nth-child(5) {
+  animation-delay: -0.18s;
+}
+.lds-roller div:nth-child(5):after {
+  top: 71px;
+  left: 32px;
+}
+.lds-roller div:nth-child(6) {
+  animation-delay: -0.216s;
+}
+.lds-roller div:nth-child(6):after {
+  top: 68px;
+  left: 24px;
+}
+.lds-roller div:nth-child(7) {
+  animation-delay: -0.252s;
+}
+.lds-roller div:nth-child(7):after {
+  top: 63px;
+  left: 17px;
+}
+.lds-roller div:nth-child(8) {
+  animation-delay: -0.288s;
+}
+.lds-roller div:nth-child(8):after {
+  top: 56px;
+  left: 12px;
+}
+@keyframes lds-roller {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
 
 /* -------------------------------------------------------------------------------------------------------------------- */
 

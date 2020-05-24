@@ -72,8 +72,7 @@ export class AddOrEditUser extends React.Component {
   };
 
   postUser = (payload) => {
-    let traderId = localStorage.getItem('traderId')
-    console.log('this.props.match.params.id: ', this.props.match.params.id);
+    let accountantId = localStorage.getItem('userId')
     if (this.props.match.params.id) {
       axios.put(`http://localhost:3000/updateUserDetails/${this.props.match.params.id}`, payload)
         .then((res) => {
@@ -90,7 +89,7 @@ export class AddOrEditUser extends React.Component {
         });
     }
     else {
-      axios.post(`http://localhost:3000/newUser/${traderId}`, payload)
+      axios.post(`http://localhost:3000/newUser/${accountantId}`, payload)
         .then((res) => {
           const message = res.data.message;
           this.setState({
@@ -206,6 +205,16 @@ export class AddOrEditUser extends React.Component {
                       id="emailId"
                       required />
                   </div>
+                  {this.props.match.params.id ? null : <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <input
+                      type="password"
+                      className="form-control inputBox-r"
+                      placeholder="Password"
+                      value={this.state.payload.password}
+                      onChange={this.nameChangeHandler}
+                      id="password"
+                      required />
+                  </div>}
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <input
                       type="text"

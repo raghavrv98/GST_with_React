@@ -21,6 +21,10 @@ import messages from './messages';
 
 /* eslint-disable react/prefer-stateless-function */
 export class Admin extends React.Component {
+
+  componentWillMount() {
+    localStorage.setItem('admin', 'admin')
+  }
   render() {
     return (
       <div>
@@ -29,8 +33,8 @@ export class Admin extends React.Component {
           <meta name="description" content="Description of Admin" />
         </Helmet>
         <div className="container outer-box-r">
-        <img className="adminPage-r" src={require('../../assets/img/admin2.png')} />
-      </div>
+          <img className="adminPage-r" src={require('../../assets/img/admin2.png')} />
+        </div>
       </div>
     );
   }

@@ -32,7 +32,9 @@ export class UserBillDetails extends React.Component {
     fullViewModalClassName: 'modal display-none container',
     isOpenClassName: 'modal display-none container',
     isLoading: true,
-    getbill: []
+    getBill: [],
+    commentAlert: false,
+    billId: ""
   }
 
   errorCheck(error) {
@@ -53,23 +55,23 @@ export class UserBillDetails extends React.Component {
   }
 
 
-  getbill = (id, month, year, bill) => {
-    if (bill === "purchaseBills") {
-      axios.get(`http://localhost:3000/purchaseBills/${id}/${month}/${year}`)
+  getBill = (id, month, year, bill) => {
+    if (bill === "purchase") {
+      axios.get(`http://localhost:3000/purchase/${id}/${month}/${year}`)
         .then((res) => {
-          const getbill = res.data.data;
-          this.setState({ getbill, isLoading: false });
+          const getBill = res.data.data;
+          this.setState({ getBill, isLoading: false });
         })
         .catch((error) => {
           console.log('error: ', error);
           this.errorCheck(error);
         });
     }
-    else if (bill === "saleBills") {
-      axios.get(`http://localhost:3000/saleBills/${id}/${month}/${year}`)
+    else if (bill === "sale") {
+      axios.get(`http://localhost:3000/sale/${id}/${month}/${year}`)
         .then((res) => {
-          const getbill = res.data.data;
-          this.setState({ getbill, isLoading: false });
+          const getBill = res.data.data;
+          this.setState({ getBill, isLoading: false });
         })
         .catch((error) => {
           console.log('error: ', error);
@@ -77,10 +79,10 @@ export class UserBillDetails extends React.Component {
         });
     }
     else {
-      axios.get(`http://localhost:3000/otherBills/${id}/${month}/${year}`)
+      axios.get(`http://localhost:3000/other/${id}/${month}/${year}`)
         .then((res) => {
-          const getbill = res.data.data;
-          this.setState({ getbill, isLoading: false });
+          const getBill = res.data.data;
+          this.setState({ getBill, isLoading: false });
         })
         .catch((error) => {
           console.log('error: ', error);
@@ -90,7 +92,6 @@ export class UserBillDetails extends React.Component {
   };
 
   statusUpdate = (id, status) => {
-
     axios.put(`http://localhost:3000/changeBillStatus/${this.props.match.params.id}/${id}/${this.props.match.params.bill}`, { 'status': status })
       .then((res) => {
         const message = res.data.message;
@@ -98,7 +99,7 @@ export class UserBillDetails extends React.Component {
           message,
           isLoading: true,
           showHideClassName: 'modal display-none container',
-        }, () => this.getbill('5ec90c578dd81634c4067ed8', this.props.match.params.month, this.props.match.params.year, this.props.match.params.bill));
+        }, () => this.getBill(this.props.match.params.id, this.props.match.params.month, this.props.match.params.year, this.props.match.params.bill));
       })
       .catch((error) => {
         console.log('error: ', error);
@@ -106,8 +107,57 @@ export class UserBillDetails extends React.Component {
       });
   };
 
+  billTransfer = (id, to, index) => {
+    event.preventDefault()
+    let payload
+    let comment = this.state.getBill[index].comment
+    if (comment === "") {
+      this.setState({
+        commentAlert: true,
+        billId: id
+      })
+    }
+    else {
+      if (this.props.match.params.bill === "purchase") {
+        payload = {
+          from: "purchase",
+          to,
+          comment
+        }
+      }
+      else if (this.props.match.params.bill === "sale") {
+        payload = {
+          from: "sale",
+          to,
+          comment
+        }
+      }
+      else {
+        payload = {
+          from: "other",
+          to,
+          comment
+        }
+      }
+
+      axios.put(`http://localhost:3000/transferBill/${this.props.match.params.id}/${id}`, payload)
+        .then((res) => {
+          const message = res.data.message;
+          this.setState({
+            message,
+            isLoading: true,
+            showHideClassName: 'modal display-none container',
+          }, () => this.getBill(this.props.match.params.id, this.props.match.params.month, this.props.match.params.year, this.props.match.params.bill));
+        })
+        .catch((error) => {
+          console.log('error: ', error);
+          this.errorCheck(error);
+        });
+    }
+  };
+
   componentWillMount() {
-    this.getbill('5ec90c578dd81634c4067ed8', this.props.match.params.month, this.props.match.params.year, this.props.match.params.bill)
+    this.getBill(this.props.match.params.id, this.props.match.params.month, this.props.match.params.year, this.props.match.params.bill)
   }
 
   modalTime = () => {
@@ -142,6 +192,16 @@ export class UserBillDetails extends React.Component {
     this.setState({
       imgName: img,
       fullViewModalClassName: 'modal display-block container',
+    })
+  }
+
+  nameChangeHandler = (event) => {
+    let id = event.target.id
+    let getBill = JSON.parse(JSON.stringify(this.state.getBill))
+    getBill[id].comment = event.target.value
+    this.setState({
+      getBill,
+      commentAlert: false,
     })
   }
 
@@ -192,94 +252,84 @@ export class UserBillDetails extends React.Component {
               <ul className="breadCrumb-bg-r">
                 <li onClick={() => this.props.history.push('/manageUser')} className="breadCrumb-li-child-1-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
                 <li onClick={() => this.props.history.push(`/userDetails/${this.props.match.params.id}/${this.props.match.params.month}/${this.props.match.params.year}`)} className="breadCrumb-li-child-2-r"><i className="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >User Details</span></li>
-                <li className="breadCrumb-li-child-r"><i className="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >{this.props.match.params.bill === "purchaseBills" ? "Purchase Bills" : this.props.match.params.bill === "saleBills" ? "Sale Bills" : "Other Bills"}</span></li>
+                <li className="breadCrumb-li-child-r"><i className="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >{this.props.match.params.bill === "purchase" ? "Purchase Bills" : this.props.match.params.bill === "sale" ? "Sale Bills" : "Other"}</span></li>
               </ul>
             </div>
             {
-              this.props.match.params.bill === "purchaseBills" ?
+              this.props.match.params.bill === "purchase" ?
                 <React.Fragment>
                   <p className="static-title-r">Purchase Bills</p>
                   <div className="text-align-center-r">
-                    {this.state.getbill.map((val, index) =>
+                    {this.state.getBill && this.state.getBill.map((val, index) =>
                       <React.Fragment key={index}>
                         <div className="card-base-r">
                           <input className="card-status-button-r" onChange={this.statusBoxHandler} checked={val.completeStatus} id={val._id} type="checkbox" />
-
-                          {/* <div>
-                        <input type="password" className="form-control status-input-button-r" id="pwd"
-                          placeholder="Enter password" name="pwd" />
-                        <button type="submit" className="btn btn-default status-submit-button-r"><i
-                          className="fa fa-check submit-icon-r" aria-hidden="true"></i></button>
-                      </div> */}
-                          <div>
-                            <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={"http://localhost:3000/bills/" + val.img} />
-                            {val.completeStatus ? <img onClick={this.fullviewModal} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
-                            <div className="dropdown">
-                              <button className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
-                              </button>
-                              <div className="dropdown-content">
-                                <a className="background-hover-r" href="#">Transfer to sale</a>
-                                <a className="background-hover-r" href="#">Transfer to other</a>
-                                <a className="background-hover-r" href="#">Return</a>
-                              </div>
-                            </div>
-                          </div>
-                          <p className="card-sub-heading-r">{val.originalName}</p>
-                          <p className="card-sub-heading-r">Created At: {moment(val.timestamp).format("DD MMM YYYY")}</p>
-                          <textarea
-                            className="form-control card-comment-box-r card-text-r"
-                            placeholder="Comment...."
-                            value={val.comment}
-                            onChange={this.nameChangeHandler}
-                            id="returnComment"
-                            rows="2"
-                            required>
-                          </textarea>
-                        </div>
-                      </React.Fragment>
-                    )}
-                  </div>
-                </React.Fragment>
-                :
-                this.props.match.params.bill === "saleBills" ?
-                  <React.Fragment>
-                    <p className="static-title-r">Sale Bills</p>
-                    <div className="text-align-center-r">
-                      {this.state.getbill.map((val, index) =>
-                        <React.Fragment key={index}>
-                          <div className="card-base-r">
-                            <input className="card-status-button-r" onChange={this.statusBoxHandler} checked={val.completeStatus} id={val._id} type="checkbox" />
-
-                            {/* <div>
-                        <input type="password" className="form-control status-input-button-r" id="pwd"
-                          placeholder="Enter password" name="pwd" />
-                        <button type="submit" className="btn btn-default status-submit-button-r"><i
-                          className="fa fa-check submit-icon-r" aria-hidden="true"></i></button>
-                      </div> */}
+                          <form>
                             <div>
-                              <img className={this.state.statusBoxArray.includes("s" + index) ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={"http://localhost:3000/bills/" + val.img} />
-                              {this.state.statusBoxArray.includes("s" + index) ? <img className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
+                              <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={"http://localhost:3000/bills/" + val.img} />
+                              {val.completeStatus ? <img onClick={this.fullviewModal} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
                               <div className="dropdown">
-                                <button className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                <button type="button" className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
                                 </button>
                                 <div className="dropdown-content">
-                                  <a className="background-hover-r" href="#">Transfer to purchase</a>
-                                  <a className="background-hover-r" href="#">Transfer to other</a>
-                                  <a className="background-hover-r" href="#">Return</a>
+                                  <button disabled={val.completeStatus} onClick={() => this.billTransfer(val._id, "sale", index)} className="background-hover-r" >Transfer to sale</button>
+                                  <button disabled={val.completeStatus} onClick={() => this.billTransfer(val._id, "other", index)} className="background-hover-r" >Transfer to other</button>
+                                  <button disabled={val.completeStatus} onClick={() => this.billTransfer(val._id, "faulty", index)} className="background-hover-r" >Return</button>
                                 </div>
                               </div>
                             </div>
                             <p className="card-sub-heading-r">{val.originalName}</p>
                             <p className="card-sub-heading-r">Created At: {moment(val.timestamp).format("DD MMM YYYY")}</p>
                             <textarea
-                              className="form-control card-comment-box-r card-text-r"
-                              placeholder="Comment...."
+                              className={this.state.billId == val._id && this.state.commentAlert ? "form-control card-alert-comment-box-r card-text-r" : "form-control card-comment-box-r card-text-r"}
+                              placeholder={this.state.billId == val._id && this.state.commentAlert ? "Comment required" : "Comment...."}
                               value={val.comment}
                               onChange={this.nameChangeHandler}
-                              id="returnComment"
+                              id={index}
                               rows="2"
                               required>
                             </textarea>
+                          </form>
+                        </div>
+                      </React.Fragment>
+                    )}
+                  </div>
+                </React.Fragment>
+                :
+                this.props.match.params.bill === "sale" ?
+                  <React.Fragment>
+                    <p className="static-title-r">Sale Bills</p>
+                    <div className="text-align-center-r">
+                      {this.state.getBill && this.state.getBill.map((val, index) =>
+                        <React.Fragment key={index}>
+                          <div className="card-base-r">
+                            <input className="card-status-button-r" onChange={this.statusBoxHandler} checked={val.completeStatus} id={val._id} type="checkbox" />
+                            <form>
+                              <div>
+                                <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={"http://localhost:3000/bills/" + val.img} />
+                                {val.completeStatus ? <img onClick={this.fullviewModal} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
+                                <div className="dropdown">
+                                  <button type="button" className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                  </button>
+                                  <div className="dropdown-content">
+                                    <button onClick={() => this.billTransfer(val._id, "purchase", index)} className="background-hover-r" >Transfer to Purchase</button>
+                                    <button onClick={() => this.billTransfer(val._id, "other", index)} className="background-hover-r" >Transfer to other</button>
+                                    <button onClick={() => this.billTransfer(val._id, "faulty", index)} className="background-hover-r" >Return</button>
+                                  </div>
+                                </div>
+                              </div>
+                              <p className="card-sub-heading-r">{val.originalName}</p>
+                              <p className="card-sub-heading-r">Created At: {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                              <textarea
+                                className={this.state.billId == val._id && this.state.commentAlert ? "form-control card-alert-comment-box-r card-text-r" : "form-control card-comment-box-r card-text-r"}
+                                placeholder={this.state.billId == val._id && this.state.commentAlert ? "Comment required" : "Comment...."}
+                                value={val.comment}
+                                onChange={this.nameChangeHandler}
+                                id={index}
+                                rows="2"
+                                required>
+                              </textarea>
+                            </form>
                           </div>
                           {/* <span className="delete-report-icon-r">
                       <button name="purchaseBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
@@ -292,45 +342,37 @@ export class UserBillDetails extends React.Component {
                   <React.Fragment>
                     <p className="static-title-r">Other Bills</p>
                     <div className="text-align-center-r">
-                      {this.state.getbill.map((val, index) =>
+                      {this.state.getBill && this.state.getBill.map((val, index) =>
                         <React.Fragment key={index}>
                           <div className="card-base-r">
                             <input className="card-status-button-r" onChange={this.statusBoxHandler} checked={val.completeStatus} id={val._id} type="checkbox" />
-
-                            {/* <div>
-                        <input type="password" className="form-control status-input-button-r" id="pwd"
-                          placeholder="Enter password" name="pwd" />
-                        <button type="submit" className="btn btn-default status-submit-button-r"><i
-                          className="fa fa-check submit-icon-r" aria-hidden="true"></i></button>
-                      </div> */}
-                            <div>
-                              <img className={this.state.statusBoxArray.includes("s" + index) ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={"http://localhost:3000/bills/" + val.img} />
-                              {this.state.statusBoxArray.includes("s" + index) ? <img className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
-                              <div className="dropdown">
-                                <button className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                </button>
-                                <div className="dropdown-content">
-                                  <a className="background-hover-r" href="#">Transfer to purchase</a>
-                                  <a className="background-hover-r" href="#">Transfer to sale</a>
-                                  <a className="background-hover-r" href="#">Return</a>
+                            <form>
+                              <div>
+                                <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={"http://localhost:3000/bills/" + val.img} />
+                                {val.completeStatus ? <img onClick={this.fullviewModal} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
+                                <div className="dropdown">
+                                  <button type="button" className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                  </button>
+                                  <div className="dropdown-content">
+                                    <button onClick={() => this.billTransfer(val._id, "purchase", index)} className="background-hover-r" >Transfer to Purchase</button>
+                                    <button onClick={() => this.billTransfer(val._id, "sale", index)} className="background-hover-r" >Transfer to Sale</button>
+                                    <button onClick={() => this.billTransfer(val._id, "faulty", index)} className="background-hover-r" >Return</button>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <p className="card-sub-heading-r">OtherBills.png</p>
-                            <p className="card-sub-heading-r">Created At: {moment(val.timestamp).format("DD MMM YYYY")}</p>
-                            <textarea
-                              className="form-control card-comment-box-r card-text-r"
-                              placeholder="Comment...."
-                              value={val.comment}
-                              onChange={this.nameChangeHandler}
-                              id="returnComment"
-                              rows="2"
-                              required>
-                            </textarea>
+                              <p className="card-sub-heading-r">{val.originalName}</p>
+                              <p className="card-sub-heading-r">Created At: {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                              <textarea
+                                className={this.state.billId == val._id && this.state.commentAlert ? "form-control card-alert-comment-box-r card-text-r" : "form-control card-comment-box-r card-text-r"}
+                                placeholder={this.state.billId == val._id && this.state.commentAlert ? "Comment required" : "Comment...."}
+                                value={val.comment}
+                                onChange={this.nameChangeHandler}
+                                id={index}
+                                rows="2"
+                                required>
+                              </textarea>
+                            </form>
                           </div>
-                          {/* <span className="delete-report-icon-r">
-                      <button name="purchaseBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                    </span> */}
                         </React.Fragment>
                       )}
                     </div>
