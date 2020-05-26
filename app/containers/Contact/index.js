@@ -49,7 +49,7 @@ export class Contact extends React.Component {
           <meta name="description" content="Description of Contact" />
         </Helmet>
         <div className="container outer-box-r">
-            <p className="static-title-r">Contact Us</p>
+          <p className="static-title-r">Contact Us</p>
           <div className="static-form-r">
             <div className="modal-body,input-group input-group-lg margin-top-25-r">
               <form onSubmit={this.resetPassword}>
@@ -90,7 +90,7 @@ export class Contact extends React.Component {
                     rows="8" />
                 </div>
                 <div className="text-align-center-r">
-                  <button type="submit" className="button-base-r width-40-r width-30-r" name="">Send</button>
+                  <button type="submit" className="button-base-r width-40-r margin-bottom-b-60-r width-30-r" name="">Send</button>
                 </div>
               </form>
             </div>

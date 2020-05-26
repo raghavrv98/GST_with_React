@@ -130,7 +130,7 @@ export class User extends React.Component {
 
   componentWillMount() {
     this.getbill(localStorage.getItem('userId'), this.state.month, this.state.year)
-    setTimeout(this.deleteIcon, 5000)
+    setTimeout(this.deleteIcon, 10000)
   }
 
   deleteIcon = () => {

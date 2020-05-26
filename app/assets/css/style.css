@@ -903,7 +903,23 @@ body {
   }
 }
 
+.welcome-name-r{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  color: #255b7a !important;
+  transform: translate(-50%, -50%);
+  text-decoration: none !important;
+  cursor: context-menu;
+  text-transform: capitalize;
+}
 
+.universal-center-r{
+  position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+}
 
 /* -------------------------------------------------------------------------------------------------------------------- */
 
@@ -922,8 +938,9 @@ body {
 
 
   .aboutus-img1-r {
-    width: 65%;
+    width: 90%;
     box-shadow: 1px 3px 5px rgba(24, 50, 115, 0.6);
+    margin: 20px;
   }
   /* button class "btn btn-primary btn-text-r" */
   .btn-text-r {
@@ -986,7 +1003,7 @@ body {
   }
   .aboutus-img1-r {
     width: 100%;
-    margin: 35px auto;
+    margin: 20px auto;
     box-shadow: 1px 3px 5px rgba(24, 50, 115, 0.6);
   }
   /* button class "btn btn-primary btn-text-r" */

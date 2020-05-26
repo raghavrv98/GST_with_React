@@ -65,15 +65,13 @@ export class ManageUser extends React.Component {
   };
 
   statusUpdate = (id, status) => {
-    let accountantId = localStorage.getItem('accountantId')
-
     axios.put(`http://localhost:3000/changeStatus/${id}`, { 'status': status })
       .then((res) => {
         const message = res.data.message;
         this.setState({
           message,
           isFetching: true,
-        }, () => this.getUser(accountantId, this.state.month, this.state.year, this.state.userType));
+        }, () => this.getUser(this.state.accountantId, this.state.month, this.state.year, this.state.userType));
       })
       .catch((error) => {
         console.log('error: ', error);
@@ -84,6 +82,9 @@ export class ManageUser extends React.Component {
 
   componentWillMount() {
     let accountantId = localStorage.getItem('userId')
+    this.setState({
+      accountantId
+    })
     this.getUser(accountantId, this.state.month, this.state.year, this.state.userType)
   }
 
@@ -99,7 +100,6 @@ export class ManageUser extends React.Component {
     let month = this.state.month
     let userType = this.state.userType
     let id = event.target.id
-    let accountantId = localStorage.getItem('userId')
 
     if (id === "year") {
       year = event.target.value
@@ -113,7 +113,7 @@ export class ManageUser extends React.Component {
 
     this.setState({
       year, month, userType, isFetching: true,
-    }, () => this.getUser(accountantId, this.state.month, this.state.year, this.state.userType))
+    }, () => this.getUser(this.state.accountantId, this.state.month, this.state.year, this.state.userType))
   }
 
   statusChangeHandler = (event) => {

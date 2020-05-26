@@ -6,8 +6,8 @@ import axios from 'axios';
 class Header extends React.Component {
   state = {
     payload: {
-      _id: localStorage.getItem('userId'),
-      emailId: localStorage.getItem('emailId'),
+      _id: '',
+      emailId: '',
       oldPassword: '',
       newPassword: '',
     },
@@ -39,20 +39,23 @@ class Header extends React.Component {
     })
     let payload = JSON.parse(JSON.stringify(this.state.payload));
 
-    axios.post(`http://localhost:3000/changePassword`, payload)
-      .then((res) => {
-        const message = res.data.message;
-        this.setState({
-          message,
-          isLoading: false,
-          type: "success",
-          isOpenClassName: 'modal display-block container'
-        }, () => setTimeout(this.modalTime, 1500));
-      })
-      .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
-      });
+    payload._id = localStorage.getItem('userId'),
+      payload.emailId = localStorage.getItem('emailId'),
+
+      axios.post(`http://localhost:3000/changePassword`, payload)
+        .then((res) => {
+          const message = res.data.message;
+          this.setState({
+            message,
+            isLoading: false,
+            type: "success",
+            isOpenClassName: 'modal display-block container'
+          }, () => setTimeout(this.modalTime, 1500));
+        })
+        .catch((error) => {
+          console.log('error: ', error);
+          this.errorCheck(error);
+        });
   };
 
   modalTime = () => {
@@ -129,6 +132,38 @@ class Header extends React.Component {
                 GST
               </NavLink>
             </div>
+            {localStorage.getItem('role') === "admin" ?
+              <div className="text-align-center-r">
+                <NavLink
+                  className="navbar-brand welcome-name-r"
+                  exact
+                  to="#"
+                >
+                  Welcome {localStorage.getItem('name')}
+                </NavLink>
+              </div>
+              :
+              localStorage.getItem('role') === "accountant" ?
+                <div className="text-align-center-r">
+                  <NavLink
+                    className="navbar-brand welcome-name-r"
+                    exact
+                    to="#"
+                  >
+                    Welcome {localStorage.getItem('firstName') + " " + localStorage.getItem('middleName') + " " + localStorage.getItem('lastName')}
+                  </NavLink>
+                </div>
+                :
+                localStorage.getItem('role') === "user" ?
+                  <div className="text-align-center-r">
+                    <NavLink
+                      className="navbar-brand welcome-name-r"
+                      exact
+                      to="#"
+                    >
+                      Welcome {localStorage.getItem('legalName')}
+                    </NavLink>
+                  </div> : null}
 
             {localStorage.getItem('role') ?
               <div
@@ -136,7 +171,6 @@ class Header extends React.Component {
                 id="bs-example-navbar-collapse-1"
               >
                 <ul className="nav navbar-nav navbar-right">
-                  {console.log('localStorage.getIt ', localStorage.getItem('role'))}
                   {localStorage.getItem('role') === "admin" ?
                     <NavLink
                       className="navbar-brand text-color-r"

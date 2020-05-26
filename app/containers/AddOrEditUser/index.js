@@ -43,6 +43,8 @@ export class AddOrEditUser extends React.Component {
       additionalPlaceOfBusiness: "", // two col
       registrationType: "",
       returnType: "",
+      year: "",
+      month: ""
     },
     passwordCheck: false
   }
@@ -331,6 +333,26 @@ export class AddOrEditUser extends React.Component {
                     value={this.state.payload.additionalPlaceOfBusiness}
                     onChange={this.nameChangeHandler}
                     id="additionalPlaceOfBusiness"
+                    required />
+                </div>
+                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <input
+                    type="text"
+                    className="form-control inputBox-r"
+                    placeholder="Year for which the work is started"
+                    value={this.state.payload.year}
+                    onChange={this.nameChangeHandler}
+                    id="year"
+                    required />
+                </div>
+                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <input
+                    type="text"
+                    className="form-control inputBox-r"
+                    placeholder="Month for which the work is started"
+                    value={this.state.payload.month}
+                    onChange={this.nameChangeHandler}
+                    id="month"
                     required />
                 </div>
                 <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">

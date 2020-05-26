@@ -63,24 +63,17 @@ export class LoginPage extends React.Component {
         localStorage.setItem('userId', data._id)
 
         if (data.role === "user") {
-          localStorage.setItem('name', data.legalName)
+          localStorage.setItem('legalName', data.legalName)
+          this.props.history.push('/user')
         }
         else if (data.role === "accountant") {
           localStorage.setItem('firstName', data.firstName)
           localStorage.setItem('middleName', data.middleName)
           localStorage.setItem('lastName', data.lastName)
+          this.props.history.push('/manageUser')
         }
         else if (data.role === "admin") {
           localStorage.setItem("name", data.name)
-        }
-
-        if (data.role === "accountant") {
-          this.props.history.push('/manageUser')
-        }
-        else if (data.role === "user") {
-          this.props.history.push('/user')
-        }
-        else if(data.role === "admin"){
           this.props.history.push('/admin')
         }
       })
@@ -125,9 +118,13 @@ export class LoginPage extends React.Component {
 
   forgotPassword = () => {
     let isResetActive = JSON.parse(JSON.stringify(this.state.isResetActive));
+    let payload = JSON.parse(JSON.stringify(this.state.payload));
     isResetActive = !isResetActive;
+    payload.emailId = ""
+    payload.password = ""
     this.setState({
       isResetActive,
+      payload
     });
   };
 
@@ -146,7 +143,7 @@ export class LoginPage extends React.Component {
           <div className="loginLayout-r">
             <div className="container outer-box-r">
 
-              <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 vertical-align-title-r">
+              {/* <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 vertical-align-title-r">
                 <p className="title-r">GST</p>
                 <p className="sub-heading-r">"Your Own GST Software"</p>
                 <div className="text-align-center-r">
@@ -158,50 +155,91 @@ export class LoginPage extends React.Component {
                     Get in touch
                   </button>
                 </div>
-              </div>
+              </div> */}
 
               <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 vertical-align-login-r">
                 <div className="login-box">
-                  <div className="modal-body,input-group input-group-lg">
-                    <div className="reset-form-padding-r">
-                      {this.state.isLoading ?
-                        <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-                        :
-                        <React.Fragment>
-                          {this.state.isResetActive ? (
+                  <div className="modal-body,input-group input-group-lg universal-center-r reset-form-padding-r">
+                    {this.state.isLoading ?
+                      <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                      :
+                      <React.Fragment>
+                        {this.state.isResetActive ? (
+                          <React.Fragment>
+                            <p className="forgot-title-r">Forgot Password</p>
+                            {this.state.loginError ? (
+                              <p className="error-msg-r">
+                                Email-Id is incorrect
+                              </p>
+                            ) : null}
+                            {this.state.forgotMessageSuccessCheck ? (
+                              <p className="error-msg-r">
+                                Link has been sent successfully
+                              </p>
+                            ) : null}
+                            <form onSubmit={this.forgotPasswordHandler}>
+                              <p className="forgot-msg-r">
+                                You will receive an e-mail along with your
+                                password.
+                            </p>
+                              <input
+                                type="email"
+                                value={this.state.payload.emailId}
+                                onChange={this.nameChangeHandler}
+                                id="emailId"
+                                className="form-control reset-input-box-r"
+                                placeholder="Enter your email-Id"
+                                autoFocus
+                                required
+                              />
+                              <span>
+                                <button
+                                  type="submit"
+                                  className="button-base-r width-40-r"
+                                >
+                                  Send
+                              </button>
+                              </span>
+                            </form>
+                            <p
+                              className="forgot-password-r"
+                              onClick={this.forgotPassword}
+                            >
+                              Get back to login
+                          </p>
+                          </React.Fragment>
+                        ) : (
                             <React.Fragment>
-                              <p className="forgot-title-r">Forgot Password</p>
+                              <p className="login-title-r">Login</p>
                               {this.state.loginError ? (
                                 <p className="error-msg-r">
-                                  Email-Id is incorrect
+                                  Username or password is incorrect
                                 </p>
                               ) : null}
-                              {this.state.forgotMessageSuccessCheck ? (
-                                <p className="error-msg-r">
-                                  Link has been sent successfully
-                                </p>
-                              ) : null}
-                              <form onSubmit={this.forgotPasswordHandler}>
-                                <p className="forgot-msg-r">
-                                  You will receive an e-mail along with your
-                                  password.
-                            </p>
+                              <form onSubmit={this.loginSubmitHandler}>
                                 <input
                                   type="email"
                                   value={this.state.payload.emailId}
                                   onChange={this.nameChangeHandler}
                                   id="emailId"
                                   className="form-control reset-input-box-r"
-                                  placeholder="Enter your email-Id"
+                                  placeholder="Enter your Email-Id"
+                                  autoFocus
+                                  required
+                                />
+                                <input
+                                  type="password"
+                                  value={this.state.payload.password}
+                                  onChange={this.nameChangeHandler}
+                                  id="password"
+                                  className="form-control reset-input-box-r"
+                                  placeholder="Enter your password"
                                   autoFocus
                                   required
                                 />
                                 <span>
-                                  <button
-                                    type="submit"
-                                    className="button-base-r width-40-r"
-                                  >
-                                    Send
+                                  <button className="button-base-r width-40-r">
+                                    Login
                               </button>
                                 </span>
                               </form>
@@ -209,55 +247,12 @@ export class LoginPage extends React.Component {
                                 className="forgot-password-r"
                                 onClick={this.forgotPassword}
                               >
-                                Get back to login
+                                Forgot Password ?
                           </p>
                             </React.Fragment>
-                          ) : (
-                              <React.Fragment>
-                                <p className="login-title-r">Login</p>
-                                {this.state.loginError ? (
-                                  <p className="error-msg-r">
-                                    Username or password is incorrect
-                                  </p>
-                                ) : null}
-                                <form onSubmit={this.loginSubmitHandler}>
-                                  <input
-                                    type="email"
-                                    value={this.state.payload.emailId}
-                                    onChange={this.nameChangeHandler}
-                                    id="emailId"
-                                    className="form-control reset-input-box-r"
-                                    placeholder="Enter your Email-Id"
-                                    autoFocus
-                                    required
-                                  />
-                                  <input
-                                    type="password"
-                                    value={this.state.payload.password}
-                                    onChange={this.nameChangeHandler}
-                                    id="password"
-                                    className="form-control reset-input-box-r"
-                                    placeholder="Enter your password"
-                                    autoFocus
-                                    required
-                                  />
-                                  <span>
-                                    <button className="button-base-r width-40-r">
-                                      Login
-                              </button>
-                                  </span>
-                                </form>
-                                <p
-                                  className="forgot-password-r"
-                                  onClick={this.forgotPassword}
-                                >
-                                  Forgot Password ?
-                          </p>
-                              </React.Fragment>
-                            )}
-                        </React.Fragment>
-                      }
-                    </div>
+                          )}
+                      </React.Fragment>
+                    }
                   </div>
                 </div>
               </div>

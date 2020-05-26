@@ -2,7 +2,7 @@
 	position: relative;
 	background: url('../img/main-banner.jpg') center;
 	background-size: cover;
-	height: 640px !important;
+	height: 92vh !important;
 }
 
 .nav-bar-r{
@@ -16,7 +16,7 @@
 
 .loginLayout-r {
 	background-color: rgba(0, 0, 0, .4);
-	height: 640px;
+	height: 92vh !important;
 }
 
 .text-center-r{
@@ -48,17 +48,23 @@ margin-bottom: 10px;
 	padding: 10px 10px !important;
 }
 
-@media screen and (min-width: 480px) {
+.vertical-align-title-r{
+	text-align: center;
+	position: absolute;
+	left: 0%;
+	transform: translate(0%,-50%);
+	top: 50%;
+}
 
-	.vertical-align-title-r{
-		padding: 110px 0;
-		text-align: center;
-	}
-	
-	.vertical-align-login-r{
-		padding: 150px 0;
-		text-align: center;
-	}
+.vertical-align-login-r{
+	text-align: center;
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	top: 50%;
+}
+
+@media screen and (min-width: 480px) {
 
 	.login-box{
 		background-color: rgba(255, 255, 255, 0.6);
@@ -96,17 +102,12 @@ margin-bottom: 10px;
 		color: #f06d46;
 	}
 	.reset-form-padding-r{
-		padding: 10px 50px 11px !important;
+		width: 40%;
 	}
 
 }
 
 @media screen and (max-width: 479px) {
-
-	.vertical-align-login-r{
-		padding: 44px 0;
-		text-align: center;
-	}
 
 	.login-box{
 		background-color: rgba(255, 255, 255, 0.6);
@@ -143,7 +144,4 @@ margin-bottom: 10px;
 		color: #f06d46;
 	}
 
-	.reset-form-padding-r{
-		padding: 10px 30px !important;
-	}
 }
