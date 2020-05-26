@@ -27,13 +27,23 @@ export class AddOrEditAccountant extends React.Component {
     isLoading: false,
     isOpenClassName: 'modal display-none container',
     payload: {
-      name: "",
+      firstName: "",
+      middleName: "",
+      lastName: "",
+      dateOfBirth: "",
+      address: "",
+      city: "",
+      district: "",
+      state: "",
+      pincode: "",
       mobileNumber: "",
+      secondaryMobileNumber: "",
       emailId: "",
       panNumber: "",
+      qualification: "",
       password: "",
-      address: ""
-    }
+    },
+    passwordCheck: false
   }
   errorCheck(error) {
     let errorMes = '';
@@ -111,16 +121,23 @@ export class AddOrEditAccountant extends React.Component {
     let payload = JSON.parse(JSON.stringify(this.state.payload));
     payload[event.target.id] = event.target.value;
     this.setState({
-      payload,
+      payload, passwordCheck: false
     });
   };
 
   SubmitUserHandler = () => {
     event.preventDefault()
     let payload = JSON.parse(JSON.stringify(this.state.payload));
-    this.setState({
-      isLoading: true
-    }, () => this.postAccountant(payload))
+    if (payload.password === payload.confirmPassword) {
+      this.setState({
+        isLoading: true
+      }, () => this.postAccountant(payload))
+    }
+    else {
+      this.setState({
+        passwordCheck: true
+      })
+    }
   }
 
   modalTime = () => {
@@ -159,57 +176,167 @@ export class AddOrEditAccountant extends React.Component {
               <p className="main-title-r">{this.props.match.params.id ? "Update Accountant" : "Create Accountant"}</p>
               <form onSubmit={this.SubmitUserHandler}>
 
-                <div className="row">
-                  <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <input
-                      type="text"
-                      className="form-control inputBox-r"
-                      placeholder="Name"
-                      value={this.state.payload.name}
-                      onChange={this.nameChangeHandler}
-                      id="name"
-                      required
-                    />
-                  </div>
-                  <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <input
-                      type="tel"
-                      className="form-control inputBox-r"
-                      placeholder="Mobile Number"
-                      value={this.state.payload.mobileNumber}
-                      onChange={this.nameChangeHandler}
-                      id="mobileNumber"
-                      pattern="[1-9]{1}[0-9]{9}"
-                      title="Enter 10 digit mobile number"
-                      required />
-                  </div>
+                <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                  <input
+                    type="text"
+                    className="form-control inputBox-r"
+                    placeholder="First Name"
+                    value={this.state.payload.firstName}
+                    onChange={this.nameChangeHandler}
+                    id="firstName"
+                    required
+                  />
+                </div>
+                <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                  <input
+                    type="text"
+                    className="form-control inputBox-r"
+                    placeholder="Middle Name"
+                    value={this.state.payload.middleName}
+                    onChange={this.nameChangeHandler}
+                    id="middleName"
+                    required
+                  />
+                </div>
+                <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                  <input
+                    type="text"
+                    className="form-control inputBox-r"
+                    placeholder="Last Name"
+                    value={this.state.payload.lastName}
+                    onChange={this.nameChangeHandler}
+                    id="lastName"
+                    required
+                  />
+                </div>
+                <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <input
+                    type="date"
+                    className="form-control inputBox-r"
+                    placeholder="Date Of Birth"
+                    value={this.state.payload.dateOfBirth}
+                    onChange={this.nameChangeHandler}
+                    id="dateOfBirth"
+                    required />
+                </div>
+                <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <input
+                    type="text"
+                    className="form-control inputBox-r"
+                    placeholder="Address"
+                    value={this.state.payload.address}
+                    onChange={this.nameChangeHandler}
+                    id="address"
+                    required
+                  />
+                </div>
+                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <input
+                    type="text"
+                    className="form-control inputBox-r"
+                    placeholder="City"
+                    value={this.state.payload.city}
+                    onChange={this.nameChangeHandler}
+                    id="city"
+                    required
+                  />
+                </div>
+                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <input
+                    type="text"
+                    className="form-control inputBox-r"
+                    placeholder="District"
+                    value={this.state.payload.district}
+                    onChange={this.nameChangeHandler}
+                    id="district"
+                    required
+                  />
+                </div>
+                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <input
+                    type="text"
+                    className="form-control inputBox-r"
+                    placeholder="state"
+                    value={this.state.payload.state}
+                    onChange={this.nameChangeHandler}
+                    id="state"
+                    required
+                  />
+                </div>
+                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <input
+                    type="text"
+                    className="form-control inputBox-r"
+                    placeholder="Pincode Number"
+                    value={this.state.payload.pincode}
+                    onChange={this.nameChangeHandler}
+                    id="pincode"
+                    required
+                  />
+                </div>
+                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <input
+                    type="tel"
+                    className="form-control inputBox-r"
+                    placeholder="Primary Mobile Number"
+                    value={this.state.payload.mobileNumber}
+                    onChange={this.nameChangeHandler}
+                    id="mobileNumber"
+                    pattern="[1-9]{1}[0-9]{9}"
+                    title="Enter 10 digit mobile number"
+                    required />
+                </div>
+                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <input
+                    type="tel"
+                    className="form-control inputBox-r"
+                    placeholder="Secondary Mobile Number"
+                    value={this.state.payload.secondaryMobileNumber}
+                    onChange={this.nameChangeHandler}
+                    id="secondaryMobileNumber"
+                    pattern="[1-9]{1}[0-9]{9}"
+                    title="Enter 10 digit mobile number"
+                    required />
                 </div>
 
-                <div className="row">
-                  <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <input
-                      type="email"
-                      className="form-control inputBox-r"
-                      placeholder="Email-Id"
-                      value={this.state.payload.emailId}
-                      onChange={this.nameChangeHandler}
-                      id="emailId"
-                      required />
-                  </div>
-                  <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <input
-                      type="text"
-                      className="form-control inputBox-r"
-                      placeholder="PAN Number"
-                      value={this.state.payload.panNumber}
-                      onChange={this.nameChangeHandler}
-                      id="panNumber"
-                      required />
-                  </div>
+                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <input
+                    type="email"
+                    className="form-control inputBox-r"
+                    placeholder="Email-Id"
+                    value={this.state.payload.emailId}
+                    onChange={this.nameChangeHandler}
+                    id="emailId"
+                    required />
                 </div>
-                <div className="row">
-                  {this.props.match.params.id ?
-                    null :
+                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <input
+                    type="text"
+                    className="form-control inputBox-r"
+                    placeholder="PAN Number"
+                    value={this.state.payload.panNumber}
+                    onChange={this.nameChangeHandler}
+                    id="panNumber"
+                    required />
+                </div>
+
+                <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <select
+                    className="custom-select year-month-border-r inputBox-r"
+                    value={this.state.payload.qualification}
+                    onChange={this.nameChangeHandler}
+                    id="qualification"
+                    required>
+                    <option value="">Qualification</option>
+                    <option value="postGraduate">Post Graduate</option>
+                    <option value="graduate">Graduate</option>
+                    <option value="other">other</option>
+                  </select>
+                </div>
+
+                {this.props.match.params.id ?
+                  null :
+                  <React.Fragment>
                     <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <input
                         type="password"
@@ -221,21 +348,22 @@ export class AddOrEditAccountant extends React.Component {
                         required
                       />
                     </div>
-                  }
-                  <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <input
-                      type="text"
-                      className="form-control inputBox-r"
-                      placeholder="Address"
-                      value={this.state.payload.address}
-                      onChange={this.nameChangeHandler}
-                      id="address"
-                      required
-                    />
-                  </div>
-                </div>
+                    <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <input
+                        type="password"
+                        className={this.state.passwordCheck ? "form-control inputBox-r alert-box-r" : "form-control inputBox-r"}
+                        placeholder="Confirm Password"
+                        value={this.state.payload.confirmPassword}
+                        onChange={this.nameChangeHandler}
+                        id="confirmPassword"
+                        required
+                      />
+                      {this.state.passwordCheck ? <p className="error-msg-r">Password and confirm password mismatch.</p> : null}
+                    </div>
+                  </React.Fragment>
+                }
                 <div className="text-align-center-r">
-                  <button className="button-base-r width-40-r margin-top-b-25-r">{this.props.match.params.id ? "Update Accountant" : "Create Accountant"}</button>
+                  <button className="button-base-r width-40-r margin-bottom-b-60-r margin-top-b-25-r">{this.props.match.params.id ? "Update Accountant" : "Create Accountant"}</button>
                 </div>
               </form>
             </div>

@@ -55,9 +55,9 @@ export class UserBillDetails extends React.Component {
   }
 
 
-  getBill = (id, month, year, bill) => {
+  getBill = (id, month, year, bill, date) => {
     if (bill === "purchase") {
-      axios.get(`http://localhost:3000/purchase/${id}/${month}/${year}`)
+      axios.get(`http://localhost:3000/purchase/${id}/${month}/${year}/${date}`)
         .then((res) => {
           const getBill = res.data.data;
           this.setState({ getBill, isLoading: false });
@@ -68,7 +68,7 @@ export class UserBillDetails extends React.Component {
         });
     }
     else if (bill === "sale") {
-      axios.get(`http://localhost:3000/sale/${id}/${month}/${year}`)
+      axios.get(`http://localhost:3000/sale/${id}/${month}/${year}/${date}`)
         .then((res) => {
           const getBill = res.data.data;
           this.setState({ getBill, isLoading: false });
@@ -79,7 +79,7 @@ export class UserBillDetails extends React.Component {
         });
     }
     else {
-      axios.get(`http://localhost:3000/other/${id}/${month}/${year}`)
+      axios.get(`http://localhost:3000/other/${id}/${month}/${year}/${date}`)
         .then((res) => {
           const getBill = res.data.data;
           this.setState({ getBill, isLoading: false });
@@ -99,7 +99,7 @@ export class UserBillDetails extends React.Component {
           message,
           isLoading: true,
           showHideClassName: 'modal display-none container',
-        }, () => this.getBill(this.props.match.params.id, this.props.match.params.month, this.props.match.params.year, this.props.match.params.bill));
+        }, () => this.getBill(this.props.match.params.id, this.props.match.params.month, this.props.match.params.year, this.props.match.params.bill, this.props.match.params.date));
       })
       .catch((error) => {
         console.log('error: ', error);
@@ -147,7 +147,7 @@ export class UserBillDetails extends React.Component {
             message,
             isLoading: true,
             showHideClassName: 'modal display-none container',
-          }, () => this.getBill(this.props.match.params.id, this.props.match.params.month, this.props.match.params.year, this.props.match.params.bill));
+          }, () => this.getBill(this.props.match.params.id, this.props.match.params.month, this.props.match.params.year, this.props.match.params.bill, this.props.match.params.date));
         })
         .catch((error) => {
           console.log('error: ', error);
@@ -157,7 +157,7 @@ export class UserBillDetails extends React.Component {
   };
 
   componentWillMount() {
-    this.getBill(this.props.match.params.id, this.props.match.params.month, this.props.match.params.year, this.props.match.params.bill)
+    this.getBill(this.props.match.params.id, this.props.match.params.month, this.props.match.params.year, this.props.match.params.bill, this.props.match.params.date)
   }
 
   modalTime = () => {

@@ -49,8 +49,8 @@ export default function App() {
         <Route exact path="/manageUser/:id?" component={ManageUser} />
         <Route exact path="/admin" component={Admin} />
         <Route exact path="/manageUserReports/:month/:year" component={ManageUserReports} />
-        <Route exact path="/userDetails/:id/manageAccountantReports/:report/:month/:year" component={ManageAccountantReports} />
-        <Route exact path="/userDetails/:id/userBillDetails/:bill/:month/:year" component={UserBillDetails} />
+        <Route exact path="/userDetails/:id/manageAccountantReports/:report/:month/:year/:date?" component={ManageAccountantReports} />
+        <Route exact path="/userDetails/:id/userBillDetails/:bill/:month/:year/:date" component={UserBillDetails} />
 
         {/* <Route path="" component={NotFoundPage} /> */}
       </Switch>

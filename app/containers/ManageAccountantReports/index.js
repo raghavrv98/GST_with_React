@@ -51,9 +51,9 @@ export class ManageAccountantReports extends React.Component {
     );
   }
 
-  getUserReports = (userId, month, year, report) => {
+  getUserReports = (userId, month, year, report, date) => {
     if (report === "daily") {
-      axios.get(`http://localhost:3000/dailyReports/${userId}/${month}/${year}`)
+      axios.get(`http://localhost:3000/dailyReports/${userId}/${month}/${year}/${date}`)
         .then((res) => {
           const userReports = res.data.data;
           this.setState({ userReports, isFetching: false });
@@ -76,10 +76,35 @@ export class ManageAccountantReports extends React.Component {
     }
   }
 
+  resendReport = (event) => {
+    let id = event.target.id
+    let userId = this.props.match.params.id
+    let report = this.props.match.params.report
+    axios.put(`http://localhost:3000/resendReport/${userId}/${id}/${report}`)
+      .then((res) => {
+        const message = res.data.message;
+        this.setState({
+          message,
+          isLoading: false,
+          type: "success",
+          isOpenClassName: 'modal display-block container',
+        }, () => setTimeout(this.modalTime, 1500));
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        this.errorCheck(error);
+      });
+  }
+
   componentWillMount() {
     let id = this.props.match.params.id
     let report = this.props.match.params.report
-    this.getUserReports(id, this.props.match.params.month, this.props.match.params.year, report)
+    if (report === "gst") {
+      this.getUserReports(id, this.props.match.params.month, this.props.match.params.year, report)
+    }
+    else {
+      this.getUserReports(id, this.props.match.params.month, this.props.match.params.year, report, this.props.match.params.date)
+    }
   }
 
   modalCloseHandler = () => {
@@ -97,27 +122,6 @@ export class ManageAccountantReports extends React.Component {
       isFetching: false
     })
   }
-
-  resendReport = (event) => {
-    let id = event.target.id
-    let userId = this.props.match.params.id
-    let report = this.props.match.params.report
-    axios.put(`http://localhost:3000/bill/${userId}/${id}/${report}`)
-      .then((res) => {
-        const message = res.data.message;
-        this.setState({
-          message,
-          isLoading: false,
-          type: "success",
-          isOpenClassName: 'modal display-block container',
-        }, () => setTimeout(this.modalTime, 1500));
-      })
-      .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
-      });
-  }
-
 
   render() {
     return (

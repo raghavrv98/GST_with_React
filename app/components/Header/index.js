@@ -130,13 +130,14 @@ class Header extends React.Component {
               </NavLink>
             </div>
 
-            {localStorage.getItem('role') || localStorage.getItem('admin') === "admin" ? (
+            {localStorage.getItem('role') ?
               <div
                 className="collapse navbar-collapse"
                 id="bs-example-navbar-collapse-1"
               >
                 <ul className="nav navbar-nav navbar-right">
-                  {localStorage.getItem('admin') === "admin" ?
+                  {console.log('localStorage.getIt ', localStorage.getItem('role'))}
+                  {localStorage.getItem('role') === "admin" ?
                     <NavLink
                       className="navbar-brand text-color-r"
                       exact
@@ -171,42 +172,42 @@ class Header extends React.Component {
                   </NavLink>
                 </ul>
               </div>
-            ) : (
-                <div
-                  className="collapse navbar-collapse"
-                  id="bs-example-navbar-collapse-1"
-                >
-                  <ul className="nav navbar-nav navbar-right">
-                    <NavLink
-                      className="navbar-brand text-color-r"
-                      exact
-                      to="/"
-                      // data-toggle="collapse"
-                      data-target="#bs-example-navbar-collapse-1"
-                    >
-                      Home
+              :
+              <div
+                className="collapse navbar-collapse"
+                id="bs-example-navbar-collapse-1"
+              >
+                <ul className="nav navbar-nav navbar-right">
+                  <NavLink
+                    className="navbar-brand text-color-r"
+                    exact
+                    to="/"
+                    // data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1"
+                  >
+                    Home
                   </NavLink>
-                    <NavLink
-                      className="navbar-brand text-color-r"
-                      exact
-                      to="/aboutUs"
-                      // data-toggle="collapse"
-                      data-target="#bs-example-navbar-collapse-1"
-                    >
-                      AboutUs
+                  <NavLink
+                    className="navbar-brand text-color-r"
+                    exact
+                    to="/aboutUs"
+                    // data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1"
+                  >
+                    AboutUs
                   </NavLink>
-                    <NavLink
-                      className="navbar-brand text-color-r"
-                      exact
-                      to="/contact"
-                      // data-toggle="collapse"
-                      data-target="#bs-example-navbar-collapse-1"
-                    >
-                      ContactUs
+                  <NavLink
+                    className="navbar-brand text-color-r"
+                    exact
+                    to="/contact"
+                    // data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1"
+                  >
+                    ContactUs
                   </NavLink>
-                  </ul>
-                </div>
-              )}
+                </ul>
+              </div>
+            }
           </div>
         </nav>
 

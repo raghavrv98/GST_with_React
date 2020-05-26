@@ -39,7 +39,8 @@ export class UserDetails extends React.Component {
     report: [],
     month: this.props.match.params.month,
     year: this.props.match.params.year,
-    userBillSummary: {}
+    userBillSummary: {},
+    reactTableData: []
   }
 
   errorCheck(error) {
@@ -63,7 +64,19 @@ export class UserDetails extends React.Component {
     axios.get(`http://localhost:3000/userBillSummary/${userId}/${month}/${year}`)
       .then((res) => {
         const userBillSummary = res.data.data;
-        this.setState({ userBillSummary, isFetching: false });
+        let reactTableData = Object.entries(userBillSummary.summary[0]).map(val => {
+          if (val) {
+            val[0] = this.replaceAll(val[0], '/', '-')
+            return {
+              "date": val[0],
+              "purchaseBills": val[1].purchaseBills,
+              "saleBills": val[1].saleBills,
+              "otherBills": val[1].otherBills,
+            }
+          }
+        })
+        reactTableData = reactTableData[0] == undefined ? [] : reactTableData
+        this.setState({ userBillSummary, reactTableData, isFetching: false });
       })
       .catch((error) => {
         console.log('error: ', error);
@@ -111,6 +124,10 @@ export class UserDetails extends React.Component {
   componentWillMount() {
     let id = this.props.match.params.id
     this.getUserBillSummary(id, this.props.match.params.month, this.props.match.params.year)
+  }
+
+  replaceAll(string, search, replace) {
+    return string.split(search).join(replace);
   }
 
   modalTime = () => {
@@ -187,9 +204,8 @@ export class UserDetails extends React.Component {
     const columns = [
       {
         Header: 'Created At',
-        accessor: 'timestamp',
+        accessor: 'date',
         sortable: false,
-        // Cell: row => (this.state.filteredData[0].timestamp ? moment(row.original.timestamp).format("DD MMM YYYY HH:mm") : '-')
       },
       {
         Header: 'Purchase Bills',
@@ -197,7 +213,7 @@ export class UserDetails extends React.Component {
         sortable: false,
         // filterable: true,
         Cell: row =>
-          <span className="view-reports-r" onClick={() => this.props.history.push(`/userDetails/${this.props.match.params.id}/userBillDetails/purchase/${this.state.month}/${this.state.year}`)}>{(row.original.purchaseBills.complete) + "/" + (row.original.purchaseBills.total)}</span>
+          <span className="view-reports-r" onClick={() => this.props.history.push(`/userDetails/${this.props.match.params.id}/userBillDetails/purchase/${this.state.month}/${this.state.year}/${row.original.date}`)}>{(row.original.purchaseBills.complete) + "/" + (row.original.purchaseBills.total)}</span>
       },
       {
         Header: 'Sale Bills',
@@ -205,7 +221,7 @@ export class UserDetails extends React.Component {
         sortable: false,
         // filterable: true,
         Cell: row =>
-          <span className="view-reports-r" onClick={() => this.props.history.push(`/userDetails/${this.props.match.params.id}/userBillDetails/sale/${this.state.month}/${this.state.year}`)}>{(row.original.saleBills.complete) + "/" + (row.original.saleBills.total)}</span>
+          <span className="view-reports-r" onClick={() => this.props.history.push(`/userDetails/${this.props.match.params.id}/userBillDetails/sale/${this.state.month}/${this.state.year}/${row.original.date}`)}>{(row.original.saleBills.complete) + "/" + (row.original.saleBills.total)}</span>
       },
       {
         Header: 'Other',
@@ -213,7 +229,7 @@ export class UserDetails extends React.Component {
         sortable: false,
         // filterable: true,
         Cell: row =>
-          <span className="view-reports-r" onClick={() => this.props.history.push(`/userDetails/${this.props.match.params.id}/userBillDetails/other/${this.state.month}/${this.state.year}`)}>{(row.original.otherBills.complete) + "/" + (row.original.otherBills.total)}</span>
+          <span className="view-reports-r" onClick={() => this.props.history.push(`/userDetails/${this.props.match.params.id}/userBillDetails/other/${this.state.month}/${this.state.year}/${row.original.date}`)}>{(row.original.otherBills.complete) + "/" + (row.original.otherBills.total)}</span>
       },
       {
         Header: 'Daily Reports',
@@ -223,7 +239,7 @@ export class UserDetails extends React.Component {
         Cell: row =>
           (
             <div>
-              <p className="view-reports-r" onClick={() => { this.props.history.push(`/userDetails/${this.props.match.params.id}/manageAccountantReports/daily/${this.state.month}/${this.state.year}`) }}>View</p>
+              <p className="view-reports-r" onClick={() => { this.props.history.push(`/userDetails/${this.props.match.params.id}/manageAccountantReports/daily/${this.state.month}/${this.state.year}/${row.original.date}`) }}>View</p>
             </div>
           )
       },
@@ -307,7 +323,7 @@ export class UserDetails extends React.Component {
             <div className="row">
               <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
-                  <p className="main-title-r">{this.state.userBillSummary && this.state.userBillSummary.name + " Details"}</p>
+                  <p className="main-title-r">{this.state.userBillSummary && this.state.userBillSummary.legalName + " Details"}</p>
                 </div>
                 <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
                   <p className="sub-title-r">({this.state.userBillSummary && this.state.userBillSummary.mobileNumber})</p>
@@ -366,7 +382,7 @@ export class UserDetails extends React.Component {
             <div className="customReactTableBox">
               <ReactTable
                 className="customReactTable"
-                data={this.state.userBillSummary && this.state.userBillSummary.summary}
+                data={this.state.reactTableData}
                 columns={columns}
                 defaultPageSize={5}
                 noDataText={

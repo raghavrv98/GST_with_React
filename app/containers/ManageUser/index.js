@@ -30,7 +30,7 @@ export class ManageUser extends React.Component {
   state = {
     month: 1,
     year: 2020,
-    userType: "all",
+    userType: "withData",
     isFetching: false,
     isOpenClassName: 'modal display-none container'
   }
@@ -253,9 +253,9 @@ export class ManageUser extends React.Component {
           <div className="container filter-year-month-r">
             <div className="row">
               <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                <select id="year" onChange={this.nameChangeHandler} value={this.state.year} className="year-month-border-r"
+                <select id="year" disabled={this.state.userType === "all" || this.state.userType === "active" || this.state.userType === "inActive"} onChange={this.nameChangeHandler} value={this.state.year} className="year-month-border-r"
                   name="lectureId">
-                  <option value="">Select Year</option>
+                  <option disabled={true} value="0">Select Year</option>
                   <option value="2020">2020-2021</option>
                   <option value="2019">2019-2020</option>
                   <option value="2018">2018-2019</option>
@@ -263,9 +263,9 @@ export class ManageUser extends React.Component {
                 </select>
               </div>
               <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                <select id="month" onChange={this.nameChangeHandler} value={this.state.month} className="year-month-border-r"
+                <select id="month" disabled={this.state.userType === "all" || this.state.userType === "active" || this.state.userType === "inActive"} onChange={this.nameChangeHandler} value={this.state.month} className="year-month-border-r"
                   name="lectureId">
-                  <option value="">Select Month</option>
+                  <option disabled={true} value="0">Select Month</option>
                   <option value="1">January</option>
                   <option value="2">February</option>
                   <option value="3">March</option>
@@ -283,12 +283,12 @@ export class ManageUser extends React.Component {
               <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                 <select id="userType" onChange={this.nameChangeHandler} value={this.state.userType} className="year-month-border-r"
                   name="lectureId">
-                  <option value="">Select User</option>
+                  <option disabled={true} value="0">Select User</option>
                   <option value="all">All Users</option>
                   <option value="withData">User with Data</option>
                   <option value="withoutData">User without Data</option>
-                  <option value="completed">Status Completed</option>
-                  <option value="pending">Status Pending</option>
+                  {/* <option value="completed">Status Completed</option>
+                  <option value="pending">Status Pending</option> */}
                   <option value="inActive">InActive</option>
                   <option value="active">Active</option>
                 </select>

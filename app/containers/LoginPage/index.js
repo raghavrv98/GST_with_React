@@ -29,7 +29,8 @@ export class LoginPage extends React.Component {
     },
     isResetActive: false,
     loginError: false,
-    isLoading: false
+    isLoading: false,
+    forgotMessageSuccessCheck: false
   };
 
   errorCheck(error) {
@@ -54,20 +55,33 @@ export class LoginPage extends React.Component {
       isLoading: true
     })
     let payload = JSON.parse(JSON.stringify(this.state.payload));
-    if (payload.emailId === "admin@gmail.com" && payload.password === "0000") {
-      this.props.history.push('/admin')
-    }
     axios.post(`http://localhost:3000/login`, payload)
       .then((res) => {
         const data = res.data.data;
         localStorage.setItem('role', data.role)
         localStorage.setItem('emailId', data.emailId)
         localStorage.setItem('userId', data._id)
+
+        if (data.role === "user") {
+          localStorage.setItem('name', data.legalName)
+        }
+        else if (data.role === "accountant") {
+          localStorage.setItem('firstName', data.firstName)
+          localStorage.setItem('middleName', data.middleName)
+          localStorage.setItem('lastName', data.lastName)
+        }
+        else if (data.role === "admin") {
+          localStorage.setItem("name", data.name)
+        }
+
         if (data.role === "accountant") {
           this.props.history.push('/manageUser')
         }
         else if (data.role === "user") {
           this.props.history.push('/user')
+        }
+        else if(data.role === "admin"){
+          this.props.history.push('/admin')
         }
       })
       .catch((error) => {
@@ -82,9 +96,14 @@ export class LoginPage extends React.Component {
       isLoading: true
     })
     let payload = JSON.parse(JSON.stringify(this.state.payload));
-    axios.post(`http://localhost:3000/forgot`, payload)
+    axios.post(`http://localhost:3000/forgotPassword`, payload)
       .then((res) => {
-        const data = res.data.data;
+        const forgotMessageSuccess = res.data.message;
+        payload.emailId = ""
+        payload.password = ""
+        this.setState({
+          forgotMessageSuccess, isLoading: false, payload, forgotMessageSuccessCheck: true
+        })
       })
       .catch((error) => {
         console.log('error: ', error);
@@ -157,6 +176,11 @@ export class LoginPage extends React.Component {
                                   Email-Id is incorrect
                                 </p>
                               ) : null}
+                              {this.state.forgotMessageSuccessCheck ? (
+                                <p className="error-msg-r">
+                                  Link has been sent successfully
+                                </p>
+                              ) : null}
                               <form onSubmit={this.forgotPasswordHandler}>
                                 <p className="forgot-msg-r">
                                   You will receive an e-mail along with your
@@ -203,7 +227,7 @@ export class LoginPage extends React.Component {
                                     onChange={this.nameChangeHandler}
                                     id="emailId"
                                     className="form-control reset-input-box-r"
-                                    placeholder="Enter your EmailId"
+                                    placeholder="Enter your Email-Id"
                                     autoFocus
                                     required
                                   />

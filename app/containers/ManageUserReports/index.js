@@ -181,7 +181,7 @@ export class ManageUserReports extends React.Component {
                         <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                       </span>
                       <span className="download-report-icon-r">
-                        <a href={"http://localhost:3000/daily-reports/" + val.img} className="fa fa-download"></a>
+                        <a target="_blank" download href={"http://localhost:3000/daily-reports/" + val.img} className="fa fa-download"></a>
                       </span>
                       <img className="selected-report-image-r" src={"http://localhost:3000/daily-reports/" + val.img} />
                       <p className="card-selected-sub-heading-r">{val.originalName}</p>

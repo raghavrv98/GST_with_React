@@ -218,6 +218,10 @@ body {
   margin-top: 25px !important;
 }
 
+.margin-bottom-b-60-r{
+  margin-bottom: 60px !important;
+}
+
 .modal {
   background: rgba(0, 0, 0, 0.6);
 }
@@ -605,6 +609,7 @@ body {
   font-size: 25px;
   color: #255b7a;
   margin: 10px 0px 0px !important;
+  text-transform: capitalize;
 }
 
 .sub-title-r {
@@ -799,6 +804,16 @@ body {
   color: black;
   margin: 10px 0px 0px;
   border: 1px solid red;
+}
+
+.alert-box-r{
+  border: 1px solid red !important;
+}
+
+.error-msg-r{
+  color: red !important;
+  margin: 5px 0px 0px !important;
+  font-size: 12px !important;
 }
 
 .lds-roller {

@@ -23,7 +23,6 @@ import messages from './messages';
 export class Admin extends React.Component {
 
   componentWillMount() {
-    localStorage.setItem('admin', 'admin')
   }
   render() {
     return (
