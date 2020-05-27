@@ -41,7 +41,8 @@ export class User extends React.Component {
     browseBillImages: [],
     isOpenClassName: 'modal display-none container',
     billImages: [],
-    isDeleteIcon: false
+    isDeleteIcon: false,
+    isDeletedBill : []
   }
 
   // getHeaders = () => {
@@ -79,7 +80,24 @@ export class User extends React.Component {
       .get(`http://localhost:3000/bill/${id}/${month}/${year}`)
       .then((res) => {
         const getbill = res.data.data;
-        this.setState({ getbill, isLoading: false });
+        let isDeletedBill = []
+        this.setState({ getbill, isLoading: false, isDeletedBill });
+        let data = JSON.parse(JSON.stringify(getbill))
+        data.purchaseBills.map((val,index)=> {
+          if(Date.now() - val.timestamp > 60000 ){
+            this.deleteIcon("purchase", index)
+          }
+        })
+        data.saleBills.map((val,index)=> {
+          if(Date.now() - val.timestamp > 60000 ){
+            this.deleteIcon("sale", index)
+          }
+        })
+        data.otherBills.map((val,index)=> {
+          if(Date.now() - val.timestamp > 60000 ){
+            this.deleteIcon("other", index)
+          }
+        })
       })
       .catch((error) => {
         console.log('error: ', error);
@@ -130,11 +148,15 @@ export class User extends React.Component {
 
   componentWillMount() {
     this.getbill(localStorage.getItem('userId'), this.state.month, this.state.year)
-    setTimeout(this.deleteIcon, 10000)
+    setInterval(() => this.getbill(localStorage.getItem('userId'), this.state.month, this.state.year), 60000);
   }
 
-  deleteIcon = () => {
-    this.setState({ isDeleteIcon: true })
+  deleteIcon = (type, index) => {
+    let isDeletedBill = this.state.isDeletedBill
+    let isDeleteIcon = "true" + index + type
+    isDeletedBill.push(isDeleteIcon)
+    isDeletedBill = [...new Set(isDeletedBill)]
+    this.setState({ isDeletedBill })
   }
 
   modalTime = () => {
@@ -369,7 +391,7 @@ export class User extends React.Component {
                       </div>
                       <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="purchaseBill"
                         type="file" multiple required />
-                      <div>
+                      <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 margin-15-r">
                         <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                           <div><button type="button" className="button-base-r">
                             <label className="cursor-pointer-r margin-0-r" htmlFor="purchaseBill">Browse</label>
@@ -391,7 +413,7 @@ export class User extends React.Component {
                             <p className="card-selected-sub-heading-r">{val.originalName}</p>
                             <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                           </div>
-                          {this.state.isDeleteIcon ? null :
+                          {this.state.isDeletedBill.includes("true" + index + "purchase") ? null :
                             <span className="delete-bill-icon-r">
                               <button name="purchase" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                             </span>
@@ -440,7 +462,7 @@ export class User extends React.Component {
                         </div>
                         <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="saleBill"
                           type="file" multiple required />
-                        <div>
+                        <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 margin-15-r">
                           <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                             <div><button type="button" className="button-base-r">
                               <label className="cursor-pointer-r margin-0-r" htmlFor="saleBill">Browse</label>
@@ -462,7 +484,7 @@ export class User extends React.Component {
                               <p className="card-selected-sub-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                             </div>
-                            {this.state.isDeleteIcon ? null :
+                            {this.state.isDeletedBill.includes("true" + index + "sale") ? null :
                               <span className="delete-bill-icon-r">
                                 <button name="sale" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                               </span>
@@ -512,7 +534,7 @@ export class User extends React.Component {
                         </div>
                         <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="otherBill"
                           type="file" multiple required />
-                        <div>
+                        <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 margin-15-r">
                           <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                             <div><button type="button" className="button-base-r">
                               <label className="cursor-pointer-r margin-0-r" htmlFor="otherBill">Browse</label>
@@ -534,7 +556,7 @@ export class User extends React.Component {
                               <p className="card-selected-sub-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                             </div>
-                            {this.state.isDeleteIcon ? null :
+                            {this.state.isDeletedBill.includes("true" + index + "other") ? null :
                               <span className="delete-bill-icon-r">
                                 <button name="other" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                               </span>

@@ -51,7 +51,7 @@ input[type='email'], input[type='number'], input[type='password'], input[type='s
 
 .text-color-r:hover{
   color: #f06d46 !important;
-  text-decoration: underline;
+  text-decoration: underline !important;
 }
 
 .text-color-white-r {
@@ -129,7 +129,11 @@ body {
 .reset-input-box-r {
   color: #255b7a !important;
   border-color: #f06d46 !important;
-  margin: 0px auto 20px !important;
+  margin-bottom: 15px;
+}
+
+.padding-20-r{
+  padding: 20px 50px;
 }
 
 .image-center-r {
@@ -624,10 +628,10 @@ body {
 }
 
 .upload-modal-r{
-  height: 200px;
+  height: 350px;
   width: 100%;
   border-radius: 10px !important;
-  border: 1px solid;
+  border: 1px solid #f06d46;
   margin: 0px 0px 20px!important;
 }
 
@@ -657,6 +661,7 @@ body {
   background-color: #EFF7FE;
   border-radius: 16px;
   padding: 10px;
+  margin: 20px;
 }
 
 .breadCrumb-li-r{
@@ -666,8 +671,8 @@ body {
   border-radius: 16px;
   box-shadow: 1px 3px 5px rgba(24, 50, 115, 0.6);
   text-align: center !important;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 16px;
+  padding-right: 16px;
   padding-top: 10px;
   padding-bottom: 10px;
   margin-left: -5px;
@@ -681,8 +686,8 @@ body {
   box-shadow: 1px 3px 5px rgba(24, 50, 115, 0.6);
   cursor: pointer;
   text-align: center !important;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 16px;
+  padding-right: 16px;
   padding-top: 10px;
   padding-bottom: 10px;
   margin-left: -5px;
@@ -696,8 +701,8 @@ body {
   box-shadow: 1px 3px 5px rgba(24, 50, 115, 0.6);
   cursor: pointer;
   text-align: center !important;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 16px;
+  padding-right: 16px;
   padding-top: 10px;
   padding-bottom: 10px;
   margin-left: -20px;
@@ -721,15 +726,11 @@ body {
   border-radius: 16px;
   box-shadow: 1px 3px 5px rgba(24, 50, 115, 0.6);
   text-align: center !important;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 16px;
+  padding-right: 16px;
   padding-top: 10px;
   padding-bottom: 10px;
   margin-left: -20px;
-}
-
-.breadcrumb-text-r{
-  margin: 0px 5px !important;
 }
 
 .lds-facebook {
@@ -904,11 +905,7 @@ body {
 }
 
 .welcome-name-r{
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  color: #255b7a !important;
-  transform: translate(-50%, -50%);
+  color: #f06d46 !important;
   text-decoration: none !important;
   cursor: context-menu;
   text-transform: capitalize;
@@ -921,11 +918,19 @@ body {
     top: 50%;
 }
 
+.nav-css-r{
+  float: none !important;
+}
+
+.margin-20-r{
+  margin: 20px !important;
+}
+
 /* -------------------------------------------------------------------------------------------------------------------- */
 
-@media screen and (min-width: 480px) {
-  .width-50-r{
-    width: 50% !important;
+@media screen and (min-width: 768px) {
+  .width-80-r{
+    width: 80px !important;
   }
 
   .width-40-r{
@@ -985,11 +990,16 @@ body {
     border-radius: 10px;
   }
 
+  .breadcrumb-text-r{
+    margin: 0px 5px !important;
+  }
+  
+
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------- */
 
-@media screen and (max-width: 479px) {
+@media screen and (max-width: 769px) {
 .button-margin-top{
   margin: 15px 0px 0px !important;
 }
@@ -1028,13 +1038,16 @@ body {
   .margin-10-r {
     margin: 10px 0px !important;
   }
+  .margin-15-r {
+    margin: 15px 0px !important;
+  }
   .text-align-center-min-r {
     text-align: center !important;
   }
   .newEntry-r {
     float: right !important;
     margin: 0px auto 20px !important;
-    width: 26% !important;
+    width: 130px !important;
   }
 
   .card-full-view-parent-img-r {
@@ -1043,5 +1056,10 @@ body {
     position: relative !important;
     border-radius: 10px;
   }
+
+  .breadcrumb-text-r{
+    margin: 0px 5px !important;
+    font-size: 12px !important;
+  }  
 
 }

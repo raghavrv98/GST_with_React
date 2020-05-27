@@ -138,8 +138,6 @@ export class UserDetails extends React.Component {
   }
 
   modalCloseHandler = () => {
-    var output = document.getElementById('output');
-    output.src = "";
     this.setState({
       isResetModal: false,
       showHideClassName: 'modal display-none container',
@@ -258,7 +256,7 @@ export class UserDetails extends React.Component {
                 type="file"
                 required />
 
-              <div><button type="button" className="button-base-r width-50-r">
+              <div><button type="button" className="button-base-r width-80-r">
                 <label className="cursor-pointer-r margin-0-r" htmlFor="daily">Browse</label>
               </button></div>
             </div>
@@ -295,7 +293,7 @@ export class UserDetails extends React.Component {
               </div>
 
               <div className="modal-body,input-group input-group-lg">
-                <div className="reset-form-padding-r">
+                <div className="margin-20-r">
                   <form onSubmit={this.reportUploadHandler}>
                     <div>
                       <img src={this.state.browseReport.length > 0 ? this.state.browseReport[0] : ""} className="upload-modal-r" />

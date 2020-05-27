@@ -143,7 +143,7 @@ export class LoginPage extends React.Component {
           <div className="loginLayout-r">
             <div className="container outer-box-r">
 
-              {/* <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 vertical-align-title-r">
+              <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 vertical-align-title-r">
                 <p className="title-r">GST</p>
                 <p className="sub-heading-r">"Your Own GST Software"</p>
                 <div className="text-align-center-r">
@@ -155,7 +155,7 @@ export class LoginPage extends React.Component {
                     Get in touch
                   </button>
                 </div>
-              </div> */}
+              </div>
 
               <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 vertical-align-login-r">
                 <div className="login-box">
@@ -189,7 +189,6 @@ export class LoginPage extends React.Component {
                                 id="emailId"
                                 className="form-control reset-input-box-r"
                                 placeholder="Enter your email-Id"
-                                autoFocus
                                 required
                               />
                               <span>
@@ -224,7 +223,6 @@ export class LoginPage extends React.Component {
                                   id="emailId"
                                   className="form-control reset-input-box-r"
                                   placeholder="Enter your Email-Id"
-                                  autoFocus
                                   required
                                 />
                                 <input
@@ -234,7 +232,6 @@ export class LoginPage extends React.Component {
                                   id="password"
                                   className="form-control reset-input-box-r"
                                   placeholder="Enter your password"
-                                  autoFocus
                                   required
                                 />
                                 <span>

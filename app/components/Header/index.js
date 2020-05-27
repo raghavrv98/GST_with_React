@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import MessageModal from '../../components/MessageModal/Loadable'
 import axios from 'axios';
+import history from "./../../utils/history";
 /* eslint-disable react/prefer-stateless-function */
 class Header extends React.Component {
   state = {
@@ -32,6 +33,11 @@ class Header extends React.Component {
     );
   }
 
+  componentWillMount() {
+    if (!localStorage.getItem('role')) {
+      history.push("/login")
+    }
+  }
   resetPassword = () => {
     event.preventDefault();
     this.setState({
@@ -132,48 +138,53 @@ class Header extends React.Component {
                 GST
               </NavLink>
             </div>
-            {localStorage.getItem('role') === "admin" ?
-              <div className="text-align-center-r">
-                <NavLink
-                  className="navbar-brand welcome-name-r"
-                  exact
-                  to="#"
-                >
-                  Welcome {localStorage.getItem('name')}
-                </NavLink>
-              </div>
-              :
-              localStorage.getItem('role') === "accountant" ?
-                <div className="text-align-center-r">
-                  <NavLink
-                    className="navbar-brand welcome-name-r"
-                    exact
-                    to="#"
-                  >
-                    Welcome {localStorage.getItem('firstName') + " " + localStorage.getItem('middleName') + " " + localStorage.getItem('lastName')}
-                  </NavLink>
-                </div>
-                :
-                localStorage.getItem('role') === "user" ?
-                  <div className="text-align-center-r">
-                    <NavLink
-                      className="navbar-brand welcome-name-r"
-                      exact
-                      to="#"
-                    >
-                      Welcome {localStorage.getItem('legalName')}
-                    </NavLink>
-                  </div> : null}
-
             {localStorage.getItem('role') ?
               <div
                 className="collapse navbar-collapse"
                 id="bs-example-navbar-collapse-1"
               >
+
                 <ul className="nav navbar-nav navbar-right">
                   {localStorage.getItem('role') === "admin" ?
-                    <NavLink
-                      className="navbar-brand text-color-r"
+                    <li><NavLink
+                      className="navbar-brand welcome-name-r nav-css-r"
+                      exact
+                      to="/login"
+                      // data-toggle="collapse"
+                      data-target="#bs-example-navbar-collapse-1"
+                    >
+                      Welcome {localStorage.getItem('name')}
+                    </NavLink>
+                    </li>
+                    : null}
+
+                  {localStorage.getItem('role') === "accountant" ?
+                    <li><NavLink
+                      className="navbar-brand welcome-name-r nav-css-r"
+                      exact
+                      to="#"
+                    >
+                      Welcome {localStorage.getItem('firstName') + " " + localStorage.getItem('middleName') + " " + localStorage.getItem('lastName')}
+                    </NavLink>
+                    </li>
+                    : null}
+
+                  {localStorage.getItem('role') === "user" ?
+                    <li>
+                      <NavLink
+                        className="navbar-brand welcome-name-r nav-css-r"
+                        exact
+                        to="#"
+                      >
+                        Welcome {localStorage.getItem('legalName')}
+                      </NavLink>
+                    </li>
+                    : null}
+
+                  {localStorage.getItem('role') === "admin" ?
+                   <li>
+                   <NavLink
+                      className="navbar-brand  text-color-r nav-css-r"
                       exact
                       to="/manageAccountant"
                       // data-toggle="collapse"
@@ -181,64 +192,78 @@ class Header extends React.Component {
                     >
                       Manage Accountant
                   </NavLink>
+                  </li>
                     : null
                   }
-                  <NavLink
-                    className="navbar-brand text-color-r"
-                    onClick={this.resetPasswordHandler}
-                    exact
-                    to="#"
-                    // data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1"
-                  >
-                    Reset Password
-                  </NavLink>
 
-                  <NavLink
-                    className="navbar-brand text-color-r"
-                    onClick={this.userLogout}
-                    exact
-                    to="/"
-                    // data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1"
-                  >
-                    Logout
+                  <li>
+                    <NavLink
+                      className="navbar-brand text-color-r nav-css-r"
+                      onClick={this.resetPasswordHandler}
+                      exact
+                      to="#"
+                      // data-toggle="collapse"
+                      data-target="#bs-example-navbar-collapse-1"
+                    >
+                      Reset Password
                   </NavLink>
+                  </li>
+
+
+                  <li>
+                    <NavLink
+                      className="navbar-brand text-color-r nav-css-r"
+                      onClick={this.userLogout}
+                      exact
+                      to="/login"
+                      // data-toggle="collapse"
+                      data-target="#bs-example-navbar-collapse-1"
+                    >
+                      Logout
+                  </NavLink>
+                  </li>
+
                 </ul>
               </div>
+
               :
               <div
                 className="collapse navbar-collapse"
                 id="bs-example-navbar-collapse-1"
               >
                 <ul className="nav navbar-nav navbar-right">
-                  <NavLink
-                    className="navbar-brand text-color-r"
+                  <li><NavLink
+                    className="navbar-brand text-color-r nav-css-r"
                     exact
-                    to="/"
+                    to="/login"
                     // data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1"
                   >
                     Home
                   </NavLink>
-                  <NavLink
-                    className="navbar-brand text-color-r"
-                    exact
-                    to="/aboutUs"
-                    // data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1"
-                  >
-                    AboutUs
+                  </li>
+                  <li>
+                    <NavLink
+                      className="navbar-brand text-color-r nav-css-r"
+                      exact
+                      to="/aboutUs"
+                      // data-toggle="collapse"
+                      data-target="#bs-example-navbar-collapse-1"
+                    >
+                      AboutUs
                   </NavLink>
-                  <NavLink
-                    className="navbar-brand text-color-r"
-                    exact
-                    to="/contact"
-                    // data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1"
-                  >
-                    ContactUs
+                  </li>
+                  <li>
+                    <NavLink
+                      className="navbar-brand text-color-r nav-css-r"
+                      exact
+                      to="/contact"
+                      // data-toggle="collapse"
+                      data-target="#bs-example-navbar-collapse-1"
+                    >
+                      ContactUs
                   </NavLink>
+                  </li>
                 </ul>
               </div>
             }
@@ -264,8 +289,8 @@ class Header extends React.Component {
                 </button>
               </div>
 
-              <div className="modal-body,input-group input-group-lg">
-                <div className="reset-form-padding-r">
+              <div className="modal-body,input-group input-group-lg padding-20-r">
+                <div>
                   <form onSubmit={this.resetPassword}>
                     <input
                       type="text"
