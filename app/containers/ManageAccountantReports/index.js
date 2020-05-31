@@ -53,7 +53,7 @@ export class ManageAccountantReports extends React.Component {
 
   getUserReports = (userId, month, year, report, date) => {
     if (report === "daily") {
-      axios.get(`http://localhost:3000/dailyReports/${userId}/${month}/${year}/${date}`)
+      axios.get(`https://gst-service-uat.herokuapp.com/dailyReports/${userId}/${month}/${year}/${date}`)
         .then((res) => {
           const userReports = res.data.data;
           this.setState({ userReports, isFetching: false });
@@ -64,7 +64,7 @@ export class ManageAccountantReports extends React.Component {
         });
     }
     else {
-      axios.get(`http://localhost:3000/gstReports/${userId}/${month}/${year}`)
+      axios.get(`https://gst-service-uat.herokuapp.com/gstReports/${userId}/${month}/${year}`)
         .then((res) => {
           const userReports = res.data.data;
           this.setState({ userReports, isFetching: false });
@@ -80,7 +80,7 @@ export class ManageAccountantReports extends React.Component {
     let id = event.target.id
     let userId = this.props.match.params.id
     let report = this.props.match.params.report
-    axios.put(`http://localhost:3000/resendReport/${userId}/${id}/${report}`)
+    axios.put(`https://gst-service-uat.herokuapp.com/resendReport/${userId}/${id}/${report}`)
       .then((res) => {
         const message = res.data.message;
         this.setState({
@@ -160,7 +160,7 @@ export class ManageAccountantReports extends React.Component {
                         <span className="resend-report-icon-r">
                           <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
                         </span>
-                        <img className="card-img-r" src={"http://localhost:3000/gst-reports/" + val.img} />
+                        <img className="card-img-r" src={"https://gst-service-uat.herokuapp.com/gst-reports/" + val.img} />
                         <p className="card-sub-heading-r">Created At: {moment(val.timestamp).format("DD MMM YYYY")}</p>
                         <p className="card-text-r">{val.comment}</p>
                       </div>
@@ -181,7 +181,7 @@ export class ManageAccountantReports extends React.Component {
                         <span className="resend-report-icon-r">
                           <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
                         </span>
-                        <img className="card-img-r" src={"http://localhost:3000/daily-reports/" + val.img} />
+                        <img className="card-img-r" src={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} />
                         <p className="card-sub-heading-r">Created At: {moment(val.timestamp).format("DD MMM YYYY")}</p>
                         <p className="card-text-r">{val.comment}</p>
                       </div>

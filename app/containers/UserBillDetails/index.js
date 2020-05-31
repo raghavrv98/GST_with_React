@@ -57,7 +57,7 @@ export class UserBillDetails extends React.Component {
 
   getBill = (id, month, year, bill, date) => {
     if (bill === "purchase") {
-      axios.get(`http://localhost:3000/purchase/${id}/${month}/${year}/${date}`)
+      axios.get(`https://gst-service-uat.herokuapp.com/purchase/${id}/${month}/${year}/${date}`)
         .then((res) => {
           const getBill = res.data.data;
           this.setState({ getBill, isLoading: false });
@@ -68,7 +68,7 @@ export class UserBillDetails extends React.Component {
         });
     }
     else if (bill === "sale") {
-      axios.get(`http://localhost:3000/sale/${id}/${month}/${year}/${date}`)
+      axios.get(`https://gst-service-uat.herokuapp.com/sale/${id}/${month}/${year}/${date}`)
         .then((res) => {
           const getBill = res.data.data;
           this.setState({ getBill, isLoading: false });
@@ -79,7 +79,7 @@ export class UserBillDetails extends React.Component {
         });
     }
     else {
-      axios.get(`http://localhost:3000/other/${id}/${month}/${year}/${date}`)
+      axios.get(`https://gst-service-uat.herokuapp.com/other/${id}/${month}/${year}/${date}`)
         .then((res) => {
           const getBill = res.data.data;
           this.setState({ getBill, isLoading: false });
@@ -92,7 +92,7 @@ export class UserBillDetails extends React.Component {
   };
 
   statusUpdate = (id, status) => {
-    axios.put(`http://localhost:3000/changeBillStatus/${this.props.match.params.id}/${id}/${this.props.match.params.bill}`, { 'status': status })
+    axios.put(`https://gst-service-uat.herokuapp.com/changeBillStatus/${this.props.match.params.id}/${id}/${this.props.match.params.bill}`, { 'status': status })
       .then((res) => {
         const message = res.data.message;
         this.setState({
@@ -140,7 +140,7 @@ export class UserBillDetails extends React.Component {
         }
       }
 
-      axios.put(`http://localhost:3000/transferBill/${this.props.match.params.id}/${id}`, payload)
+      axios.put(`https://gst-service-uat.herokuapp.com/transferBill/${this.props.match.params.id}/${id}`, payload)
         .then((res) => {
           const message = res.data.message;
           this.setState({
@@ -237,7 +237,7 @@ export class UserBillDetails extends React.Component {
 
                 <div className="modal-body,input-group input-group-lg">
                   <div className="full-view-form-padding-r">
-                    <img className="card-full-view-parent-img-r" src={"http://localhost:3000/bills/" + this.state.imgName} />
+                    <img className="card-full-view-parent-img-r" src={"https://gst-service-uat.herokuapp.com/bills/" + this.state.imgName} />
                   </div>
                 </div>
               </div>
@@ -266,7 +266,7 @@ export class UserBillDetails extends React.Component {
                           <input className="card-status-button-r" onChange={this.statusBoxHandler} checked={val.completeStatus} id={val._id} type="checkbox" />
                           <form>
                             <div>
-                              <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={"http://localhost:3000/bills/" + val.img} />
+                              <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={"https://gst-service-uat.herokuapp.com/bills/" + val.img} />
                               {val.completeStatus ? <img onClick={this.fullviewModal} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
                               <div className="dropdown">
                                 <button type="button" className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
@@ -306,7 +306,7 @@ export class UserBillDetails extends React.Component {
                             <input className="card-status-button-r" onChange={this.statusBoxHandler} checked={val.completeStatus} id={val._id} type="checkbox" />
                             <form>
                               <div>
-                                <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={"http://localhost:3000/bills/" + val.img} />
+                                <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={"https://gst-service-uat.herokuapp.com/bills/" + val.img} />
                                 {val.completeStatus ? <img onClick={this.fullviewModal} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
                                 <div className="dropdown">
                                   <button type="button" className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
@@ -348,7 +348,7 @@ export class UserBillDetails extends React.Component {
                             <input className="card-status-button-r" onChange={this.statusBoxHandler} checked={val.completeStatus} id={val._id} type="checkbox" />
                             <form>
                               <div>
-                                <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={"http://localhost:3000/bills/" + val.img} />
+                                <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={"https://gst-service-uat.herokuapp.com/bills/" + val.img} />
                                 {val.completeStatus ? <img onClick={this.fullviewModal} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
                                 <div className="dropdown">
                                   <button type="button" className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>

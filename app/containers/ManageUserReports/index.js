@@ -52,7 +52,7 @@ export class ManageUserReports extends React.Component {
     // let url = window.location.origin + '/';
     axios
       // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
-      .get(`http://localhost:3000/report/${id}/${month}/${year}`)
+      .get(`https://gst-service-uat.herokuapp.com/report/${id}/${month}/${year}`)
       .then((res) => {
         const getReports = res.data.data;
         this.setState({ getReports, isLoading: false });
@@ -65,7 +65,7 @@ export class ManageUserReports extends React.Component {
 
   deleteReports = (id, deleteId, deleteType) => {
     if (deleteType === "faulty") {
-      axios.delete(`http://localhost:3000/bill/${id}/${deleteId}/${deleteType}`)
+      axios.delete(`https://gst-service-uat.herokuapp.com/bill/${id}/${deleteId}/${deleteType}`)
         .then((res) => {
           const deletedMessage = res.data.message;
           this.setState({
@@ -81,7 +81,7 @@ export class ManageUserReports extends React.Component {
         });
     }
     else {
-      axios.delete(`http://localhost:3000/report/${id}/${deleteId}/${deleteType}`)
+      axios.delete(`https://gst-service-uat.herokuapp.com/report/${id}/${deleteId}/${deleteType}`)
         .then((res) => {
           const deletedMessage = res.data.message;
           this.setState({
@@ -181,9 +181,9 @@ export class ManageUserReports extends React.Component {
                         <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                       </span>
                       <span className="download-report-icon-r">
-                        <a target="_blank" download href={"http://localhost:3000/daily-reports/" + val.img} className="fa fa-download"></a>
+                        <a target="_blank" download href={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} className="fa fa-download"></a>
                       </span>
-                      <img className="selected-report-image-r" src={"http://localhost:3000/daily-reports/" + val.img} />
+                      <img className="selected-report-image-r" src={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} />
                       <p className="card-selected-sub-heading-r">{val.originalName}</p>
                       <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                       <p className="card-text-r">{val.comment}</p>
@@ -203,11 +203,11 @@ export class ManageUserReports extends React.Component {
                         <button name="gst" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                       </span>
                       <span className="download-report-icon-r">
-                        <a href={"http://localhost:3000/daily-reports/" + val.img} className="fa fa-download"></a>
+                        <a href={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} className="fa fa-download"></a>
                       </span>
                       {/* <img className="selected-report-image-r" src={require('../../assets/img/aboutUs1.jpg')} />
                     <p className="card-selected-sub-heading-r">{val.img}</p> */}
-                      <img className="selected-report-image-r" src={"http://localhost:3000/gst-reports/" + val.img} />
+                      <img className="selected-report-image-r" src={"https://gst-service-uat.herokuapp.com/gst-reports/" + val.img} />
                       <p className="card-selected-sub-heading-r">{val.originalName}</p>
                       <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                       <p className="card-text-r">{val.comment}</p>
@@ -227,9 +227,9 @@ export class ManageUserReports extends React.Component {
                         <button name="faulty" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                       </span>
                       <span className="download-report-icon-r">
-                        <a href={"http://localhost:3000/daily-reports/" + val.img} className="fa fa-download"></a>
+                        <a href={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} className="fa fa-download"></a>
                       </span>
-                      <img className="selected-report-image-r" src={"http://localhost:3000/bills/" + val.img} />
+                      <img className="selected-report-image-r" src={"https://gst-service-uat.herokuapp.com/bills/" + val.img} />
                       <p className="card-selected-sub-heading-r">{val.originalName}</p>
                       <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                       <p className="card-text-r">{val.comment}</p>

@@ -53,7 +53,7 @@ export class ManageUser extends React.Component {
   }
 
   getUser = (accountantId, month, year, userType) => {
-    axios.get(`http://localhost:3000/users/${accountantId}/${month}/${year}/${userType}`)
+    axios.get(`https://gst-service-uat.herokuapp.com/users/${accountantId}/${month}/${year}/${userType}`)
       .then((res) => {
         const users = res.data.data;
         this.setState({ users, isFetching: false });
@@ -65,7 +65,7 @@ export class ManageUser extends React.Component {
   };
 
   statusUpdate = (id, status) => {
-    axios.put(`http://localhost:3000/changeStatus/${id}`, { 'status': status, 'year': this.state.year, 'month': this.state.month })
+    axios.put(`https://gst-service-uat.herokuapp.com/changeStatus/${id}`, { 'status': status, 'year': this.state.year, 'month': this.state.month })
       .then((res) => {
         const message = res.data.message;
         this.setState({
@@ -177,7 +177,7 @@ export class ManageUser extends React.Component {
             // Pending
             // </div>
             <div>
-              <input id={row.original._id} onChange={this.statusChangeHandler} disabled={this.state.userType === "all" || this.state.userType === "active" || this.state.userType === "inActive" } checked={row.original.status} className="status-button-r" type="checkbox" />
+              <input id={row.original._id} onChange={this.statusChangeHandler} disabled={this.state.userType === "all" || this.state.userType === "active" || this.state.userType === "inActive"} checked={row.original.status} className="status-button-r" type="checkbox" />
             </div>
           )
       },

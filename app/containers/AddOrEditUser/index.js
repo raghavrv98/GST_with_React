@@ -67,7 +67,7 @@ export class AddOrEditUser extends React.Component {
   }
 
   getUserById = (id) => {
-    axios.get(`http://localhost:3000/userDetails/${id}`)
+    axios.get(`https://gst-service-uat.herokuapp.com/userDetails/${id}`)
       .then((res) => {
         const payload = res.data.data;
         this.setState({ payload, isLoading: false });
@@ -81,7 +81,7 @@ export class AddOrEditUser extends React.Component {
   postUser = (payload) => {
     let accountantId = localStorage.getItem('userId')
     if (this.props.match.params.id) {
-      axios.put(`http://localhost:3000/updateUserDetails/${this.props.match.params.id}`, payload)
+      axios.put(`https://gst-service-uat.herokuapp.com/updateUserDetails/${this.props.match.params.id}`, payload)
         .then((res) => {
           const message = res.data.message;
           this.setState({
@@ -96,7 +96,7 @@ export class AddOrEditUser extends React.Component {
         });
     }
     else {
-      axios.post(`http://localhost:3000/newUser/${accountantId}`, payload)
+      axios.post(`https://gst-service-uat.herokuapp.com/newUser/${accountantId}`, payload)
         .then((res) => {
           const message = res.data.message;
           this.setState({

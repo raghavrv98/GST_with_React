@@ -48,7 +48,7 @@ class Header extends React.Component {
     payload._id = localStorage.getItem('userId'),
       payload.emailId = localStorage.getItem('emailId'),
 
-      axios.post(`http://localhost:3000/changePassword`, payload)
+      axios.post(`https://gst-service-uat.herokuapp.com/changePassword`, payload)
         .then((res) => {
           const message = res.data.message;
           this.setState({
@@ -182,17 +182,17 @@ class Header extends React.Component {
                     : null}
 
                   {localStorage.getItem('role') === "admin" ?
-                   <li>
-                   <NavLink
-                      className="navbar-brand  text-color-r nav-css-r"
-                      exact
-                      to="/manageAccountant"
-                      // data-toggle="collapse"
-                      data-target="#bs-example-navbar-collapse-1"
-                    >
-                      Manage Accountant
+                    <li>
+                      <NavLink
+                        className="navbar-brand  text-color-r nav-css-r"
+                        exact
+                        to="/manageAccountant"
+                        // data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1"
+                      >
+                        Manage Accountant
                   </NavLink>
-                  </li>
+                    </li>
                     : null
                   }
 
