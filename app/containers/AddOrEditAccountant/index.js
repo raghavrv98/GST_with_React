@@ -43,7 +43,9 @@ export class AddOrEditAccountant extends React.Component {
       qualification: "",
       password: "",
     },
-    passwordCheck: false
+    passwordCheck: false,
+    password : true,
+    confirmPassword : true
   }
   errorCheck(error) {
     let errorMes = '';
@@ -146,6 +148,25 @@ export class AddOrEditAccountant extends React.Component {
     })
   }
 
+  showHidePassword = (event) => {
+    let id = event.target.id
+    let gstnPassword = this.state.gstnPassword
+    let password = this.state.password
+    let confirmPassword = this.state.confirmPassword
+    if ( id === "gstnPassword0"){
+      gstnPassword = !gstnPassword
+    }
+    else if(id === "password0"){
+      password = !password
+    }
+    else if(id === "confirmPassword0"){
+      confirmPassword = !confirmPassword
+    }
+    this.setState({
+      gstnPassword, password, confirmPassword
+    })
+  }
+
 
   render() {
     return (
@@ -184,7 +205,6 @@ export class AddOrEditAccountant extends React.Component {
                     value={this.state.payload.firstName}
                     onChange={this.nameChangeHandler}
                     id="firstName"
-                    required
                   />
                 </div>
                 <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
@@ -195,10 +215,10 @@ export class AddOrEditAccountant extends React.Component {
                     value={this.state.payload.middleName}
                     onChange={this.nameChangeHandler}
                     id="middleName"
-                    required
                   />
                 </div>
                 <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="text"
                     className="form-control inputBox-r"
@@ -210,16 +230,18 @@ export class AddOrEditAccountant extends React.Component {
                   />
                 </div>
                 <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="date"
                     className="form-control inputBox-r"
-                    placeholder="Date Of Birth"
+                    placeholder="Date Of Birth :" id="date"
                     value={this.state.payload.dateOfBirth}
                     onChange={this.nameChangeHandler}
                     id="dateOfBirth"
                     required />
                 </div>
                 <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="text"
                     className="form-control inputBox-r"
@@ -231,6 +253,7 @@ export class AddOrEditAccountant extends React.Component {
                   />
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="text"
                     className="form-control inputBox-r"
@@ -242,6 +265,7 @@ export class AddOrEditAccountant extends React.Component {
                   />
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="text"
                     className="form-control inputBox-r"
@@ -253,6 +277,7 @@ export class AddOrEditAccountant extends React.Component {
                   />
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="text"
                     className="form-control inputBox-r"
@@ -264,6 +289,7 @@ export class AddOrEditAccountant extends React.Component {
                   />
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="text"
                     className="form-control inputBox-r"
@@ -275,6 +301,7 @@ export class AddOrEditAccountant extends React.Component {
                   />
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="tel"
                     className="form-control inputBox-r"
@@ -296,10 +323,11 @@ export class AddOrEditAccountant extends React.Component {
                     id="secondaryMobileNumber"
                     pattern="[1-9]{1}[0-9]{9}"
                     title="Enter 10 digit mobile number"
-                    required />
+                  />
                 </div>
 
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="email"
                     className="form-control inputBox-r"
@@ -310,10 +338,13 @@ export class AddOrEditAccountant extends React.Component {
                     required />
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="text"
                     className="form-control inputBox-r"
                     placeholder="PAN Number"
+                    pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                    title="Please Enter PAN in corrected format"
                     value={this.state.payload.panNumber}
                     onChange={this.nameChangeHandler}
                     id="panNumber"
@@ -321,6 +352,7 @@ export class AddOrEditAccountant extends React.Component {
                 </div>
 
                 <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <p className="required-check-mark-r">*</p>
                   <select
                     className="custom-select year-month-border-r inputBox-r"
                     value={this.state.payload.qualification}
@@ -338,8 +370,9 @@ export class AddOrEditAccountant extends React.Component {
                   null :
                   <React.Fragment>
                     <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <p className="required-check-mark-r">*</p>
                       <input
-                        type="password"
+                        type={this.state.password ? "password" : "text"}
                         className="form-control inputBox-r"
                         placeholder="Password"
                         value={this.state.payload.password}
@@ -347,10 +380,12 @@ export class AddOrEditAccountant extends React.Component {
                         id="password"
                         required
                       />
+                      <button type="button" id="password0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.password ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
                     </div>
                     <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <p className="required-check-mark-r">*</p>
                       <input
-                        type="password"
+                        type={this.state.confirmPassword ? "password" : "text"}
                         className={this.state.passwordCheck ? "form-control inputBox-r alert-box-r" : "form-control inputBox-r"}
                         placeholder="Confirm Password"
                         value={this.state.payload.confirmPassword}
@@ -358,6 +393,7 @@ export class AddOrEditAccountant extends React.Component {
                         id="confirmPassword"
                         required
                       />
+                      <button type="button" id="confirmPassword0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.confirmPassword ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
                       {this.state.passwordCheck ? <p className="error-msg-r">Password and confirm password mismatch.</p> : null}
                     </div>
                   </React.Fragment>

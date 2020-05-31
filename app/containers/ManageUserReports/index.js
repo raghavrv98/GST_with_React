@@ -223,9 +223,9 @@ export class ManageUserReports extends React.Component {
                 {this.state.getReports.faultyBills && this.state.getReports.faultyBills.map((val, index) =>
                   <React.Fragment key={index}>
                     <div className="card-report-r">
-                      <span className="delete-report-icon-r">
+                      {/* <span className="delete-report-icon-r">
                         <button name="faulty" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                      </span>
+                      </span> */}
                       <span className="download-report-icon-r">
                         <a href={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} className="fa fa-download"></a>
                       </span>

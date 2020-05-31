@@ -28,7 +28,6 @@ import MessageModal from '../../components/MessageModal/Loadable'
 export class ManageAccountant extends React.Component {
 
   state = {
-    isFetching: false,
     showHideClassName: 'modal display-none container',
     month: 1,
     year: 2020,
@@ -303,7 +302,7 @@ export class ManageAccountant extends React.Component {
               <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                 <select id="year" onChange={this.nameChangeHandler} value={this.state.year} className="year-month-border-r"
                   name="lectureId">
-                  <option value="">Select Year</option>
+                  <option disabled={true} value="0">Select Year</option>
                   <option value="2020">2020-2021</option>
                   <option value="2019">2019-2020</option>
                   <option value="2018">2018-2019</option>
@@ -313,7 +312,7 @@ export class ManageAccountant extends React.Component {
               <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                 <select id="month" onChange={this.nameChangeHandler} value={this.state.month} className="year-month-border-r"
                   name="lectureId">
-                  <option value="">Select Month</option>
+                  <option disabled={true} value="0">Select Month</option>
                   <option value="1">January</option>
                   <option value="2">February</option>
                   <option value="3">March</option>
@@ -331,7 +330,7 @@ export class ManageAccountant extends React.Component {
               <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                 <select disabled={true} id="accountantType" onChange={this.nameChangeHandler} value={this.state.accountantType} className="year-month-border-r"
                   name="lectureId">
-                  <option value="">Select accountant</option>
+                  <option disabled={true} value="0">Select accountant</option>
                   <option value="all">All accountants</option>
                   <option value="withData">accountant with Data</option>
                   <option value="withoutData">accountant without Data</option>

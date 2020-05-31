@@ -40,7 +40,8 @@ export class UserDetails extends React.Component {
     month: this.props.match.params.month,
     year: this.props.match.params.year,
     userBillSummary: {},
-    reactTableData: []
+    reactTableData: [],
+    isLoading: true
   }
 
   errorCheck(error) {
@@ -76,7 +77,7 @@ export class UserDetails extends React.Component {
           }
         })
         reactTableData = reactTableData[0] == undefined ? [] : reactTableData
-        this.setState({ userBillSummary, reactTableData, isFetching: false });
+        this.setState({ userBillSummary, reactTableData, isFetching: false, isLoading: false });
       })
       .catch((error) => {
         console.log('error: ', error);
@@ -91,10 +92,10 @@ export class UserDetails extends React.Component {
           const message = res.data.message;
           this.setState({
             message,
-            isFetching: false,
             type: "success",
             isOpenClassName: 'modal display-block container',
-            reportType: ""
+            reportType: "",
+            comment: ""
           }, () => setTimeout(this.modalTime, 1500))
         })
         .catch((error) => {
@@ -111,7 +112,8 @@ export class UserDetails extends React.Component {
             isFetching: false,
             type: "success",
             isOpenClassName: 'modal display-block container',
-            reportType: ""
+            reportType: "",
+            comment: ""
           }, () => setTimeout(this.modalTime, 1500))
         })
         .catch((error) => {
@@ -141,6 +143,7 @@ export class UserDetails extends React.Component {
     this.setState({
       isResetModal: false,
       showHideClassName: 'modal display-none container',
+      comment: ""
     })
   }
 
@@ -170,7 +173,6 @@ export class UserDetails extends React.Component {
       browseReport: [],
       report: [],
       showHideClassName: 'modal display-none container',
-      isFetching: true
     }, () => this.postReport(this.props.match.params.id, formData))
   }
 
@@ -310,91 +312,94 @@ export class UserDetails extends React.Component {
             </div>
           </div>
         </div>
-
-        <div className="container outer-box-r">
-          <div>
-            <ul className="breadCrumb-bg-r">
-              <li onClick={() => this.props.history.push('/manageUser')} className="breadCrumb-li-child-1-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
-              <li className="breadCrumb-li-child-r"><i className="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >User Details</span></li>
-            </ul>
-          </div>
-          <div className="container margin-10-r">
-            <div className="row">
-              <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
-                  <p className="main-title-r">{this.state.userBillSummary && this.state.userBillSummary.legalName + " Details"}</p>
-                </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
-                  <p className="sub-title-r">({this.state.userBillSummary && this.state.userBillSummary.mobileNumber})</p>
+        {this.state.isLoading ?
+          <div className="lds-facebook"><div></div><div></div><div></div><span className="loading-text-r">Loading... </span></div>
+          :
+          <div className="container outer-box-r">
+            <div>
+              <ul className="breadCrumb-bg-r">
+                <li onClick={() => this.props.history.push('/manageUser')} className="breadCrumb-li-child-1-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
+                <li className="breadCrumb-li-child-r"><i className="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >User Details</span></li>
+              </ul>
+            </div>
+            <div className="container margin-10-r">
+              <div className="row">
+                <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
+                    <p className="main-title-r">{this.state.userBillSummary && this.state.userBillSummary.legalName + " Details"}</p>
+                  </div>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
+                    <p className="sub-title-r">({this.state.userBillSummary && this.state.userBillSummary.mobileNumber})</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="container filter-year-month-r">
-            <div className="row">
-              <div className="col-xs-12 col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <select id="year" value={this.state.year} onChange={this.nameChangeHandler} className="year-month-border-r" name="lectureId">
-                    <option value="">Select Year</option>
-                    <option value="2020">2020-2021</option>
-                    <option value="2019">2019-2020</option>
-                    <option value="2018">2018-2019</option>
-                    <option value="2017">2017-2018</option>
-                  </select>
+            <div className="container filter-year-month-r">
+              <div className="row">
+                <div className="col-xs-12 col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+                  <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <select id="year" value={this.state.year} onChange={this.nameChangeHandler} className="year-month-border-r" name="lectureId">
+                      <option disabled={true} value="0">Select Year</option>
+                      <option value="2020">2020-2021</option>
+                      <option value="2019">2019-2020</option>
+                      <option value="2018">2018-2019</option>
+                      <option value="2017">2017-2018</option>
+                    </select>
+                  </div>
+                  <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <select id="month" value={this.state.month} onChange={this.nameChangeHandler} className="year-month-border-r" name="lectureId">
+                      <option disabled={true} value="">Select Month</option>
+                      <option value="1">January</option>
+                      <option value="2">February</option>
+                      <option value="3">March</option>
+                      <option value="4">April</option>
+                      <option value="5">May</option>
+                      <option value="6">June</option>
+                      <option value="7">July</option>
+                      <option value="8">August</option>
+                      <option value="9">September</option>
+                      <option value="10">October</option>
+                      <option value="11">November</option>
+                      <option value="12">December</option>
+                    </select>
+                  </div>
                 </div>
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <select id="month" value={this.state.month} onChange={this.nameChangeHandler} className="year-month-border-r" name="lectureId">
-                    <option value="">Select Month</option>
-                    <option value="1">January</option>
-                    <option value="2">February</option>
-                    <option value="3">March</option>
-                    <option value="4">April</option>
-                    <option value="5">May</option>
-                    <option value="6">June</option>
-                    <option value="7">July</option>
-                    <option value="8">August</option>
-                    <option value="9">September</option>
-                    <option value="10">October</option>
-                    <option value="11">November</option>
-                    <option value="12">December</option>
-                  </select>
+                <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 button-margin-top">
+                  <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <button type="button" onClick={() => { this.props.history.push(`/userDetails/${this.props.match.params.id}/manageAccountantReports/gst/${this.state.month}/${this.state.year}`) }} className="button-base-r">view GST Reports</button>
+                  </div>
+                  <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <input style={{ display: "none" }} accept="image/*" onChange={this.loadFile} id="gst"
+                      type="file" required />
+                    <div><button type="button" className="button-base-r">
+                      <label className="cursor-pointer-r margin-0-r font-11-r" htmlFor="gst">Upload GST Report</label>
+                    </button></div>
+                  </div>
                 </div>
-              </div>
-              <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 button-margin-top">
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <button type="button" onClick={() => { this.props.history.push(`/userDetails/${this.props.match.params.id}/manageAccountantReports/gst/${this.state.month}/${this.state.year}`) }} className="button-base-r">view GST Reports</button>
-                </div>
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <input style={{ display: "none" }} accept="image/*" onChange={this.loadFile} id="gst"
-                    type="file" required />
-                  <div><button type="button" className="button-base-r">
-                    <label className="cursor-pointer-r margin-0-r font-11-r" htmlFor="gst">Upload GST Report</label>
-                  </button></div>
-                </div>
-              </div>
 
+              </div>
+            </div>
+
+            <div className="container">
+              <div className="customReactTableBox">
+                <ReactTable
+                  className="customReactTable"
+                  data={this.state.reactTableData}
+                  columns={columns}
+                  defaultPageSize={5}
+                  noDataText={
+                    this.state.isFetching ? "" : "There is no data to display."
+                  }
+                  loading={this.state.isFetching}
+                  loadingText={"Loading ..."}
+                  PreviousComponent={(props) => <button type="button"{...props}><i className="fas fa-angle-left"></i></button>}
+                  NextComponent={(props) => <button type="button" {...props}><i className="fas fa-angle-right"></i></button>}
+                />
+              </div>
             </div>
           </div>
-
-          <div className="container">
-            <div className="customReactTableBox">
-              <ReactTable
-                className="customReactTable"
-                data={this.state.reactTableData}
-                columns={columns}
-                defaultPageSize={5}
-                noDataText={
-                  this.state.isFetching ? "" : "There is no data to display."
-                }
-                loading={this.state.isFetching}
-                loadingText={"Loading ..."}
-                PreviousComponent={(props) => <button type="button"{...props}><i className="fas fa-angle-left"></i></button>}
-                NextComponent={(props) => <button type="button" {...props}><i className="fas fa-angle-right"></i></button>}
-              />
-            </div>
-          </div>
-        </div>
+        }
       </div>
     );
   }

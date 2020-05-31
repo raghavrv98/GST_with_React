@@ -132,6 +132,11 @@ body {
   margin-bottom: 15px;
 }
 
+.forgot-input-box-r {
+  color: #255b7a !important;
+  border-color: #f06d46 !important;
+}
+
 .padding-20-r{
   padding: 20px 50px;
 }
@@ -539,7 +544,7 @@ body {
   margin: 0px;
   font-size: 20px;
   padding: 10px 0px;
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 .subHeading-1-r {
@@ -593,7 +598,7 @@ body {
 .view-reports-r {
   color: #255b7a;
   font-size: 18px;
-  text-decoration: underline #255b7a;
+  /* text-decoration: underline #255b7a; */
   margin: 0px !important;
   cursor: pointer;
   display: inline-block;
@@ -604,8 +609,8 @@ body {
   text-align: center;
   font-size: 25px;
   color: #255b7a;
-  text-decoration: underline !important;
-  text-underline-position: under !important;
+  /* text-decoration: underline !important;
+  text-underline-position: under !important; */
 }
 
 .main-title-r {
@@ -813,8 +818,9 @@ body {
 
 .error-msg-r{
   color: red !important;
-  margin: 5px 0px 0px !important;
-  font-size: 12px !important;
+  margin: 5px 0px 15px !important;
+  font-size: 14px !important;
+  text-align: left;
 }
 
 .lds-roller {
@@ -822,8 +828,9 @@ body {
   position: absolute;
   width: 80px;
   height: 80px;
-  top: 40%;
-  left: 45%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .lds-roller div {
   animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
@@ -926,6 +933,40 @@ body {
   margin: 20px !important;
 }
 
+.button-margin-top{
+  margin: 15px 0px 0px !important;
+}
+
+.required-check-mark-r{
+  margin: 5px 0px 0px -10px !important;
+  color: red;
+  font-size: 25px;
+  display: inline-block;
+  position: absolute;
+}
+
+[type="date"]:before {
+  content: attr(placeholder) !important;
+  color: #aaa;
+  margin-right: 0.5em;
+}
+input[type="date"]:focus:before,
+input[type="date"]:valid:before {
+  content: "";
+}
+
+.password-eye-open-r{
+  position: absolute;
+    margin: 30px -30px;
+    color: #255b7a;
+}
+
+.password-eye-close-r{
+  position: absolute;
+    margin: 30px -30px;
+    color: #255b7a;
+}
+
 /* -------------------------------------------------------------------------------------------------------------------- */
 
 @media screen and (min-width: 768px) {
@@ -1000,9 +1041,6 @@ body {
 /* ----------------------------------------------------------------------------------------------------------------------------------- */
 
 @media screen and (max-width: 769px) {
-.button-margin-top{
-  margin: 15px 0px 0px !important;
-}
 
 .width-40-r{
   width: 40% !important;

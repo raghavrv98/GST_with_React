@@ -32,6 +32,7 @@ export class ManageAccountantReports extends React.Component {
   state = {
     isOpenClassName: 'modal display-none container',
     userReports: [],
+    isLoading:true,
   }
 
   errorCheck(error) {
@@ -47,7 +48,7 @@ export class ManageAccountantReports extends React.Component {
     } else {
       errorMes = error.message;
     }
-    this.setState({ errorMes, isOpenClassName: 'modal display-block container', type: "failure" }, () => setTimeout(this.modalTime, 1500)
+    this.setState({ errorMes, isOpenClassName: 'modal display-block container', isLoading:false, type: "failure" }, () => setTimeout(this.modalTime, 1500)
     );
   }
 
@@ -56,7 +57,7 @@ export class ManageAccountantReports extends React.Component {
       axios.get(`https://gst-service-uat.herokuapp.com/dailyReports/${userId}/${month}/${year}/${date}`)
         .then((res) => {
           const userReports = res.data.data;
-          this.setState({ userReports, isFetching: false });
+          this.setState({ userReports, isFetching: false, isLoading:false });
         })
         .catch((error) => {
           console.log('error: ', error);
@@ -67,7 +68,7 @@ export class ManageAccountantReports extends React.Component {
       axios.get(`https://gst-service-uat.herokuapp.com/gstReports/${userId}/${month}/${year}`)
         .then((res) => {
           const userReports = res.data.data;
-          this.setState({ userReports, isFetching: false });
+          this.setState({ userReports, isFetching: false, isLoading:false });
         })
         .catch((error) => {
           console.log('error: ', error);
@@ -75,6 +76,21 @@ export class ManageAccountantReports extends React.Component {
         });
     }
   }
+
+  getReports = (id, month, year) => {
+    // let url = window.location.origin + '/';
+    axios
+      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
+      .get(`https://gst-service-uat.herokuapp.com/report/${id}/${month}/${year}`)
+      .then((res) => {
+        const getReports = res.data.data;
+        this.setState({ getReports, isLoading: false });
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        this.errorCheck(error);
+      });
+  };
 
   resendReport = (event) => {
     let id = event.target.id
@@ -99,6 +115,7 @@ export class ManageAccountantReports extends React.Component {
   componentWillMount() {
     let id = this.props.match.params.id
     let report = this.props.match.params.report
+    this.getReports(localStorage.getItem('userId'), this.props.match.params.month, this.props.match.params.year)
     if (report === "gst") {
       this.getUserReports(id, this.props.match.params.month, this.props.match.params.year, report)
     }
@@ -140,7 +157,9 @@ export class ManageAccountantReports extends React.Component {
           message={this.state.message}
           onClose={this.modalCloseHandler}
         />
-
+        {this.state.isLoading ?
+          <div className="lds-facebook"><div></div><div></div><div></div><span className="loading-text-r">Loading... </span></div>
+          :
         <div className="container outer-box-r">
           <div>
             <ul className="breadCrumb-bg-r">
@@ -173,8 +192,9 @@ export class ManageAccountantReports extends React.Component {
               </React.Fragment>
               :
               <React.Fragment>
+                <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                 <p className="static-title-r">Daily Reports</p>
-                <div className="text-align-center-r">
+              <div className="report-card-scroll">
                   {this.state.userReports.map((val, index) =>
                     <React.Fragment key={index}>
                       <div className="card-base-r">
@@ -191,9 +211,32 @@ export class ManageAccountantReports extends React.Component {
                     </React.Fragment>
                   )}
                 </div>
+                </div>
+                <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+              <p className="static-title-r">Faulty Bills</p>
+              <div className="report-card-scroll">
+                {/* {this.state.getReports.faultyBills != null && this.state.getReports.faultyBills.map((val, index) =>
+                  <React.Fragment key={index}>
+                    <div className="card-report-r">
+                      <span className="delete-report-icon-r">
+                        <button name="faulty" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                      </span>
+                      <span className="download-report-icon-r">
+                        <a href={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} className="fa fa-download"></a>
+                      </span>
+                      <img className="selected-report-image-r" src={"https://gst-service-uat.herokuapp.com/bills/" + val.img} />
+                      <p className="card-selected-sub-heading-r">{val.originalName}</p>
+                      <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                      <p className="card-text-r">{val.comment}</p>
+                    </div>
+                  </React.Fragment>
+                )} */}
+              </div>
+            </div>
               </React.Fragment>
           }
         </div>
+  }
       </div>
     );
   }

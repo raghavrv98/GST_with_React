@@ -44,9 +44,12 @@ export class AddOrEditUser extends React.Component {
       registrationType: "",
       returnType: "",
       startYear: "",
-      startMonth: ""
+      startMonth: "",
     },
-    passwordCheck: false
+    passwordCheck: false,
+    gstnPassword : true,
+    password : true,
+    confirmPassword : true
   }
 
   errorCheck(error) {
@@ -153,8 +156,26 @@ export class AddOrEditUser extends React.Component {
     })
   }
 
+  showHidePassword = (event) => {
+    let id = event.target.id
+    let gstnPassword = this.state.gstnPassword
+    let password = this.state.password
+    let confirmPassword = this.state.confirmPassword
+    if ( id === "gstnPassword0"){
+      gstnPassword = !gstnPassword
+    }
+    else if(id === "password0"){
+      password = !password
+    }
+    else if(id === "confirmPassword0"){
+      confirmPassword = !confirmPassword
+    }
+    this.setState({
+      gstnPassword, password, confirmPassword
+    })
+  }
+
   render() {
-    console.log('payload: ', this.state.payload);
     return (
       <div>
         <Helmet>
@@ -186,6 +207,7 @@ export class AddOrEditUser extends React.Component {
               <p className="main-title-r">{this.props.match.params.id ? "Update User" : "Create User"}</p>
               <form onSubmit={this.SubmitUserHandler}>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="text"
                     className="form-control inputBox-r"
@@ -196,6 +218,7 @@ export class AddOrEditUser extends React.Component {
                     required />
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="text"
                     className="form-control inputBox-r"
@@ -206,6 +229,7 @@ export class AddOrEditUser extends React.Component {
                     required />
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="text"
                     className="form-control inputBox-r"
@@ -218,6 +242,7 @@ export class AddOrEditUser extends React.Component {
                     required />
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="text"
                     className="form-control inputBox-r"
@@ -231,6 +256,7 @@ export class AddOrEditUser extends React.Component {
                 </div>
 
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="tel"
                     className="form-control inputBox-r"
@@ -252,9 +278,10 @@ export class AddOrEditUser extends React.Component {
                     id="secondaryMobileNumber"
                     pattern="[1-9]{1}[0-9]{9}"
                     title="Enter 10 digit mobile number"
-                    required />
+                  />
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="email"
                     className="form-control inputBox-r"
@@ -272,9 +299,10 @@ export class AddOrEditUser extends React.Component {
                     value={this.state.payload.secondaryEmailId}
                     onChange={this.nameChangeHandler}
                     id="secondaryEmailId"
-                    required />
+                  />
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="text"
                     className="form-control inputBox-r"
@@ -285,42 +313,51 @@ export class AddOrEditUser extends React.Component {
                     required />
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <input
-                    type="password"
-                    className="form-control inputBox-r"
-                    placeholder="GSTN Password"
-                    value={this.state.payload.gstnPassword}
-                    onChange={this.nameChangeHandler}
-                    id="gstnPassword"
-                    required />
+                  <p className="required-check-mark-r">*</p>
+                  <div>
+                    <input
+                      type={this.state.gstnPassword ? "password" : "text"}
+                      className="form-control inputBox-r"
+                      placeholder="GSTN Password"
+                      value={this.state.payload.gstnPassword}
+                      onChange={this.nameChangeHandler}
+                      id="gstnPassword"
+                      required />
+                    <button type="button" id="gstnPassword0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.gstnPassword ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
+                  </div>
                 </div>
                 {this.props.match.params.id ? null :
                   <React.Fragment>
                     <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <p className="required-check-mark-r">*</p>
                       <input
-                        type="password"
+                        type={this.state.password ? "password" : "text"}
                         className="form-control inputBox-r"
                         placeholder="Password"
-                        minlength="4"
+                        minLength="4"
                         value={this.state.payload.password}
                         onChange={this.nameChangeHandler}
                         id="password"
                         required />
+                      <button type="button" id="password0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.password ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
                     </div>
                     <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <p className="required-check-mark-r">*</p>
                       <input
-                        type="password"
+                        type={this.state.confirmPassword ? "password" : "text"}
                         className={this.state.passwordCheck ? "form-control inputBox-r alert-box-r" : "form-control inputBox-r"}
                         placeholder="Confirm Password"
                         value={this.state.payload.confirmPassword}
                         onChange={this.nameChangeHandler}
                         id="confirmPassword"
                         required />
+                      <button type="button" id="confirmPassword0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.confirmPassword ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
                       {this.state.passwordCheck ? <p className="error-msg-r">Password and confirm password mismatch.</p> : null}
                     </div>
                   </React.Fragment>
                 }
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <p className="required-check-mark-r">*</p>
                   <input
                     type="text"
                     className="form-control inputBox-r"
@@ -338,9 +375,10 @@ export class AddOrEditUser extends React.Component {
                     value={this.state.payload.additionalPlaceOfBusiness}
                     onChange={this.nameChangeHandler}
                     id="additionalPlaceOfBusiness"
-                    required />
+                  />
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <p className="required-check-mark-r">*</p>
                   <select id="startYear" onChange={this.nameChangeHandler} value={this.state.startYear} className="year-month-border-r inputBox-r" required>
                     <option value="">Select Year</option>
                     <option value="2020">2020-2021</option>
@@ -350,6 +388,7 @@ export class AddOrEditUser extends React.Component {
                   </select>
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <p className="required-check-mark-r">*</p>
                   <select id="startMonth" onChange={this.nameChangeHandler} value={this.state.startMonth} className="year-month-border-r inputBox-r" required>
                     <option value="">Select Month</option>
                     <option value="1">January</option>
@@ -367,6 +406,7 @@ export class AddOrEditUser extends React.Component {
                   </select>
                 </div>
                 <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                  <p className="required-check-mark-r">*</p>
                   <select
                     className="custom-select year-month-border-r inputBox-r"
                     value={this.state.payload.constitutionType}
@@ -383,6 +423,7 @@ export class AddOrEditUser extends React.Component {
                   </select>
                 </div>
                 <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                  <p className="required-check-mark-r">*</p>
                   <select
                     className="custom-select year-month-border-r inputBox-r"
                     value={this.state.payload.registrationType}
@@ -390,7 +431,7 @@ export class AddOrEditUser extends React.Component {
                     id="registrationType"
                     required>
                     <option value="">Registration Type</option>
-                    <option value="normal">Normal</option>
+                    <option value="regular">Regular</option>
                     <option value="composition">Composition</option>
                     <option value="nrtp">NRTP</option>
                     <option value="ctp">CTP</option>
@@ -398,6 +439,7 @@ export class AddOrEditUser extends React.Component {
                   </select>
                 </div>
                 <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                  <p className="required-check-mark-r">*</p>
                   <select
                     className="custom-select year-month-border-r inputBox-r"
                     value={this.state.payload.returnType}

@@ -18,7 +18,7 @@ function ConfirmModal(props) {
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="delete-modal-padding-r">
-              <form method="post" action="/login">
+              <form>
                 <p className="warning-msg-r">{props.confirmMessage ? props.confirmMessage : "Are you sure want to delete ?" }</p>
                 <div className="icon-margin-r">
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">

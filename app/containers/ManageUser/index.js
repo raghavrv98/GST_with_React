@@ -31,7 +31,7 @@ export class ManageUser extends React.Component {
     month: 1,
     year: 2020,
     userType: "withData",
-    isFetching: false,
+    isFetching: true,
     isOpenClassName: 'modal display-none container'
   }
 

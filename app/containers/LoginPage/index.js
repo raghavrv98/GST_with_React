@@ -30,7 +30,8 @@ export class LoginPage extends React.Component {
     isResetActive: false,
     loginError: false,
     isLoading: false,
-    forgotMessageSuccessCheck: false
+    forgotMessageSuccessCheck: false,
+    forgotLoginError: false
   };
 
   errorCheck(error) {
@@ -46,7 +47,7 @@ export class LoginPage extends React.Component {
     } else {
       errorMes = error.message;
     }
-    this.setState({ errorMes, loginError: true, isLoading: false });
+    this.setState({ errorMes, isLoading: false });
   }
 
   loginSubmitHandler = () => {
@@ -79,6 +80,9 @@ export class LoginPage extends React.Component {
       })
       .catch((error) => {
         console.log('error: ', error);
+        this.setState({
+          loginError: true,
+        })
         this.errorCheck(error);
       });
   }
@@ -100,6 +104,9 @@ export class LoginPage extends React.Component {
       })
       .catch((error) => {
         console.log('error: ', error);
+        this.setState({
+          forgotLoginError: true
+        })
         this.errorCheck(error);
       });
   }
@@ -113,6 +120,8 @@ export class LoginPage extends React.Component {
     this.setState({
       payload,
       loginError: false,
+      forgotMessageSuccessCheck: false,
+      forgotLoginError: false
     });
   };
 
@@ -124,7 +133,10 @@ export class LoginPage extends React.Component {
     payload.password = ""
     this.setState({
       isResetActive,
-      payload
+      payload,
+      loginError: false,
+      forgotMessageSuccessCheck: false,
+      forgotLoginError: false
     });
   };
 
@@ -167,34 +179,35 @@ export class LoginPage extends React.Component {
                         {this.state.isResetActive ? (
                           <React.Fragment>
                             <p className="forgot-title-r">Forgot Password</p>
-                            {this.state.loginError ? (
-                              <p className="error-msg-r">
-                                Email-Id is incorrect
-                              </p>
-                            ) : null}
                             {this.state.forgotMessageSuccessCheck ? (
                               <p className="error-msg-r">
                                 Link has been sent successfully
                               </p>
                             ) : null}
                             <form onSubmit={this.forgotPasswordHandler}>
-                              <p className="forgot-msg-r">
+                              {!this.state.forgotMessageSuccessCheck ? <p className="forgot-msg-r">
                                 You will receive an e-mail along with your
                                 password.
-                            </p>
+                            </p> : null
+                              }
                               <input
                                 type="email"
                                 value={this.state.payload.emailId}
                                 onChange={this.nameChangeHandler}
                                 id="emailId"
-                                className="form-control reset-input-box-r"
+                                className="form-control forgot-input-box-r"
                                 placeholder="Enter your email-Id"
                                 required
                               />
+                              {this.state.forgotLoginError ? (
+                                <p className="error-msg-r">
+                                  Email-Id is incorrect
+                                </p>
+                              ) : null}
                               <span>
                                 <button
                                   type="submit"
-                                  className="button-base-r width-40-r"
+                                  className="button-base-r width-40-r button-margin-top"
                                 >
                                   Send
                               </button>

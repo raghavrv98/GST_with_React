@@ -35,7 +35,7 @@ class Header extends React.Component {
 
   componentWillMount() {
     if (!localStorage.getItem('role')) {
-      history.push("/login")
+      history.push("/")
     }
   }
   resetPassword = () => {
@@ -149,7 +149,7 @@ class Header extends React.Component {
                     <li><NavLink
                       className="navbar-brand welcome-name-r nav-css-r"
                       exact
-                      to="/login"
+                      to="/"
                       // data-toggle="collapse"
                       data-target="#bs-example-navbar-collapse-1"
                     >
@@ -215,7 +215,7 @@ class Header extends React.Component {
                       className="navbar-brand text-color-r nav-css-r"
                       onClick={this.userLogout}
                       exact
-                      to="/login"
+                      to="/"
                       // data-toggle="collapse"
                       data-target="#bs-example-navbar-collapse-1"
                     >
@@ -235,7 +235,7 @@ class Header extends React.Component {
                   <li><NavLink
                     className="navbar-brand text-color-r nav-css-r"
                     exact
-                    to="/login"
+                    to="/"
                     // data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1"
                   >
