@@ -86,7 +86,7 @@ export class UserDetails extends React.Component {
 
   postReport = (id, formData) => {
     if (this.state.reportType === "daily") {
-      axios.post(`http://localhost:3000/dailyReport/${id}/${this.state.month}/${this.state.year}`, formData)
+      axios.post(`http://localhost:3000/dailyReport/${id}/${this.state.month}/${this.state.year}/${this.state.date}`, formData)
         .then((res) => {
           const message = res.data.message;
           this.setState({
@@ -144,7 +144,7 @@ export class UserDetails extends React.Component {
     })
   }
 
-  loadFile = (event) => {
+  loadFile = (event, date) => {
     let browseReport = []
     let report = []
     let reportType = event.target.id
@@ -156,7 +156,8 @@ export class UserDetails extends React.Component {
       browseReport,
       report,
       showHideClassName: 'modal display-block container',
-      reportType
+      reportType,
+      date
     })
   };
 
@@ -249,16 +250,16 @@ export class UserDetails extends React.Component {
         Cell: row =>
           (
             <div>
-              <input style={{ display: "none" }}
-                accept="image/*"
-                onChange={this.loadFile}
+              <input
+                onChange={() => this.loadFile(event, row.original.date)}
                 id="daily"
                 type="file"
+                className="button-base-r width-80-r"
                 required />
 
-              <div><button type="button" className="button-base-r width-80-r">
-                <label className="cursor-pointer-r margin-0-r" htmlFor="daily">Browse</label>
-              </button></div>
+              {/* <div><button type="button" className="button-base-r width-80-r">
+          <label className="cursor-pointer-r margin-0-r" htmlFor="daily">{row.original.date}</label>
+              </button></div> */}
             </div>
           )
       },

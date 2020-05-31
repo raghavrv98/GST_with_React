@@ -43,8 +43,8 @@ export class AddOrEditUser extends React.Component {
       additionalPlaceOfBusiness: "", // two col
       registrationType: "",
       returnType: "",
-      year: "",
-      month: ""
+      startYear: "",
+      startMonth: ""
     },
     passwordCheck: false
   }
@@ -212,6 +212,8 @@ export class AddOrEditUser extends React.Component {
                     placeholder="PAN Number"
                     value={this.state.payload.panNumber}
                     onChange={this.nameChangeHandler}
+                    pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                    title="Please Enter PAN in corrected format"
                     id="panNumber"
                     required />
                 </div>
@@ -222,6 +224,8 @@ export class AddOrEditUser extends React.Component {
                     placeholder="GSTIN"
                     value={this.state.payload.gstinNumber}
                     onChange={this.nameChangeHandler}
+                    pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
+                    title="Please Enter GSTIN in corrected format"
                     id="gstinNumber"
                     required />
                 </div>
@@ -297,6 +301,7 @@ export class AddOrEditUser extends React.Component {
                         type="password"
                         className="form-control inputBox-r"
                         placeholder="Password"
+                        minlength="4"
                         value={this.state.payload.password}
                         onChange={this.nameChangeHandler}
                         id="password"
@@ -336,24 +341,30 @@ export class AddOrEditUser extends React.Component {
                     required />
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <input
-                    type="text"
-                    className="form-control inputBox-r"
-                    placeholder="Year for which the work is started"
-                    value={this.state.payload.year}
-                    onChange={this.nameChangeHandler}
-                    id="year"
-                    required />
+                  <select id="startYear" onChange={this.nameChangeHandler} value={this.state.startYear} className="year-month-border-r inputBox-r" required>
+                    <option value="">Select Year</option>
+                    <option value="2020">2020-2021</option>
+                    <option value="2019">2019-2020</option>
+                    <option value="2018">2018-2019</option>
+                    <option value="2017">2017-2018</option>
+                  </select>
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <input
-                    type="text"
-                    className="form-control inputBox-r"
-                    placeholder="Month for which the work is started"
-                    value={this.state.payload.month}
-                    onChange={this.nameChangeHandler}
-                    id="month"
-                    required />
+                  <select id="startMonth" onChange={this.nameChangeHandler} value={this.state.startMonth} className="year-month-border-r inputBox-r" required>
+                    <option value="">Select Month</option>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                  </select>
                 </div>
                 <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                   <select

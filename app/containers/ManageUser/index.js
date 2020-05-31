@@ -65,7 +65,7 @@ export class ManageUser extends React.Component {
   };
 
   statusUpdate = (id, status) => {
-    axios.put(`http://localhost:3000/changeStatus/${id}`, { 'status': status })
+    axios.put(`http://localhost:3000/changeStatus/${id}`, { 'status': status, 'year': this.state.year, 'month': this.state.month })
       .then((res) => {
         const message = res.data.message;
         this.setState({
@@ -177,7 +177,7 @@ export class ManageUser extends React.Component {
             // Pending
             // </div>
             <div>
-              <input id={row.original._id} onChange={this.statusChangeHandler} checked={row.original.status} className="status-button-r" type="checkbox" />
+              <input id={row.original._id} onChange={this.statusChangeHandler} disabled={this.state.userType === "all" || this.state.userType === "active" || this.state.userType === "inActive" } checked={row.original.status} className="status-button-r" type="checkbox" />
             </div>
           )
       },
