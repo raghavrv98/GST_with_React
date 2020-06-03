@@ -84,17 +84,17 @@ export class User extends React.Component {
         this.setState({ getbill, isLoading: false, isDeletedBill });
         let data = JSON.parse(JSON.stringify(getbill))
         data.purchaseBills.map((val, index) => {
-          if (Date.now() - val.timestamp > 60000) {
+          if (Date.now() - val.timestamp > 3600000) {
             this.deleteIcon("purchase", index)
           }
         })
         data.saleBills.map((val, index) => {
-          if (Date.now() - val.timestamp > 60000) {
+          if (Date.now() - val.timestamp > 3600000) {
             this.deleteIcon("sale", index)
           }
         })
         data.otherBills.map((val, index) => {
-          if (Date.now() - val.timestamp > 60000) {
+          if (Date.now() - val.timestamp > 3600000) {
             this.deleteIcon("other", index)
           }
         })
@@ -148,7 +148,7 @@ export class User extends React.Component {
 
   componentWillMount() {
     this.getbill(localStorage.getItem('userId'), this.state.month, this.state.year)
-    setInterval(() => this.getbill(localStorage.getItem('userId'), this.state.month, this.state.year), 60000);
+    setInterval(() => this.getbill(localStorage.getItem('userId'), this.state.month, this.state.year), 3600000);
   }
 
   deleteIcon = (type, index) => {
@@ -410,7 +410,7 @@ export class User extends React.Component {
                         <React.Fragment key={index}>
                           <div className="card-selected-image-r">
                             <img className="selected-image-r" src={"https://gst-service-uat.herokuapp.com/bills/" + val.img} />
-                            <p className="card-selected-sub-heading-r">{val.originalName}</p>
+                            <p className="card-selected-heading-r">{val.originalName}</p>
                             <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                           </div>
                           {this.state.isDeletedBill.includes("true" + index + "purchase") ? null :
@@ -481,7 +481,7 @@ export class User extends React.Component {
                           <React.Fragment key={index}>
                             <div className="card-selected-image-r">
                               <img className="selected-image-r" src={"https://gst-service-uat.herokuapp.com/bills/" + val.img} />
-                              <p className="card-selected-sub-heading-r">{val.originalName}</p>
+                              <p className="card-selected-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                             </div>
                             {this.state.isDeletedBill.includes("true" + index + "sale") ? null :
@@ -553,7 +553,7 @@ export class User extends React.Component {
                           <React.Fragment key={index}>
                             <div className="card-selected-image-r">
                               <img className="selected-image-r" src={"https://gst-service-uat.herokuapp.com/bills/" + val.img} />
-                              <p className="card-selected-sub-heading-r">{val.originalName}</p>
+                              <p className="card-selected-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                             </div>
                             {this.state.isDeletedBill.includes("true" + index + "other") ? null :

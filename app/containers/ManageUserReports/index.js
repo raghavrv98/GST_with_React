@@ -174,6 +174,7 @@ export class ManageUserReports extends React.Component {
             <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <p className="static-title-r">Daily Reports</p>
               <div className="report-card-scroll">
+              <div className="text-align-center-r">
                 {this.state.getReports.dailyReports && this.state.getReports.dailyReports.map((val, index) =>
                   <React.Fragment key={index}>
                     <div className="card-report-r">
@@ -184,58 +185,63 @@ export class ManageUserReports extends React.Component {
                         <a target="_blank" download href={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} className="fa fa-download"></a>
                       </span>
                       <img className="selected-report-image-r" src={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} />
-                      <p className="card-selected-sub-heading-r">{val.originalName}</p>
+                      <p className="card-selected-heading-r">{val.originalName}</p>
                       <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                       <p className="card-text-r">{val.comment}</p>
                     </div>
                   </React.Fragment>
                 )}
+                </div>
               </div>
             </div>
 
             <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
               <p className="static-title-r">GST Reports</p>
               <div className="report-card-scroll">
+              <div className="text-align-center-r">
                 {this.state.getReports.gstReports && this.state.getReports.gstReports.map((val, index) =>
                   <React.Fragment key={index}>
                     <div className="card-report-r">
                       <span className="delete-report-icon-r">
-                        <button name="gst" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                        <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                       </span>
                       <span className="download-report-icon-r">
-                        <a href={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} className="fa fa-download"></a>
+                        <a target="_blank" download href={"https://gst-service-uat.herokuapp.com/gst-reports/" + val.img} className="fa fa-download"></a>
                       </span>
-                      {/* <img className="selected-report-image-r" src={require('../../assets/img/aboutUs1.jpg')} />
-                    <p className="card-selected-sub-heading-r">{val.img}</p> */}
                       <img className="selected-report-image-r" src={"https://gst-service-uat.herokuapp.com/gst-reports/" + val.img} />
-                      <p className="card-selected-sub-heading-r">{val.originalName}</p>
+                      <p className="card-selected-heading-r">{val.originalName}</p>
                       <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                       <p className="card-text-r">{val.comment}</p>
                     </div>
                   </React.Fragment>
                 )}
+                </div>
               </div>
             </div>
 
             <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
               <p className="static-title-r">Faulty Bills</p>
               <div className="report-card-scroll">
+              <div className="text-align-center-r">
                 {this.state.getReports.faultyBills && this.state.getReports.faultyBills.map((val, index) =>
                   <React.Fragment key={index}>
                     <div className="card-report-r">
-                      {/* <span className="delete-report-icon-r">
-                        <button name="faulty" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                      </span> */}
+                      <span className="delete-report-icon-r">
+                        <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                      </span>
                       <span className="download-report-icon-r">
-                        <a href={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} className="fa fa-download"></a>
+                        <a target="_blank" download href={"https://gst-service-uat.herokuapp.com/bills/" + val.img} className="fa fa-download"></a>
                       </span>
                       <img className="selected-report-image-r" src={"https://gst-service-uat.herokuapp.com/bills/" + val.img} />
-                      <p className="card-selected-sub-heading-r">{val.originalName}</p>
+                      <p className="card-selected-heading-r">{val.originalName}</p>
                       <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                       <p className="card-text-r">{val.comment}</p>
                     </div>
                   </React.Fragment>
                 )}
+                </div>
+
+
               </div>
             </div>
 

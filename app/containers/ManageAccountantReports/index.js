@@ -32,7 +32,8 @@ export class ManageAccountantReports extends React.Component {
   state = {
     isOpenClassName: 'modal display-none container',
     userReports: [],
-    isLoading:true,
+    isLoading: true,
+    faultyBills: []
   }
 
   errorCheck(error) {
@@ -48,7 +49,7 @@ export class ManageAccountantReports extends React.Component {
     } else {
       errorMes = error.message;
     }
-    this.setState({ errorMes, isOpenClassName: 'modal display-block container', isLoading:false, type: "failure" }, () => setTimeout(this.modalTime, 1500)
+    this.setState({ errorMes, isOpenClassName: 'modal display-block container', isLoading: false, type: "failure" }, () => setTimeout(this.modalTime, 1500)
     );
   }
 
@@ -57,7 +58,7 @@ export class ManageAccountantReports extends React.Component {
       axios.get(`https://gst-service-uat.herokuapp.com/dailyReports/${userId}/${month}/${year}/${date}`)
         .then((res) => {
           const userReports = res.data.data;
-          this.setState({ userReports, isFetching: false, isLoading:false });
+          this.setState({ userReports, isFetching: false, isLoading: false });
         })
         .catch((error) => {
           console.log('error: ', error);
@@ -68,7 +69,7 @@ export class ManageAccountantReports extends React.Component {
       axios.get(`https://gst-service-uat.herokuapp.com/gstReports/${userId}/${month}/${year}`)
         .then((res) => {
           const userReports = res.data.data;
-          this.setState({ userReports, isFetching: false, isLoading:false });
+          this.setState({ userReports, isFetching: false, isLoading: false });
         })
         .catch((error) => {
           console.log('error: ', error);
@@ -160,83 +161,91 @@ export class ManageAccountantReports extends React.Component {
         {this.state.isLoading ?
           <div className="lds-facebook"><div></div><div></div><div></div><span className="loading-text-r">Loading... </span></div>
           :
-        <div className="container outer-box-r">
-          <div>
-            <ul className="breadCrumb-bg-r">
-              <li className="breadCrumb-li-child-1-r" onClick={() => this.props.history.push('/manageUser')} ><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
-              <li className="breadCrumb-li-child-2-r" onClick={() => this.props.history.push(`/userDetails/${this.props.match.params.id}/${this.props.match.params.month}/${this.props.match.params.year}`)} ><i className="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >User Details</span></li>
-              <li className="breadCrumb-li-child-r"><i className="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >{this.props.match.params.report === "gst" ? "GST Reports" : "Daily Reports"}</span></li>
-            </ul>
-          </div>
-          {
-            this.props.match.params.report === "gst" ?
-              <React.Fragment>
-                <p className="static-title-r">GST Reports</p>
-                <div className="text-align-center-r">
-                  {this.state.userReports.map((val, index) =>
-                    <React.Fragment key={index}>
-                      <div className="card-base-r">
-                        <span className="resend-report-icon-r">
-                          <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
-                        </span>
-                        <img className="card-img-r" src={"https://gst-service-uat.herokuapp.com/gst-reports/" + val.img} />
-                        <p className="card-sub-heading-r">Created At: {moment(val.timestamp).format("DD MMM YYYY")}</p>
-                        <p className="card-text-r">{val.comment}</p>
-                      </div>
-                      {/* <span className="delete-report-icon-r">
-          <button name="purchaseBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-        </span> */}
-                    </React.Fragment>
-                  )}
-                </div>
-              </React.Fragment>
-              :
-              <React.Fragment>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                <p className="static-title-r">Daily Reports</p>
-              <div className="report-card-scroll">
-                  {this.state.userReports.map((val, index) =>
-                    <React.Fragment key={index}>
-                      <div className="card-base-r">
-                        <span className="resend-report-icon-r">
-                          <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
-                        </span>
-                        <img className="card-img-r" src={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} />
-                        <p className="card-sub-heading-r">Created At: {moment(val.timestamp).format("DD MMM YYYY")}</p>
-                        <p className="card-text-r">{val.comment}</p>
-                      </div>
-                      {/* <span className="delete-report-icon-r">
-        <button name="purchaseBillImages" id={index} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-      </span> */}
-                    </React.Fragment>
-                  )}
-                </div>
-                </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <p className="static-title-r">Faulty Bills</p>
-              <div className="report-card-scroll">
-                {/* {this.state.getReports.faultyBills != null && this.state.getReports.faultyBills.map((val, index) =>
-                  <React.Fragment key={index}>
-                    <div className="card-report-r">
-                      <span className="delete-report-icon-r">
-                        <button name="faulty" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                      </span>
-                      <span className="download-report-icon-r">
-                        <a href={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} className="fa fa-download"></a>
-                      </span>
-                      <img className="selected-report-image-r" src={"https://gst-service-uat.herokuapp.com/bills/" + val.img} />
-                      <p className="card-selected-sub-heading-r">{val.originalName}</p>
-                      <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
-                      <p className="card-text-r">{val.comment}</p>
-                    </div>
-                  </React.Fragment>
-                )} */}
-              </div>
+          <div className="container outer-box-r">
+            <div>
+              <ul className="breadCrumb-bg-r">
+                <li className="breadCrumb-li-child-1-r" onClick={() => this.props.history.push('/manageUser')} ><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
+                <li className="breadCrumb-li-child-2-r" onClick={() => this.props.history.push(`/userDetails/${this.props.match.params.id}/${this.props.match.params.month}/${this.props.match.params.year}`)} ><i className="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >User Details</span></li>
+                <li className="breadCrumb-li-child-r"><i className="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >{this.props.match.params.report === "gst" ? "GST Reports" : "Daily Reports"}</span></li>
+              </ul>
             </div>
-              </React.Fragment>
-          }
-        </div>
-  }
+            {
+              this.props.match.params.report === "gst" ?
+                <React.Fragment>
+                  <p className="static-title-r">GST Reports</p>
+                  <div className="text-align-center-r">
+                    {this.state.userReports.map((val, index) =>
+                      <React.Fragment key={index}>
+                        <div className="card-report-r">
+                          {/* <span className="delete-report-icon-r">
+                        <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                      </span> */}
+                          <span className="resend-report-icon-r">
+                            <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
+                          </span>
+                          <img className="selected-report-image-r" src={"https://gst-service-uat.herokuapp.com/gst-reports/" + val.img} />
+                          <p className="card-selected-heading-r">{val.originalName}</p>
+                          <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                          <p className="card-text-r">{val.comment}</p>
+                        </div>
+                      </React.Fragment>
+                    )}
+                  </div>
+
+
+                </React.Fragment>
+                :
+                <React.Fragment>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <p className="static-title-r">Daily Reports</p>
+                    <div className="report-card-scroll">
+                      <div className="text-align-center-r">
+                        {this.state.userReports.map((val, index) =>
+                          <React.Fragment key={index}>
+                            <div className="card-report-r">
+                              {/* <span className="delete-report-icon-r">
+                        <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                      </span> */}
+                              <span className="resend-report-icon-r">
+                                <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
+                              </span>
+                              <img className="selected-report-image-r" src={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} />
+                              <p className="card-selected-heading-r">{val.originalName}</p>
+                              <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                              <p className="card-text-r">{val.comment}</p>
+                            </div>
+                          </React.Fragment>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <p className="static-title-r">Faulty Bills</p>
+                    <div className="report-card-scroll">
+                      <div className="text-align-center-r">
+                        {this.state.faultyBills.map((val, index) =>
+                          <React.Fragment key={index}>
+                            <div className="card-report-r">
+                              {/* <span className="delete-report-icon-r">
+                        <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                      </span> */}
+                              <span className="resend-report-icon-r">
+                                <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
+                              </span>
+                              <img className="selected-report-image-r" src={"https://gst-service-uat.herokuapp.com/bills/" + val.img} />
+                              <p className="card-selected-heading-r">{val.originalName}</p>
+                              <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                              <p className="card-text-r">{val.comment}</p>
+                            </div>
+                          </React.Fragment>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </React.Fragment>
+            }
+          </div>
+        }
       </div>
     );
   }
