@@ -16,23 +16,6 @@ class Header extends React.Component {
     showHideClassName: 'modal display-none container'
   };
 
-  errorCheck(error) {
-    let errorMes = '';
-    if (error.response) {
-      if (error.response.data.status == 404) {
-        errorMes = error.response.data.error;
-      } else if (error.response.data.code == 400) {
-        errorMes = error.response.data.message;
-      } else {
-        errorMes = error.response.data.message;
-      }
-    } else {
-      errorMes = error.message;
-    }
-    this.setState({ errorMes, isOpenClassName: 'modal display-block container', type: "failure", isLoading: false }, () => setTimeout(this.modalTime, 1500)
-    );
-  }
-
   componentWillMount() {
     if (!localStorage.getItem('role')) {
       history.push("/")
@@ -50,17 +33,22 @@ class Header extends React.Component {
 
       axios.post(`https://gst-service-uat.herokuapp.com/changePassword`, payload)
         .then((res) => {
-          const message = res.data.message;
+          const data = res.data.data;
           this.setState({
-            message,
+            message: res.data.message,
             isLoading: false,
             type: "success",
             isOpenClassName: 'modal display-block container'
           }, () => setTimeout(this.modalTime, 1500));
         })
         .catch((error) => {
-          console.log('error: ', error);
-          this.errorCheck(error);
+          let message = errorHandler(error);
+          this.setState({
+            message,
+            isOpenClassName: 'modal display-block container',
+            type: "failure",
+            isFetching: false,
+          }, () => setTimeout(this.modalTime, 1500))
         });
   };
 

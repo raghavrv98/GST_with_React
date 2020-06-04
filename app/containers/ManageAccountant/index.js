@@ -23,13 +23,14 @@ import ReactTooltip from 'react-tooltip';
 import axios from 'axios';
 import moment from 'moment';
 import MessageModal from '../../components/MessageModal/Loadable'
+import { errorHandler } from '../../utils/commonUtils';
 
 /* eslint-disable react/prefer-stateless-function */
 export class ManageAccountant extends React.Component {
 
   state = {
     showHideClassName: 'modal display-none container',
-    month: 1,
+    month: 4,
     year: 2020,
     accountantType: "all",
     isFetching: true,
@@ -37,71 +38,67 @@ export class ManageAccountant extends React.Component {
     accountants: []
   }
 
-  errorCheck(error) {
-    let errorMes = '';
-    if (error.response) {
-      if (error.response.data.status == 404) {
-        errorMes = error.response.data.error;
-      } else if (error.response.data.code == 400) {
-        errorMes = error.response.data.message;
-      } else {
-        errorMes = error.response.data.message;
-      }
-    } else {
-      errorMes = error.message;
-    }
-    this.setState({ errorMes, isFetching: false, isOpenClassName: 'modal display-block container', type: "failure" }, () => setTimeout(this.modalTime, 1500)
-    );
-  }
-
-  getAccountant = (month, year, accountantType) => {
-    // axios.get(`https://gst-service-uat.herokuapp.com/accountants/${month}/${year}/${accountantType}`)
+  getAccountant = (month, year) => {
     axios.get(`https://gst-service-uat.herokuapp.com/accountants/${month}/${year}`)
       .then((res) => {
         const accountants = res.data.data;
         this.setState({ accountants, isFetching: false });
       })
       .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isFetching: false,
+          isOpenClassName: 'modal display-block container',
+          type: "failure"
+        }, () => setTimeout(this.modalTime, 1500))
       });
   };
 
   statusUpdate = (id, status) => {
     axios.put(`https://gst-service-uat.herokuapp.com/changeStatus/${id}`, { 'status': status })
       .then((res) => {
-        const message = res.data.message;
+        const data = res.data.data;
         this.setState({
-          message,
+          message: res.data.message,
           isFetching: true,
         }, () => this.getAccountant(this.state.month, this.state.year));
       })
       .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isFetching: false,
+          isOpenClassName: 'modal display-block container',
+          type: "failure"
+        }, () => setTimeout(this.modalTime, 1500))
       });
   };
 
   deleteAccountant = (id) => {
     axios.delete(`https://gst-service-uat.herokuapp.com/accountant/${id}`)
       .then((res) => {
-        const deletedMessage = res.data.message;
+        const data = res.data.data;
         this.setState({
-          deletedMessage,
-          isLoading: false,
+          message: res.data.message,
+          isFetching: false,
           type: "success",
           isOpenClassName: 'modal display-block container'
         }, () => this.getAccountant(this.state.month, this.state.year), setTimeout(this.modalTime, 1500))
       })
       .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isFetching: false,
+          isOpenClassName: 'modal display-block container',
+          type: "failure"
+        }, () => setTimeout(this.modalTime, 1500))
       });
   };
 
 
   componentWillMount() {
-    // this.getAccountant(this.state.month, this.state.year, this.state.accountantType)
     this.getAccountant(this.state.month, this.state.year)
   }
 
@@ -132,7 +129,7 @@ export class ManageAccountant extends React.Component {
     this.deleteAccountant(id)
     this.setState({
       showHideClassName: 'modal display-none container',
-      isLoading: true
+      isFetching: true
     })
   }
 
@@ -167,22 +164,12 @@ export class ManageAccountant extends React.Component {
 
   render() {
     const columns = [
-      //   {
-      //   Header: 'Serial No.',
-      //   accessor: 'userId',
-      //   // filterable : true,
-      //   width: 100,
-      //   Cell: row => (
-      //     <div className="onClick-cell-r" onClick={() => { this.props.history.push('/manageUser/' + row.original._id) }}>{row.original._id}</div>
-      //   )
-      // },
       {
         Header: 'Created At',
         accessor: 'timestamp',
         width: 200,
         Cell: row => (
           <div className="onClick-cell-r">{moment(row.original.timestamp).format("DD MMM YYYY HH:mm")}</div>
-          // <div className="onClick-cell-r" onClick={() => { this.props.history.push(`/manageUser/${row.original._id}`) }}>{moment(row.original.timestamp).format("DD MMM YYYY HH:mm")}</div>
         )
       },
       {
@@ -205,31 +192,16 @@ export class ManageAccountant extends React.Component {
       {
         Header: 'Mobile Number',
         accessor: 'mobileNumber',
-        // filterable: true,
         Cell: row => (
           <div className="onClick-cell-r">{row.original.mobileNumber}</div>
         )
       },
-      // {
-      //   Header: 'Status',
-      //   accessor: 'status',
-      //   width: 80,
-      //   Cell: row =>
-      //     (
-      //       <div>
-      //         {/* <input checked={row.original.status == "completed"} data-toggle="modal" data-target="#statusPassword" className="status-button-r" type="checkbox" /> */}
-      //         <input id={row.original._id} onChange={this.statusChangeHandler} checked={row.original.status} className="status-button-r" type="checkbox" />
-
-      //       </div>
-      //     )
-      // },
       {
         Header: 'Actions',
         sortable: false,
         width: 150,
         Cell: row =>
           (<div>
-            {/* <a className="infoButton-r" onClick={() => { this.props.history.push('/manageUser/' + row.original.userId) }}><i className="fa fa-info" aria-hidden="true"></i></a> */}
             <span className="editButton-r" data-tip data-for="edit" onClick={() => { this.props.history.push('/addOrEditaccountant/' + row.original._id) }}><i className="far fa-edit" /><ReactTooltip id="edit" type="dark" ><div className="tooltipText"><p>Edit</p></div></ReactTooltip></span>
             <span className="deleteButton-r" data-tip data-for="delete" onClick={() => this.confirmModalHandler(row.original._id)}><i className="far fa-trash-alt" /><ReactTooltip id="delete" type="dark" ><div className="tooltipText"><p>Delete</p></div></ReactTooltip></span>
           </div>
@@ -252,44 +224,9 @@ export class ManageAccountant extends React.Component {
         <MessageModal
           showHideClassName={this.state.isOpenClassName}
           modalType={this.state.type}
-          message={this.state.deletedMessage}
+          message={this.state.message}
           onClose={this.modalCloseHandler}
         />
-
-        {/* <div className={this.state.showHideClassName} >
-          <div className="modal-dialog modal-dialog-centered" role="document">
-            <div className="modal-content">
-              <div className="modal-header background-color-r">
-                <span className="text-color-white-r" >Status Password</span>
-                <button
-                  type="button"
-                  className="close"
-                  onClick={this.modalCloseHandler}
-                  aria-label="Close"
-                >
-                  <i className="fa fa-times" aria-hidden="true" />
-                </button>
-              </div>
-
-              <div className="modal-body,input-group input-group-lg">
-                <div className="reset-form-padding-r">
-                  <form onSubmit={this.submitStatusChangeHandler}>
-                    <input type="text"
-                      value={this.state.status}
-                      id="status"
-                      className="form-control reset-input-box-r"
-                      placeholder="Status Password"
-                      onChange={this.statusChangeHandler}
-                      required />
-                    <div className="text-align-center-r">
-                      <button className="btn btn-primary btn-text-r">Submit</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
 
         <div className="container outer-box-r">
           <div>
@@ -313,9 +250,6 @@ export class ManageAccountant extends React.Component {
                 <select id="month" onChange={this.nameChangeHandler} value={this.state.month} className="year-month-border-r"
                   name="lectureId">
                   <option disabled={true} value="0">Select Month</option>
-                  <option value="1">January</option>
-                  <option value="2">February</option>
-                  <option value="3">March</option>
                   <option value="4">April</option>
                   <option value="5">May</option>
                   <option value="6">June</option>
@@ -325,6 +259,9 @@ export class ManageAccountant extends React.Component {
                   <option value="10">October</option>
                   <option value="11">November</option>
                   <option value="12">December</option>
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
                 </select>
               </div>
               <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">

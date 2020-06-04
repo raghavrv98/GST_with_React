@@ -24,6 +24,8 @@ import moment from 'moment';
 import ConfirmModal from '../../components/ConfirmModal/Loadable'
 import MessageModal from '../../components/MessageModal/Loadable'
 
+import { errorHandler } from '../../utils/commonUtils';
+
 /* eslint-disable react/prefer-stateless-function */
 export class User extends React.Component {
 
@@ -36,7 +38,7 @@ export class User extends React.Component {
     getbill: {},
     isLoading: true,
     year: '2020',
-    month: '1',
+    month: '4',
     billType: 'purchase',
     browseBillImages: [],
     isOpenClassName: 'modal display-none container',
@@ -45,38 +47,8 @@ export class User extends React.Component {
     isDeletedBill: []
   }
 
-  // getHeaders = () => {
-  // 	let auth = `Bearer ${window.location.host.split('.')[0] === 'app' ? sessionStorage.token : localStorage.token}`;
-  // 	return {
-  // 		headers: {
-  // 			'X-Authorization': auth,
-  // 			'x-project-id': localStorage.selectedProjectId
-  // 		}
-  // 	}
-  // }
-
-  errorCheck(error) {
-    let errorMes = '';
-    if (error.response) {
-      if (error.response.data.status == 404) {
-        errorMes = error.response.data.error;
-      } else if (error.response.data.code == 400) {
-        errorMes = error.response.data.message;
-      } else {
-        errorMes = error.response.data.message;
-      }
-    } else {
-      errorMes = error.message;
-    }
-    this.setState({ errorMes, isOpenClassName: 'modal display-block container', type: "failure", isLoading: false }, () => setTimeout(this.modalTime, 1500)
-    );
-  }
-
-
   getbill = (id, month, year) => {
-    // let url = window.location.origin + '/';
     axios
-      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
       .get(`https://gst-service-uat.herokuapp.com/bill/${id}/${month}/${year}`)
       .then((res) => {
         const getbill = res.data.data;
@@ -100,50 +72,60 @@ export class User extends React.Component {
         })
       })
       .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
-
-      });
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isOpenClassName: 'modal display-block container',
+          type: "failure",
+          isLoading: false
+        })
+      }, () => setTimeout(this.modalTime, 1500));
   };
 
   deleteBills = (id, deleteId, deleteType) => {
-    // let url = window.location.origin + '/';
     axios
-      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
       .delete(`https://gst-service-uat.herokuapp.com/bill/${id}/${deleteId}/${deleteType}`)
       .then((res) => {
-        const message = res.data.message;
+        const data = res.data.data;
         this.setState({
-          message,
+          message: res.data.message,
           type: "success",
           isOpenClassName: 'modal display-block container',
           isLoading: false
         }, () => this.getbill(localStorage.getItem('userId'), this.state.month, this.state.year), setTimeout(this.modalTime, 1500));
       })
       .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
-      });
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isOpenClassName: 'modal display-block container',
+          type: "failure",
+          isLoading: false
+        })
+      }, () => setTimeout(this.modalTime, 1500));
   };
 
   putbill = (id, formData) => {
-    // let url = window.location.origin + '/';
     axios
-      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
       .put(`https://gst-service-uat.herokuapp.com/bill/${id}`, formData)
       .then((res) => {
-        const message = res.data.message;
+        const data = res.data.data;
         this.setState({
-          message,
+          message: res.data.message,
           isLoading: false,
           type: "success",
           isOpenClassName: 'modal display-block container',
         }, () => this.getbill(localStorage.getItem('userId'), this.state.month, this.state.year), setTimeout(this.modalTime, 1500));
       })
       .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
-      });
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isOpenClassName: 'modal display-block container',
+          type: "failure",
+          isLoading: false
+        })
+      }, () => setTimeout(this.modalTime, 1500));
   };
 
   componentWillMount() {
@@ -310,9 +292,6 @@ export class User extends React.Component {
                 <div className="col-xs-6 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-5">
                   <select value={this.state.month} onChange={this.nameChangeHandler} className="year-month-border-r" id="month">
                     <option value="">Select Month</option>
-                    <option value="1">January</option>
-                    <option value="2">February</option>
-                    <option value="3">March</option>
                     <option value="4">April</option>
                     <option value="5">May</option>
                     <option value="6">June</option>
@@ -322,6 +301,9 @@ export class User extends React.Component {
                     <option value="10">October</option>
                     <option value="11">November</option>
                     <option value="12">December</option>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
                   </select>
                 </div>
                 <div className="col-xs-12 col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">

@@ -19,6 +19,7 @@ import reducer from './reducer';
 import saga from './saga';
 import MessageModal from '../../components/MessageModal/Loadable'
 import axios from 'axios';
+import { errorHandler } from '../../utils/commonUtils';
 
 /* eslint-disable react/prefer-stateless-function */
 export class AddOrEditUser extends React.Component {
@@ -47,26 +48,9 @@ export class AddOrEditUser extends React.Component {
       startMonth: "",
     },
     passwordCheck: false,
-    gstnPassword : true,
-    password : true,
-    confirmPassword : true
-  }
-
-  errorCheck(error) {
-    let errorMes = '';
-    if (error.response) {
-      if (error.response.data.status == 404) {
-        errorMes = error.response.data.error;
-      } else if (error.response.data.code == 400) {
-        errorMes = error.response.data.message;
-      } else {
-        errorMes = error.response.data.message;
-      }
-    } else {
-      errorMes = error.message;
-    }
-    this.setState({ errorMes, isOpenClassName: 'modal display-block container', type: "failure", isLoading: false }, () => setTimeout(this.modalTime, 1500)
-    );
+    gstnPassword: true,
+    password: true,
+    confirmPassword: true
   }
 
   getUserById = (id) => {
@@ -76,8 +60,13 @@ export class AddOrEditUser extends React.Component {
         this.setState({ payload, isLoading: false });
       })
       .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isOpenClassName: 'modal display-block container',
+          type: "failure",
+          isLoading: false
+        }, () => setTimeout(this.modalTime, 1500))
       });
   };
 
@@ -86,31 +75,41 @@ export class AddOrEditUser extends React.Component {
     if (this.props.match.params.id) {
       axios.put(`https://gst-service-uat.herokuapp.com/updateUserDetails/${this.props.match.params.id}`, payload)
         .then((res) => {
-          const message = res.data.message;
+          const data = res.data.data;
           this.setState({
-            message,
+            message: res.data.message,
             isLoading: false,
             type: "success",
           }, () => this.props.history.push('/manageUser'));
         })
         .catch((error) => {
-          console.log('error: ', error);
-          this.errorCheck(error);
+          let message = errorHandler(error);
+          this.setState({
+            message,
+            isOpenClassName: 'modal display-block container',
+            type: "failure",
+            isLoading: false
+          }, () => setTimeout(this.modalTime, 1500))
         });
     }
     else {
       axios.post(`https://gst-service-uat.herokuapp.com/newUser/${accountantId}`, payload)
         .then((res) => {
-          const message = res.data.message;
+          const data = res.data.data;
           this.setState({
-            message,
+            message: res.data.message,
             isLoading: false,
             type: "success",
           }, () => this.props.history.push('/manageUser'));
         })
         .catch((error) => {
-          console.log('error: ', error);
-          this.errorCheck(error);
+          let message = errorHandler(error);
+          this.setState({
+            message,
+            isOpenClassName: 'modal display-block container',
+            type: "failure",
+            isLoading: false
+          }, () => setTimeout(this.modalTime, 1500))
         });
     }
   };
@@ -161,13 +160,13 @@ export class AddOrEditUser extends React.Component {
     let gstnPassword = this.state.gstnPassword
     let password = this.state.password
     let confirmPassword = this.state.confirmPassword
-    if ( id === "gstnPassword0"){
+    if (id === "gstnPassword0") {
       gstnPassword = !gstnPassword
     }
-    else if(id === "password0"){
+    else if (id === "password0") {
       password = !password
     }
-    else if(id === "confirmPassword0"){
+    else if (id === "confirmPassword0") {
       confirmPassword = !confirmPassword
     }
     this.setState({
@@ -379,7 +378,7 @@ export class AddOrEditUser extends React.Component {
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                   <p className="required-check-mark-r">*</p>
-                  <select id="startYear" onChange={this.nameChangeHandler} value={this.state.startYear} className="year-month-border-r inputBox-r" required>
+                  <select disabled={this.props.match.params.id} id="startYear" onChange={this.nameChangeHandler} value={this.state.payload.startYear} className="year-month-border-r inputBox-r" required>
                     <option value="">Select Year</option>
                     <option value="2020">2020-2021</option>
                     <option value="2019">2019-2020</option>
@@ -389,11 +388,8 @@ export class AddOrEditUser extends React.Component {
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                   <p className="required-check-mark-r">*</p>
-                  <select id="startMonth" onChange={this.nameChangeHandler} value={this.state.startMonth} className="year-month-border-r inputBox-r" required>
+                  <select disabled={this.props.match.params.id} id="startMonth" onChange={this.nameChangeHandler} value={this.state.payload.startMonth} className="year-month-border-r inputBox-r" required>
                     <option value="">Select Month</option>
-                    <option value="1">January</option>
-                    <option value="2">February</option>
-                    <option value="3">March</option>
                     <option value="4">April</option>
                     <option value="5">May</option>
                     <option value="6">June</option>
@@ -403,6 +399,9 @@ export class AddOrEditUser extends React.Component {
                     <option value="10">October</option>
                     <option value="11">November</option>
                     <option value="12">December</option>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
                   </select>
                 </div>
                 <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">

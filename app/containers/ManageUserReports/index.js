@@ -22,7 +22,7 @@ import ConfirmModal from '../../components/ConfirmModal/Loadable'
 import moment from 'moment';
 import axios from 'axios';
 import MessageModal from '../../components/MessageModal/Loadable'
-
+import { errorHandler } from '../../utils/commonUtils';
 /* eslint-disable react/prefer-stateless-function */
 export class ManageUserReports extends React.Component {
   state = {
@@ -32,69 +32,62 @@ export class ManageUserReports extends React.Component {
     isOpenClassName: 'modal display-none container'
   }
 
-  errorCheck(error) {
-    let errorMes = '';
-    if (error.response) {
-      if (error.response.data.status == 404) {
-        errorMes = error.response.data.error;
-      } else if (error.response.data.code == 400) {
-        errorMes = error.response.data.message;
-      } else {
-        errorMes = error.response.data.message;
-      }
-    } else {
-      errorMes = error.message;
-    }
-    this.setState({ errorMes, isOpenClassName: 'modal display-block container', isLoading: false }, () => setTimeout(this.modalTime, 1500));
-  }
-
   getReports = (id, month, year) => {
-    // let url = window.location.origin + '/';
-    axios
-      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
-      .get(`https://gst-service-uat.herokuapp.com/report/${id}/${month}/${year}`)
+    axios.get(`https://gst-service-uat.herokuapp.com/report/${id}/${month}/${year}`)
       .then((res) => {
         const getReports = res.data.data;
         this.setState({ getReports, isLoading: false });
       })
       .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
-      });
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isOpenClassName: 'modal display-block container',
+          isLoading: false
+        })
+      }, () => setTimeout(this.modalTime, 1500));
   };
 
   deleteReports = (id, deleteId, deleteType) => {
     if (deleteType === "faulty") {
       axios.delete(`https://gst-service-uat.herokuapp.com/bill/${id}/${deleteId}/${deleteType}`)
         .then((res) => {
-          const deletedMessage = res.data.message;
+          const data = res.res.data.message;
           this.setState({
-            deletedMessage,
+            message: res.data.message,
             isLoading: false,
             type: "success",
             isOpenClassName: 'modal display-block container'
           }, () => this.getReports(localStorage.getItem('userId'), this.props.match.params.month, this.props.match.params.year), setTimeout(this.modalTime, 1500))
         })
         .catch((error) => {
-          console.log('error: ', error);
-          this.errorCheck(error);
-        });
+          let message = errorHandler(error);
+          this.setState({
+            message,
+            isOpenClassName: 'modal display-block container',
+            isLoading: false
+          })
+        }, () => setTimeout(this.modalTime, 1500));
     }
     else {
       axios.delete(`https://gst-service-uat.herokuapp.com/report/${id}/${deleteId}/${deleteType}`)
         .then((res) => {
-          const deletedMessage = res.data.message;
+          const data = res.data.data;
           this.setState({
-            deletedMessage,
+            message: res.data.message,
             isLoading: false,
             type: "success",
             isOpenClassName: 'modal display-block container'
           }, () => this.getReports(localStorage.getItem('userId'), this.props.match.params.month, this.props.match.params.year), setTimeout(this.modalTime, 1500))
         })
         .catch((error) => {
-          console.log('error: ', error);
-          this.errorCheck(error);
-        });
+          let message = errorHandler(error);
+          this.setState({
+            message,
+            isOpenClassName: 'modal display-block container',
+            isLoading: false
+          })
+        }, () => setTimeout(this.modalTime, 1500));
     }
   };
 
@@ -174,23 +167,23 @@ export class ManageUserReports extends React.Component {
             <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <p className="static-title-r">Daily Reports</p>
               <div className="report-card-scroll">
-              <div className="text-align-center-r">
-                {this.state.getReports.dailyReports && this.state.getReports.dailyReports.map((val, index) =>
-                  <React.Fragment key={index}>
-                    <div className="card-report-r">
-                      <span className="delete-report-icon-r">
-                        <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                      </span>
-                      <span className="download-report-icon-r">
-                        <a target="_blank" download href={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} className="fa fa-download"></a>
-                      </span>
-                      <img className="selected-report-image-r" src={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} />
-                      <p className="card-selected-heading-r">{val.originalName}</p>
-                      <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
-                      <p className="card-text-r">{val.comment}</p>
-                    </div>
-                  </React.Fragment>
-                )}
+                <div className="text-align-center-r">
+                  {this.state.getReports.dailyReports && this.state.getReports.dailyReports.map((val, index) =>
+                    <React.Fragment key={index}>
+                      <div className="card-report-r">
+                        <span className="delete-report-icon-r">
+                          <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                        </span>
+                        <span className="download-report-icon-r">
+                          <a target="_blank" download href={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} className="fa fa-download"></a>
+                        </span>
+                        <img className="selected-report-image-r" src={"https://gst-service-uat.herokuapp.com/daily-reports/" + val.img} />
+                        <p className="card-selected-heading-r">{val.originalName}</p>
+                        <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                        <p className="card-text-r">{val.comment}</p>
+                      </div>
+                    </React.Fragment>
+                  )}
                 </div>
               </div>
             </div>
@@ -198,23 +191,23 @@ export class ManageUserReports extends React.Component {
             <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
               <p className="static-title-r">GST Reports</p>
               <div className="report-card-scroll">
-              <div className="text-align-center-r">
-                {this.state.getReports.gstReports && this.state.getReports.gstReports.map((val, index) =>
-                  <React.Fragment key={index}>
-                    <div className="card-report-r">
-                      <span className="delete-report-icon-r">
-                        <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                      </span>
-                      <span className="download-report-icon-r">
-                        <a target="_blank" download href={"https://gst-service-uat.herokuapp.com/gst-reports/" + val.img} className="fa fa-download"></a>
-                      </span>
-                      <img className="selected-report-image-r" src={"https://gst-service-uat.herokuapp.com/gst-reports/" + val.img} />
-                      <p className="card-selected-heading-r">{val.originalName}</p>
-                      <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
-                      <p className="card-text-r">{val.comment}</p>
-                    </div>
-                  </React.Fragment>
-                )}
+                <div className="text-align-center-r">
+                  {this.state.getReports.gstReports && this.state.getReports.gstReports.map((val, index) =>
+                    <React.Fragment key={index}>
+                      <div className="card-report-r">
+                        <span className="delete-report-icon-r">
+                          <button name="gst" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                        </span>
+                        <span className="download-report-icon-r">
+                          <a target="_blank" download href={"https://gst-service-uat.herokuapp.com/gst-reports/" + val.img} className="fa fa-download"></a>
+                        </span>
+                        <img className="selected-report-image-r" src={"https://gst-service-uat.herokuapp.com/gst-reports/" + val.img} />
+                        <p className="card-selected-heading-r">{val.originalName}</p>
+                        <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                        <p className="card-text-r">{val.comment}</p>
+                      </div>
+                    </React.Fragment>
+                  )}
                 </div>
               </div>
             </div>
@@ -222,23 +215,23 @@ export class ManageUserReports extends React.Component {
             <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
               <p className="static-title-r">Faulty Bills</p>
               <div className="report-card-scroll">
-              <div className="text-align-center-r">
-                {this.state.getReports.faultyBills && this.state.getReports.faultyBills.map((val, index) =>
-                  <React.Fragment key={index}>
-                    <div className="card-report-r">
-                      <span className="delete-report-icon-r">
-                        <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                      </span>
-                      <span className="download-report-icon-r">
-                        <a target="_blank" download href={"https://gst-service-uat.herokuapp.com/bills/" + val.img} className="fa fa-download"></a>
-                      </span>
-                      <img className="selected-report-image-r" src={"https://gst-service-uat.herokuapp.com/bills/" + val.img} />
-                      <p className="card-selected-heading-r">{val.originalName}</p>
-                      <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
-                      <p className="card-text-r">{val.comment}</p>
-                    </div>
-                  </React.Fragment>
-                )}
+                <div className="text-align-center-r">
+                  {this.state.getReports.faultyBills && this.state.getReports.faultyBills.map((val, index) =>
+                    <React.Fragment key={index}>
+                      <div className="card-report-r">
+                        <span className="delete-report-icon-r">
+                          <button name="faulty" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                        </span>
+                        <span className="download-report-icon-r">
+                          <a target="_blank" download href={"https://gst-service-uat.herokuapp.com/bills/" + val.img} className="fa fa-download"></a>
+                        </span>
+                        <img className="selected-report-image-r" src={"https://gst-service-uat.herokuapp.com/bills/" + val.img} />
+                        <p className="card-selected-heading-r">{val.originalName}</p>
+                        <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                        <p className="card-text-r">{val.comment}</p>
+                      </div>
+                    </React.Fragment>
+                  )}
                 </div>
 
 

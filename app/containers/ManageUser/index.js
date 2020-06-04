@@ -23,33 +23,17 @@ import axios from 'axios';
 import moment from 'moment';
 
 import MessageModal from '../../components/MessageModal/Loadable'
+import { errorHandler } from '../../utils/commonUtils';
 
 /* eslint-disable react/prefer-stateless-function */
 export class ManageUser extends React.Component {
 
   state = {
-    month: 1,
+    month: 4,
     year: 2020,
     userType: "withData",
     isFetching: true,
     isOpenClassName: 'modal display-none container'
-  }
-
-  errorCheck(error) {
-    let errorMes = '';
-    if (error.response) {
-      if (error.response.data.status == 404) {
-        errorMes = error.response.data.error;
-      } else if (error.response.data.code == 400) {
-        errorMes = error.response.data.message;
-      } else {
-        errorMes = error.response.data.message;
-      }
-    } else {
-      errorMes = error.message;
-    }
-    this.setState({ errorMes, isOpenClassName: 'modal display-block container', type: "failure" }, () => setTimeout(this.modalTime, 1500)
-    );
   }
 
   getUser = (accountantId, month, year, userType) => {
@@ -59,33 +43,41 @@ export class ManageUser extends React.Component {
         this.setState({ users, isFetching: false });
       })
       .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isOpenClassName: 'modal display-block container',
+          type: "failure"
+        }, () => setTimeout(this.modalTime, 1500))
       });
   };
 
   statusUpdate = (id, status) => {
     axios.put(`https://gst-service-uat.herokuapp.com/changeStatus/${id}`, { 'status': status, 'year': this.state.year, 'month': this.state.month })
       .then((res) => {
-        const message = res.data.message;
+        const data = res.data.data;
         this.setState({
-          message,
+          message: res.data.message,
           isFetching: true,
         }, () => this.getUser(this.state.accountantId, this.state.month, this.state.year, this.state.userType));
       })
       .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isOpenClassName: 'modal display-block container',
+          type: "failure"
+        }, () => setTimeout(this.modalTime, 1500))
       });
   };
 
 
   componentWillMount() {
     let accountantId = localStorage.getItem('userId')
+    this.getUser(accountantId, this.state.month, this.state.year, this.state.userType)
     this.setState({
       accountantId
     })
-    this.getUser(accountantId, this.state.month, this.state.year, this.state.userType)
   }
 
   modalTime = () => {
@@ -126,14 +118,6 @@ export class ManageUser extends React.Component {
 
   render() {
     const columns = [
-      //   {
-      //   Header: 'Serial No.',
-      //   accessor: '_id',
-      //   Cell: row => (
-      //     <div className="onClick-cell-r" onClick={() => { this.props.history.push('/userDetails/' + row.original._id) }}>{row.original._id}</div>
-      //   ),
-      //   width: 100,
-      // },
       {
         Header: 'Created At',
         accessor: 'timestamp',
@@ -173,9 +157,6 @@ export class ManageUser extends React.Component {
         width: 100,
         Cell: row =>
           (
-            // <div className="table-status-pending-r">
-            // Pending
-            // </div>
             <div>
               <input id={row.original._id} onChange={this.statusChangeHandler} disabled={this.state.userType === "all" || this.state.userType === "active" || this.state.userType === "inActive"} checked={row.original.status} className="status-button-r" type="checkbox" />
             </div>
@@ -187,7 +168,6 @@ export class ManageUser extends React.Component {
         width: 150,
         Cell: row =>
           (<div>
-            {/* <a className="infoButton-r" onClick={() => { this.props.history.push('/userDetails/' + row.original._id) }}><i className="fa fa-info" aria-hidden="true"></i></a> */}
             <span className="editButton-r" data-tip data-for="edit" onClick={() => { this.props.history.push('/addOrEditUser/' + row.original._id) }}><i className="far fa-edit"></i><ReactTooltip id="edit" type="dark" ><div className="tooltipText"><p>Edit</p></div></ReactTooltip></span>
             {/* <button id={row.original._id} onClick={this.confirmModalHandler} className="deleteButton-r far fa-trash-alt"></button> */}
           </div>
@@ -207,42 +187,6 @@ export class ManageUser extends React.Component {
           message={this.state.message}
           onClose={this.modalCloseHandler}
         />
-
-        {/* <div className={this.state.showHideClassName} >
-          <div className="modal-dialog modal-dialog-centered" role="document">
-            <div className="modal-content">
-              <div className="modal-header background-color-r">
-                <span className="text-color-white-r" >Status Password</span>
-                <button
-                  type="button"
-                  className="close"
-                  onClick={this.modalCloseHandler}
-                  aria-label="Close"
-                >
-                  <i className="fa fa-times" aria-hidden="true" />
-                </button>
-              </div>
-
-              <div className="modal-body,input-group input-group-lg">
-                <div className="reset-form-padding-r">
-                  <form onSubmit={this.submitStatusChangeHandler}>
-                    <input type="text"
-                      value={this.state.status}
-                      id="status"
-                      className="form-control reset-input-box-r"
-                      placeholder="Status Password"
-                      onChange={this.statusChangeHandler}
-                      required />
-                    <div className="text-align-center-r">
-                      <button className="btn btn-primary btn-text-r">Submit</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
-
 
         <div className="container outer-box-r">
           <div>
@@ -266,9 +210,6 @@ export class ManageUser extends React.Component {
                 <select id="month" disabled={this.state.userType === "all" || this.state.userType === "active" || this.state.userType === "inActive"} onChange={this.nameChangeHandler} value={this.state.month} className="year-month-border-r"
                   name="lectureId">
                   <option disabled={true} value="0">Select Month</option>
-                  <option value="1">January</option>
-                  <option value="2">February</option>
-                  <option value="3">March</option>
                   <option value="4">April</option>
                   <option value="5">May</option>
                   <option value="6">June</option>
@@ -278,6 +219,9 @@ export class ManageUser extends React.Component {
                   <option value="10">October</option>
                   <option value="11">November</option>
                   <option value="12">December</option>
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
                 </select>
               </div>
               <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">

@@ -22,6 +22,7 @@ import messages from './messages';
 import axios from 'axios';
 
 import MessageModal from '../../components/MessageModal/Loadable'
+import { errorHandler } from '../../utils/commonUtils';
 
 /* eslint-disable react/prefer-stateless-function */
 export class UserDetails extends React.Component {
@@ -44,22 +45,6 @@ export class UserDetails extends React.Component {
     isLoading: true
   }
 
-  errorCheck(error) {
-    let errorMes = '';
-    if (error.response) {
-      if (error.response.data.status == 404) {
-        errorMes = error.response.data.error;
-      } else if (error.response.data.code == 400) {
-        errorMes = error.response.data.message;
-      } else {
-        errorMes = error.response.data.message;
-      }
-    } else {
-      errorMes = error.message;
-    }
-    this.setState({ errorMes, isFetching: false, isOpenClassName: 'modal display-block container', type: "failure" }, () => setTimeout(this.modalTime, 1500)
-    );
-  }
 
   getUserBillSummary = (userId, month, year) => {
     axios.get(`https://gst-service-uat.herokuapp.com/userBillSummary/${userId}/${month}/${year}`)
@@ -80,8 +65,14 @@ export class UserDetails extends React.Component {
         this.setState({ userBillSummary, reactTableData, isFetching: false, isLoading: false });
       })
       .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isOpenClassName: 'modal display-block container',
+          type: "failure",
+          isFetching: false,
+          isLoading: false,
+        })
       });
   };
 
@@ -89,9 +80,9 @@ export class UserDetails extends React.Component {
     if (this.state.reportType === "daily") {
       axios.post(`https://gst-service-uat.herokuapp.com/dailyReport/${id}/${this.state.month}/${this.state.year}/${this.state.date}`, formData)
         .then((res) => {
-          const message = res.data.message;
+          const data = res.data.data;
           this.setState({
-            message,
+            message: res.data.message,
             type: "success",
             isOpenClassName: 'modal display-block container',
             reportType: "",
@@ -99,16 +90,22 @@ export class UserDetails extends React.Component {
           }, () => setTimeout(this.modalTime, 1500))
         })
         .catch((error) => {
-          console.log('error: ', error);
-          this.errorCheck(error);
+          let message = errorHandler(error);
+          this.setState({
+            message,
+            isOpenClassName: 'modal display-block container',
+            type: "failure",
+            isFetching: false,
+            isLoading: false,
+          }, () => setTimeout(this.modalTime, 1500))
         });
     }
     else {
       axios.post(`https://gst-service-uat.herokuapp.com/gstReport/${id}/${this.state.month}/${this.state.year}`, formData)
         .then((res) => {
-          const message = res.data.message;
+          const data = res.data.data;
           this.setState({
-            message,
+            message: res.data.message,
             isFetching: false,
             type: "success",
             isOpenClassName: 'modal display-block container',
@@ -117,8 +114,14 @@ export class UserDetails extends React.Component {
           }, () => setTimeout(this.modalTime, 1500))
         })
         .catch((error) => {
-          console.log('error: ', error);
-          this.errorCheck(error);
+          let message = errorHandler(error);
+          this.setState({
+            message,
+            isOpenClassName: 'modal display-block container',
+            type: "failure",
+            isFetching: false,
+            isLoading: false,
+          }, () => setTimeout(this.modalTime, 1500))
         });
     }
   };
@@ -350,9 +353,6 @@ export class UserDetails extends React.Component {
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <select id="month" value={this.state.month} onChange={this.nameChangeHandler} className="year-month-border-r" name="lectureId">
                       <option disabled={true} value="">Select Month</option>
-                      <option value="1">January</option>
-                      <option value="2">February</option>
-                      <option value="3">March</option>
                       <option value="4">April</option>
                       <option value="5">May</option>
                       <option value="6">June</option>
@@ -362,6 +362,9 @@ export class UserDetails extends React.Component {
                       <option value="10">October</option>
                       <option value="11">November</option>
                       <option value="12">December</option>
+                      <option value="1">January</option>
+                      <option value="2">February</option>
+                      <option value="3">March</option>
                     </select>
                   </div>
                 </div>

@@ -19,7 +19,7 @@ function MessageModal(props) {
           <div className="modal-content">
           <div className={props.showHideClassName} >
             <div className="modal-dialog modal-dialog-centered" role="document">
-              <div className="modal-content">
+              <div className="modal-content border-radius-16-r">
                 <div
                   className={props.modalType == "success" ? "modal-header message-modal-success-background-r" : "modal-header message-modal-failure-background-r"}
                 >

@@ -22,6 +22,7 @@ import ConfirmModal from '../../components/ConfirmModal/Loadable'
 import MessageModal from '../../components/MessageModal/Loadable'
 import axios from 'axios';
 import moment from 'moment';
+import { errorHandler } from '../../utils/commonUtils';
 
 /* eslint-disable react/prefer-stateless-function */
 export class UserBillDetails extends React.Component {
@@ -38,24 +39,6 @@ export class UserBillDetails extends React.Component {
     cardLoader: false
   }
 
-  errorCheck(error) {
-    let errorMes = '';
-    if (error.response) {
-      if (error.response.data.status == 404) {
-        errorMes = error.response.data.error;
-      } else if (error.response.data.code == 400) {
-        errorMes = error.response.data.message;
-      } else {
-        errorMes = error.response.data.message;
-      }
-    } else {
-      errorMes = error.message;
-    }
-    this.setState({ errorMes, isOpenClassName: 'modal display-block container', type: "failure", isLoading: false, cardLoader: false }, () => setTimeout(this.modalTime, 1500)
-    );
-  }
-
-
   getBill = (id, month, year, bill, date) => {
     if (bill === "purchase") {
       axios.get(`https://gst-service-uat.herokuapp.com/purchase/${id}/${month}/${year}/${date}`)
@@ -64,8 +47,14 @@ export class UserBillDetails extends React.Component {
           this.setState({ getBill, isLoading: false });
         })
         .catch((error) => {
-          console.log('error: ', error);
-          this.errorCheck(error);
+          let message = errorHandler(error);
+          this.setState({
+            message,
+            isOpenClassName: 'modal display-block container',
+            type: "failure",
+            isLoading: false,
+            cardLoader: false
+          }, () => setTimeout(this.modalTime, 1500))
         });
     }
     else if (bill === "sale") {
@@ -75,8 +64,14 @@ export class UserBillDetails extends React.Component {
           this.setState({ getBill, isLoading: false });
         })
         .catch((error) => {
-          console.log('error: ', error);
-          this.errorCheck(error);
+          let message = errorHandler(error);
+          this.setState({
+            message,
+            isOpenClassName: 'modal display-block container',
+            type: "failure",
+            isLoading: false,
+            cardLoader: false
+          }, () => setTimeout(this.modalTime, 1500))
         });
     }
     else {
@@ -86,8 +81,14 @@ export class UserBillDetails extends React.Component {
           this.setState({ getBill, isLoading: false });
         })
         .catch((error) => {
-          console.log('error: ', error);
-          this.errorCheck(error);
+          let message = errorHandler(error);
+          this.setState({
+            message,
+            isOpenClassName: 'modal display-block container',
+            type: "failure",
+            isLoading: false,
+            cardLoader: false
+          }, () => setTimeout(this.modalTime, 1500))
         });
     }
   };
@@ -99,15 +100,21 @@ export class UserBillDetails extends React.Component {
     })
     axios.put(`https://gst-service-uat.herokuapp.com/changeBillStatus/${this.props.match.params.id}/${id}/${this.props.match.params.bill}`, { 'status': status })
       .then((res) => {
-        const message = res.data.message;
+        const data = res.data.data;
         this.setState({
-          message,
+          message: res.data.message,
           cardLoader: false,
         }, () => this.getBill(this.props.match.params.id, this.props.match.params.month, this.props.match.params.year, this.props.match.params.bill, this.props.match.params.date));
       })
       .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isOpenClassName: 'modal display-block container',
+          type: "failure",
+          isLoading: false,
+          cardLoader: false
+        }, () => setTimeout(this.modalTime, 1500))
       });
   };
 
@@ -146,16 +153,22 @@ export class UserBillDetails extends React.Component {
 
       axios.put(`https://gst-service-uat.herokuapp.com/transferBill/${this.props.match.params.id}/${id}`, payload)
         .then((res) => {
-          const message = res.data.message;
+          const data = res.data.data;
           this.setState({
-            message,
+            message: res.data.message,
             isLoading: true,
             showHideClassName: 'modal display-none container',
           }, () => this.getBill(this.props.match.params.id, this.props.match.params.month, this.props.match.params.year, this.props.match.params.bill, this.props.match.params.date));
         })
         .catch((error) => {
-          console.log('error: ', error);
-          this.errorCheck(error);
+          let message = errorHandler(error);
+          this.setState({
+            message,
+            isOpenClassName: 'modal display-block container',
+            type: "failure",
+            isLoading: false,
+            cardLoader: false
+          }, () => setTimeout(this.modalTime, 1500))
         });
     }
   };
@@ -228,8 +241,8 @@ export class UserBillDetails extends React.Component {
 
         {this.state.imgName ?
           <div className={this.state.fullViewModalClassName} >
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div className="modal-content">
+            <div className="modal-dialog modal-full-view-r modal-dialog-centered" role="document">
+              <div className="modal-content modal-full-view-height-r">
                 <div className="modal-header background-color-r">
                   <span className="text-color-white-r">Bill Full View</span>
                   <button

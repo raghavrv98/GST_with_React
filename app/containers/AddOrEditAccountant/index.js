@@ -20,6 +20,7 @@ import saga from './saga';
 import messages from './messages';
 import MessageModal from '../../components/MessageModal/Loadable'
 import axios from 'axios';
+import { errorHandler } from '../../utils/commonUtils';
 
 /* eslint-disable react/prefer-stateless-function */
 export class AddOrEditAccountant extends React.Component {
@@ -44,24 +45,8 @@ export class AddOrEditAccountant extends React.Component {
       password: "",
     },
     passwordCheck: false,
-    password : true,
-    confirmPassword : true
-  }
-  errorCheck(error) {
-    let errorMes = '';
-    if (error.response) {
-      if (error.response.data.status == 404) {
-        errorMes = error.response.data.error;
-      } else if (error.response.data.code == 400) {
-        errorMes = error.response.data.message;
-      } else {
-        errorMes = error.response.data.message;
-      }
-    } else {
-      errorMes = error.message;
-    }
-    this.setState({ errorMes, isOpenClassName: 'modal display-block container', type: "failure", isLoading: false }, () => setTimeout(this.modalTime, 1500)
-    );
+    password: true,
+    confirmPassword: true
   }
 
   getAccountantById = (id) => {
@@ -71,8 +56,13 @@ export class AddOrEditAccountant extends React.Component {
         this.setState({ payload, isLoading: false });
       })
       .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isOpenClassName: 'modal display-block container',
+          type: "failure",
+          isLoading: false,
+        }, () => setTimeout(this.modalTime, 1500))
       });
   };
 
@@ -80,31 +70,41 @@ export class AddOrEditAccountant extends React.Component {
     if (this.props.match.params.id) {
       axios.put(`https://gst-service-uat.herokuapp.com/updateAccountantDetails/${this.props.match.params.id}`, payload)
         .then((res) => {
-          const message = res.data.message;
+          const data = res.data.data;
           this.setState({
-            message,
+            message: res.data.message,
             isLoading: false,
             type: "success",
           }, () => this.props.history.push('/manageAccountant'));
         })
         .catch((error) => {
-          console.log('error: ', error);
-          this.errorCheck(error);
+          let message = errorHandler(error);
+          this.setState({
+            message,
+            isOpenClassName: 'modal display-block container',
+            type: "failure",
+            isLoading: false,
+          }, () => setTimeout(this.modalTime, 1500))
         });
     }
     else {
       axios.post(`https://gst-service-uat.herokuapp.com/newAccountant`, payload)
         .then((res) => {
-          const message = res.data.message;
+          const data = res.data.data;
           this.setState({
-            message,
+            message: res.data.message,
             isLoading: false,
             type: "success",
           }, () => this.props.history.push('/manageAccountant'));
         })
         .catch((error) => {
-          console.log('error: ', error);
-          this.errorCheck(error);
+          let message = errorHandler(error);
+          this.setState({
+            message,
+            isOpenClassName: 'modal display-block container',
+            type: "failure",
+            isLoading: false,
+          }, () => setTimeout(this.modalTime, 1500))
         });
     }
   };
@@ -153,13 +153,13 @@ export class AddOrEditAccountant extends React.Component {
     let gstnPassword = this.state.gstnPassword
     let password = this.state.password
     let confirmPassword = this.state.confirmPassword
-    if ( id === "gstnPassword0"){
+    if (id === "gstnPassword0") {
       gstnPassword = !gstnPassword
     }
-    else if(id === "password0"){
+    else if (id === "password0") {
       password = !password
     }
-    else if(id === "confirmPassword0"){
+    else if (id === "confirmPassword0") {
       confirmPassword = !confirmPassword
     }
     this.setState({

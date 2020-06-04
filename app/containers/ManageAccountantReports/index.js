@@ -24,6 +24,7 @@ import moment from 'moment';
 import axios from 'axios';
 
 import MessageModal from '../../components/MessageModal/Loadable'
+import { errorHandler } from '../../utils/commonUtils';
 
 
 /* eslint-disable react/prefer-stateless-function */
@@ -36,23 +37,6 @@ export class ManageAccountantReports extends React.Component {
     faultyBills: []
   }
 
-  errorCheck(error) {
-    let errorMes = '';
-    if (error.response) {
-      if (error.response.data.status == 404) {
-        errorMes = error.response.data.error;
-      } else if (error.response.data.code == 400) {
-        errorMes = error.response.data.message;
-      } else {
-        errorMes = error.response.data.message;
-      }
-    } else {
-      errorMes = error.message;
-    }
-    this.setState({ errorMes, isOpenClassName: 'modal display-block container', isLoading: false, type: "failure" }, () => setTimeout(this.modalTime, 1500)
-    );
-  }
-
   getUserReports = (userId, month, year, report, date) => {
     if (report === "daily") {
       axios.get(`https://gst-service-uat.herokuapp.com/dailyReports/${userId}/${month}/${year}/${date}`)
@@ -61,10 +45,16 @@ export class ManageAccountantReports extends React.Component {
           this.setState({ userReports, isFetching: false, isLoading: false });
         })
         .catch((error) => {
-          console.log('error: ', error);
-          this.errorCheck(error);
+          let message = errorHandler(error);
+          this.setState({
+            message,
+            isOpenClassName: 'modal display-block container',
+            type: "failure",
+            isLoading: false,
+          }, () => setTimeout(this.modalTime, 1500))
         });
     }
+
     else {
       axios.get(`https://gst-service-uat.herokuapp.com/gstReports/${userId}/${month}/${year}`)
         .then((res) => {
@@ -72,24 +62,31 @@ export class ManageAccountantReports extends React.Component {
           this.setState({ userReports, isFetching: false, isLoading: false });
         })
         .catch((error) => {
-          console.log('error: ', error);
-          this.errorCheck(error);
+          let message = errorHandler(error);
+          this.setState({
+            message,
+            isOpenClassName: 'modal display-block container',
+            type: "failure",
+            isLoading: false,
+          }, () => setTimeout(this.modalTime, 1500))
         });
     }
   }
 
   getReports = (id, month, year) => {
-    // let url = window.location.origin + '/';
-    axios
-      // .get(url + `api/faas/gateway/api/v3/smrc/alarm/table?id=${id}`, this.getHeaders())
-      .get(`https://gst-service-uat.herokuapp.com/report/${id}/${month}/${year}`)
+    axios.get(`https://gst-service-uat.herokuapp.com/report/${id}/${month}/${year}`)
       .then((res) => {
         const getReports = res.data.data;
         this.setState({ getReports, isLoading: false });
       })
       .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isOpenClassName: 'modal display-block container',
+          type: "failure",
+          isLoading: false,
+        }, () => setTimeout(this.modalTime, 1500))
       });
   };
 
@@ -99,17 +96,22 @@ export class ManageAccountantReports extends React.Component {
     let report = this.props.match.params.report
     axios.put(`https://gst-service-uat.herokuapp.com/resendReport/${userId}/${id}/${report}`)
       .then((res) => {
-        const message = res.data.message;
+        const data = res.data.data;
         this.setState({
-          message,
+          message: res.data.message,
           isLoading: false,
           type: "success",
           isOpenClassName: 'modal display-block container',
         }, () => setTimeout(this.modalTime, 1500));
       })
       .catch((error) => {
-        console.log('error: ', error);
-        this.errorCheck(error);
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isOpenClassName: 'modal display-block container',
+          type: "failure",
+          isLoading: false,
+        }, () => setTimeout(this.modalTime, 1500))
       });
   }
 

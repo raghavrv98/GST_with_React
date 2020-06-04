@@ -799,8 +799,26 @@ body {
   color: #f06d46;
 }
 
+.modal-full-view-r{
+  width: 80% !important;
+    height: 100% !important;
+    position: absolute !important;
+    transform: translate(-50%, -50%) !important;
+    top: 50% !important;
+    left: 50% !important;
+}
+
+.modal-full-view-height-r{
+  height: 90vh !important;
+}
+
+.border-radius-16-r{
+  border-radius: 16px !important;
+}
+
 .message-modal-success-background-r{
   background-color: #d2fcd4;
+  border-radius: 16px;
 }
 
 .message-modal-success-text-r{
@@ -809,6 +827,7 @@ body {
 
 .message-modal-failure-background-r{
   background-color: #fce3e3;
+  border-radius: 16px;
 
 }
 
@@ -977,13 +996,13 @@ input[type="date"]:valid:before {
 
 .password-eye-open-r{
   position: absolute;
-    margin: 30px -30px;
+    margin: 32px -35px;
     color: #255b7a;
 }
 
 .password-eye-close-r{
   position: absolute;
-    margin: 30px -30px;
+    margin: 32px -35px;
     color: #255b7a;
 }
 
@@ -1087,7 +1106,7 @@ input[type="date"]:valid:before {
   }
 
   .card-full-view-parent-img-r {
-    height: 500px;
+    height: 75vh !important;
     width: 100%;
     position: relative !important;
     border-radius: 10px;
@@ -1151,7 +1170,7 @@ input[type="date"]:valid:before {
   }
 
   .card-full-view-parent-img-r {
-    height: 250px;
+    height: 75vh !important;
     width: 100%;
     position: relative !important;
     border-radius: 10px;

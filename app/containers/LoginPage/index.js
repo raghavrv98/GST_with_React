@@ -19,6 +19,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import axios from 'axios';
+import { errorHandler } from '../../utils/commonUtils';
 
 /* eslint-disable react/prefer-stateless-function */
 export class LoginPage extends React.Component {
@@ -33,22 +34,6 @@ export class LoginPage extends React.Component {
     forgotMessageSuccessCheck: false,
     forgotLoginError: false
   };
-
-  errorCheck(error) {
-    let errorMes = '';
-    if (error.response) {
-      if (error.response.data.status == 404) {
-        errorMes = error.response.data.error;
-      } else if (error.response.data.code == 400) {
-        errorMes = error.response.data.message;
-      } else {
-        errorMes = error.response.data.message;
-      }
-    } else {
-      errorMes = error.message;
-    }
-    this.setState({ errorMes, isLoading: false });
-  }
 
   loginSubmitHandler = () => {
     event.preventDefault()
@@ -77,13 +62,15 @@ export class LoginPage extends React.Component {
           localStorage.setItem("name", data.name)
           this.props.history.push('/admin')
         }
-      })
+      }
+      )
       .catch((error) => {
-        console.log('error: ', error);
+        let message = errorHandler(error);
         this.setState({
           loginError: true,
+          isLoading: false,
+          message
         })
-        this.errorCheck(error);
       });
   }
 
@@ -95,23 +82,35 @@ export class LoginPage extends React.Component {
     let payload = JSON.parse(JSON.stringify(this.state.payload));
     axios.post(`https://gst-service-uat.herokuapp.com/forgotPassword`, payload)
       .then((res) => {
-        const forgotMessageSuccess = res.data.message;
+        const data = res.data.data;
         payload.emailId = ""
         payload.password = ""
         this.setState({
-          forgotMessageSuccess, isLoading: false, payload, forgotMessageSuccessCheck: true
+          message: res.data.message, isLoading: false, payload, forgotMessageSuccessCheck: true
         })
       })
       .catch((error) => {
-        console.log('error: ', error);
+        let message = errorHandler(error);
         this.setState({
-          forgotLoginError: true
+          forgotLoginError: true,
+          isLoading: false,
+          message
         })
-        this.errorCheck(error);
       });
   }
 
   componentWillMount() {
+    {
+      if (localStorage.getItem('role') === "user") {
+        this.props.history.push('/user')
+      }
+      else if (localStorage.getItem('role') === "accountant") {
+        this.props.history.push('/manageUser')
+      }
+      else if (localStorage.getItem('role') === "admin") {
+        this.props.history.push('/admin')
+      }
+    }
   }
 
   nameChangeHandler = event => {
@@ -201,7 +200,7 @@ export class LoginPage extends React.Component {
                               />
                               {this.state.forgotLoginError ? (
                                 <p className="error-msg-r">
-                                  Email-Id is incorrect
+                                  {this.state.message}
                                 </p>
                               ) : null}
                               <span>
@@ -225,7 +224,7 @@ export class LoginPage extends React.Component {
                               <p className="login-title-r">Login</p>
                               {this.state.loginError ? (
                                 <p className="error-msg-r">
-                                  Username or password is incorrect
+                                  {this.state.message}
                                 </p>
                               ) : null}
                               <form onSubmit={this.loginSubmitHandler}>
