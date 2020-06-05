@@ -55,17 +55,17 @@ export class User extends React.Component {
         let isDeletedBill = []
         this.setState({ getbill, isLoading: false, isDeletedBill });
         let data = JSON.parse(JSON.stringify(getbill))
-        data.purchaseBills.map((val, index) => {
+        data.purchaseBills && data.purchaseBills.map((val, index) => {
           if (Date.now() - val.timestamp > 3600000) {
             this.deleteIcon("purchase", index)
           }
         })
-        data.saleBills.map((val, index) => {
+        data.saleBills && data.saleBills.map((val, index) => {
           if (Date.now() - val.timestamp > 3600000) {
             this.deleteIcon("sale", index)
           }
         })
-        data.otherBills.map((val, index) => {
+        data.otherBills && data.otherBills.map((val, index) => {
           if (Date.now() - val.timestamp > 3600000) {
             this.deleteIcon("other", index)
           }

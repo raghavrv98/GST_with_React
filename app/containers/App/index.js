@@ -26,6 +26,8 @@ import ManageUserReports from 'containers/ManageUserReports/Loadable'
 import ManageAccountantReports from 'containers/ManageAccountantReports/Loadable'
 import UserBillDetails from 'containers/UserBillDetails/Loadable'
 import ManageAccountant from 'containers/ManageAccountant/Loadable'
+import NotFoundPage from 'containers/NotFoundPage/Loadable'
+import ForbiddenPage from 'containers/ForbiddenPage/Loadable'
 
 export default function App() {
   return (
@@ -51,6 +53,8 @@ export default function App() {
         <Route exact path="/manageUserReports/:month/:year" component={ManageUserReports} />
         <Route exact path="/userDetails/:id/manageAccountantReports/:report/:month/:year/:date?" component={ManageAccountantReports} />
         <Route exact path="/userDetails/:id/userBillDetails/:bill/:month/:year/:date" component={UserBillDetails} />
+        <Route exact path="/error404" component={NotFoundPage} />
+        <Route exact path="/error403" component={ForbiddenPage} />
 
         {/* <Route path="" component={NotFoundPage} /> */}
       </Switch>
