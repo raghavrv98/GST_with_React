@@ -41,7 +41,7 @@ export class LoginPage extends React.Component {
       isLoading: true
     })
     let payload = JSON.parse(JSON.stringify(this.state.payload));
-    axios.post(`https://gst-service-uat.herokuapp.com/login`, payload)
+    axios.post(`http://3.128.59.35:3000/login`, payload)
       .then((res) => {
         const data = res.data.data;
         localStorage.setItem('role', data.role)
@@ -80,7 +80,7 @@ export class LoginPage extends React.Component {
       isLoading: true
     })
     let payload = JSON.parse(JSON.stringify(this.state.payload));
-    axios.post(`https://gst-service-uat.herokuapp.com/forgotPassword`, payload)
+    axios.post(`http://3.128.59.35:3000/forgotPassword`, payload)
       .then((res) => {
         const data = res.data.data;
         payload.emailId = ""

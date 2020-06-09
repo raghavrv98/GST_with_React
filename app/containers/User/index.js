@@ -49,7 +49,7 @@ export class User extends React.Component {
 
   getbill = (id, month, year) => {
     axios
-      .get(`https://gst-service-uat.herokuapp.com/bill/${id}/${month}/${year}`)
+      .get(`http://3.128.59.35:3000/bill/${id}/${month}/${year}`)
       .then((res) => {
         const getbill = res.data.data;
         let isDeletedBill = []
@@ -84,7 +84,7 @@ export class User extends React.Component {
 
   deleteBills = (id, deleteId, deleteType) => {
     axios
-      .delete(`https://gst-service-uat.herokuapp.com/bill/${id}/${deleteId}/${deleteType}`)
+      .delete(`http://3.128.59.35:3000/bill/${id}/${deleteId}/${deleteType}`)
       .then((res) => {
         const data = res.data.data;
         this.setState({
@@ -107,7 +107,7 @@ export class User extends React.Component {
 
   putbill = (id, formData) => {
     axios
-      .put(`https://gst-service-uat.herokuapp.com/bill/${id}`, formData)
+      .put(`http://3.128.59.35:3000/bill/${id}`, formData)
       .then((res) => {
         const data = res.data.data;
         this.setState({
@@ -391,7 +391,7 @@ export class User extends React.Component {
                       {this.state.getbill.purchaseBills && this.state.getbill.purchaseBills.map((val, index) =>
                         <React.Fragment key={index}>
                           <div className="card-selected-image-r">
-                            <img className="selected-image-r" src={"https://gst-service-uat.herokuapp.com/bills/" + val.img} />
+                            <img className="selected-image-r" src={"http://3.128.59.35:3000/bills/" + val.img} />
                             <p className="card-selected-heading-r">{val.originalName}</p>
                             <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                           </div>
@@ -462,7 +462,7 @@ export class User extends React.Component {
                         {this.state.getbill.saleBills && this.state.getbill.saleBills.map((val, index) =>
                           <React.Fragment key={index}>
                             <div className="card-selected-image-r">
-                              <img className="selected-image-r" src={"https://gst-service-uat.herokuapp.com/bills/" + val.img} />
+                              <img className="selected-image-r" src={"http://3.128.59.35:3000/bills/" + val.img} />
                               <p className="card-selected-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                             </div>
@@ -534,7 +534,7 @@ export class User extends React.Component {
                         {this.state.getbill.otherBills && this.state.getbill.otherBills.map((val, index) =>
                           <React.Fragment key={index}>
                             <div className="card-selected-image-r">
-                              <img className="selected-image-r" src={"https://gst-service-uat.herokuapp.com/bills/" + val.img} />
+                              <img className="selected-image-r" src={"http://3.128.59.35:3000/bills/" + val.img} />
                               <p className="card-selected-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                             </div>

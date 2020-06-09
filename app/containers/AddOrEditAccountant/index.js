@@ -50,7 +50,7 @@ export class AddOrEditAccountant extends React.Component {
   }
 
   getAccountantById = (id) => {
-    axios.get(`https://gst-service-uat.herokuapp.com/AccountantDetails/${id}`)
+    axios.get(`http://3.128.59.35:3000/AccountantDetails/${id}`)
       .then((res) => {
         const payload = res.data.data;
         this.setState({ payload, isLoading: false });
@@ -68,7 +68,7 @@ export class AddOrEditAccountant extends React.Component {
 
   postAccountant = (payload) => {
     if (this.props.match.params.id) {
-      axios.put(`https://gst-service-uat.herokuapp.com/updateAccountantDetails/${this.props.match.params.id}`, payload)
+      axios.put(`http://3.128.59.35:3000/updateAccountantDetails/${this.props.match.params.id}`, payload)
         .then((res) => {
           const data = res.data.data;
           this.setState({
@@ -88,7 +88,7 @@ export class AddOrEditAccountant extends React.Component {
         });
     }
     else {
-      axios.post(`https://gst-service-uat.herokuapp.com/newAccountant`, payload)
+      axios.post(`http://3.128.59.35:3000/newAccountant`, payload)
         .then((res) => {
           const data = res.data.data;
           this.setState({

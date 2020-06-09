@@ -37,7 +37,7 @@ export class ManageUser extends React.Component {
   }
 
   getUser = (accountantId, month, year, userType) => {
-    axios.get(`https://gst-service-uat.herokuapp.com/users/${accountantId}/${month}/${year}/${userType}`)
+    axios.get(`http://3.128.59.35:3000/users/${accountantId}/${month}/${year}/${userType}`)
       .then((res) => {
         const users = res.data.data;
         this.setState({ users, isFetching: false });
@@ -53,7 +53,7 @@ export class ManageUser extends React.Component {
   };
 
   statusUpdate = (id, status) => {
-    axios.put(`https://gst-service-uat.herokuapp.com/changeStatus/${id}`, { 'status': status, 'year': this.state.year, 'month': this.state.month })
+    axios.put(`http://3.128.59.35:3000/changeStatus/${id}`, { 'status': status, 'year': this.state.year, 'month': this.state.month })
       .then((res) => {
         const data = res.data.data;
         this.setState({

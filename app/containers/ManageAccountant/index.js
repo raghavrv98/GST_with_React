@@ -39,7 +39,7 @@ export class ManageAccountant extends React.Component {
   }
 
   getAccountant = (month, year) => {
-    axios.get(`https://gst-service-uat.herokuapp.com/accountants/${month}/${year}`)
+    axios.get(`http://3.128.59.35:3000/accountants/${month}/${year}`)
       .then((res) => {
         const accountants = res.data.data;
         this.setState({ accountants, isFetching: false });
@@ -56,7 +56,7 @@ export class ManageAccountant extends React.Component {
   };
 
   statusUpdate = (id, status) => {
-    axios.put(`https://gst-service-uat.herokuapp.com/changeStatus/${id}`, { 'status': status })
+    axios.put(`http://3.128.59.35:3000/changeStatus/${id}`, { 'status': status })
       .then((res) => {
         const data = res.data.data;
         this.setState({
@@ -76,7 +76,7 @@ export class ManageAccountant extends React.Component {
   };
 
   deleteAccountant = (id) => {
-    axios.delete(`https://gst-service-uat.herokuapp.com/accountant/${id}`)
+    axios.delete(`http://3.128.59.35:3000/accountant/${id}`)
       .then((res) => {
         const data = res.data.data;
         this.setState({

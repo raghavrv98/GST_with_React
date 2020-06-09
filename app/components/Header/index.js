@@ -31,7 +31,7 @@ class Header extends React.Component {
     payload._id = localStorage.getItem('userId'),
       payload.emailId = localStorage.getItem('emailId'),
 
-      axios.post(`https://gst-service-uat.herokuapp.com/changePassword`, payload)
+      axios.post(`http://3.128.59.35:3000/changePassword`, payload)
         .then((res) => {
           const data = res.data.data;
           this.setState({

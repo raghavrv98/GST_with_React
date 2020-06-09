@@ -47,7 +47,7 @@ export class UserDetails extends React.Component {
 
 
   getUserBillSummary = (userId, month, year) => {
-    axios.get(`https://gst-service-uat.herokuapp.com/userBillSummary/${userId}/${month}/${year}`)
+    axios.get(`http://3.128.59.35:3000/userBillSummary/${userId}/${month}/${year}`)
       .then((res) => {
         const userBillSummary = res.data.data;
         let reactTableData = Object.entries(userBillSummary.summary[0]).map(val => {
@@ -78,7 +78,7 @@ export class UserDetails extends React.Component {
 
   postReport = (id, formData) => {
     if (this.state.reportType === "daily") {
-      axios.post(`https://gst-service-uat.herokuapp.com/dailyReport/${id}/${this.state.month}/${this.state.year}/${this.state.date}`, formData)
+      axios.post(`http://3.128.59.35:3000/dailyReport/${id}/${this.state.month}/${this.state.year}/${this.state.date}`, formData)
         .then((res) => {
           const data = res.data.data;
           this.setState({
@@ -101,7 +101,7 @@ export class UserDetails extends React.Component {
         });
     }
     else {
-      axios.post(`https://gst-service-uat.herokuapp.com/gstReport/${id}/${this.state.month}/${this.state.year}`, formData)
+      axios.post(`http://3.128.59.35:3000/gstReport/${id}/${this.state.month}/${this.state.year}`, formData)
         .then((res) => {
           const data = res.data.data;
           this.setState({
