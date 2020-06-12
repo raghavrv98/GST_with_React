@@ -76,7 +76,7 @@ export class AboutUs extends React.Component {
               <div className="text-align-center-r">
                 <img
                   className="aboutus-img1-r"
-                  src={require('../../assets/img/aboutUs1.jpg')}
+                  src={require('../../assets/img/logo.png')}
                 />
               </div>
             </div>

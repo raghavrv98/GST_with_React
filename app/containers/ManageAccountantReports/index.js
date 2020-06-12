@@ -118,11 +118,11 @@ export class ManageAccountantReports extends React.Component {
   componentWillMount() {
     let id = this.props.match.params.id
     let report = this.props.match.params.report
-    this.getReports(localStorage.getItem('userId'), this.props.match.params.month, this.props.match.params.year)
     if (report === "gst") {
       this.getUserReports(id, this.props.match.params.month, this.props.match.params.year, report)
     }
     else {
+      this.getReports(localStorage.getItem('userId'), this.props.match.params.month, this.props.match.params.year)
       this.getUserReports(id, this.props.match.params.month, this.props.match.params.year, report, this.props.match.params.date)
     }
   }

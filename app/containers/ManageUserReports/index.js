@@ -52,7 +52,7 @@ export class ManageUserReports extends React.Component {
     if (deleteType === "faulty") {
       axios.delete(`http://3.128.59.35:3000/bill/${id}/${deleteId}/${deleteType}`)
         .then((res) => {
-          const data = res.res.data.message;
+          const data = res.data.data;
           this.setState({
             message: res.data.message,
             isLoading: false,
@@ -148,7 +148,7 @@ export class ManageUserReports extends React.Component {
         <MessageModal
           showHideClassName={this.state.isOpenClassName}
           modalType={this.state.type}
-          message={this.state.deletedMessage}
+          message={this.state.message}
           onClose={this.modalCloseHandler}
         />
 

@@ -84,8 +84,8 @@ margin-bottom: 10px;
 	}
 
 	.sub-heading-r{
-		margin: 0px;
-		font-size: 70px;
+		margin: 0px 0px 20px;
+		font-size: 30px;
 		text-align: center;
 		color: white;
 		font-family: sans-serif;
@@ -113,6 +113,10 @@ margin-bottom: 10px;
 	left: 0%;
 	transform: translate(0%,-50%);
 	top: 50%;
+}
+
+.logo-heading-r{
+	width: 90%;
 }
 
 }

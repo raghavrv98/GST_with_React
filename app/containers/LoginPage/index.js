@@ -153,10 +153,12 @@ export class LoginPage extends React.Component {
         <div className="loginBackgroundImage-r">
           <div className="loginLayout-r">
             <div className="container outer-box-r">
-
               <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 vertical-align-title-r">
-                <p className="title-r">GST</p>
-                <p className="sub-heading-r">"Your Own GST Software"</p>
+                <img
+                  className="logo-heading-r"
+                  src={require('../../assets/img/logo.png')}
+                />
+                <p className="sub-heading-r">Easy to handle, Easy to use</p>
                 <div className="text-align-center-r">
                   <button
                     type="button"

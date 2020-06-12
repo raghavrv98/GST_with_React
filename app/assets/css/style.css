@@ -201,8 +201,9 @@ body {
   color: #255b7a;
   cursor: pointer;
   position: relative;
-  top: -8px;
+  top: -10px;
   left: -90px;
+  z-index: 1;
 }
 
 .resend-report-icon-r {
@@ -210,8 +211,9 @@ body {
   color: #255b7a;
   cursor: pointer;
   position: relative;
-  top: 0px;
-  left: -70px;
+  top: -10px;
+  left: -90px;
+  z-index: 1;
 }
 
 .status-button-r {

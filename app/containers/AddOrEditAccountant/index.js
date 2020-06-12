@@ -205,6 +205,7 @@ export class AddOrEditAccountant extends React.Component {
                     value={this.state.payload.firstName}
                     onChange={this.nameChangeHandler}
                     id="firstName"
+                    autoFocus
                   />
                 </div>
                 <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">

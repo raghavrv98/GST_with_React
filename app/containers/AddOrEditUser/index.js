@@ -214,6 +214,7 @@ export class AddOrEditUser extends React.Component {
                     value={this.state.payload.legalName}
                     onChange={this.nameChangeHandler}
                     id="legalName"
+                    autoFocus
                     required />
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">

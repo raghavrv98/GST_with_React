@@ -71,7 +71,6 @@ export class Contact extends React.Component {
                     id="email"
                     className="form-control reset-input-box-r"
                     placeholder="Email-Id"
-                    autoFocus
                     required />
                 </div>
                 <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
@@ -82,7 +81,6 @@ export class Contact extends React.Component {
                     id="subject"
                     className="form-control reset-input-box-r"
                     placeholder="Subject"
-                    autoFocus
                     required />
                 </div>
                 <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
