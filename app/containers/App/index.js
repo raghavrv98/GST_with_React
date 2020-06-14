@@ -40,20 +40,20 @@ export default function App() {
       </Helmet> */}
       <Header />
       <Switch>
-        <Route exact path="/" component={LoginPage} />
-        <Route exact path="/user" component={User} />
-        <Route exact path="/userDetails/:id/:month/:year" component={UserDetails} />
-        <Route exact path="/contact" component={Contact} />
-        <Route exact path="/aboutUs" component={AboutUs} />
-        <Route exact path="/addOrEditUser/:id?" component={AddOrEditUser} />
-        <Route exact path="/addOrEditAccountant/:id?" component={AddOrEditAccountant} />
-        <Route exact path="/manageAccountant" component={ManageAccountant} />
-        <Route exact path="/manageUser/:id?" component={ManageUser} />
-        <Route exact path="/admin" component={Admin} />
-        <Route exact path="/manageUserReports/:month/:year" component={ManageUserReports} />
-        <Route exact path="/userDetails/:id/manageAccountantReports/:report/:month/:year/:date?" component={ManageAccountantReports} />
-        <Route exact path="/userDetails/:id/userBillDetails/:bill/:month/:year/:date" component={UserBillDetails} />
-        <Route exact path="/error403" component={ForbiddenPage} />
+        <Route exact path="/" render={props => <LoginPage {...props} />} />
+        <Route exact path="/user" render={props => <User {...props} />} />
+        <Route exact path="/userDetails/:id/:month/:year" render={props => <UserDetails {...props} />} />
+        <Route exact path="/contact" render={props => <Contact {...props} />} />
+        <Route exact path="/aboutUs" render={props => <AboutUs {...props} />} />
+        <Route exact path="/addOrEditUser/:id?" render={props => <AddOrEditUser {...props} />} /> 
+        <Route exact path="/addOrEditAccountant/:id?" render={props => <AddOrEditAccountant {...props} />} />
+        <Route exact path="/manageAccountant" render={props => <ManageAccountant {...props} />} />
+        <Route exact path="/manageUser/:id?" render={props => <ManageUser {...props} />} />
+        <Route exact path="/admin" render={props => <Admin {...props} />} />
+        <Route exact path="/manageUserReports/:month/:year" render={props => <ManageUserReports {...props} />} />
+        <Route exact path="/userDetails/:id/manageAccountantReports/:report/:month/:year/:date?" render={props => <ManageAccountantReports {...props} />} />
+        <Route exact path="/userDetails/:id/userBillDetails/:bill/:month/:year/:date" render={props => <UserBillDetails {...props} />} />
+        <Route exact path="/error403" render={props => <ForbiddenPage {...props} />} />
         <Route component={NotFoundPage} />
       </Switch>
       <Footer />
