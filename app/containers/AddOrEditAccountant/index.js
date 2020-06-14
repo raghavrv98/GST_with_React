@@ -50,7 +50,8 @@ export class AddOrEditAccountant extends React.Component {
   }
 
   getAccountantById = (id) => {
-    axios.get(`http://3.128.59.35:3000/AccountantDetails/${id}`)
+    let url = window.API_URL + `/AccountantDetails/${id}`;
+    axios.get(url)
       .then((res) => {
         const payload = res.data.data;
         this.setState({ payload, isLoading: false });
@@ -67,8 +68,9 @@ export class AddOrEditAccountant extends React.Component {
   };
 
   postAccountant = (payload) => {
+    let url = window.API_URL + `/updateAccountantDetails/${this.props.match.params.id}`;
     if (this.props.match.params.id) {
-      axios.put(`http://3.128.59.35:3000/updateAccountantDetails/${this.props.match.params.id}`, payload)
+      axios.put(url, payload)
         .then((res) => {
           const data = res.data.data;
           this.setState({
@@ -88,7 +90,8 @@ export class AddOrEditAccountant extends React.Component {
         });
     }
     else {
-      axios.post(`http://3.128.59.35:3000/newAccountant`, payload)
+    let url = window.API_URL + `/newAccountant`;
+      axios.post(url, payload)
         .then((res) => {
           const data = res.data.data;
           this.setState({

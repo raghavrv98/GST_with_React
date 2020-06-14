@@ -33,7 +33,8 @@ export class ManageUserReports extends React.Component {
   }
 
   getReports = (id, month, year) => {
-    axios.get(`http://3.128.59.35:3000/report/${id}/${month}/${year}`)
+    let url = window.API_URL + `/report/${id}/${month}/${year}`
+    axios.get(url)
       .then((res) => {
         const getReports = res.data.data;
         this.setState({ getReports, isLoading: false });
@@ -50,7 +51,8 @@ export class ManageUserReports extends React.Component {
 
   deleteReports = (id, deleteId, deleteType) => {
     if (deleteType === "faulty") {
-      axios.delete(`http://3.128.59.35:3000/bill/${id}/${deleteId}/${deleteType}`)
+      let url = window.API_URL + `/bill/${id}/${deleteId}/${deleteType}`
+      axios.delete(url)
         .then((res) => {
           const data = res.data.data;
           this.setState({
@@ -70,7 +72,8 @@ export class ManageUserReports extends React.Component {
         }, () => setTimeout(this.modalTime, 1500));
     }
     else {
-      axios.delete(`http://3.128.59.35:3000/report/${id}/${deleteId}/${deleteType}`)
+      let url = window.API_URL + `/report/${id}/${deleteId}/${deleteType}`
+      axios.delete(url)
         .then((res) => {
           const data = res.data.data;
           this.setState({
@@ -130,6 +133,15 @@ export class ManageUserReports extends React.Component {
     })
   }
 
+  downloadSample = (img, name) => {
+    const link = document.createElement('a');
+    link.href = window.API_URL +"/bills/" + img;
+    document.body.appendChild(link);
+    link.download = name;
+    link.click();
+    document.body.removeChild(link);
+  }
+
   render() {
     return (
       <div>
@@ -175,9 +187,9 @@ export class ManageUserReports extends React.Component {
                           <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                         </span>
                         <span className="download-report-icon-r">
-                          <a target="_blank" download href={"http://3.128.59.35:3000/daily-reports/" + val.img} className="fa fa-download"></a>
+                          <a download={val.originalName} href={window.API_URL + "/daily-reports/" + val.img} className="fa fa-download"></a>
                         </span>
-                        <img className="selected-report-image-r" src={"http://3.128.59.35:3000/daily-reports/" + val.img} />
+                        <img className="selected-report-image-r" src={window.API_URL + "/daily-reports/" + val.img} />
                         <p className="card-selected-heading-r">{val.originalName}</p>
                         <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                         <p className="card-text-r">{val.comment}</p>
@@ -199,9 +211,9 @@ export class ManageUserReports extends React.Component {
                           <button name="gst" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                         </span>
                         <span className="download-report-icon-r">
-                          <a target="_blank" download href={"http://3.128.59.35:3000/gst-reports/" + val.img} className="fa fa-download"></a>
+                          <a download={val.originalName} href={window.API_URL + "/gst-reports/" + val.img} className="fa fa-download"></a>
                         </span>
-                        <img className="selected-report-image-r" src={"http://3.128.59.35:3000/gst-reports/" + val.img} />
+                        <img className="selected-report-image-r" src={window.API_URL + "/gst-reports/" + val.img} />
                         <p className="card-selected-heading-r">{val.originalName}</p>
                         <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                         <p className="card-text-r">{val.comment}</p>
@@ -223,9 +235,15 @@ export class ManageUserReports extends React.Component {
                           <button name="faulty" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                         </span>
                         <span className="download-report-icon-r">
-                          <a target="_blank" download href={"http://3.128.59.35:3000/bills/" + val.img} className="fa fa-download"></a>
+                          {/* <a download="abc.png" href={window.API_URL +"/bills/" + val.img} className=""></a> */}
+                          <button
+                            type="button"
+                            className="fa fa-download"
+                            onClick={()=>this.downloadSample(val.img, val.originalName)}
+                          >
+                          </button>
                         </span>
-                        <img className="selected-report-image-r" src={"http://3.128.59.35:3000/bills/" + val.img} />
+                        <img className="selected-report-image-r" src={window.API_URL + "/bills/" + val.img} />
                         <p className="card-selected-heading-r">{val.originalName}</p>
                         <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                         <p className="card-text-r">{val.comment}</p>

@@ -41,7 +41,8 @@ export class UserBillDetails extends React.Component {
 
   getBill = (id, month, year, bill, date) => {
     if (bill === "purchase") {
-      axios.get(`http://3.128.59.35:3000/purchase/${id}/${month}/${year}/${date}`)
+      let url = window.API_URL + `/purchase/${id}/${month}/${year}/${date}`
+      axios.get(url)
         .then((res) => {
           const getBill = res.data.data;
           this.setState({ getBill, isLoading: false });
@@ -58,7 +59,8 @@ export class UserBillDetails extends React.Component {
         });
     }
     else if (bill === "sale") {
-      axios.get(`http://3.128.59.35:3000/sale/${id}/${month}/${year}/${date}`)
+      let url = window.API_URL + `/sale/${id}/${month}/${year}/${date}`
+      axios.get(url)
         .then((res) => {
           const getBill = res.data.data;
           this.setState({ getBill, isLoading: false });
@@ -75,7 +77,8 @@ export class UserBillDetails extends React.Component {
         });
     }
     else {
-      axios.get(`http://3.128.59.35:3000/other/${id}/${month}/${year}/${date}`)
+      let url = window.API_URL + `/other/${id}/${month}/${year}/${date}`
+      axios.get(url)
         .then((res) => {
           const getBill = res.data.data;
           this.setState({ getBill, isLoading: false });
@@ -98,7 +101,8 @@ export class UserBillDetails extends React.Component {
       cardLoader: true,
       showHideClassName: 'modal display-none container',
     })
-    axios.put(`http://3.128.59.35:3000/changeBillStatus/${this.props.match.params.id}/${id}/${this.props.match.params.bill}`, { 'status': status })
+    let url = window.API_URL + `/changeBillStatus/${this.props.match.params.id}/${id}/${this.props.match.params.bill}`
+    axios.put(url, { 'status': status })
       .then((res) => {
         const data = res.data.data;
         this.setState({
@@ -150,8 +154,8 @@ export class UserBillDetails extends React.Component {
           comment
         }
       }
-
-      axios.put(`http://3.128.59.35:3000/transferBill/${this.props.match.params.id}/${id}`, payload)
+      let url = window.API_URL + `/transferBill/${this.props.match.params.id}/${id}`
+      axios.put(url, payload)
         .then((res) => {
           const data = res.data.data;
           this.setState({
@@ -257,7 +261,7 @@ export class UserBillDetails extends React.Component {
 
                 <div className="modal-body,input-group input-group-lg">
                   <div className="full-view-form-padding-r">
-                    <img className="card-full-view-parent-img-r" src={"http://3.128.59.35:3000/bills/" + this.state.imgName} />
+                    <img className="card-full-view-parent-img-r" src={window.API_URL+"/bills/" + this.state.imgName} />
                   </div>
                 </div>
               </div>
@@ -296,9 +300,9 @@ export class UserBillDetails extends React.Component {
                             <form>
                               <div style={{ height: "130px" }}>
                                 {this.state.billId == val._id && this.state.cardLoader ?
-                                  <div class="lds-ring"><div></div><div></div><div></div><div></div></div> :
+                                  <div className="lds-ring"><div></div><div></div><div></div><div></div></div> :
                                   <React.Fragment>
-                                    <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={"http://3.128.59.35:3000/bills/" + val.img} />
+                                    <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={window.API_URL+"/bills/" + val.img} />
                                     {val.completeStatus ? <img onClick={this.fullviewModal} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
                                     <input className="card-status-button-r" onChange={() => this.statusBoxHandler(event, val._id)} checked={val.completeStatus} id={val._id} type="checkbox" />
                                   </React.Fragment>
@@ -343,9 +347,9 @@ export class UserBillDetails extends React.Component {
                               <form>
                                 <div style={{ height: "130px" }}>
                                   {this.state.billId == val._id && this.state.cardLoader ?
-                                    <div class="lds-ring"><div></div><div></div><div></div><div></div></div> :
+                                    <div className="lds-ring"><div></div><div></div><div></div><div></div></div> :
                                     <React.Fragment>
-                                      <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={"http://3.128.59.35:3000/bills/" + val.img} />
+                                      <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={window.API_URL+"/bills/" + val.img} />
                                       {val.completeStatus ? <img onClick={this.fullviewModal} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
                                       <input className="card-status-button-r" onChange={() => this.statusBoxHandler(event, val._id)} checked={val.completeStatus} id={val._id} type="checkbox" />
                                     </React.Fragment>
@@ -390,9 +394,9 @@ export class UserBillDetails extends React.Component {
                               <form>
                                 <div style={{ height: "130px" }}>
                                   {this.state.billId == val._id && this.state.cardLoader ?
-                                    <div class="lds-ring"><div></div><div></div><div></div><div></div></div> :
+                                    <div className="lds-ring"><div></div><div></div><div></div><div></div></div> :
                                     <React.Fragment>
-                                      <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={"http://3.128.59.35:3000/bills/" + val.img} />
+                                      <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={window.API_URL+"/bills/" + val.img} />
                                       {val.completeStatus ? <img onClick={this.fullviewModal} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
                                       <input className="card-status-button-r" onChange={() => this.statusBoxHandler(event, val._id)} checked={val.completeStatus} id={val._id} type="checkbox" />
                                     </React.Fragment>

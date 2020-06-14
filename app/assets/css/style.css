@@ -1107,6 +1107,16 @@ margin: 0px;
 	height: 92vh !important;
 }
 
+.logo-r{
+  margin-top: -11px;
+  height: 40px;
+}
+
+.not-allowed {
+  pointer-events: auto! important;
+  cursor: not-allowed! important;
+}
+
 /* -------------------------------------------------------------------------------------------------------------------- */
 
 @media screen and (min-width: 768px) {

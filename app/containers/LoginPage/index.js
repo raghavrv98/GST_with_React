@@ -41,7 +41,8 @@ export class LoginPage extends React.Component {
       isLoading: true
     })
     let payload = JSON.parse(JSON.stringify(this.state.payload));
-    axios.post(`http://3.128.59.35:3000/login`, payload)
+    let url = window.API_URL + "/login";
+    axios.post(url, payload)
       .then((res) => {
         const data = res.data.data;
         localStorage.setItem('role', data.role)
@@ -80,7 +81,8 @@ export class LoginPage extends React.Component {
       isLoading: true
     })
     let payload = JSON.parse(JSON.stringify(this.state.payload));
-    axios.post(`http://3.128.59.35:3000/forgotPassword`, payload)
+    let url = window.API_URL + "/forgotPassword";
+    axios.post(url, payload)
       .then((res) => {
         const data = res.data.data;
         payload.emailId = ""

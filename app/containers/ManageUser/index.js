@@ -37,7 +37,8 @@ export class ManageUser extends React.Component {
   }
 
   getUser = (accountantId, month, year, userType) => {
-    axios.get(`http://3.128.59.35:3000/users/${accountantId}/${month}/${year}/${userType}`)
+    let url = window.API_URL + `/users/${accountantId}/${month}/${year}/${userType}`;
+    axios.get(url)
       .then((res) => {
         const users = res.data.data;
         this.setState({ users, isFetching: false });
@@ -53,7 +54,8 @@ export class ManageUser extends React.Component {
   };
 
   statusUpdate = (id, status) => {
-    axios.put(`http://3.128.59.35:3000/changeStatus/${id}`, { 'status': status, 'year': this.state.year, 'month': this.state.month })
+    let url = window.API_URL + `/changeStatus/${id}`;
+    axios.put(url, { 'status': status, 'year': this.state.year, 'month': this.state.month })
       .then((res) => {
         const data = res.data.data;
         this.setState({

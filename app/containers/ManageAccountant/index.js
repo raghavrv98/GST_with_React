@@ -39,7 +39,8 @@ export class ManageAccountant extends React.Component {
   }
 
   getAccountant = (month, year) => {
-    axios.get(`http://3.128.59.35:3000/accountants/${month}/${year}`)
+    let url = window.API_URL + `/accountants/${month}/${year}`;
+    axios.get(url)
       .then((res) => {
         const accountants = res.data.data;
         this.setState({ accountants, isFetching: false });
@@ -56,7 +57,8 @@ export class ManageAccountant extends React.Component {
   };
 
   statusUpdate = (id, status) => {
-    axios.put(`http://3.128.59.35:3000/changeStatus/${id}`, { 'status': status })
+    let url = window.API_URL + `/changeStatus/${id}`;
+    axios.put(url, { 'status': status })
       .then((res) => {
         const data = res.data.data;
         this.setState({
@@ -76,7 +78,8 @@ export class ManageAccountant extends React.Component {
   };
 
   deleteAccountant = (id) => {
-    axios.delete(`http://3.128.59.35:3000/accountant/${id}`)
+    let url = window.API_URL + `/accountant/${id}`;
+    axios.delete(url)
       .then((res) => {
         const data = res.data.data;
         this.setState({

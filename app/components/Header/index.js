@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import MessageModal from '../../components/MessageModal/Loadable'
 import axios from 'axios';
 import history from "./../../utils/history";
+import { errorHandler } from '../../utils/commonUtils';
 /* eslint-disable react/prefer-stateless-function */
 class Header extends React.Component {
   state = {
@@ -24,22 +25,21 @@ class Header extends React.Component {
   resetPassword = () => {
     event.preventDefault();
     this.setState({
-      showHideClassName: 'modal display-none container'
+      showHideClassName: 'modal display-none container',
     })
     let payload = JSON.parse(JSON.stringify(this.state.payload));
+    let url = window.API_URL + "/changePassword";
 
     payload._id = localStorage.getItem('userId'),
       payload.emailId = localStorage.getItem('emailId'),
-
-      axios.post(`http://3.128.59.35:3000/changePassword`, payload)
+      axios.post(url, payload)
         .then((res) => {
           const data = res.data.data;
           this.setState({
             message: res.data.message,
-            isLoading: false,
             type: "success",
             isOpenClassName: 'modal display-block container'
-          }, () => setTimeout(this.modalTime, 1500));
+          }, () => setTimeout(this.modalTime, 1500), this.userLogout());
         })
         .catch((error) => {
           let message = errorHandler(error);
@@ -89,6 +89,7 @@ class Header extends React.Component {
     event.preventDefault();
     sessionStorage.clear();
     localStorage.clear();
+    history.push("/")
   };
 
   render() {
@@ -123,7 +124,10 @@ class Header extends React.Component {
                 exact
                 to="#"
               >
-                GST
+                <img
+                  className="logo-r"
+                  src={require('../../assets/img/logo.png')}
+                />
               </NavLink>
             </div>
             {localStorage.getItem('role') ?

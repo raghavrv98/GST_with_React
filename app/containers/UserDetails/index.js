@@ -47,7 +47,8 @@ export class UserDetails extends React.Component {
 
 
   getUserBillSummary = (userId, month, year) => {
-    axios.get(`http://3.128.59.35:3000/userBillSummary/${userId}/${month}/${year}`)
+    let url = window.API_URL + `/userBillSummary/${userId}/${month}/${year}`
+    axios.get(url)
       .then((res) => {
         const userBillSummary = res.data.data;
         let reactTableData = Object.entries(userBillSummary.summary[0]).map(val => {
@@ -78,7 +79,8 @@ export class UserDetails extends React.Component {
 
   postReport = (id, formData) => {
     if (this.state.reportType === "daily") {
-      axios.post(`http://3.128.59.35:3000/dailyReport/${id}/${this.state.month}/${this.state.year}/${this.state.date}`, formData)
+      let url = window.API_URL + `/dailyReport/${id}/${this.state.month}/${this.state.year}/${this.state.date}`
+      axios.post(url, formData)
         .then((res) => {
           const data = res.data.data;
           this.setState({
@@ -101,7 +103,8 @@ export class UserDetails extends React.Component {
         });
     }
     else {
-      axios.post(`http://3.128.59.35:3000/gstReport/${id}/${this.state.month}/${this.state.year}`, formData)
+      let url = window.API_URL + `/gstReport/${id}/${this.state.month}/${this.state.year}`
+      axios.post(url, formData)
         .then((res) => {
           const data = res.data.data;
           this.setState({

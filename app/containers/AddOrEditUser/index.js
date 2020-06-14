@@ -54,7 +54,8 @@ export class AddOrEditUser extends React.Component {
   }
 
   getUserById = (id) => {
-    axios.get(`http://3.128.59.35:3000/userDetails/${id}`)
+    let url = window.API_URL + `/userDetails/${id}`;
+    axios.get(url)
       .then((res) => {
         const payload = res.data.data;
         this.setState({ payload, isLoading: false });
@@ -73,7 +74,8 @@ export class AddOrEditUser extends React.Component {
   postUser = (payload) => {
     let accountantId = localStorage.getItem('userId')
     if (this.props.match.params.id) {
-      axios.put(`http://3.128.59.35:3000/updateUserDetails/${this.props.match.params.id}`, payload)
+    let url = window.API_URL + `/updateUserDetails/${this.props.match.params.id}`;
+      axios.put(url, payload)
         .then((res) => {
           const data = res.data.data;
           this.setState({
@@ -93,7 +95,8 @@ export class AddOrEditUser extends React.Component {
         });
     }
     else {
-      axios.post(`http://3.128.59.35:3000/newUser/${accountantId}`, payload)
+    let url = window.API_URL + `/newUser/${accountantId}`;
+      axios.post(url, payload)
         .then((res) => {
           const data = res.data.data;
           this.setState({

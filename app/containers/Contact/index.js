@@ -84,11 +84,11 @@ export class Contact extends React.Component {
                     required />
                 </div>
                 <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                  <textarea defaultValue="Enter your message here..." className="form-control message-body-r" name="address" required
+                  <textarea placeholder="Enter your message here..." className="form-control message-body-r" name="address" required
                     rows="8" />
                 </div>
                 <div className="text-align-center-r">
-                  <button type="submit" className="button-base-r width-40-r margin-bottom-b-60-r width-30-r" name="">Send</button>
+                  <button disabled type="submit" className="button-base-r width-40-r margin-bottom-b-60-r width-30-r not-allowed" name="">Send</button>
                 </div>
               </form>
             </div>

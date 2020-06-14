@@ -48,8 +48,9 @@ export class User extends React.Component {
   }
 
   getbill = (id, month, year) => {
+    let url = window.API_URL + `/bill/${id}/${month}/${year}`
     axios
-      .get(`http://3.128.59.35:3000/bill/${id}/${month}/${year}`)
+      .get(url)
       .then((res) => {
         const getbill = res.data.data;
         let isDeletedBill = []
@@ -83,8 +84,9 @@ export class User extends React.Component {
   };
 
   deleteBills = (id, deleteId, deleteType) => {
+    let url = window.API_URL + `/bill/${id}/${deleteId}/${deleteType}`
     axios
-      .delete(`http://3.128.59.35:3000/bill/${id}/${deleteId}/${deleteType}`)
+      .delete(url)
       .then((res) => {
         const data = res.data.data;
         this.setState({
@@ -107,7 +109,7 @@ export class User extends React.Component {
 
   putbill = (id, formData) => {
     axios
-      .put(`http://3.128.59.35:3000/bill/${id}`, formData)
+      .put(window.API_URL+`/bill/${id}`, formData)
       .then((res) => {
         const data = res.data.data;
         this.setState({
@@ -282,7 +284,7 @@ export class User extends React.Component {
               <div className="row">
                 <div className="col-xs-6 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-5">
                   <select value={this.state.year} onChange={this.nameChangeHandler} className="year-month-border-r" id="year">
-                    <option value="">Select Year</option>
+                    <option disabled = {true} value="">Select Year</option>
                     <option value="2020">2020-2021</option>
                     <option value="2019">2019-2020</option>
                     <option value="2018">2018-2019</option>
@@ -291,7 +293,7 @@ export class User extends React.Component {
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-5">
                   <select value={this.state.month} onChange={this.nameChangeHandler} className="year-month-border-r" id="month">
-                    <option value="">Select Month</option>
+                    <option disabled = {true} value="">Select Month</option>
                     <option value="4">April</option>
                     <option value="5">May</option>
                     <option value="6">June</option>
@@ -391,7 +393,7 @@ export class User extends React.Component {
                       {this.state.getbill.purchaseBills && this.state.getbill.purchaseBills.map((val, index) =>
                         <React.Fragment key={index}>
                           <div className="card-selected-image-r">
-                            <img className="selected-image-r" src={"http://3.128.59.35:3000/bills/" + val.img} />
+                            <img className="selected-image-r" src={window.API_URL+"/bills/" + val.img} />
                             <p className="card-selected-heading-r">{val.originalName}</p>
                             <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                           </div>
@@ -462,7 +464,7 @@ export class User extends React.Component {
                         {this.state.getbill.saleBills && this.state.getbill.saleBills.map((val, index) =>
                           <React.Fragment key={index}>
                             <div className="card-selected-image-r">
-                              <img className="selected-image-r" src={"http://3.128.59.35:3000/bills/" + val.img} />
+                              <img className="selected-image-r" src={window.API_URL+"/bills/" + val.img} />
                               <p className="card-selected-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                             </div>
@@ -534,7 +536,7 @@ export class User extends React.Component {
                         {this.state.getbill.otherBills && this.state.getbill.otherBills.map((val, index) =>
                           <React.Fragment key={index}>
                             <div className="card-selected-image-r">
-                              <img className="selected-image-r" src={"http://3.128.59.35:3000/bills/" + val.img} />
+                              <img className="selected-image-r" src={window.API_URL+"/bills/" + val.img} />
                               <p className="card-selected-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                             </div>

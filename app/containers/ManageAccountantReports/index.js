@@ -39,7 +39,8 @@ export class ManageAccountantReports extends React.Component {
 
   getUserReports = (userId, month, year, report, date) => {
     if (report === "daily") {
-      axios.get(`http://3.128.59.35:3000/dailyReports/${userId}/${month}/${year}/${date}`)
+    let url = window.API_URL + `/dailyReports/${userId}/${month}/${year}/${date}`;
+      axios.get(url)
         .then((res) => {
           const userReports = res.data.data;
           this.setState({ userReports, isFetching: false, isLoading: false });
@@ -56,7 +57,8 @@ export class ManageAccountantReports extends React.Component {
     }
 
     else {
-      axios.get(`http://3.128.59.35:3000/gstReports/${userId}/${month}/${year}`)
+    let url = window.API_URL + `/gstReports/${userId}/${month}/${year}`;
+      axios.get(url)
         .then((res) => {
           const userReports = res.data.data;
           this.setState({ userReports, isFetching: false, isLoading: false });
@@ -74,7 +76,8 @@ export class ManageAccountantReports extends React.Component {
   }
 
   getReports = (id, month, year) => {
-    axios.get(`http://3.128.59.35:3000/report/${id}/${month}/${year}`)
+    let url = window.API_URL + `/report/${id}/${month}/${year}`;
+    axios.get(url)
       .then((res) => {
         const getReports = res.data.data;
         this.setState({ getReports, isLoading: false });
@@ -94,7 +97,8 @@ export class ManageAccountantReports extends React.Component {
     let id = event.target.id
     let userId = this.props.match.params.id
     let report = this.props.match.params.report
-    axios.put(`http://3.128.59.35:3000/resendReport/${userId}/${id}/${report}`)
+    let url = window.API_URL + `/resendReport/${userId}/${id}/${report}`;
+    axios.put(url)
       .then((res) => {
         const data = res.data.data;
         this.setState({
@@ -185,7 +189,7 @@ export class ManageAccountantReports extends React.Component {
                           <span className="resend-report-icon-r">
                             <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
                           </span>
-                          <img className="selected-report-image-r" src={"http://3.128.59.35:3000/gst-reports/" + val.img} />
+                          <img className="selected-report-image-r" src={window.API_URL+"/gst-reports/" + val.img} />
                           <p className="card-selected-heading-r">{val.originalName}</p>
                           <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                           <p className="card-text-r">{val.comment}</p>
@@ -211,7 +215,8 @@ export class ManageAccountantReports extends React.Component {
                               <span className="resend-report-icon-r">
                                 <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
                               </span>
-                              <img className="selected-report-image-r" src={"http://3.128.59.35:3000/daily-reports/" + val.img} />
+
+                              <img className="selected-report-image-r" src={window.API_URL + "/daily-reports/" + val.img} />
                               <p className="card-selected-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                               <p className="card-text-r">{val.comment}</p>
@@ -234,7 +239,8 @@ export class ManageAccountantReports extends React.Component {
                               <span className="resend-report-icon-r">
                                 <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
                               </span>
-                              <img className="selected-report-image-r" src={"http://3.128.59.35:3000/bills/" + val.img} />
+
+                              <img className="selected-report-image-r" src={window.API_URL + "/bills/" + val.img} />
                               <p className="card-selected-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                               <p className="card-text-r">{val.comment}</p>

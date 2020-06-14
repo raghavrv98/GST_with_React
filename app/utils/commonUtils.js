@@ -4,7 +4,6 @@ export function errorHandler(error) {
 	let message = '';
 	if (error.response) {
 		if (error.response.status === 401) {
-			localStorage.clear();
 			message = error.response.data.message;
 		} else if (error.response.status === 400) {
 			message = error.response.data.message;
