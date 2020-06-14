@@ -20,6 +20,7 @@ module.exports = require('./webpack.base.babel')({
   output: {
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].chunk.js',
+    publicPath: '/'
   },
 
   optimization: {
@@ -47,7 +48,7 @@ module.exports = require('./webpack.base.babel')({
     sideEffects: true,
     concatenateModules: true,
     splitChunks: {
-      chunks: 'all',
+      chunks: 'async',
       minSize: 30000,
       minChunks: 1,
       maxAsyncRequests: 5,
@@ -55,12 +56,12 @@ module.exports = require('./webpack.base.babel')({
       name: true,
       cacheGroups: {
         commons: {
+          chunks: 'all',
           test: /[\\/]node_modules[\\/]/,
           name: 'vendor',
-          chunks: 'all',
         },
         main: {
-          chunks: 'all',
+          chunks: 'async',
           minChunks: 2,
           reuseExistingChunk: true,
           enforce: true,
@@ -68,6 +69,10 @@ module.exports = require('./webpack.base.babel')({
       },
     },
     runtimeChunk: true,
+  },
+
+  devServer: {
+    historyApiFallback: true
   },
 
   plugins: [

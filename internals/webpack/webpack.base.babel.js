@@ -113,6 +113,11 @@ module.exports = options => ({
       },
     ],
   },
+
+  devServer: {
+    historyApiFallback: true
+  },
+
   plugins: options.plugins.concat([
     // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
     // inside your code for any environment checks; Terser will automatically
@@ -120,6 +125,7 @@ module.exports = options => ({
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        API_URL: JSON.stringify(process.env.API_URL),
       },
     }),
   ]),

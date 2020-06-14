@@ -21,6 +21,7 @@ module.exports = require('./webpack.base.babel')({
   output: {
     filename: '[name].js',
     chunkFilename: '[name].chunk.js',
+    publicPath: '/'
   },
 
   optimization: {
@@ -29,6 +30,10 @@ module.exports = require('./webpack.base.babel')({
     },
   },
 
+  devServer: {
+    historyApiFallback: true
+  },
+  
   // Add development plugins
   plugins: [
     new webpack.HotModuleReplacementPlugin(), // Tell webpack we want hot reloading
