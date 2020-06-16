@@ -393,7 +393,7 @@ export class User extends React.Component {
                       {this.state.getbill.purchaseBills && this.state.getbill.purchaseBills.map((val, index) =>
                         <React.Fragment key={index}>
                           <div className="card-selected-image-r">
-                            <img className="selected-image-r" src={window.API_URL+"/bills/" + val.img} />
+                            <img className="selected-image-r" src={window.API_URL_IMAGE+"/bills/" + val.img} />
                             <p className="card-selected-heading-r">{val.originalName}</p>
                             <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                           </div>
@@ -464,7 +464,7 @@ export class User extends React.Component {
                         {this.state.getbill.saleBills && this.state.getbill.saleBills.map((val, index) =>
                           <React.Fragment key={index}>
                             <div className="card-selected-image-r">
-                              <img className="selected-image-r" src={window.API_URL+"/bills/" + val.img} />
+                              <img className="selected-image-r" src={window.API_URL_IMAGE+"/bills/" + val.img} />
                               <p className="card-selected-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                             </div>
@@ -536,7 +536,7 @@ export class User extends React.Component {
                         {this.state.getbill.otherBills && this.state.getbill.otherBills.map((val, index) =>
                           <React.Fragment key={index}>
                             <div className="card-selected-image-r">
-                              <img className="selected-image-r" src={window.API_URL+"/bills/" + val.img} />
+                              <img className="selected-image-r" src={window.API_URL_IMAGE+"/bills/" + val.img} />
                               <p className="card-selected-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                             </div>

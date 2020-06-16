@@ -189,7 +189,7 @@ export class ManageAccountantReports extends React.Component {
                           <span className="resend-report-icon-r">
                             <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
                           </span>
-                          <img className="selected-report-image-r" src={window.API_URL+"/gst-reports/" + val.img} />
+                          <img className="selected-report-image-r" src={window.API_URL_IMAGE+"/gst-reports/" + val.img} />
                           <p className="card-selected-heading-r">{val.originalName}</p>
                           <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                           <p className="card-text-r">{val.comment}</p>
@@ -216,7 +216,7 @@ export class ManageAccountantReports extends React.Component {
                                 <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
                               </span>
 
-                              <img className="selected-report-image-r" src={window.API_URL + "/daily-reports/" + val.img} />
+                              <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/daily-reports/" + val.img} />
                               <p className="card-selected-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                               <p className="card-text-r">{val.comment}</p>
@@ -240,7 +240,7 @@ export class ManageAccountantReports extends React.Component {
                                 <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
                               </span>
 
-                              <img className="selected-report-image-r" src={window.API_URL + "/bills/" + val.img} />
+                              <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} />
                               <p className="card-selected-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                               <p className="card-text-r">{val.comment}</p>
