@@ -75,12 +75,12 @@ export class ManageAccountantReports extends React.Component {
     }
   }
 
-  getReports = (id, month, year) => {
-    let url = window.API_URL + `/report/${id}/${month}/${year}`;
+  getfaultyBills = (id, month, year, date) => {
+    let url = window.API_URL + `/faultyBills/${id}/${month}/${year}/${date}`;
     axios.get(url)
       .then((res) => {
-        const getReports = res.data.data;
-        this.setState({ getReports, isLoading: false });
+        const faultyBills = res.data.data;
+        this.setState({ faultyBills, isLoading: false });
       })
       .catch((error) => {
         let message = errorHandler(error);
@@ -126,7 +126,7 @@ export class ManageAccountantReports extends React.Component {
       this.getUserReports(id, this.props.match.params.month, this.props.match.params.year, report)
     }
     else {
-      this.getReports(localStorage.getItem('userId'), this.props.match.params.month, this.props.match.params.year)
+      this.getfaultyBills(localStorage.getItem('userId'), this.props.match.params.month, this.props.match.params.year, this.props.match.params.date)
       this.getUserReports(id, this.props.match.params.month, this.props.match.params.year, report, this.props.match.params.date)
     }
   }
