@@ -39,7 +39,7 @@ export class ManageAccountantReports extends React.Component {
 
   getUserReports = (userId, month, year, report, date) => {
     if (report === "daily") {
-    let url = window.API_URL + `/dailyReports/${userId}/${month}/${year}/${date}`;
+      let url = window.API_URL + `/dailyReports/${userId}/${month}/${year}/${date}`;
       axios.get(url)
         .then((res) => {
           const userReports = res.data.data;
@@ -57,7 +57,7 @@ export class ManageAccountantReports extends React.Component {
     }
 
     else {
-    let url = window.API_URL + `/gstReports/${userId}/${month}/${year}`;
+      let url = window.API_URL + `/gstReports/${userId}/${month}/${year}`;
       axios.get(url)
         .then((res) => {
           const userReports = res.data.data;
@@ -180,22 +180,27 @@ export class ManageAccountantReports extends React.Component {
                 <React.Fragment>
                   <p className="static-title-r">GST Reports</p>
                   <div className="text-align-center-r">
-                    {this.state.userReports.map((val, index) =>
-                      <React.Fragment key={index}>
-                        <div className="card-report-r">
-                          {/* <span className="delete-report-icon-r">
+                    {this.state.userReports.length > 0 ?
+                      this.state.userReports.map((val, index) =>
+                        <React.Fragment key={index}>
+                          <div className="card-report-r">
+                            {/* <span className="delete-report-icon-r">
                         <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                       </span> */}
-                          <span className="resend-report-icon-r">
-                            <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
-                          </span>
-                          <img className="selected-report-image-r" src={window.API_URL_IMAGE+"/gst-reports/" + val.img} />
-                          <p className="card-selected-heading-r">{val.originalName}</p>
-                          <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
-                          <p className="card-text-r">{val.comment}</p>
-                        </div>
-                      </React.Fragment>
-                    )}
+                            <span className="resend-report-icon-r">
+                              <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
+                            </span>
+                            <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/gst-reports/" + val.img} />
+                            <p className="card-selected-heading-r">{val.originalName}</p>
+                            <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                            <p className="card-text-r">{val.comment}</p>
+                          </div>
+                        </React.Fragment>
+                      ) :
+                      <img
+                        className="nodata-img1-r"
+                        src={require('../../assets/img/noresultqa.png')}
+                      />}
                   </div>
 
 
@@ -206,23 +211,28 @@ export class ManageAccountantReports extends React.Component {
                     <p className="static-title-r">Daily Reports</p>
                     <div className="report-card-scroll">
                       <div className="text-align-center-r">
-                        {this.state.userReports.map((val, index) =>
-                          <React.Fragment key={index}>
-                            <div className="card-report-r">
-                              {/* <span className="delete-report-icon-r">
+                        {this.state.userReports.length > 0 ?
+                          this.state.userReports.map((val, index) =>
+                            <React.Fragment key={index}>
+                              <div className="card-report-r">
+                                {/* <span className="delete-report-icon-r">
                         <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                       </span> */}
-                              <span className="resend-report-icon-r">
-                                <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
-                              </span>
+                                <span className="resend-report-icon-r">
+                                  <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
+                                </span>
 
-                              <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/daily-reports/" + val.img} />
-                              <p className="card-selected-heading-r">{val.originalName}</p>
-                              <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
-                              <p className="card-text-r">{val.comment}</p>
-                            </div>
-                          </React.Fragment>
-                        )}
+                                <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/daily-reports/" + val.img} />
+                                <p className="card-selected-heading-r">{val.originalName}</p>
+                                <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                                <p className="card-text-r">{val.comment}</p>
+                              </div>
+                            </React.Fragment>
+                          ) :
+                          <img
+                            className="nodata-box-img1-r"
+                            src={require('../../assets/img/noresultqa.png')}
+                          />}
                       </div>
                     </div>
                   </div>
@@ -230,23 +240,28 @@ export class ManageAccountantReports extends React.Component {
                     <p className="static-title-r">Faulty Bills</p>
                     <div className="report-card-scroll">
                       <div className="text-align-center-r">
-                        {this.state.faultyBills.map((val, index) =>
-                          <React.Fragment key={index}>
-                            <div className="card-report-r">
-                              {/* <span className="delete-report-icon-r">
+                        {this.state.faultyBills.length > 0 ?
+                          this.state.faultyBills.map((val, index) =>
+                            <React.Fragment key={index}>
+                              <div className="card-report-r">
+                                {/* <span className="delete-report-icon-r">
                         <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                       </span> */}
-                              <span className="resend-report-icon-r">
-                                <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
-                              </span>
+                                <span className="resend-report-icon-r">
+                                  <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
+                                </span>
 
-                              <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} />
-                              <p className="card-selected-heading-r">{val.originalName}</p>
-                              <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
-                              <p className="card-text-r">{val.comment}</p>
-                            </div>
-                          </React.Fragment>
-                        )}
+                                <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} />
+                                <p className="card-selected-heading-r">{val.originalName}</p>
+                                <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                                <p className="card-text-r">{val.comment}</p>
+                              </div>
+                            </React.Fragment>
+                          ) :
+                          <img
+                            className="nodata-box-img1-r"
+                            src={require('../../assets/img/noresultqa.png')}
+                          />}
                       </div>
                     </div>
                   </div>
