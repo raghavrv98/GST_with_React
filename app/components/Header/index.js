@@ -141,7 +141,7 @@ class Header extends React.Component {
                     <li><NavLink
                       className="navbar-brand welcome-name-r nav-css-r"
                       exact
-                      to="/"
+                      to="#"
                       // data-toggle="collapse"
                       data-target="#bs-example-navbar-collapse-1"
                     >
@@ -164,9 +164,9 @@ class Header extends React.Component {
                   {localStorage.getItem('role') === "user" ?
                     <li>
                       <NavLink
-                        className="navbar-brand welcome-name-r nav-css-r"
                         exact
                         to="#"
+                        className="navbar-brand welcome-name-r nav-css-r"
                       >
                         Welcome {localStorage.getItem('legalName')}
                       </NavLink>
@@ -174,17 +174,30 @@ class Header extends React.Component {
                     : null}
 
                   {localStorage.getItem('role') === "admin" ?
-                    <li>
-                      <NavLink
-                        className="navbar-brand  text-color-r nav-css-r"
-                        exact
-                        to="/manageAccountant"
-                        // data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1"
-                      >
-                        Manage Accountant
+                    <React.Fragment>
+                      <li>
+                        <NavLink
+                          className="navbar-brand  text-color-r nav-css-r"
+                          exact
+                          to="/admin"
+                          // data-toggle="collapse"
+                          data-target="#bs-example-navbar-collapse-1"
+                        >
+                          Dashboard
                   </NavLink>
-                    </li>
+                      </li>
+                      <li>
+                        <NavLink
+                          className="navbar-brand  text-color-r nav-css-r"
+                          exact
+                          to="/manageAccountant"
+                          // data-toggle="collapse"
+                          data-target="#bs-example-navbar-collapse-1"
+                        >
+                          Manage Accountant
+                  </NavLink>
+                      </li>
+                    </React.Fragment>
                     : null
                   }
 

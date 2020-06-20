@@ -24,7 +24,7 @@ import moment from 'moment';
 import axios from 'axios';
 
 import MessageModal from '../../components/MessageModal/Loadable'
-import { errorHandler } from '../../utils/commonUtils';
+import { errorHandler, dateFormatHandler } from '../../utils/commonUtils';
 
 
 /* eslint-disable react/prefer-stateless-function */
@@ -126,7 +126,7 @@ export class ManageAccountantReports extends React.Component {
       this.getUserReports(id, this.props.match.params.month, this.props.match.params.year, report)
     }
     else {
-      this.getfaultyBills(localStorage.getItem('userId'), this.props.match.params.month, this.props.match.params.year, this.props.match.params.date)
+      this.getfaultyBills(this.props.match.params.id, this.props.match.params.month, this.props.match.params.year, this.props.match.params.date)
       this.getUserReports(id, this.props.match.params.month, this.props.match.params.year, report, this.props.match.params.date)
     }
   }
@@ -224,6 +224,7 @@ export class ManageAccountantReports extends React.Component {
 
                                 <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/daily-reports/" + val.img} />
                                 <p className="card-selected-heading-r">{val.originalName}</p>
+                                <p className="card-selected-sub-heading-r">Report Date : {dateFormatHandler(val.reportDate)}</p>
                                 <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                                 <p className="card-text-r">{val.comment}</p>
                               </div>
@@ -247,11 +248,11 @@ export class ManageAccountantReports extends React.Component {
                                 {/* <span className="delete-report-icon-r">
                         <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                       </span> */}
-                                <span className="resend-report-icon-r">
+                                <span style={{display:"none"}}className="resend-report-icon-r">
                                   <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
                                 </span>
 
-                                <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} />
+                                <img style={{marginTop: "10px"}} className="selected-report-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} />
                                 <p className="card-selected-heading-r">{val.originalName}</p>
                                 <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                                 <p className="card-text-r">{val.comment}</p>

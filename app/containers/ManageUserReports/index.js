@@ -22,7 +22,7 @@ import ConfirmModal from '../../components/ConfirmModal/Loadable'
 import moment from 'moment';
 import axios from 'axios';
 import MessageModal from '../../components/MessageModal/Loadable'
-import { errorHandler } from '../../utils/commonUtils';
+import { errorHandler, dateFormatHandler } from '../../utils/commonUtils';
 /* eslint-disable react/prefer-stateless-function */
 export class ManageUserReports extends React.Component {
   state = {
@@ -192,6 +192,7 @@ export class ManageUserReports extends React.Component {
                           </span>
                           <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/daily-reports/" + val.img} />
                           <p className="card-selected-heading-r">{val.originalName}</p>
+                          <p className="card-selected-sub-heading-r">Report Date : {dateFormatHandler(val.reportDate)}</p>
                           <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                           <p className="card-text-r">{val.comment}</p>
                         </div>
@@ -242,10 +243,10 @@ export class ManageUserReports extends React.Component {
                     this.state.getReports.faultyBills && this.state.getReports.faultyBills.map((val, index) =>
                       <React.Fragment key={index}>
                         <div className="card-report-r">
-                          <span className="delete-report-icon-r">
+                          <span style={{display:"none"}} className="delete-report-icon-r">
                             <button name="faulty" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                           </span>
-                          <span className="download-report-icon-r">
+                          <span style={{left: "-70px"}} className="download-report-icon-r">
                             {/* <a download="abc.png" href={window.API_URL +"/bills/" + val.img} className=""></a> */}
                             <button
                               type="button"
