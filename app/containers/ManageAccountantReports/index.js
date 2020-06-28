@@ -97,7 +97,8 @@ export class ManageAccountantReports extends React.Component {
     let id = event.target.id
     let userId = this.props.match.params.id
     let report = this.props.match.params.report
-    let url = window.API_URL + `/resendReport/${userId}/${id}/${report}`;
+    let name = event.target.name
+    let url = name ==="faultyBills" ? window.API_URL + `/resendFaultyBill/${userId}/${id}` : window.API_URL + `/resendReport/${userId}/${id}/${report}`;
     axios.put(url)
       .then((res) => {
         const data = res.data.data;
@@ -248,11 +249,11 @@ export class ManageAccountantReports extends React.Component {
                                 {/* <span className="delete-report-icon-r">
                         <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                       </span> */}
-                                <span style={{display:"none"}}className="resend-report-icon-r">
-                                  <button id={val._id} onClick={this.resendReport} className="fa fa-share"></button>
+                                <span className="resend-report-icon-r">
+                                  <button id={val._id} name="faultyBills" onClick={this.resendReport} className="fa fa-share"></button>
                                 </span>
 
-                                <img style={{marginTop: "10px"}} className="selected-report-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} />
+                                <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} />
                                 <p className="card-selected-heading-r">{val.originalName}</p>
                                 <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                                 <p className="card-text-r">{val.comment}</p>

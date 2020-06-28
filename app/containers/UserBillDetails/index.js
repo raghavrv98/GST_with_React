@@ -304,7 +304,7 @@ export class UserBillDetails extends React.Component {
                                     <div className="lds-ring"><div></div><div></div><div></div><div></div></div> :
                                     <React.Fragment>
                                       <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={window.API_URL_IMAGE + "/bills/" + val.img} />
-                                      {val.completeStatus ? <img onClick={this.fullviewModal} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
+                                      {val.completeStatus ? <img onClick={() => this.fullviewModal(val.img)} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
                                       <input className="card-status-button-r" onChange={() => this.statusBoxHandler(event, val._id)} checked={val.completeStatus} id={val._id} type="checkbox" />
                                     </React.Fragment>
                                   }</div>
@@ -355,7 +355,7 @@ export class UserBillDetails extends React.Component {
                                       <div className="lds-ring"><div></div><div></div><div></div><div></div></div> :
                                       <React.Fragment>
                                         <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={window.API_URL_IMAGE + "/bills/" + val.img} />
-                                        {val.completeStatus ? <img onClick={this.fullviewModal} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
+                                        {val.completeStatus ? <img onClick={() => this.fullviewModal(val.img)} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
                                         <input className="card-status-button-r" onChange={() => this.statusBoxHandler(event, val._id)} checked={val.completeStatus} id={val._id} type="checkbox" />
                                       </React.Fragment>
                                     }</div>
@@ -406,7 +406,7 @@ export class UserBillDetails extends React.Component {
                                       <div className="lds-ring"><div></div><div></div><div></div><div></div></div> :
                                       <React.Fragment>
                                         <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={window.API_URL_IMAGE + "/bills/" + val.img} />
-                                        {val.completeStatus ? <img onClick={this.fullviewModal} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
+                                        {val.completeStatus ? <img onClick={() => this.fullviewModal(val.img)} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
                                         <input className="card-status-button-r" onChange={() => this.statusBoxHandler(event, val._id)} checked={val.completeStatus} id={val._id} type="checkbox" />
                                       </React.Fragment>
                                     }</div>

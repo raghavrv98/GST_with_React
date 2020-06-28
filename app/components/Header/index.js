@@ -31,7 +31,6 @@ class Header extends React.Component {
     let url = window.API_URL + "/changePassword";
 
     payload._id = localStorage.getItem('userId'),
-      payload.emailId = localStorage.getItem('emailId'),
       axios.post(url, payload)
         .then((res) => {
           const data = res.data.data;
@@ -78,11 +77,12 @@ class Header extends React.Component {
     let payload = JSON.parse(JSON.stringify(this.state.payload));
     payload.oldPassword = "",
       payload.newPassword = "",
-      this.setState({
-        payload,
-        showHideClassName: 'modal display-block container'
+      payload.username = ""
+    this.setState({
+      payload,
+      showHideClassName: 'modal display-block container'
 
-      });
+    });
   };
 
   userLogout = () => {
@@ -299,12 +299,21 @@ class Header extends React.Component {
                   <form onSubmit={this.resetPassword}>
                     <input
                       type="text"
+                      value={this.state.payload.username}
+                      onChange={this.nameChangeHandler}
+                      id="username"
+                      className="form-control reset-input-box-r"
+                      placeholder="Username"
+                      autoFocus
+                      required
+                    />
+                    <input
+                      type="text"
                       value={this.state.payload.oldPassword}
                       onChange={this.nameChangeHandler}
                       id="oldPassword"
                       className="form-control reset-input-box-r"
                       placeholder="Old Password"
-                      autoFocus
                       required
                     />
                     <input
@@ -312,17 +321,14 @@ class Header extends React.Component {
                       value={this.state.payload.newPassword}
                       onChange={this.nameChangeHandler}
                       id="newPassword"
+                      minLength="4"
                       className="form-control reset-input-box-r"
                       placeholder="New Password"
                       autoFocus
                       required
                     />
                     <div className="text-align-center-r">
-                      <button
-                        type="submit"
-                        className="button-base-r width-40-r width-30-r"
-                        name=""
-                      >Reset</button>
+                      <button className="button-base-r width-40-r width-30-r">Reset</button>
                     </div>
                   </form>
                 </div>

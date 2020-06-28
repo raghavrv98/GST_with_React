@@ -21,7 +21,7 @@ import messages from './messages';
 import ReactTooltip from 'react-tooltip';
 import axios from 'axios';
 import moment from 'moment';
-
+import ConfirmModal from '../../components/ConfirmModal/Loadable'
 import MessageModal from '../../components/MessageModal/Loadable'
 import { errorHandler } from '../../utils/commonUtils';
 
@@ -29,11 +29,13 @@ import { errorHandler } from '../../utils/commonUtils';
 export class ManageUser extends React.Component {
 
   state = {
+    showHideClassName: 'modal display-none container',
     month: 4,
     year: 2020,
     userType: "withData",
     isFetching: true,
-    isOpenClassName: 'modal display-none container'
+    isOpenClassName: 'modal display-none container',
+    showHideClassNameDelete: 'modal display-none container',
   }
 
   getUser = (accountantId, month, year, userType) => {
@@ -54,6 +56,10 @@ export class ManageUser extends React.Component {
   };
 
   statusUpdate = (id, status) => {
+    this.setState({
+      showHideClassName: 'modal display-none container',
+      isFetching: true
+    })
     let url = window.API_URL + `/changeStatus/${id}`;
     axios.put(url, { 'status': status, 'year': this.state.year, 'month': this.state.month })
       .then((res) => {
@@ -110,13 +116,69 @@ export class ManageUser extends React.Component {
     }, () => this.getUser(this.state.accountantId, this.state.month, this.state.year, this.state.userType))
   }
 
-  statusChangeHandler = (event) => {
+  statusBoxHandler = (event, billId) => {
     let id = event.target.id
     let status = event.target.checked
     this.setState({
-      isFetching: true,
-    }, () => this.statusUpdate(id, status));
+      statusBoxIndex: id,
+      status,
+      billId,
+      showHideClassName: 'modal display-block container',
+    })
+  }
+
+  confirmDeleteData = (id) => {
+    event.preventDefault()
+    this.deleteUsers(id)
+    this.setState({
+      showHideClassNameDelete: 'modal display-none container',
+      isFetching: true
+    })
+  }
+
+  confirmModalHandler = (id) => {
+    this.setState({
+      showHideClassNameDelete: 'modal display-block container',
+      deleteId: id
+    })
+  }
+
+  deleteUsers = (id) => {
+    let url = window.API_URL + `/user/${id}`;
+    axios.delete(url)
+      .then((res) => {
+        const data = res.data.data;
+        this.setState({
+          message: res.data.message,
+          isFetching: false,
+          type: "success",
+          isOpenClassName: 'modal display-block container'
+        }, () => this.getUser(this.state.accountantId, this.state.month, this.state.year, this.state.userType))
+      })
+      .catch((error) => {
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isFetching: false,
+          isOpenClassName: 'modal display-block container',
+          type: "failure"
+        }, () => setTimeout(this.modalTime, 1500))
+      });
   };
+
+  modalCloseHandler = () => {
+    this.setState({
+      isResetModal: false,
+      showHideClassName: 'modal display-none container',
+      fullViewModalClassName: 'modal display-none container',
+      showHideClassNameDelete: 'modal display-none container',
+      deleteId: "",
+      deleteName: "",
+      isOpenClassName: 'modal display-none container',
+      cardLoader: false
+
+    })
+  }
 
   render() {
     const columns = [
@@ -160,7 +222,7 @@ export class ManageUser extends React.Component {
         Cell: row =>
           (
             <div>
-              <input id={row.original._id} onChange={this.statusChangeHandler} disabled={this.state.userType === "all" || this.state.userType === "active" || this.state.userType === "inActive"} checked={row.original.status} className="status-button-r" type="checkbox" />
+              <input id={row.original._id} onChange={() => this.statusBoxHandler(event, row.original._id)} disabled={this.state.userType === "all" || this.state.userType === "active" || this.state.userType === "inActive"} checked={row.original.status} className="status-button-r" type="checkbox" />
             </div>
           )
       },
@@ -170,8 +232,8 @@ export class ManageUser extends React.Component {
         width: 150,
         Cell: row =>
           (<div>
-            <span className="editButton-r" data-tip data-for="edit" onClick={() => { this.props.history.push('/addOrEditUser/' + row.original._id) }}><i className="far fa-edit"></i><ReactTooltip id="edit" type="dark" ><div className="tooltipText"><p>Edit</p></div></ReactTooltip></span>
-            {/* <button id={row.original._id} onClick={this.confirmModalHandler} className="deleteButton-r far fa-trash-alt"></button> */}
+            <span className="editButton-r" data-tip data-for="edit" onClick={() =>  this.props.history.push('/addOrEditUser/' + row.original._id)}><i className="far fa-edit"></i><ReactTooltip id="edit" type="dark" ><div className="tooltipText"><p>Edit</p></div></ReactTooltip></span>
+            <span className="deleteButton-r" data-tip data-for="delete" onClick={() => this.confirmModalHandler(row.original._id)}><i className="far fa-trash-alt"></i><ReactTooltip id="delete" type="dark" ><div className="tooltipText"><p>Delete</p></div></ReactTooltip></span>
           </div>
           )
       },
@@ -262,6 +324,18 @@ export class ManageUser extends React.Component {
             </div>
           </div>
         </div>
+        <ConfirmModal
+          showHideClassName={this.state.showHideClassName}
+          onClose={this.modalCloseHandler}
+          onConfirm={() => this.statusUpdate(this.state.statusBoxIndex, this.state.status)}
+          confirmMessage="Are you sure want to update ?"
+        />
+
+        <ConfirmModal
+          showHideClassName={this.state.showHideClassNameDelete}
+          onClose={this.modalCloseHandler}
+          onConfirm={() => this.confirmDeleteData(this.state.deleteId)}
+        />
       </div>
     );
   }

@@ -27,12 +27,13 @@ export class LoginPage extends React.Component {
     payload: {
       emailId: '',
       password: '',
+      username: ''
     },
     isResetActive: false,
     loginError: false,
     isLoading: false,
     forgotMessageSuccessCheck: false,
-    forgotLoginError: false
+    forgotLoginError: false,
   };
 
   loginSubmitHandler = () => {
@@ -41,6 +42,7 @@ export class LoginPage extends React.Component {
       isLoading: true
     })
     let payload = JSON.parse(JSON.stringify(this.state.payload));
+    payload["username"] = payload["username"].toLowerCase();
     let url = window.API_URL + "/login";
     axios.post(url, payload)
       .then((res) => {
@@ -81,12 +83,14 @@ export class LoginPage extends React.Component {
       isLoading: true
     })
     let payload = JSON.parse(JSON.stringify(this.state.payload));
+    payload["username"] = payload["username"].toLowerCase();
     let url = window.API_URL + "/forgotPassword";
     axios.post(url, payload)
       .then((res) => {
         const data = res.data.data;
         payload.emailId = ""
         payload.password = ""
+        payload.username = ""
         this.setState({
           message: res.data.message, isLoading: false, payload, forgotMessageSuccessCheck: true
         })
@@ -132,6 +136,7 @@ export class LoginPage extends React.Component {
     isResetActive = !isResetActive;
     payload.emailId = ""
     payload.password = ""
+    payload.username = ""
     this.setState({
       isResetActive,
       payload,
@@ -183,7 +188,7 @@ export class LoginPage extends React.Component {
                           <React.Fragment>
                             <p className="forgot-title-r">Forgot Password</p>
                             {this.state.forgotMessageSuccessCheck ? (
-                              <p className="error-msg-r">
+                              <p className="error-msg-login-r">
                                 Link has been sent successfully
                               </p>
                             ) : null}
@@ -194,16 +199,26 @@ export class LoginPage extends React.Component {
                             </p> : null
                               }
                               <input
+                                type="text"
+                                value={this.state.payload.username}
+                                onChange={this.nameChangeHandler}
+                                id="username"
+                                className="form-control reset-input-box-r"
+                                placeholder="Username or GSTIN"
+                                required
+                                autoFocus
+                              />
+                              <input
                                 type="email"
                                 value={this.state.payload.emailId}
                                 onChange={this.nameChangeHandler}
                                 id="emailId"
                                 className="form-control forgot-input-box-r"
-                                placeholder="Enter your email-Id"
+                                placeholder="Email-Id"
                                 required
                               />
                               {this.state.forgotLoginError ? (
-                                <p className="error-msg-r">
+                                <p className="error-msg-login-r">
                                   {this.state.message}
                                 </p>
                               ) : null}
@@ -233,13 +248,14 @@ export class LoginPage extends React.Component {
                               ) : null}
                               <form onSubmit={this.loginSubmitHandler}>
                                 <input
-                                  type="email"
-                                  value={this.state.payload.emailId}
+                                  type="text"
+                                  value={this.state.payload.username}
                                   onChange={this.nameChangeHandler}
-                                  id="emailId"
+                                  id="username"
                                   className="form-control reset-input-box-r"
-                                  placeholder="Enter your Email-Id"
+                                  placeholder="Username or GSTIN"
                                   required
+                                  autoFocus
                                 />
                                 <input
                                   type="password"
@@ -247,7 +263,7 @@ export class LoginPage extends React.Component {
                                   onChange={this.nameChangeHandler}
                                   id="password"
                                   className="form-control reset-input-box-r"
-                                  placeholder="Enter your password"
+                                  placeholder="Password"
                                   required
                                 />
                                 <span>

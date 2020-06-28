@@ -376,7 +376,7 @@ export class UserDetails extends React.Component {
                     <button type="button" onClick={() => { this.props.history.push(`/userDetails/${this.props.match.params.id}/manageAccountantReports/gst/${this.state.month}/${this.state.year}`) }} className="button-base-r">view GST Reports</button>
                   </div>
                   <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <input style={{ display: "none" }} accept="image/*" onChange={this.loadFile} id="gst"
+                    <input style={{ display: "none" }} onChange={this.loadFile} id="gst"
                       type="file" required />
                     <div><button type="button" className="button-base-r">
                       <label className="cursor-pointer-r margin-0-r font-11-r" htmlFor="gst">Upload GST Report</label>

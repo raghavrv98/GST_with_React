@@ -25,6 +25,7 @@ import { errorHandler } from '../../utils/commonUtils';
 export class AddOrEditUser extends React.Component {
   state = {
     isLoading: false,
+    available: false,
     isOpenClassName: 'modal display-none container',
     payload: {
       legalName: "",
@@ -46,6 +47,7 @@ export class AddOrEditUser extends React.Component {
       returnType: "",
       startYear: "",
       startMonth: "",
+      username: ""
     },
     passwordCheck: false,
     gstnPassword: true,
@@ -71,10 +73,10 @@ export class AddOrEditUser extends React.Component {
       });
   };
 
-  postUser = (payload) => {
+  postUser = (payload, check) => {
     let accountantId = localStorage.getItem('userId')
     if (this.props.match.params.id) {
-    let url = window.API_URL + `/updateUserDetails/${this.props.match.params.id}`;
+      let url = window.API_URL + `/updateUserDetails/${this.props.match.params.id}`;
       axios.put(url, payload)
         .then((res) => {
           const data = res.data.data;
@@ -95,7 +97,7 @@ export class AddOrEditUser extends React.Component {
         });
     }
     else {
-    let url = window.API_URL + `/newUser/${accountantId}`;
+      let url = check ? window.API_URL + `/newUser/isAvailable/usernameAndGstin` : window.API_URL + `/newUser/${accountantId}`;
       axios.post(url, payload)
         .then((res) => {
           const data = res.data.data;
@@ -103,7 +105,8 @@ export class AddOrEditUser extends React.Component {
             message: res.data.message,
             isLoading: false,
             type: "success",
-          }, () => this.props.history.push('/manageUser'));
+            available: data.available
+          }, () => check ? null : this.props.history.push('/manageUser'));
         })
         .catch((error) => {
           let message = errorHandler(error);
@@ -139,10 +142,23 @@ export class AddOrEditUser extends React.Component {
     event.preventDefault()
 
     let payload = JSON.parse(JSON.stringify(this.state.payload));
+    Object.keys(payload).map(val => {
+      if (val != "gstnUsername" &&
+        val != "gstnPassword" &&
+        val != "password" &&
+        val != "confirmPassword" &&
+        val != "username") {
+        payload[val] = payload[val].toLowerCase();
+      }
+      return val
+    })
+
     if (payload.password === payload.confirmPassword) {
       this.setState({
         isLoading: true
-      }, () => this.postUser(payload))
+      },
+        () => this.postUser(payload)
+      )
     }
     else {
       this.setState({
@@ -150,6 +166,18 @@ export class AddOrEditUser extends React.Component {
       })
     }
 
+  }
+
+
+  checkAvailabelHandler = () => {
+    event.preventDefault()
+    let payload = JSON.parse(JSON.stringify(this.state.payload));
+    payload["gstinNumber"] = payload["gstinNumber"].toLowerCase();
+    this.setState({
+      isLoading: true
+    },
+      () => this.postUser(payload, "check")
+    )
   }
 
   modalTime = () => {
@@ -207,257 +235,352 @@ export class AddOrEditUser extends React.Component {
             </div>
             <div className="container">
               <p className="main-title-r">{this.props.match.params.id ? "Update User" : "Create User"}</p>
-              <form onSubmit={this.SubmitUserHandler}>
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <p className="required-check-mark-r">*</p>
-                  <input
-                    type="text"
-                    className="form-control inputBox-r"
-                    placeholder="Legal Name"
-                    value={this.state.payload.legalName}
-                    onChange={this.nameChangeHandler}
-                    id="legalName"
-                    autoFocus
-                    required />
-                </div>
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <p className="required-check-mark-r">*</p>
-                  <input
-                    type="text"
-                    className="form-control inputBox-r"
-                    placeholder="Trade Name"
-                    value={this.state.payload.tradeName}
-                    onChange={this.nameChangeHandler}
-                    id="tradeName"
-                    required />
-                </div>
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <p className="required-check-mark-r">*</p>
-                  <input
-                    type="text"
-                    className="form-control inputBox-r"
-                    placeholder="PAN Number"
-                    value={this.state.payload.panNumber}
-                    onChange={this.nameChangeHandler}
-                    pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
-                    title="Please Enter PAN in corrected format"
-                    id="panNumber"
-                    required />
-                </div>
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <p className="required-check-mark-r">*</p>
-                  <input
-                    type="text"
-                    className="form-control inputBox-r"
-                    placeholder="GSTIN"
-                    value={this.state.payload.gstinNumber}
-                    onChange={this.nameChangeHandler}
-                    pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
-                    title="Please Enter GSTIN in corrected format"
-                    id="gstinNumber"
-                    required />
-                </div>
-
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <p className="required-check-mark-r">*</p>
-                  <input
-                    type="tel"
-                    className="form-control inputBox-r"
-                    placeholder="Primary Mobile Number"
-                    value={this.state.payload.mobileNumber}
-                    onChange={this.nameChangeHandler}
-                    id="mobileNumber"
-                    pattern="[1-9]{1}[0-9]{9}"
-                    title="Enter 10 digit mobile number"
-                    required />
-                </div>
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <input
-                    type="tel"
-                    className="form-control inputBox-r"
-                    placeholder="Secondary Mobile Number"
-                    value={this.state.payload.secondaryMobileNumber}
-                    onChange={this.nameChangeHandler}
-                    id="secondaryMobileNumber"
-                    pattern="[1-9]{1}[0-9]{9}"
-                    title="Enter 10 digit mobile number"
-                  />
-                </div>
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <p className="required-check-mark-r">*</p>
-                  <input
-                    type="email"
-                    className="form-control inputBox-r"
-                    placeholder="Primary Email-Id"
-                    value={this.state.payload.emailId}
-                    onChange={this.nameChangeHandler}
-                    id="emailId"
-                    required />
-                </div>
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <input
-                    type="email"
-                    className="form-control inputBox-r"
-                    placeholder="Secondary Email-Id"
-                    value={this.state.payload.secondaryEmailId}
-                    onChange={this.nameChangeHandler}
-                    id="secondaryEmailId"
-                  />
-                </div>
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <p className="required-check-mark-r">*</p>
-                  <input
-                    type="text"
-                    className="form-control inputBox-r"
-                    placeholder="GSTN Username"
-                    value={this.state.payload.gstnUsername}
-                    onChange={this.nameChangeHandler}
-                    id="gstnUsername"
-                    required />
-                </div>
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <p className="required-check-mark-r">*</p>
-                  <div>
-                    <input
-                      type={this.state.gstnPassword ? "password" : "text"}
-                      className="form-control inputBox-r"
-                      placeholder="GSTN Password"
-                      value={this.state.payload.gstnPassword}
-                      onChange={this.nameChangeHandler}
-                      id="gstnPassword"
-                      required />
-                    <button type="button" id="gstnPassword0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.gstnPassword ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
-                  </div>
-                </div>
-                {this.props.match.params.id ? null :
+              <ul id="progressbar">
+                <li><span className="list1-r" > Check for Username & GSTIN </span></li>
+                <li><span className="list2-r"> User Registration</span></li>
+              </ul>
+              {this.props.match.params.id || this.state.available ? this.state.isLoading ?
+                <div className="lds-facebook"><div></div><div></div><div></div><span className="loading-text-r">Loading... </span></div>
+                :
+                <form onSubmit={this.SubmitUserHandler}>
                   <React.Fragment>
-                    <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                      <p className="required-check-mark-r">*</p>
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                       <input
-                        type={this.state.password ? "password" : "text"}
-                        className="form-control inputBox-r"
-                        placeholder="Password"
-                        minLength="4"
-                        value={this.state.payload.password}
+                        disabled={this.props.match.params.id || this.state.available}
+                        type="text"
+                        className="form-control inputBox-r field"
+                        placeholder="Username*"
+                        value={this.state.payload.username}
                         onChange={this.nameChangeHandler}
-                        id="password"
-                        required />
-                      <button type="button" id="password0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.password ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
+                        id="username"
+                        required
+                        autoFocus />
+                      <label className="floating-label">Username <p className="required-check-mark-r">*</p></label>
                     </div>
-                    <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                      <p className="required-check-mark-r">*</p>
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                       <input
-                        type={this.state.confirmPassword ? "password" : "text"}
-                        className={this.state.passwordCheck ? "form-control inputBox-r alert-box-r" : "form-control inputBox-r"}
-                        placeholder="Confirm Password"
-                        value={this.state.payload.confirmPassword}
+                        disabled={this.props.match.params.id || this.state.available}
+                        type="text"
+                        className="form-control inputBox-r field"
+                        placeholder="GSTIN*"
+                        value={this.state.payload.gstinNumber}
                         onChange={this.nameChangeHandler}
-                        id="confirmPassword"
+                        pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
+                        title="Please Enter GSTIN in corrected format"
+                        id="gstinNumber"
                         required />
-                      <button type="button" id="confirmPassword0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.confirmPassword ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
-                      {this.state.passwordCheck ? <p className="error-msg-r">Password and confirm password mismatch.</p> : null}
+                      <label className="floating-label">GSTIN<p className="required-check-mark-r">*</p></label>
+                    </div>
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                      <input
+                        type="text"
+                        className="form-control inputBox-r field"
+                        placeholder="Legal Name*"
+                        value={this.state.payload.legalName}
+                        onChange={this.nameChangeHandler}
+                        id="legalName"
+                        required
+                      />
+                      <label className="floating-label">Legal Name <p className="required-check-mark-r">*</p></label>
+                    </div>
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                      <input
+                        type="text"
+                        className="form-control inputBox-r field"
+                        placeholder="Trade Name*"
+                        value={this.state.payload.tradeName}
+                        onChange={this.nameChangeHandler}
+                        id="tradeName"
+                        required />
+                      <label className="floating-label">Trade Name <p className="required-check-mark-r">*</p></label>
+                    </div>
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                      <input
+                        type="text"
+                        className="form-control inputBox-r field"
+                        placeholder="PAN Number*"
+                        value={this.state.payload.panNumber}
+                        onChange={this.nameChangeHandler}
+                        pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                        title="Please Enter PAN in corrected format"
+                        id="panNumber"
+                        required />
+                      <label className="floating-label">PAN Number <p className="required-check-mark-r">*</p></label>
+                    </div>
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                      <input
+                        type="tel"
+                        className="form-control inputBox-r field"
+                        placeholder="Primary Mobile Number*"
+                        value={this.state.payload.mobileNumber}
+                        onChange={this.nameChangeHandler}
+                        id="mobileNumber"
+                        pattern="[1-9]{1}[0-9]{9}"
+                        title="Enter 10 digit mobile number"
+                        required />
+                      <label className="floating-label">Primary Mobile Number<p className="required-check-mark-r">*</p></label>
+                    </div>
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                      <input
+                        type="tel"
+                        className="form-control inputBox-r field"
+                        placeholder="Secondary Mobile Number"
+                        value={this.state.payload.secondaryMobileNumber}
+                        onChange={this.nameChangeHandler}
+                        id="secondaryMobileNumber"
+                        pattern="[1-9]{1}[0-9]{9}"
+                        title="Enter 10 digit mobile number"
+                      />
+                      <label className="floating-label">Secondary Mobile Number</label>
+                    </div>
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                      <input
+                        type="email"
+                        className="form-control inputBox-r field"
+                        placeholder="Primary Email-Id*"
+                        value={this.state.payload.emailId}
+                        onChange={this.nameChangeHandler}
+                        id="emailId"
+                        required />
+                      <label className="floating-label">Primary Email-Id<p className="required-check-mark-r">*</p></label>
+                    </div>
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                      <input
+                        type="email"
+                        className="form-control inputBox-r field"
+                        placeholder="Secondary Email-Id"
+                        value={this.state.payload.secondaryEmailId}
+                        onChange={this.nameChangeHandler}
+                        id="secondaryEmailId"
+                      />
+                      <label className="floating-label">Secondary Email-Id</label>
+                    </div>
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                      <input
+                        type="text"
+                        className="form-control inputBox-r field"
+                        placeholder="GSTN Username*"
+                        value={this.state.payload.gstnUsername}
+                        onChange={this.nameChangeHandler}
+                        id="gstnUsername"
+                        required />
+                      <label className="floating-label">GSTN Username<p className="required-check-mark-r">*</p></label>
+                    </div>
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                      <div>
+                        <input
+                          type={this.state.gstnPassword ? "password" : "text"}
+                          className="form-control inputBox-r field"
+                          placeholder="GSTN Password*"
+                          value={this.state.payload.gstnPassword}
+                          onChange={this.nameChangeHandler}
+                          id="gstnPassword"
+                          required />
+                        <label className="floating-label">GSTN Password<p className="required-check-mark-r">*</p></label>
+                        <button type="button" id="gstnPassword0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.gstnPassword ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
+                      </div>
+                    </div>
+
+                    {this.props.match.params.id ? null :
+                      <React.Fragment>
+
+                        <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                          <input
+                            type={this.state.password ? "password" : "text"}
+                            placeholder="Password*"
+                            minLength="4"
+                            value={this.state.payload.password}
+                            className={this.state.passwordCheck ? "form-control inputBox-r field alert-box-r" : "form-control inputBox-r field"}
+                            onChange={this.nameChangeHandler}
+                            id="password"
+                            required />
+                          <label className="floating-label">Password<p className="required-check-mark-r">*</p></label>
+                          <button type="button" id="password0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.password ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
+                        </div>
+
+                        <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                          <input
+                            type={this.state.confirmPassword ? "password" : "text"}
+                            className={this.state.passwordCheck ? "form-control inputBox-r field alert-box-r" : "form-control inputBox-r field"}
+                            placeholder="Confirm Password*"
+                            value={this.state.payload.confirmPassword}
+                            onChange={this.nameChangeHandler}
+                            id="confirmPassword"
+                            required />
+                          <label className="floating-label">Confirm Password<p className="required-check-mark-r">*</p></label>
+                          <button type="button" id="confirmPassword0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.confirmPassword ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
+                          {this.state.passwordCheck ? <p className="error-msg-r">Password and confirm password mismatch.</p> : null}
+                        </div>
+                      </React.Fragment>
+                    }
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                      <input
+                        type="text"
+                        className="form-control inputBox-r field"
+                        placeholder="Principle Place Of Business*"
+                        value={this.state.payload.principalPlaceOfBusiness}
+                        onChange={this.nameChangeHandler}
+                        id="principalPlaceOfBusiness"
+                        required />
+                      <label className="floating-label">Principle Place Of Business<p className="required-check-mark-r">*</p></label>
+                    </div>
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                      <input
+                        type="text"
+                        className="form-control inputBox-r field"
+                        placeholder="Additional Place Of Business"
+                        value={this.state.payload.additionalPlaceOfBusiness}
+                        onChange={this.nameChangeHandler}
+                        id="additionalPlaceOfBusiness"
+                      // required 
+                      />
+                      <label className="floating-label">Additional Place Of Business</label>
+                    </div>
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                      <select
+                        disabled={this.props.match.params.id}
+                        id="startYear"
+                        onChange={this.nameChangeHandler}
+                        value={this.state.payload.startYear}
+                        className={this.props.match.params.id ? "year-month-border-r inputBox-r field not-allowed" : "year-month-border-r inputBox-r field"}
+                        required>
+                        <option value="">Select Year*</option>
+                        <option value="2020">2020-2021</option>
+                        <option value="2019">2019-2020</option>
+                        <option value="2018">2018-2019</option>
+                        <option value="2017">2017-2018</option>
+                      </select>
+                      <label className="floating-label">Start Year<p className="required-check-mark-r">*</p></label>
+                    </div>
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                      <select
+                        disabled={this.props.match.params.id}
+                        id="startMonth"
+                        onChange={this.nameChangeHandler}
+                        value={this.state.payload.startMonth}
+                        className={this.props.match.params.id ? "year-month-border-r inputBox-r field not-allowed" : "year-month-border-r inputBox-r field"}
+                        required>
+                        <option value="">Select Month*</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="4">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                      </select>
+                      <label className="floating-label">Start Month<p className="required-check-mark-r">*</p></label>
+                    </div>
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                      <select
+                        className="custom-select year-month-border-r inputBox-r field"
+                        value={this.state.payload.constitutionType}
+                        onChange={this.nameChangeHandler}
+                        id="constitutionType"
+                        required>
+                        <option value="">Constitution Type*</option>
+                        <option value="proprietorship">Proprietorship</option>
+                        <option value="partnership">Partnership</option>
+                        <option value="huf">HUF</option>
+                        <option value="aopBoi">AOP/BOI</option>
+                        <option value="company">Company</option>
+                        <option value="other">Other</option>
+                      </select>
+                      <label className="floating-label">Constitution Type<p className="required-check-mark-r">*</p></label>
+                    </div>
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                      <select
+                        className="custom-select year-month-border-r inputBox-r field"
+                        value={this.state.payload.registrationType}
+                        onChange={this.nameChangeHandler}
+                        id="registrationType"
+                        required>
+                        <option value="">Registration Type*</option>
+                        <option value="regular">Regular</option>
+                        <option value="composition">Composition</option>
+                        <option value="nrtp">NRTP</option>
+                        <option value="ctp">CTP</option>
+                        <option value="ecomOperators">ECOM Operators</option>
+                      </select>
+                      <label className="floating-label">Registration Type<p className="required-check-mark-r">*</p></label>
+                    </div>
+
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                      <select
+                        className="custom-select year-month-border-r inputBox-r field"
+                        value={this.state.payload.returnType}
+                        onChange={this.nameChangeHandler}
+                        id="returnType"
+                        required>
+                        <option value="">Return Type*</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="quaterly">Quaterly</option>
+                      </select>
+                      <label className="floating-label">Return Type<p className="required-check-mark-r">*</p></label>
+                    </div>
+                    <div className="text-align-center-r">
+                      <button className="button-base-r width-40-r margin-bottom-b-60-r margin-top-b-25-r">{this.props.match.params.id ? "Update User" : "Create User"}</button>
                     </div>
                   </React.Fragment>
-                }
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <p className="required-check-mark-r">*</p>
-                  <input
-                    type="text"
-                    className="form-control inputBox-r"
-                    placeholder="Principle Place Of Business"
-                    value={this.state.payload.principalPlaceOfBusiness}
-                    onChange={this.nameChangeHandler}
-                    id="principalPlaceOfBusiness"
-                    required />
-                </div>
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <input
-                    type="text"
-                    className="form-control inputBox-r"
-                    placeholder="Additional Place Of Business"
-                    value={this.state.payload.additionalPlaceOfBusiness}
-                    onChange={this.nameChangeHandler}
-                    id="additionalPlaceOfBusiness"
-                  />
-                </div>
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <p className="required-check-mark-r">*</p>
-                  <select disabled={this.props.match.params.id} id="startYear" onChange={this.nameChangeHandler} value={this.state.payload.startYear} className="year-month-border-r inputBox-r" required>
-                    <option value="">Select Year</option>
-                    <option value="2020">2020-2021</option>
-                    <option value="2019">2019-2020</option>
-                    <option value="2018">2018-2019</option>
-                    <option value="2017">2017-2018</option>
-                  </select>
-                </div>
-                <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <p className="required-check-mark-r">*</p>
-                  <select disabled={this.props.match.params.id} id="startMonth" onChange={this.nameChangeHandler} value={this.state.payload.startMonth} className="year-month-border-r inputBox-r" required>
-                    <option value="">Select Month</option>
-                    <option value="4">April</option>
-                    <option value="5">May</option>
-                    <option value="6">June</option>
-                    <option value="7">July</option>
-                    <option value="8">August</option>
-                    <option value="9">September</option>
-                    <option value="10">October</option>
-                    <option value="11">November</option>
-                    <option value="12">December</option>
-                    <option value="1">January</option>
-                    <option value="2">February</option>
-                    <option value="3">March</option>
-                  </select>
-                </div>
-                <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                  <p className="required-check-mark-r">*</p>
-                  <select
-                    className="custom-select year-month-border-r inputBox-r"
-                    value={this.state.payload.constitutionType}
-                    onChange={this.nameChangeHandler}
-                    id="constitutionType"
-                    required>
-                    <option value="">Constitution Type</option>
-                    <option value="proprietorship">Proprietorship</option>
-                    <option value="partnership">Partnership</option>
-                    <option value="huf">HUF</option>
-                    <option value="aopBoi">AOP/BOI</option>
-                    <option value="company">Company</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-                <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                  <p className="required-check-mark-r">*</p>
-                  <select
-                    className="custom-select year-month-border-r inputBox-r"
-                    value={this.state.payload.registrationType}
-                    onChange={this.nameChangeHandler}
-                    id="registrationType"
-                    required>
-                    <option value="">Registration Type</option>
-                    <option value="regular">Regular</option>
-                    <option value="composition">Composition</option>
-                    <option value="nrtp">NRTP</option>
-                    <option value="ctp">CTP</option>
-                    <option value="ecomOperators">ECOM Operators</option>
-                  </select>
-                </div>
-                <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                  <p className="required-check-mark-r">*</p>
-                  <select
-                    className="custom-select year-month-border-r inputBox-r"
-                    value={this.state.payload.returnType}
-                    onChange={this.nameChangeHandler}
-                    id="returnType"
-                    required>
-                    <option value="">Return Type</option>
-                    <option value="monthly">Monthly</option>
-                    <option value="quaterly">Quaterly</option>
-                  </select>
-                </div>
-                <div className="text-align-center-r">
-                  <button className="button-base-r width-40-r margin-bottom-b-60-r margin-top-b-25-r">{this.props.match.params.id ? "Update User" : "Create User"}</button>
-                </div>
-              </form>
+                </form> :
+                <React.Fragment>
+                  <form onSubmit={this.checkAvailabelHandler}>
+                    <div className="check-container-r">
+                      <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <input
+                          type="text"
+                          className="form-control inputBox-r field"
+                          placeholder="Username*"
+                          value={this.state.payload.username}
+                          onChange={this.nameChangeHandler}
+                          id="username"
+                          autoFocus
+                          required />
+                        <label className="floating-label">Username <p className="required-check-mark-r">*</p></label>
+                      </div>
+
+                      <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <input
+                          type="text"
+                          className="form-control inputBox-r field"
+                          placeholder="GSTIN*"
+                          value={this.state.payload.gstinNumber}
+                          onChange={this.nameChangeHandler}
+                          pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
+                          title="Please Enter GSTIN in corrected format"
+                          id="gstinNumber"
+                          required />
+                        <label className="floating-label">GSTIN<p className="required-check-mark-r">*</p></label>
+                      </div>
+                    </div>
+                    <div className="text-align-center-r">
+                      <button className="button-base-r width-40-r margin-bottom-b-60-r margin-top-b-25-r">Check</button>
+                    </div>
+                  </form>
+                </React.Fragment>
+              }
             </div>
           </div>
         }

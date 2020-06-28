@@ -21,10 +21,8 @@ export function errorHandler(error) {
 }
 
 export function dateFormatHandler(date) {
-	console.log('date: ', date);
 	let monthArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 	let newDate = date.split('/')[1] +" "+ monthArray[date.split('/')[0]-1] +" "+ date.split('/')[2]
-	console.log('newDate: ', newDate);
 	return newDate
 }
 

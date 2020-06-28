@@ -108,8 +108,7 @@ export class User extends React.Component {
   };
 
   putbill = (id, formData) => {
-    axios
-      .put(window.API_URL+`/bill/${id}`, formData)
+    axios.put(window.API_URL + `/bill/${id}`, formData)
       .then((res) => {
         const data = res.data.data;
         this.setState({
@@ -284,7 +283,7 @@ export class User extends React.Component {
               <div className="row">
                 <div className="col-xs-6 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-5">
                   <select value={this.state.year} onChange={this.nameChangeHandler} className="year-month-border-r" id="year">
-                    <option disabled = {true} value="">Select Year</option>
+                    <option disabled={true} value="">Select Year</option>
                     <option value="2020">2020-2021</option>
                     <option value="2019">2019-2020</option>
                     <option value="2018">2018-2019</option>
@@ -293,7 +292,7 @@ export class User extends React.Component {
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-5">
                   <select value={this.state.month} onChange={this.nameChangeHandler} className="year-month-border-r" id="month">
-                    <option disabled = {true} value="">Select Month</option>
+                    <option disabled={true} value="">Select Month</option>
                     <option value="4">April</option>
                     <option value="5">May</option>
                     <option value="6">June</option>
@@ -308,8 +307,11 @@ export class User extends React.Component {
                     <option value="3">March</option>
                   </select>
                 </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
-                  <div className="text-align-center-r"><p className="view-reports-r" onClick={() => { this.props.history.push(`/manageUserReports/${this.state.month}/${this.state.year}`) }}>view Reports</p></div>
+                <div className="col-xs-6 col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+                  <div><button onClick={() => { this.props.history.push(`/manageUserReports/${this.state.month}/${this.state.year}`) }} type="button" className="view-reports-button-base-r">
+                    <label className="cursor-pointer-r margin-0-r">view Reports</label>
+                  </button></div>
+                  {/* <div className="text-align-center-r"><p className="view-reports-r" onClick={() => { this.props.history.push(`/manageUserReports/${this.state.month}/${this.state.year}`) }}>view Reports</p></div> */}
                 </div>
               </div>
             </div>
@@ -373,7 +375,7 @@ export class User extends React.Component {
                               : null
                         }
                       </div>
-                      <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="purchaseBill"
+                      <input className="display-none-r" onChange={this.loadFile} id="purchaseBill"
                         type="file" multiple required />
                       <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 margin-15-r">
                         <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -391,25 +393,27 @@ export class User extends React.Component {
                     <div className="text-align-center-min-r">
 
                       {this.state.getbill.purchaseBills && this.state.getbill.purchaseBills.map((val, index) =>
-                        <React.Fragment key={index}>
-                          <div className="card-selected-image-r">
-                            <img className="selected-image-r" src={window.API_URL_IMAGE+"/bills/" + val.img} />
-                            <p className="card-selected-heading-r">{val.originalName}</p>
-                            <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
-                          </div>
-                          {this.state.isDeletedBill.includes("true" + index + "purchase") ? null :
-                            <span className="delete-bill-icon-r">
-                              <button name="purchase" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                            </span>
-                          }
-                        </React.Fragment>
+                        <div key={index} className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                          <React.Fragment>
+                            <div className="card-selected-image-r">
+                              <img className="selected-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} /> :
+                              {/* <img className="aboutus-img1-r" src={require('../../assets/img/logo.png')} /> */}
+                              <p className="card-selected-heading-r">{val.originalName}</p>
+                              <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                            </div>
+                            {this.state.isDeletedBill.includes("true" + index + "purchase") ? null :
+                              <span className="delete-bill-icon-r">
+                                <button name="purchase" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                              </span>
+                            }
+                          </React.Fragment>
+                        </div>
                       )}
 
                     </div>
                   </div>
                 </div>
                 :
-
                 this.state.isActiveTab == "sale" ?
                   <div className="container">
                     <form onSubmit={this.billUploadHandler}>
@@ -444,7 +448,7 @@ export class User extends React.Component {
                                 : null
                           }
                         </div>
-                        <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="saleBill"
+                        <input className="display-none-r" onChange={this.loadFile} id="saleBill"
                           type="file" multiple required />
                         <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 margin-15-r">
                           <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -460,28 +464,27 @@ export class User extends React.Component {
                     </form>
                     <div className="col-xs-12 col-12 col-sm-8 col-md-9 col-lg-10 col-xl-10">
                       <div className="text-align-center-min-r">
-
                         {this.state.getbill.saleBills && this.state.getbill.saleBills.map((val, index) =>
-                          <React.Fragment key={index}>
-                            <div className="card-selected-image-r">
-                              <img className="selected-image-r" src={window.API_URL_IMAGE+"/bills/" + val.img} />
-                              <p className="card-selected-heading-r">{val.originalName}</p>
-                              <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
-                            </div>
-                            {this.state.isDeletedBill.includes("true" + index + "sale") ? null :
-                              <span className="delete-bill-icon-r">
-                                <button name="sale" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                              </span>
-                            }
-                          </React.Fragment>
+                          <div key={index} className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                            <React.Fragment>
+                              <div className="card-selected-image-r">
+                                <img className="selected-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} />
+                                <p className="card-selected-heading-r">{val.originalName}</p>
+                                <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                              </div>
+                              {this.state.isDeletedBill.includes("true" + index + "sale") ? null :
+                                <span className="delete-bill-icon-r">
+                                  <button name="sale" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                                </span>
+                              }
+                            </React.Fragment>
+                          </div>
                         )}
 
                       </div>
                     </div>
                   </div>
-
                   :
-
                   <div className="container">
                     <form onSubmit={this.billUploadHandler}>
                       <div className="col-xs-12 col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 text-align-center-r">
@@ -516,7 +519,7 @@ export class User extends React.Component {
                                 : null
                           }
                         </div>
-                        <input className="display-none-r" accept="image/*" onChange={this.loadFile} id="otherBill"
+                        <input className="display-none-r" onChange={this.loadFile} id="otherBill"
                           type="file" multiple required />
                         <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 margin-15-r">
                           <div className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -534,26 +537,26 @@ export class User extends React.Component {
                       <div className="text-align-center-min-r">
 
                         {this.state.getbill.otherBills && this.state.getbill.otherBills.map((val, index) =>
-                          <React.Fragment key={index}>
-                            <div className="card-selected-image-r">
-                              <img className="selected-image-r" src={window.API_URL_IMAGE+"/bills/" + val.img} />
-                              <p className="card-selected-heading-r">{val.originalName}</p>
-                              <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
-                            </div>
-                            {this.state.isDeletedBill.includes("true" + index + "other") ? null :
-                              <span className="delete-bill-icon-r">
-                                <button name="other" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
-                              </span>
-                            }
-                          </React.Fragment>
+                          <div key={index} className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                            <React.Fragment>
+                              <div className="card-selected-image-r">
+                                <img className="selected-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} />
+                                <p className="card-selected-heading-r">{val.originalName}</p>
+                                <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                              </div>
+                              {this.state.isDeletedBill.includes("true" + index + "other") ? null :
+                                <span className="delete-bill-icon-r">
+                                  <button name="other" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
+                                </span>
+                              }
+                            </React.Fragment>
+                          </div>
                         )}
 
                       </div>
                     </div>
                   </div>
-
             }
-
           </div>
         }
       </div>
