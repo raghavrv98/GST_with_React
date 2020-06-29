@@ -45,6 +45,7 @@ export class AddOrEditAccountant extends React.Component {
       password: "",
       username: ""
     },
+    message: "",
     passwordCheck: false,
     password: true,
     confirmPassword: true
@@ -68,7 +69,7 @@ export class AddOrEditAccountant extends React.Component {
       });
   };
 
-  postAccountant = (payload) => {
+  postAccountant = (payload, check) => {
     let url = window.API_URL + `/updateAccountantDetails/${this.props.match.params.id}`;
     if (this.props.match.params.id) {
       axios.put(url, payload)
@@ -91,7 +92,7 @@ export class AddOrEditAccountant extends React.Component {
         });
     }
     else {
-      let url = window.API_URL + `/newAccountant`;
+      let url = check ? window.API_URL + `/newAccountant/isAvailable/username` : window.API_URL + `/newAccountant`;
       axios.post(url, payload)
         .then((res) => {
           const data = res.data.data;
@@ -99,7 +100,8 @@ export class AddOrEditAccountant extends React.Component {
             message: res.data.message,
             isLoading: false,
             type: "success",
-          }, () => this.props.history.push('/manageAccountant'));
+            available: data.available,
+          }, () => check ? null : this.props.history.push('/manageAccountant'));
         })
         .catch((error) => {
           let message = errorHandler(error);
@@ -156,6 +158,16 @@ export class AddOrEditAccountant extends React.Component {
     }
   }
 
+  checkAvailabelHandler = () => {
+    event.preventDefault()
+    let payload = JSON.parse(JSON.stringify(this.state.payload));
+    this.setState({
+      isLoading: true
+    },
+      () => this.postAccountant(payload, "check")
+    )
+  }
+
   modalTime = () => {
     this.setState({
       isOpenClassName: 'modal display-none container'
@@ -209,232 +221,263 @@ export class AddOrEditAccountant extends React.Component {
             </div>
             <div className="container">
               <p className="main-title-r">{this.props.match.params.id ? "Update Accountant" : "Create Accountant"}</p>
-              <form onSubmit={this.SubmitUserHandler}>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                  <input
-                    disabled={this.props.match.params.id}
-                    type="text"
-                    className="form-control inputBox-r field"
-                    placeholder="Username"
-                    value={this.state.payload.username}
-                    onChange={this.nameChangeHandler}
-                    id="username"
-                    autoFocus
-                  />
-                  <label className="floating-label">Username</label>
-                </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                  <p className="required-check-mark-r">*</p>
-                  <input
-                    type="date"
-                    className="form-control inputBox-r field"
-                    placeholder="Date Of Birth* :" id="date"
-                    value={this.state.payload.dateOfBirth}
-                    onChange={this.nameChangeHandler}
-                    id="dateOfBirth"
-                    required />
-                  <label className="floating-label">Date Of Birth<p className="required-check-mark-r">*</p></label>
-                </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                  <input
-                    type="text"
-                    className="form-control inputBox-r field"
-                    placeholder="First Name"
-                    value={this.state.payload.firstName}
-                    onChange={this.nameChangeHandler}
-                    id="firstName"
-                  />
-                  <label className="floating-label">First Name</label>
-                </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                  <input
-                    type="text"
-                    className="form-control inputBox-r field"
-                    placeholder="Middle Name"
-                    value={this.state.payload.middleName}
-                    onChange={this.nameChangeHandler}
-                    id="middleName"
-                  />
-                  <label className="floating-label">Middle Name</label>
-                </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                  <input
-                    type="text"
-                    className="form-control inputBox-r field"
-                    placeholder="Last Name*"
-                    value={this.state.payload.lastName}
-                    onChange={this.nameChangeHandler}
-                    id="lastName"
-                    required
-                  />
-                  <label className="floating-label">Last Name<p className="required-check-mark-r">*</p></label>
-                </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                  <input
-                    type="tel"
-                    className="form-control inputBox-r field"
-                    placeholder="Primary Mobile Number*"
-                    value={this.state.payload.mobileNumber}
-                    onChange={this.nameChangeHandler}
-                    id="mobileNumber"
-                    pattern="[1-9]{1}[0-9]{9}"
-                    title="Enter 10 digit mobile number"
-                    required />
-                  <label className="floating-label">Primary Mobile Number<p className="required-check-mark-r">*</p></label>
-                </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                  <input
-                    type="tel"
-                    className="form-control inputBox-r field"
-                    placeholder="Secondary Mobile Number"
-                    value={this.state.payload.secondaryMobileNumber}
-                    onChange={this.nameChangeHandler}
-                    id="secondaryMobileNumber"
-                    pattern="[1-9]{1}[0-9]{9}"
-                    title="Enter 10 digit mobile number"
-                  />
-                  <label className="floating-label">Secondary Mobile Number</label>
-                </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                  <p className="required-check-mark-r">*</p>
-                  <input
-                    type="email"
-                    className="form-control inputBox-r field"
-                    placeholder="Email-Id"
-                    value={this.state.payload.emailId}
-                    onChange={this.nameChangeHandler}
-                    id="emailId"
-                    required />
-                  <label className="floating-label">Email-Id<p className="required-check-mark-r">*</p></label>
-                </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                  <input
-                    type="text"
-                    className="form-control inputBox-r field"
-                    placeholder="PAN Number*"
-                    pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
-                    title="Please Enter PAN in corrected format"
-                    value={this.state.payload.panNumber}
-                    onChange={this.nameChangeHandler}
-                    id="panNumber"
-                    required />
-                  <label className="floating-label">PAN Number<p className="required-check-mark-r">*</p></label>
-                </div>
+              <ul id="progressbar">
+                <li><span className="list1-r" > Check for Username</span></li>
+                <li><span className="list2-r"> Accountant Registration</span></li>
+              </ul>
+              {this.props.match.params.id || this.state.available ? this.state.isLoading ?
+                <div className="lds-facebook"><div></div><div></div><div></div><span className="loading-text-r">Loading... </span></div>
+                :
+                <form onSubmit={this.SubmitUserHandler}>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <input
+                      disabled={this.props.match.params.id || this.state.available}
+                      type="text"
+                      className="form-control inputBox-r field"
+                      placeholder="Username"
+                      value={this.state.payload.username}
+                      onChange={this.nameChangeHandler}
+                      id="username"
+                      autoFocus
+                    />
+                    <label className="floating-label">Username</label>
+                  </div>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <p className="required-check-mark-r">*</p>
+                    <input
+                      type="date"
+                      className="form-control inputBox-r field"
+                      placeholder="Date Of Birth* :" id="date"
+                      value={this.state.payload.dateOfBirth}
+                      onChange={this.nameChangeHandler}
+                      id="dateOfBirth"
+                      required />
+                    <label className="floating-label">Date Of Birth<p className="required-check-mark-r">*</p></label>
+                  </div>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                    <input
+                      type="text"
+                      className="form-control inputBox-r field"
+                      placeholder="First Name"
+                      value={this.state.payload.firstName}
+                      onChange={this.nameChangeHandler}
+                      id="firstName"
+                    />
+                    <label className="floating-label">First Name</label>
+                  </div>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                    <input
+                      type="text"
+                      className="form-control inputBox-r field"
+                      placeholder="Middle Name"
+                      value={this.state.payload.middleName}
+                      onChange={this.nameChangeHandler}
+                      id="middleName"
+                    />
+                    <label className="floating-label">Middle Name</label>
+                  </div>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                    <input
+                      type="text"
+                      className="form-control inputBox-r field"
+                      placeholder="Last Name*"
+                      value={this.state.payload.lastName}
+                      onChange={this.nameChangeHandler}
+                      id="lastName"
+                      required
+                    />
+                    <label className="floating-label">Last Name<p className="required-check-mark-r">*</p></label>
+                  </div>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <input
+                      type="tel"
+                      className="form-control inputBox-r field"
+                      placeholder="Primary Mobile Number*"
+                      value={this.state.payload.mobileNumber}
+                      onChange={this.nameChangeHandler}
+                      id="mobileNumber"
+                      pattern="[1-9]{1}[0-9]{9}"
+                      title="Enter 10 digit mobile number"
+                      required />
+                    <label className="floating-label">Primary Mobile Number<p className="required-check-mark-r">*</p></label>
+                  </div>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <input
+                      type="tel"
+                      className="form-control inputBox-r field"
+                      placeholder="Secondary Mobile Number"
+                      value={this.state.payload.secondaryMobileNumber}
+                      onChange={this.nameChangeHandler}
+                      id="secondaryMobileNumber"
+                      pattern="[1-9]{1}[0-9]{9}"
+                      title="Enter 10 digit mobile number"
+                    />
+                    <label className="floating-label">Secondary Mobile Number</label>
+                  </div>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <p className="required-check-mark-r">*</p>
+                    <input
+                      type="email"
+                      className="form-control inputBox-r field"
+                      placeholder="Email-Id"
+                      value={this.state.payload.emailId}
+                      onChange={this.nameChangeHandler}
+                      id="emailId"
+                      required />
+                    <label className="floating-label">Email-Id<p className="required-check-mark-r">*</p></label>
+                  </div>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <input
+                      type="text"
+                      className="form-control inputBox-r field"
+                      placeholder="PAN Number*"
+                      pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                      title="Please Enter PAN in corrected format"
+                      value={this.state.payload.panNumber}
+                      onChange={this.nameChangeHandler}
+                      id="panNumber"
+                      required />
+                    <label className="floating-label">PAN Number<p className="required-check-mark-r">*</p></label>
+                  </div>
 
-                <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                  <select
-                    className="custom-select year-month-border-r inputBox-r"
-                    value={this.state.payload.qualification}
-                    onChange={this.nameChangeHandler}
-                    id="qualification"
-                    required>
-                    <option value="">Qualification</option>
-                    <option value="postgraduate">Post Graduate</option>
-                    <option value="graduate">Graduate</option>
-                    <option value="other">other</option>
-                  </select>
-                  <label className="floating-label">Qualification<p className="required-check-mark-r">*</p></label>
-                </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                  <input
-                    type="text"
-                    className="form-control inputBox-r field"
-                    placeholder="Address*"
-                    value={this.state.payload.address}
-                    onChange={this.nameChangeHandler}
-                    id="address"
-                    required
-                  />
-                  <label className="floating-label">Address<p className="required-check-mark-r">*</p></label>
-                </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                  <input
-                    type="text"
-                    className="form-control inputBox-r field"
-                    placeholder="City*"
-                    value={this.state.payload.city}
-                    onChange={this.nameChangeHandler}
-                    id="city"
-                    required
-                  />
-                  <label className="floating-label">City<p className="required-check-mark-r">*</p></label>
-                </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                  <p className="required-check-mark-r">*</p>
-                  <input
-                    type="text"
-                    className="form-control inputBox-r field"
-                    placeholder="District*"
-                    value={this.state.payload.district}
-                    onChange={this.nameChangeHandler}
-                    id="district"
-                    required
-                  />
-                  <label className="floating-label">District<p className="required-check-mark-r">*</p></label>
-                </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                  <input
-                    type="text"
-                    className="form-control inputBox-r field"
-                    placeholder="State*"
-                    value={this.state.payload.state}
-                    onChange={this.nameChangeHandler}
-                    id="state"
-                    required
-                  />
-                  <label className="floating-label">State<p className="required-check-mark-r">*</p></label>
-                </div>
-                <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                  <input
-                    type="text"
-                    className="form-control inputBox-r field"
-                    placeholder="Pincode Number*"
-                    value={this.state.payload.pincode}
-                    onChange={this.nameChangeHandler}
-                    id="pincode"
-                    required
-                  />
-                  <label className="floating-label">Pincode Number<p className="required-check-mark-r">*</p></label>
-                </div>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <select
+                      className="custom-select year-month-border-r inputBox-r"
+                      value={this.state.payload.qualification}
+                      onChange={this.nameChangeHandler}
+                      id="qualification"
+                      required>
+                      <option value="">Qualification</option>
+                      <option value="postgraduate">Post Graduate</option>
+                      <option value="graduate">Graduate</option>
+                      <option value="other">other</option>
+                    </select>
+                    <label className="floating-label">Qualification<p className="required-check-mark-r">*</p></label>
+                  </div>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <input
+                      type="text"
+                      className="form-control inputBox-r field"
+                      placeholder="Address*"
+                      value={this.state.payload.address}
+                      onChange={this.nameChangeHandler}
+                      id="address"
+                      required
+                    />
+                    <label className="floating-label">Address<p className="required-check-mark-r">*</p></label>
+                  </div>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <input
+                      type="text"
+                      className="form-control inputBox-r field"
+                      placeholder="City*"
+                      value={this.state.payload.city}
+                      onChange={this.nameChangeHandler}
+                      id="city"
+                      required
+                    />
+                    <label className="floating-label">City<p className="required-check-mark-r">*</p></label>
+                  </div>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <p className="required-check-mark-r">*</p>
+                    <input
+                      type="text"
+                      className="form-control inputBox-r field"
+                      placeholder="District*"
+                      value={this.state.payload.district}
+                      onChange={this.nameChangeHandler}
+                      id="district"
+                      required
+                    />
+                    <label className="floating-label">District<p className="required-check-mark-r">*</p></label>
+                  </div>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <input
+                      type="text"
+                      className="form-control inputBox-r field"
+                      placeholder="State*"
+                      value={this.state.payload.state}
+                      onChange={this.nameChangeHandler}
+                      id="state"
+                      required
+                    />
+                    <label className="floating-label">State<p className="required-check-mark-r">*</p></label>
+                  </div>
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <input
+                      type="text"
+                      className="form-control inputBox-r field"
+                      placeholder="Pincode Number*"
+                      value={this.state.payload.pincode}
+                      onChange={this.nameChangeHandler}
+                      id="pincode"
+                      required
+                    />
+                    <label className="floating-label">Pincode Number<p className="required-check-mark-r">*</p></label>
+                  </div>
 
-                {this.props.match.params.id ?
-                  null :
-                  <React.Fragment>
-                    <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                      <input
-                        type={this.state.password ? "password" : "text"}
-                        className="form-control inputBox-r field"
-                        placeholder="Password"
-                        value={this.state.payload.password}
-                        onChange={this.nameChangeHandler}
-                        id="password"
-                        minLength="4"
-                        required
-                      />
-                      <label className="floating-label">Password<p className="required-check-mark-r">*</p></label>
-                      <button type="button" id="password0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.password ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
+                  {this.props.match.params.id ?
+                    null :
+                    <React.Fragment>
+                      <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <input
+                          type={this.state.password ? "password" : "text"}
+                          className="form-control inputBox-r field"
+                          placeholder="Password"
+                          value={this.state.payload.password}
+                          onChange={this.nameChangeHandler}
+                          id="password"
+                          minLength="4"
+                          required
+                        />
+                        <label className="floating-label">Password<p className="required-check-mark-r">*</p></label>
+                        <button type="button" id="password0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.password ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
+                      </div>
+                      <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <p className="required-check-mark-r">*</p>
+                        <input
+                          type={this.state.confirmPassword ? "password" : "text"}
+                          className={this.state.passwordCheck ? "form-control inputBox-r field alert-box-r" : "form-control inputBox-r field"}
+                          placeholder="Confirm Password*"
+                          value={this.state.payload.confirmPassword}
+                          onChange={this.nameChangeHandler}
+                          id="confirmPassword"
+                          required
+                        />
+                        <label className="floating-label">Confirm Password<p className="required-check-mark-r">*</p></label>
+                        <button type="button" id="confirmPassword0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.confirmPassword ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
+                        {this.state.passwordCheck ? <p className="error-msg-r">Password and confirm password mismatch.</p> : null}
+                      </div>
+                    </React.Fragment>
+                  }
+                  <div className="text-align-center-r">
+                    <button className="button-base-r width-40-r margin-bottom-b-60-r margin-top-b-25-r">{this.props.match.params.id ? "Update Accountant" : "Create Accountant"}</button>
+                  </div>
+                </form>
+                :
+                <React.Fragment>
+                  <form onSubmit={this.checkAvailabelHandler}>
+                    <div className="check-container-acc-r">
+                      <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 username-center-r">
+                        <input
+                          type="text"
+                          className={!this.state.available && this.state.message.includes('Username') ? "form-control inputBox-r field alert-box-r" : "form-control inputBox-r field"}
+                          placeholder="Username*"
+                          value={this.state.payload.username}
+                          onChange={this.nameChangeHandler}
+                          id="username"
+                          autoFocus
+                          required />
+                        {!this.state.available && this.state.message.includes('Username') ? <p className="error-msg-r">{this.state.message}</p> : null}
+                        <label className="floating-label">Username <p className="required-check-mark-r">*</p></label>
+                      </div>
                     </div>
-                    <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                      <p className="required-check-mark-r">*</p>
-                      <input
-                        type={this.state.confirmPassword ? "password" : "text"}
-                        className={this.state.passwordCheck ? "form-control inputBox-r field alert-box-r" : "form-control inputBox-r field"}
-                        placeholder="Confirm Password*"
-                        value={this.state.payload.confirmPassword}
-                        onChange={this.nameChangeHandler}
-                        id="confirmPassword"
-                        required
-                      />
-                      <label className="floating-label">Confirm Password<p className="required-check-mark-r">*</p></label>
-                      <button type="button" id="confirmPassword0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.confirmPassword ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
-                      {this.state.passwordCheck ? <p className="error-msg-r">Password and confirm password mismatch.</p> : null}
+                    <div className="text-align-center-r">
+                      <button className="button-base-r width-40-r margin-bottom-b-60-r margin-top-b-25-r">Check</button>
                     </div>
-                  </React.Fragment>
-                }
-                <div className="text-align-center-r">
-                  <button className="button-base-r width-40-r margin-bottom-b-60-r margin-top-b-25-r">{this.props.match.params.id ? "Update Accountant" : "Create Accountant"}</button>
-                </div>
-              </form>
+                  </form>
+                </React.Fragment>
+              }
             </div>
           </div>
         }

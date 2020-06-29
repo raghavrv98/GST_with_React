@@ -132,16 +132,6 @@ export class ManageUserReports extends React.Component {
       isLoading: true
     })
   }
-
-  downloadSample = (img, name) => {
-    const link = document.createElement('a');
-    link.href = window.API_URL_IMAGE + "/bills/" + img;
-    document.body.appendChild(link);
-    link.download = name;
-    link.click();
-    document.body.removeChild(link);
-  }
-
   render() {
     return (
       <div>
@@ -188,7 +178,7 @@ export class ManageUserReports extends React.Component {
                             <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                           </span>
                           <span className="download-report-icon-r">
-                            <a download href={window.API_URL_IMAGE + "/daily-reports/" + val.img} className="fa fa-download"></a>
+                            <a download={val.originalName} target="_blank" href={window.API_URL_IMAGE + "/daily-reports/" + val.img} className="fa fa-download"></a>
                           </span>
                           <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/daily-reports/" + val.img} />
                           <p className="card-selected-heading-r">{val.originalName}</p>
@@ -218,7 +208,7 @@ export class ManageUserReports extends React.Component {
                             <button name="gst" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                           </span>
                           <span className="download-report-icon-r">
-                            <a download={val.originalName} href={window.API_URL_IMAGE + "/gst-reports/" + val.img} className="fa fa-download"></a>
+                            <a download={val.originalName} target="_blank" href={window.API_URL_IMAGE + "/gst-reports/" + val.img} className="fa fa-download"></a>
                           </span>
                           <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/gst-reports/" + val.img} />
                           <p className="card-selected-heading-r">{val.originalName}</p>
@@ -247,13 +237,7 @@ export class ManageUserReports extends React.Component {
                             <button name="faulty" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                           </span>
                           <span className="download-report-icon-r">
-                            {/* <a download="abc.png" href={window.API_URL +"/bills/" + val.img} className=""></a> */}
-                            <button
-                              type="button"
-                              className="fa fa-download"
-                              onClick={() => this.downloadSample(val.img, val.originalName)}
-                            >
-                            </button>
+                            <a download={val.originalName} target="_blank" href={window.API_URL_IMAGE + "/bills/" + val.img} className="fa fa-download"></a>
                           </span>
                           <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} />
                           <p className="card-selected-heading-r">{val.originalName}</p>

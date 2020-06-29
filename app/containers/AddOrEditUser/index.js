@@ -47,12 +47,14 @@ export class AddOrEditUser extends React.Component {
       returnType: "",
       startYear: "",
       startMonth: "",
-      username: ""
+      username: "",
     },
+    message :"",
     passwordCheck: false,
     gstnPassword: true,
     password: true,
-    confirmPassword: true
+    confirmPassword: true,
+    usernameCheck: false
   }
 
   getUserById = (id) => {
@@ -105,7 +107,7 @@ export class AddOrEditUser extends React.Component {
             message: res.data.message,
             isLoading: false,
             type: "success",
-            available: data.available
+            available: data.available,
           }, () => check ? null : this.props.history.push('/manageUser'));
         })
         .catch((error) => {
@@ -134,7 +136,7 @@ export class AddOrEditUser extends React.Component {
     let payload = JSON.parse(JSON.stringify(this.state.payload));
     payload[event.target.id] = event.target.value;
     this.setState({
-      payload, passwordCheck: false
+      payload, passwordCheck: false, message :""
     });
   };
 
@@ -551,20 +553,21 @@ export class AddOrEditUser extends React.Component {
                       <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                         <input
                           type="text"
-                          className="form-control inputBox-r field"
+                          className={!this.state.available && this.state.message.includes('Username') ? "form-control inputBox-r field alert-box-r" : "form-control inputBox-r field"}
                           placeholder="Username*"
                           value={this.state.payload.username}
                           onChange={this.nameChangeHandler}
                           id="username"
                           autoFocus
                           required />
+                        {!this.state.available && this.state.message.includes('Username') ? <p className="error-msg-r">{this.state.message}</p> : null}
                         <label className="floating-label">Username <p className="required-check-mark-r">*</p></label>
                       </div>
 
                       <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                         <input
                           type="text"
-                          className="form-control inputBox-r field"
+                          className={!this.state.available && this.state.message.includes('Gstin') ? "form-control inputBox-r field alert-box-r" : "form-control inputBox-r field"}
                           placeholder="GSTIN*"
                           value={this.state.payload.gstinNumber}
                           onChange={this.nameChangeHandler}
@@ -572,6 +575,7 @@ export class AddOrEditUser extends React.Component {
                           title="Please Enter GSTIN in corrected format"
                           id="gstinNumber"
                           required />
+                        {!this.state.available && this.state.message.includes('Gstin') ? <p className="error-msg-r">{this.state.message}</p> : null}
                         <label className="floating-label">GSTIN<p className="required-check-mark-r">*</p></label>
                       </div>
                     </div>

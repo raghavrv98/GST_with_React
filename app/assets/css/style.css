@@ -1227,10 +1227,6 @@ margin: 0px;
 
 @media screen and (max-width: 769px) {
 
-  .button-margin-top {
-    margin: 20px 0px 0px !important;
-  }
-
   .check-container-r{
     background: #EFF7FE;
       height: 35vh;
@@ -1481,5 +1477,23 @@ margin: 0px;
   margin: 5px 0px 15px !important;
   font-size: 14px !important;
   text-align: left;
-  position: absolute;
 }
+
+.check-container-acc-r{
+  background: #EFF7FE;
+    height: 35vh;
+    width: 100%;
+    border: 1px solid #d5e7f7;
+    padding: 40px;
+    border-radius: 16px;
+}
+
+.username-center-r{
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+}
+
+  .button-margin-top {
+    margin: 20px 0px 0px !important;
+  }
