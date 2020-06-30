@@ -49,7 +49,7 @@ export class AddOrEditUser extends React.Component {
       startMonth: "",
       username: "",
     },
-    message :"",
+    message: "",
     passwordCheck: false,
     gstnPassword: true,
     password: true,
@@ -136,7 +136,7 @@ export class AddOrEditUser extends React.Component {
     let payload = JSON.parse(JSON.stringify(this.state.payload));
     payload[event.target.id] = event.target.value;
     this.setState({
-      payload, passwordCheck: false, message :""
+      payload, passwordCheck: false, message: ""
     });
   };
 
@@ -145,12 +145,8 @@ export class AddOrEditUser extends React.Component {
 
     let payload = JSON.parse(JSON.stringify(this.state.payload));
     Object.keys(payload).map(val => {
-      if (val != "gstnUsername" &&
-        val != "gstnPassword" &&
-        val != "password" &&
-        val != "confirmPassword" &&
-        val != "username") {
-        payload[val] = payload[val].toLowerCase();
+      if (val === "legalName" || val === "tradeName" || val === "panNumber" || val === "emailId" || val === "secondaryEmailId" || val === "principalPlaceOfBusiness" || val === "additionalPlaceOfBusiness" || val === "secondaryEmailId" || val==="username" || val==="gstinNumber") {
+        payload[val] = payload[val].toUpperCase();
       }
       return val
     })
@@ -174,9 +170,13 @@ export class AddOrEditUser extends React.Component {
   checkAvailabelHandler = () => {
     event.preventDefault()
     let payload = JSON.parse(JSON.stringify(this.state.payload));
-    payload["gstinNumber"] = payload["gstinNumber"].toLowerCase();
+    Object.keys(payload).map(val => {
+      payload[val] = payload[val].toUpperCase();
+      return val
+    })
     this.setState({
-      isLoading: true
+      isLoading: true,
+      payload
     },
       () => this.postUser(payload, "check")
     )
@@ -204,6 +204,12 @@ export class AddOrEditUser extends React.Component {
     }
     this.setState({
       gstnPassword, password, confirmPassword
+    })
+  }
+
+  modalCloseHandler = () => {
+    this.setState({
+      isOpenClassName: 'modal display-none container',
     })
   }
 

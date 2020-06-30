@@ -1479,6 +1479,14 @@ margin: 0px;
   text-align: left;
 }
 
+.error-msg-forgot-r {
+  color: red !important;
+  margin: 5px 0px -10px !important;
+  font-size: 14px !important;
+  text-align: left;
+}
+
+
 .check-container-acc-r{
   background: #EFF7FE;
     height: 35vh;

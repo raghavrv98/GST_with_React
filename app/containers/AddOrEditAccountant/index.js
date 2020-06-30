@@ -48,7 +48,8 @@ export class AddOrEditAccountant extends React.Component {
     message: "",
     passwordCheck: false,
     password: true,
-    confirmPassword: true
+    confirmPassword: true,
+    isUsername : false
   }
 
   getAccountantById = (id) => {
@@ -96,11 +97,13 @@ export class AddOrEditAccountant extends React.Component {
       axios.post(url, payload)
         .then((res) => {
           const data = res.data.data;
+          let isUsername = !data.available
           this.setState({
             message: res.data.message,
             isLoading: false,
             type: "success",
             available: data.available,
+            isUsername
           }, () => check ? null : this.props.history.push('/manageAccountant'));
         })
         .catch((error) => {
@@ -129,7 +132,7 @@ export class AddOrEditAccountant extends React.Component {
     let payload = JSON.parse(JSON.stringify(this.state.payload));
     payload[event.target.id] = event.target.value;
     this.setState({
-      payload, passwordCheck: false
+      payload, passwordCheck: false, isUsername:false 
     });
   };
 
@@ -138,8 +141,8 @@ export class AddOrEditAccountant extends React.Component {
     let payload = JSON.parse(JSON.stringify(this.state.payload));
 
     Object.keys(payload).map(val => {
-      if (val != "password" && val != "confirmPassword" && val != "address") {
-        payload[val] = payload[val].toLowerCase();
+      if (val === "firstName" || val === "middleName" || val === "lastName" || val === "address" || val === "city" || val === "district" || val === "state" || val ==="emailId" || val ==="panNumber" || val === "username") {
+        payload[val] = payload[val].toUpperCase();
       }
       return val
     })
@@ -161,6 +164,7 @@ export class AddOrEditAccountant extends React.Component {
   checkAvailabelHandler = () => {
     event.preventDefault()
     let payload = JSON.parse(JSON.stringify(this.state.payload));
+    payload["username"] = payload["username"].toUpperCase() 
     this.setState({
       isLoading: true
     },
@@ -422,7 +426,7 @@ export class AddOrEditAccountant extends React.Component {
                       <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                         <input
                           type={this.state.password ? "password" : "text"}
-                          className="form-control inputBox-r field"
+                          className={this.state.passwordCheck ? "form-control inputBox-r field alert-box-r" : "form-control inputBox-r field"}
                           placeholder="Password"
                           value={this.state.payload.password}
                           onChange={this.nameChangeHandler}
@@ -468,7 +472,7 @@ export class AddOrEditAccountant extends React.Component {
                           id="username"
                           autoFocus
                           required />
-                        {!this.state.available && this.state.message.includes('Username') ? <p className="error-msg-r">{this.state.message}</p> : null}
+                        {!this.state.available && this.state.isUsername && this.state.message.includes('Username') ? <p className="error-msg-r">{this.state.message}</p> : null}
                         <label className="floating-label">Username <p className="required-check-mark-r">*</p></label>
                       </div>
                     </div>

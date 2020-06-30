@@ -42,7 +42,7 @@ export class LoginPage extends React.Component {
       isLoading: true
     })
     let payload = JSON.parse(JSON.stringify(this.state.payload));
-    payload["username"] = payload["username"].toLowerCase();
+    payload["username"] = payload["username"].toUpperCase();
     let url = window.API_URL + "/login";
     axios.post(url, payload)
       .then((res) => {
@@ -83,7 +83,8 @@ export class LoginPage extends React.Component {
       isLoading: true
     })
     let payload = JSON.parse(JSON.stringify(this.state.payload));
-    payload["username"] = payload["username"].toLowerCase();
+    payload["username"] = payload["username"].toUpperCase();
+    payload["emailId"] = payload["emailId"].toUpperCase();
     let url = window.API_URL + "/forgotPassword";
     axios.post(url, payload)
       .then((res) => {
@@ -189,7 +190,7 @@ export class LoginPage extends React.Component {
                             <p className="forgot-title-r">Forgot Password</p>
                             {this.state.forgotMessageSuccessCheck ? (
                               <p className="error-msg-login-r">
-                                Link has been sent successfully
+                                {this.state.message}
                               </p>
                             ) : null}
                             <form onSubmit={this.forgotPasswordHandler}>
@@ -218,7 +219,7 @@ export class LoginPage extends React.Component {
                                 required
                               />
                               {this.state.forgotLoginError ? (
-                                <p className="error-msg-login-r">
+                                <p className="error-msg-forgot-r">
                                   {this.state.message}
                                 </p>
                               ) : null}
@@ -241,11 +242,6 @@ export class LoginPage extends React.Component {
                         ) : (
                             <React.Fragment>
                               <p className="login-title-r">Login</p>
-                              {this.state.loginError ? (
-                                <p className="error-msg-r">
-                                  {this.state.message}
-                                </p>
-                              ) : null}
                               <form onSubmit={this.loginSubmitHandler}>
                                 <input
                                   type="text"
@@ -262,10 +258,16 @@ export class LoginPage extends React.Component {
                                   value={this.state.payload.password}
                                   onChange={this.nameChangeHandler}
                                   id="password"
+                                  minLength="4"
                                   className="form-control reset-input-box-r"
                                   placeholder="Password"
                                   required
                                 />
+                                {this.state.loginError ? (
+                                  <p className="error-msg-r">
+                                    {this.state.message}
+                                  </p>
+                                ) : null}
                                 <span>
                                   <button className="button-base-r width-40-r">
                                     Login

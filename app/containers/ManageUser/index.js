@@ -153,7 +153,7 @@ export class ManageUser extends React.Component {
           isFetching: false,
           type: "success",
           isOpenClassName: 'modal display-block container'
-        }, () => this.getUser(this.state.accountantId, this.state.month, this.state.year, this.state.userType))
+        }, () => this.getUser(this.state.accountantId, this.state.month, this.state.year, this.state.userType, setTimeout(this.modalTime, 1500)))
       })
       .catch((error) => {
         let message = errorHandler(error);
@@ -176,7 +176,6 @@ export class ManageUser extends React.Component {
       deleteName: "",
       isOpenClassName: 'modal display-none container',
       cardLoader: false
-
     })
   }
 
