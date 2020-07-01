@@ -396,8 +396,7 @@ export class User extends React.Component {
                         <div key={index} className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                           <React.Fragment>
                             <div className="card-selected-image-r">
-                              <img className="selected-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} /> :
-                              {/* <img className="aboutus-img1-r" src={require('../../assets/img/logo.png')} /> */}
+                            {val.type && val.type.includes('image') ? <img className="selected-user-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} /> : <img className="selected-user-image-r" src={require('../../assets/img/file.png')} />}
                               <p className="card-selected-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                             </div>
@@ -468,7 +467,7 @@ export class User extends React.Component {
                           <div key={index} className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                             <React.Fragment>
                               <div className="card-selected-image-r">
-                                <img className="selected-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} />
+                              {val.type && val.type.includes('image') ? <img className="selected-user-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} /> : <img className="selected-user-image-r" src={require('../../assets/img/file.png')} />}
                                 <p className="card-selected-heading-r">{val.originalName}</p>
                                 <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                               </div>
@@ -540,7 +539,7 @@ export class User extends React.Component {
                           <div key={index} className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                             <React.Fragment>
                               <div className="card-selected-image-r">
-                                <img className="selected-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} />
+                              {val.type && val.type.includes('image') ? <img className="selected-user-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} /> : <img className="selected-user-image-r" src={require('../../assets/img/file.png')} />}
                                 <p className="card-selected-heading-r">{val.originalName}</p>
                                 <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                               </div>

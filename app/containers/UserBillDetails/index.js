@@ -211,9 +211,10 @@ export class UserBillDetails extends React.Component {
     })
   }
 
-  fullviewModal = (img) => {
+  fullviewModal = (img, type) => {
     this.setState({
       imgName: img,
+      type: type,
       fullViewModalClassName: 'modal display-block container',
     })
   }
@@ -261,7 +262,7 @@ export class UserBillDetails extends React.Component {
 
                 <div className="modal-body,input-group input-group-lg">
                   <div className="full-view-form-padding-r">
-                    <img className="card-full-view-parent-img-r" src={window.API_URL_IMAGE + "/bills/" + this.state.imgName} />
+                    {this.state.type && this.state.type.includes('image') ? <img className="card-full-view-parent-img-r" src={window.API_URL_IMAGE + "/bills/" + this.state.imgName} /> : <img className="full-view-image-r" src={require('../../assets/img/file.png')} />}
                   </div>
                 </div>
               </div>
@@ -303,8 +304,8 @@ export class UserBillDetails extends React.Component {
                                   {this.state.billId == val._id && this.state.cardLoader ?
                                     <div className="lds-ring"><div></div><div></div><div></div><div></div></div> :
                                     <React.Fragment>
-                                      <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={window.API_URL_IMAGE + "/bills/" + val.img} />
-                                      {val.completeStatus ? <img onClick={() => this.fullviewModal(val.img)} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
+                                      {val.type && val.type.includes('image') ? <img onClick={() => this.fullviewModal(val.img, val.type)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={window.API_URL_IMAGE + "/bills/" + val.img} /> : <img onClick={() => this.fullviewModal(val.img, val.type)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={require('../../assets/img/file.png')} />}
+                                      {val.completeStatus ? <img onClick={() => this.fullviewModal(val.img, val.type)} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
                                       <input className="card-status-button-r" onChange={() => this.statusBoxHandler(event, val._id)} checked={val.completeStatus} id={val._id} type="checkbox" />
                                     </React.Fragment>
                                   }</div>
@@ -354,8 +355,8 @@ export class UserBillDetails extends React.Component {
                                     {this.state.billId == val._id && this.state.cardLoader ?
                                       <div className="lds-ring"><div></div><div></div><div></div><div></div></div> :
                                       <React.Fragment>
-                                        <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={window.API_URL_IMAGE + "/bills/" + val.img} />
-                                        {val.completeStatus ? <img onClick={() => this.fullviewModal(val.img)} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
+                                        {val.type && val.type.includes('image') ? <img onClick={() => this.fullviewModal(val.img, val.type)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={window.API_URL_IMAGE + "/bills/" + val.img} /> : <img onClick={() => this.fullviewModal(val.img, val.type)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={require('../../assets/img/file.png')} />}
+                                        {val.completeStatus ? <img onClick={() => this.fullviewModal(val.img, val.type)} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
                                         <input className="card-status-button-r" onChange={() => this.statusBoxHandler(event, val._id)} checked={val.completeStatus} id={val._id} type="checkbox" />
                                       </React.Fragment>
                                     }</div>
@@ -405,8 +406,8 @@ export class UserBillDetails extends React.Component {
                                     {this.state.billId == val._id && this.state.cardLoader ?
                                       <div className="lds-ring"><div></div><div></div><div></div><div></div></div> :
                                       <React.Fragment>
-                                        <img onClick={() => this.fullviewModal(val.img)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={window.API_URL_IMAGE + "/bills/" + val.img} />
-                                        {val.completeStatus ? <img onClick={() => this.fullviewModal(val.img)} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
+                                        {val.type && val.type.includes('image') ? <img onClick={() => this.fullviewModal(val.img, val.type)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={window.API_URL_IMAGE + "/bills/" + val.img} /> : <img onClick={() => this.fullviewModal(val.img, val.type)} className={val.completeStatus ? "card-parent-img-r opacity-r" : "card-parent-img-r"} src={require('../../assets/img/file.png')} />}
+                                        {val.completeStatus ? <img onClick={() => this.fullviewModal(val.img, val.type)} className="card-child-img-r" src={require('../../assets/img/download.png')} /> : null}
                                         <input className="card-status-button-r" onChange={() => this.statusBoxHandler(event, val._id)} checked={val.completeStatus} id={val._id} type="checkbox" />
                                       </React.Fragment>
                                     }</div>

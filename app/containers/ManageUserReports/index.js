@@ -178,9 +178,9 @@ export class ManageUserReports extends React.Component {
                             <button name="daily" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                           </span>
                           <span className="download-report-icon-r">
-                            <a download={val.originalName} target="_blank" href={window.API_URL_IMAGE + "/daily-reports/" + val.img} className="fa fa-download"></a>
+                            {val.type && val.type.includes('image') ? <a download={val.originalName} target="_blank" href={window.API_URL_IMAGE + "/daily-reports/" + val.img} className="fa fa-download"></a> : <a download={val.originalName} target="_blank" href={require('../../assets/img/file.png')} className="fa fa-download"></a>}
                           </span>
-                          <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/daily-reports/" + val.img} />
+                          {val.type && val.type.includes('image') ? <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/daily-reports/" + val.img} /> : <img className="selected-image-r" src={require('../../assets/img/file.png')} />}
                           <p className="card-selected-heading-r">{val.originalName}</p>
                           <p className="card-selected-sub-heading-r">Report Date : {dateFormatHandler(val.reportDate)}</p>
                           <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
@@ -208,9 +208,9 @@ export class ManageUserReports extends React.Component {
                             <button name="gst" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                           </span>
                           <span className="download-report-icon-r">
-                            <a download={val.originalName} target="_blank" href={window.API_URL_IMAGE + "/gst-reports/" + val.img} className="fa fa-download"></a>
+                            {val.type && val.type.includes('image') ? <a download={val.originalName} target="_blank" href={window.API_URL_IMAGE + "/gst-reports/" + val.img} className="fa fa-download"></a> : <a download={val.originalName} target="_blank" href={require('../../assets/img/file.png')} className="fa fa-download"></a>}
                           </span>
-                          <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/gst-reports/" + val.img} />
+                          {val.type && val.type.includes('image') ? <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/gst-reports/" + val.img} /> : <img className="selected-image-r" src={require('../../assets/img/file.png')} />}
                           <p className="card-selected-heading-r">{val.originalName}</p>
                           <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                           <p className="card-text-r">{val.comment}</p>
@@ -237,9 +237,9 @@ export class ManageUserReports extends React.Component {
                             <button name="faulty" id={val._id} onClick={this.confirmModalHandler} className="fa fa-times-circle"></button>
                           </span>
                           <span className="download-report-icon-r">
-                            <a download={val.originalName} target="_blank" href={window.API_URL_IMAGE + "/bills/" + val.img} className="fa fa-download"></a>
+                            {val.type && val.type.includes('image') ? <a download={val.originalName} target="_blank" href={window.API_URL_IMAGE + "/bills/" + val.img} className="fa fa-download"></a> : <a download={val.originalName} target="_blank" href={require('../../assets/img/file.png')} className="fa fa-download"></a>}
                           </span>
-                          <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} />
+                          {val.type && val.type.includes('image') ? <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} /> : <img className="selected-image-r" src={require('../../assets/img/file.png')} />}
                           <p className="card-selected-heading-r">{val.originalName}</p>
                           <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                           <p className="card-text-r">{val.comment}</p>
