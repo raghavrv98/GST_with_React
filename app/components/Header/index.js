@@ -28,6 +28,7 @@ class Header extends React.Component {
       showHideClassName: 'modal display-none container',
     })
     let payload = JSON.parse(JSON.stringify(this.state.payload));
+    payload["username"] = payload["username"].toUpperCase();
     let url = window.API_URL + "/changePassword";
 
     payload._id = localStorage.getItem('userId'),
