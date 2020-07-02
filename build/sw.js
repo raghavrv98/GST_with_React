@@ -71,11 +71,11 @@ var __wpo = {
     "eb0e6d1a4e6e19fbbfec149a5523a5382f764483": "/22.bc21ad479a4cf1104f39.chunk.js",
     "4d1e096196128fdaaaecb8ed3c28d1775ab63284": "/23.28ba58e9e5ebafcc178b.chunk.js",
     "23c4727d850dbf1a72cbef1f4b7ea5d76cdd0615": "/24.b011fe1395db5359d05e.chunk.js",
-    "e797e8918fde06d7169c9b0f3dee10b50e1f1afc": "/"
+    "34d5f2215ae1d330847f95536857845a1d3a1978": "/"
   },
   "strategy": "changed",
   "responseStrategy": "cache-first",
-  "version": "7/2/2020, 3:32:53 PM",
+  "version": "7/2/2020, 10:40:46 PM",
   "name": "webpack-offline",
   "pluginVersion": "5.0.5",
   "relativePaths": false

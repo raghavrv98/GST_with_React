@@ -13,3 +13,4 @@ git pull
 cp -r build/* ../Gst-Service/public
 echo "=================== move into tmux session ================"
 tmux attach-session -t 0
+exec bash
