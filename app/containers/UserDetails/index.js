@@ -332,10 +332,7 @@ export class UserDetails extends React.Component {
               <div className="row">
                 <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                   <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
-                    <p className="main-title-r">{this.state.userBillSummary && this.state.userBillSummary.legalName + " Details"}</p>
-                  </div>
-                  <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
-                    <p className="sub-title-r">({this.state.userBillSummary && this.state.userBillSummary.mobileNumber})</p>
+                    <p className="text-align-center-r"><span className="main-title-r">{this.state.userBillSummary && this.state.userBillSummary.legalName + " Details"}</span><span className="sub-title-r"> ({this.state.userBillSummary && this.state.userBillSummary.mobileNumber})</span></p>
                   </div>
                 </div>
               </div>
@@ -388,7 +385,7 @@ export class UserDetails extends React.Component {
             </div>
 
             <div className="container">
-              <div className="customReactTableBox">
+              {/* <div className="customReactTableBox">
                 <ReactTable
                   className="customReactTable"
                   data={this.state.reactTableData}
@@ -402,7 +399,67 @@ export class UserDetails extends React.Component {
                   PreviousComponent={(props) => <button type="button"{...props}><i className="fas fa-angle-left"></i></button>}
                   NextComponent={(props) => <button type="button" {...props}><i className="fas fa-angle-right"></i></button>}
                 />
-              </div>
+              </div> */}
+              <ul>
+                {this.state.isFetching ? <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div> :
+                  this.state.reactTableData.length > 0 ?
+                    this.state.reactTableData.map((val, index) => <li key={index} className="li-outer">
+                      <span className="li-image-icon">
+                        <img className="li-image" src={require('../../assets/img/download.png')} />
+                      </span>
+                      <div className="li-content-p">
+                        <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                          <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                            <span className="li-content-title">
+                              Created At :
+                  </span>
+                            <span className="li-content">
+                              {val.date}
+                            </span>
+                          </div>
+                          <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                            <span className="li-content-title">
+                              Purchase Bills :
+                  </span>
+                            <span className="li-content">
+                              <span className="view-reports-r" onClick={() => this.props.history.push(`/userDetails/${this.props.match.params.id}/userBillDetails/purchase/${this.state.month}/${this.state.year}/${val.date}`)}>{(val.purchaseBills.complete) + "/" + (val.purchaseBills.total)}</span>
+                            </span>
+                          </div>
+                          <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                            <span className="li-content-title">
+                              Sale :
+                  </span>
+                            <span className="li-content">
+                              <span className="view-reports-r" onClick={() => this.props.history.push(`/userDetails/${this.props.match.params.id}/userBillDetails/sale/${this.state.month}/${this.state.year}/${val.date}`)}>{(val.saleBills.complete) + "/" + (val.saleBills.total)}</span>
+                            </span>
+                          </div>
+                          <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                            <span className="li-content-title">
+                              Other :
+                  </span>
+                            <span className="li-content">
+                              <span className="view-reports-r" onClick={() => this.props.history.push(`/userDetails/${this.props.match.params.id}/userBillDetails/other/${this.state.month}/${this.state.year}/${val.date}`)}>{(val.otherBills.complete) + "/" + (val.otherBills.total)}</span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <span className="download-view-btn-grp">
+                        <span className="margin-10-lr-r">
+                          <p className="view-reports-r" onClick={() => { this.props.history.push(`/userDetails/${this.props.match.params.id}/manageAccountantReports/daily/${this.state.month}/${this.state.year}/${val.date}`) }}>View</p>
+                        </span>
+                        <input
+                          onChange={() => this.loadFile(event, val.date)}
+                          id="daily"
+                          type="file"
+                          className="button-base-r width-80-r"
+                          required />
+                      </span>
+                    </li>
+                    )
+                    :
+                    <div className="li-outer"><span className="no-data-text">No Data Found</span></div>
+                }
+              </ul>
             </div>
           </div>
         }

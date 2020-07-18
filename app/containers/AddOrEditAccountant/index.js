@@ -49,7 +49,9 @@ export class AddOrEditAccountant extends React.Component {
     passwordCheck: false,
     password: true,
     confirmPassword: true,
-    isUsername : false
+    isUsername: false,
+    states: [],
+    cities: []
   }
 
   getAccountantById = (id) => {
@@ -58,6 +60,42 @@ export class AddOrEditAccountant extends React.Component {
       .then((res) => {
         const payload = res.data.data;
         this.setState({ payload, isLoading: false });
+      })
+      .catch((error) => {
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isOpenClassName: 'modal display-block container',
+          type: "failure",
+          isLoading: false,
+        }, () => setTimeout(this.modalTime, 1500))
+      });
+  };
+
+  getStates = () => {
+    let url = window.API_URL + `/states`
+    axios.get(url)
+      .then((res) => {
+        const states = res.data.data;
+        this.setState({ states, isLoading: false });
+      })
+      .catch((error) => {
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isOpenClassName: 'modal display-block container',
+          type: "failure",
+          isLoading: false,
+        }, () => setTimeout(this.modalTime, 1500))
+      });
+  };
+
+  getCities = (state) => {
+    let url = window.API_URL + `/cities/${state}`
+    axios.get(url)
+      .then((res) => {
+        const cities = res.data.data;
+        this.setState({ cities, isLoading: false });
       })
       .catch((error) => {
         let message = errorHandler(error);
@@ -125,14 +163,16 @@ export class AddOrEditAccountant extends React.Component {
         isLoading: true
       }, () => this.getAccountantById(this.props.match.params.id))
     }
+    this.getStates()
   }
 
 
   nameChangeHandler = event => {
     let payload = JSON.parse(JSON.stringify(this.state.payload));
     payload[event.target.id] = event.target.value;
+    payload.state ? this.getCities(payload.state) : null
     this.setState({
-      payload, passwordCheck: false, isUsername:false 
+      payload, passwordCheck: false, isUsername: false
     });
   };
 
@@ -141,7 +181,7 @@ export class AddOrEditAccountant extends React.Component {
     let payload = JSON.parse(JSON.stringify(this.state.payload));
 
     Object.keys(payload).map(val => {
-      if (val === "firstName" || val === "middleName" || val === "lastName" || val === "address" || val === "city" || val === "district" || val === "state" || val ==="emailId" || val ==="panNumber" || val === "username") {
+      if (val === "firstName" || val === "middleName" || val === "lastName" || val === "address" || val === "city" || val === "district" || val === "state" || val === "emailId" || val === "panNumber" || val === "username") {
         payload[val] = payload[val].toUpperCase();
       }
       return val
@@ -164,7 +204,7 @@ export class AddOrEditAccountant extends React.Component {
   checkAvailabelHandler = () => {
     event.preventDefault()
     let payload = JSON.parse(JSON.stringify(this.state.payload));
-    payload["username"] = payload["username"].toUpperCase() 
+    payload["username"] = payload["username"].toUpperCase()
     this.setState({
       isLoading: true
     },
@@ -254,6 +294,7 @@ export class AddOrEditAccountant extends React.Component {
                       placeholder="Date Of Birth* :" id="date"
                       value={this.state.payload.dateOfBirth}
                       onChange={this.nameChangeHandler}
+                      max = {new Date().toISOString().split("T")[0]}
                       id="dateOfBirth"
                       required />
                     <label className="floating-label">Date Of Birth<p className="required-check-mark-r">*</p></label>
@@ -358,30 +399,35 @@ export class AddOrEditAccountant extends React.Component {
                     </select>
                     <label className="floating-label">Qualification<p className="required-check-mark-r">*</p></label>
                   </div>
+
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <select
+                      className="custom-select year-month-border-r inputBox-r"
+                      value={this.state.payload.state}
+                      onChange={this.nameChangeHandler}
+                      id="state"
+                      required>
+                      <option value="">State</option>
+                      {this.state.states.map((val, index) => {
+                        return <option key={"val_" + index} value={val}>{val}</option>
+                      })}
+                    </select>
+                    <label className="floating-label">State<p className="required-check-mark-r">*</p></label>
+                  </div>
+
                   <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <input
                       type="text"
                       className="form-control inputBox-r field"
-                      placeholder="Address*"
-                      value={this.state.payload.address}
+                      placeholder="Pincode Number*"
+                      value={this.state.payload.pincode}
                       onChange={this.nameChangeHandler}
-                      id="address"
+                      id="pincode"
                       required
                     />
-                    <label className="floating-label">Address<p className="required-check-mark-r">*</p></label>
+                    <label className="floating-label">Pincode Number<p className="required-check-mark-r">*</p></label>
                   </div>
-                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                    <input
-                      type="text"
-                      className="form-control inputBox-r field"
-                      placeholder="City*"
-                      value={this.state.payload.city}
-                      onChange={this.nameChangeHandler}
-                      id="city"
-                      required
-                    />
-                    <label className="floating-label">City<p className="required-check-mark-r">*</p></label>
-                  </div>
+
                   <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <p className="required-check-mark-r">*</p>
                     <input
@@ -395,29 +441,35 @@ export class AddOrEditAccountant extends React.Component {
                     />
                     <label className="floating-label">District<p className="required-check-mark-r">*</p></label>
                   </div>
+
                   <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                    <input
-                      type="text"
-                      className="form-control inputBox-r field"
-                      placeholder="State*"
-                      value={this.state.payload.state}
+                    <select
+                      className={this.state.payload.state ? "custom-select year-month-border-r inputBox-r" : "custom-select year-month-border-r inputBox-r not-allowed"}
+                      value={this.state.payload.city}
                       onChange={this.nameChangeHandler}
-                      id="state"
+                      id="city"
                       required
-                    />
-                    <label className="floating-label">State<p className="required-check-mark-r">*</p></label>
+                      disabled={!this.state.payload.state}
+                      >
+                      <option value="">City</option>
+                      {this.state.cities.map((val, index) => {
+                        return <option key={"val_" + index} value={val}>{val}</option>
+                      })}
+                    </select>
+                    <label className="floating-label">City<p className="required-check-mark-r">*</p></label>
                   </div>
+
                   <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <input
                       type="text"
                       className="form-control inputBox-r field"
-                      placeholder="Pincode Number*"
-                      value={this.state.payload.pincode}
+                      placeholder="Address*"
+                      value={this.state.payload.address}
                       onChange={this.nameChangeHandler}
-                      id="pincode"
+                      id="address"
                       required
                     />
-                    <label className="floating-label">Pincode Number<p className="required-check-mark-r">*</p></label>
+                    <label className="floating-label">Address<p className="required-check-mark-r">*</p></label>
                   </div>
 
                   {this.props.match.params.id ?

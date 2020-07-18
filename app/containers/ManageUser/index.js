@@ -36,6 +36,7 @@ export class ManageUser extends React.Component {
     isFetching: true,
     isOpenClassName: 'modal display-none container',
     showHideClassNameDelete: 'modal display-none container',
+    users: []
   }
 
   getUser = (accountantId, month, year, userType) => {
@@ -231,7 +232,7 @@ export class ManageUser extends React.Component {
         width: 150,
         Cell: row =>
           (<div>
-            <span className="editButton-r" data-tip data-for="edit" onClick={() =>  this.props.history.push('/addOrEditUser/' + row.original._id)}><i className="far fa-edit"></i><ReactTooltip id="edit" type="dark" ><div className="tooltipText"><p>Edit</p></div></ReactTooltip></span>
+            <span className="editButton-r" data-tip data-for="edit" onClick={() => this.props.history.push('/addOrEditUser/' + row.original._id)}><i className="far fa-edit"></i><ReactTooltip id="edit" type="dark" ><div className="tooltipText"><p>Edit</p></div></ReactTooltip></span>
             <span className="deleteButton-r" data-tip data-for="delete" onClick={() => this.confirmModalHandler(row.original._id)}><i className="far fa-trash-alt"></i><ReactTooltip id="delete" type="dark" ><div className="tooltipText"><p>Delete</p></div></ReactTooltip></span>
           </div>
           )
@@ -294,10 +295,10 @@ export class ManageUser extends React.Component {
                   <option value="all">All Users</option>
                   <option value="withData">User with Data</option>
                   <option value="withoutData">User without Data</option>
-                  {/* <option value="completed">Status Completed</option>
-                  <option value="pending">Status Pending</option> */}
-                  <option value="inActive">InActive</option>
+                  <option value="complete">Status Completed</option>
+                  <option value="pending">Status Pending</option>
                   <option value="active">Active</option>
+                  <option value="inActive">InActive</option>
                 </select>
               </div>
             </div>
@@ -306,7 +307,7 @@ export class ManageUser extends React.Component {
             <button type="button" onClick={() => { this.props.history.push('/addOrEditUser') }} className="button-base-r newEntry-r">New User</button>
           </div>
           <div className="container">
-            <div className="customReactTableBox">
+            {/* <div className="customReactTableBox">
               <ReactTable
                 className="customReactTable"
                 data={this.state.users}
@@ -320,7 +321,67 @@ export class ManageUser extends React.Component {
                 PreviousComponent={(props) => <button type="button"{...props}><i className="fas fa-angle-left"></i></button>}
                 NextComponent={(props) => <button type="button" {...props}><i className="fas fa-angle-right"></i></button>}
               />
-            </div>
+            </div> */}
+            <ul>
+            {this.state.isFetching ? <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div> :
+              this.state.users.length > 0 ?
+              this.state.users.map((val, index) => <li key={index} className="li-outer">
+                <span onClick={() => this.props.history.push(`/userDetails/${val._id}/${this.state.month}/${this.state.year}`)}>
+                  <span className="li-image-icon">
+                    <img className="li-image" src={require('../../assets/img/download.png')} />
+                  </span>
+                  <div className="li-content-user-p">
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                      <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                        <span className="li-content-title">
+                          Created At :
+                  </span>
+                        <span className="li-content">
+                          {moment(val.timestamp).format("DD MMM YYYY HH:mm")}
+                        </span>
+                      </div>
+                      <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                        <span className="li-content-title">
+                          Client Id :
+                  </span>
+                        <span className="li-content">
+                          {val.clientId}
+                        </span>
+                      </div>
+                      <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                        <span className="li-content-title">
+                          Legal Name :
+                  </span>
+                        <span className="li-content">
+                          {val.legalName}
+                        </span>
+                      </div>
+                      <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                        <span className="li-content-title">
+                          Trade Name :
+                  </span>
+                        <span className="li-content">
+                          {val.tradeName}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </span>
+                <span className="download-view-btn-grp-user">
+                  <label className="switch">
+                    <input id={val._id} onChange={() => this.statusBoxHandler(event, val._id)} disabled={this.state.userType === "all" || this.state.userType === "active" || this.state.userType === "inActive"} checked={val.status} className="status-button-r" type="checkbox" />
+                    <span className="slider round" data-tip data-for="status"></span>
+                    <ReactTooltip id="status" type="dark" ><div className="tooltipText"><p>Status</p></div></ReactTooltip>
+                  </label>
+                  <span className="editButton-r" data-tip data-for="edit" onClick={() => this.props.history.push('/addOrEditUser/' + val._id)}><i className="far fa-edit"></i><ReactTooltip id="edit" type="dark" ><div className="tooltipText"><p>Edit</p></div></ReactTooltip></span>
+                  <span className="deleteButton-r" data-tip data-for="delete" onClick={() => this.confirmModalHandler(val._id)}><i className="far fa-trash-alt"></i><ReactTooltip id="delete" type="dark" ><div className="tooltipText"><p>Delete</p></div></ReactTooltip></span>
+                </span>
+              </li>
+              )
+              :
+              <div className="li-outer"><span className="no-data-text">No Data Found</span></div>
+            }
+            </ul>
           </div>
         </div>
         <ConfirmModal
@@ -335,7 +396,7 @@ export class ManageUser extends React.Component {
           onClose={this.modalCloseHandler}
           onConfirm={() => this.confirmDeleteData(this.state.deleteId)}
         />
-      </div>
+      </div >
     );
   }
 }

@@ -294,6 +294,7 @@ export class UserBillDetails extends React.Component {
                                 <button type="button" className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
                                 </button>
                                 <div className="dropdown-content">
+                                  <button disabled={val.completeStatus} className="background-hover-r" ><a download={val.originalName} target="_blank" href={window.API_URL_IMAGE + "/bills/" + val.img} >Download</a></button>
                                   <button disabled={val.completeStatus} onClick={() => this.billTransfer(val._id, "sale", index)} className="background-hover-r" >Transfer to sale</button>
                                   <button disabled={val.completeStatus} onClick={() => this.billTransfer(val._id, "other", index)} className="background-hover-r" >Transfer to other</button>
                                   <button disabled={val.completeStatus} onClick={() => this.billTransfer(val._id, "faulty", index)} className="background-hover-r" >Return</button>
@@ -345,6 +346,7 @@ export class UserBillDetails extends React.Component {
                                   <button type="button" className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
                                   </button>
                                   <div className="dropdown-content">
+                                    <button disabled={val.completeStatus} className="background-hover-r" ><a download={val.originalName} target="_blank" href={window.API_URL_IMAGE + "/bills/" + val.img} >Download</a></button>
                                     <button disabled={val.completeStatus} onClick={() => this.billTransfer(val._id, "purchase", index)} className="background-hover-r" >Transfer to purchase</button>
                                     <button disabled={val.completeStatus} onClick={() => this.billTransfer(val._id, "other", index)} className="background-hover-r" >Transfer to other</button>
                                     <button disabled={val.completeStatus} onClick={() => this.billTransfer(val._id, "faulty", index)} className="background-hover-r" >Return</button>
@@ -396,6 +398,7 @@ export class UserBillDetails extends React.Component {
                                   <button type="button" className="card-drop-down-r"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>
                                   </button>
                                   <div className="dropdown-content">
+                                    <button disabled={val.completeStatus} className="background-hover-r" ><a download={val.originalName} target="_blank" href={window.API_URL_IMAGE + "/bills/" + val.img} >Download</a></button>
                                     <button disabled={val.completeStatus} onClick={() => this.billTransfer(val._id, "purchase", index)} className="background-hover-r" >Transfer to purchase</button>
                                     <button disabled={val.completeStatus} onClick={() => this.billTransfer(val._id, "sale", index)} className="background-hover-r" >Transfer to sale</button>
                                     <button disabled={val.completeStatus} onClick={() => this.billTransfer(val._id, "faulty", index)} className="background-hover-r" >Return</button>
