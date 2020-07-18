@@ -305,7 +305,8 @@ export class UserDetails extends React.Component {
                 <div className="margin-20-r">
                   <form onSubmit={this.reportUploadHandler}>
                     <div>
-                      <img src={this.state.browseReport.length > 0 ? this.state.browseReport[0] : ""} className="upload-modal-r" />
+                      {/* <img src={this.state.browseReport.length > 0 ? this.state.browseReport[0] : ""} className="upload-modal-r" /> */}
+                      {this.state.report[0] && this.state.report[0].type.includes('image') ? <img className="selected-user-image-r" src={this.state.browseReport[0]} /> : <img className="selected-user-image-r" src={require('../../assets/img/file.png')} />}
                       <textarea rows="2" id="comment" placeholder="comments if any .." onChange={this.commentChangeHandler} value={this.state.comment} className="form-control reset-input-box-r"
                         placeholder="comments.." required />
                     </div>

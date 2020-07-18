@@ -349,7 +349,7 @@ export class User extends React.Component {
                           this.state.browseBillImages.length == 1 ?
                             <React.Fragment>
                               <div className="card-browse-one-r">
-                                <img className="browse-one-image-r" src={this.state.browseBillImages[0]} />
+                              {this.state.billImages[0] && this.state.billImages[0].type.includes('image') ? <img className="browse-one-image-r" src={this.state.browseBillImages[0]} /> : <img className="browse-one-image-r" src={require('../../assets/img/file.png')} />}
                               </div>
                               <span className="delete-one-browse-icon">
                                 <button id={0} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
@@ -362,7 +362,7 @@ export class User extends React.Component {
                                   this.state.browseBillImages.map((val, index) => {
                                     return <div key={index} className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-align-center-r padding-5-r">
                                       <div className="card-browse-r">
-                                        <img className="browse-image-r" src={val} />
+                                      {this.state.billImages[0] && this.state.billImages[0].type.includes('image') ? <img className="browse-image-r" src={val} /> : <img className="browse-image-r" src={require('../../assets/img/file.png')} />}
                                       </div>
                                       <span className="delete-one-browse-icon">
                                         <button id={index} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>

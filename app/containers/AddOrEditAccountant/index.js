@@ -59,6 +59,7 @@ export class AddOrEditAccountant extends React.Component {
     axios.get(url)
       .then((res) => {
         const payload = res.data.data;
+        payload.state != "" ? this.getCities(payload.state) : null
         this.setState({ payload, isLoading: false });
       })
       .catch((error) => {
@@ -169,8 +170,11 @@ export class AddOrEditAccountant extends React.Component {
 
   nameChangeHandler = event => {
     let payload = JSON.parse(JSON.stringify(this.state.payload));
+    if (event.target.id === "state") {
+      payload.city = ""
+    }
     payload[event.target.id] = event.target.value;
-    payload.state ? this.getCities(payload.state) : null
+    payload.state !== "" && payload.city == "" ? this.getCities(payload.state) : null
     this.setState({
       payload, passwordCheck: false, isUsername: false
     });
@@ -181,7 +185,7 @@ export class AddOrEditAccountant extends React.Component {
     let payload = JSON.parse(JSON.stringify(this.state.payload));
 
     Object.keys(payload).map(val => {
-      if (val === "firstName" || val === "middleName" || val === "lastName" || val === "address" || val === "city" || val === "district" || val === "state" || val === "emailId" || val === "panNumber" || val === "username") {
+      if (val === "firstName" || val === "middleName" || val === "lastName" || val === "address" || val === "district" || val === "emailId" || val === "panNumber" || val === "username") {
         payload[val] = payload[val].toUpperCase();
       }
       return val
@@ -294,7 +298,7 @@ export class AddOrEditAccountant extends React.Component {
                       placeholder="Date Of Birth* :" id="date"
                       value={this.state.payload.dateOfBirth}
                       onChange={this.nameChangeHandler}
-                      max = {new Date().toISOString().split("T")[0]}
+                      max={new Date().toISOString().split("T")[0]}
                       id="dateOfBirth"
                       required />
                     <label className="floating-label">Date Of Birth<p className="required-check-mark-r">*</p></label>
@@ -450,7 +454,7 @@ export class AddOrEditAccountant extends React.Component {
                       id="city"
                       required
                       disabled={!this.state.payload.state}
-                      >
+                    >
                       <option value="">City</option>
                       {this.state.cities.map((val, index) => {
                         return <option key={"val_" + index} value={val}>{val}</option>

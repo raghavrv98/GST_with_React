@@ -1282,6 +1282,9 @@ input[type="date"]:focus:before, input[type="date"]:valid:before {
     font-weight: 500;
     color: black;
     letter-spacing: .01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .li-content-title {
     font-size: 13px;
@@ -1489,6 +1492,9 @@ input[type="date"]:focus:before, input[type="date"]:valid:before {
     color: black;
     letter-spacing: .01em;
     float: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .li-content-title {
     font-size: 13px;
@@ -1825,3 +1831,8 @@ input:checked+.slider:before {
   font-size: 16px;
 }
 
+.ellipses{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

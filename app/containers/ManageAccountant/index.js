@@ -268,7 +268,7 @@ export class ManageAccountant extends React.Component {
                 </select>
               </div>
               <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                <select disabled={true} id="accountantType" onChange={this.nameChangeHandler} value={this.state.accountantType} className="year-month-border-r"
+                <select disabled={true} id="accountantType" onChange={this.nameChangeHandler} value={this.state.accountantType} className="year-month-border-r not-allowed"
                   name="lectureId">
                   <option disabled={true} value="0">Select accountant</option>
                   <option value="all">All accountants</option>
@@ -286,7 +286,7 @@ export class ManageAccountant extends React.Component {
             <button type="button" onClick={() => { this.props.history.push('/addOrEditAccountant') }} className="button-base-r newEntry-r">New Accountant</button>
           </div>
           <div className="container">
-            <div className="customReactTableBox">
+            {/* <div className="customReactTableBox">
               <ReactTable
                 className="customReactTable"
                 data={this.state.accountants}
@@ -300,7 +300,66 @@ export class ManageAccountant extends React.Component {
                 PreviousComponent={(props) => <button type="button"{...props}><i className="fas fa-angle-left"></i></button>}
                 NextComponent={(props) => <button type="button" {...props}><i className="fas fa-angle-right"></i></button>}
               />
-            </div>
+            </div> */}
+
+<ul>
+            {this.state.isFetching ? <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div> :
+              this.state.accountants.length > 0 ?
+              this.state.accountants.map((val, index) => <li key={index} className="li-outer">
+                <span 
+                // onClick={() => this.props.history.push(`/userDetails/${val._id}/${this.state.month}/${this.state.year}`)}
+                >
+                  <span className="li-image-icon">
+                    <img className="li-image" src={require('../../assets/img/download.png')} />
+                  </span>
+                  <div className="li-content-user-p">
+                    <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                      <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                        <span className="li-content-title">
+                          Created At :
+                  </span>
+                        <span className="li-content">
+                          {moment(val.timestamp).format("DD MMM YYYY HH:mm")}
+                        </span>
+                      </div>
+                      <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                        <span className="li-content-title">
+                        Accountant Id :
+                  </span>
+                        <span className="li-content">
+                          {val.accountantId}
+                        </span>
+                      </div>
+                      <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 ellipses">
+                        <span className="li-content-title">
+                        Name :
+                  </span>
+                        <span className="li-content">
+                        {val.firstName + " " + val.middleName + " " + val.lastName}
+                        </span>
+                      </div>
+                      <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                        <span className="li-content-title">
+                          Mobile Number :
+                  </span>
+                        <span className="li-content">
+                          {val.mobileNumber}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </span>
+                <span className="download-view-btn-grp-user">
+                  <span className="editButton-r" data-tip data-for="edit" onClick={() => this.props.history.push('/addOrEditaccountant/' + val._id)}><i className="far fa-edit"></i><ReactTooltip id="edit" type="dark" ><div className="tooltipText"><p>Edit</p></div></ReactTooltip></span>
+                  <span className="deleteButton-r" data-tip data-for="delete" onClick={() => this.confirmModalHandler(val._id)}><i className="far fa-trash-alt"></i><ReactTooltip id="delete" type="dark" ><div className="tooltipText"><p>Delete</p></div></ReactTooltip></span>
+                </span>
+              </li>
+              )
+              :
+              <div className="li-outer"><span className="no-data-text">No Data Found</span></div>
+            }
+            </ul>
+
           </div>
         </div>
       </div>
