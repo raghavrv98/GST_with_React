@@ -273,6 +273,7 @@ export class UserBillDetails extends React.Component {
           <div className="lds-facebook"><div></div><div></div><div></div><span className="loading-text-r">Loading... </span></div>
           :
           <div className="container outer-box-r">
+        <p className="static-title-r">{this.props.match.params.bill === "purchase" ? "Purchase Bills" : this.props.match.params.bill === "sale" ? "Sale Bills" : "Other"}</p>
             <div>
               <ul className="breadCrumb-bg-r">
                 <li onClick={() => this.props.history.push('/manageUser')} className="breadCrumb-li-child-1-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
@@ -283,7 +284,6 @@ export class UserBillDetails extends React.Component {
             {
               this.props.match.params.bill === "purchase" ?
                 <React.Fragment>
-                  <p className="static-title-r">Purchase Bills</p>
                   <div className="text-align-center-r">
                     {this.state.getBill && this.state.getBill.length > 0 ?
                       <ul>
@@ -335,7 +335,6 @@ export class UserBillDetails extends React.Component {
                 :
                 this.props.match.params.bill === "sale" ?
                   <React.Fragment>
-                    <p className="static-title-r">Sale Bills</p>
                     <div className="text-align-center-r">
                       {this.state.getBill && this.state.getBill.length > 0 ?
                         <ul>
@@ -387,7 +386,6 @@ export class UserBillDetails extends React.Component {
                   </React.Fragment>
                   :
                   <React.Fragment>
-                    <p className="static-title-r">Other Bills</p>
                     <div className="text-align-center-r">
                       {this.state.getBill && this.state.getBill.length > 0 ?
                         <ul>

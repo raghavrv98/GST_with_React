@@ -51,7 +51,10 @@ export class LoginPage extends React.Component {
         localStorage.setItem('emailId', data.emailId)
         localStorage.setItem('userId', data._id)
 
-        if (data.role === "user") {
+        if(data.newUser){
+          this.props.history.push('/resetPassword')
+        }
+        else if (data.role === "user") {
           localStorage.setItem('legalName', data.legalName)
           this.props.history.push('/user')
         }
@@ -117,6 +120,9 @@ export class LoginPage extends React.Component {
       else if (localStorage.getItem('role') === "admin") {
         this.props.history.push('/admin')
       }
+      else if(window.location.pathname === "/resetPassword"){
+        this.props.history.push('/resetPassword')
+      }
     }
   }
 
@@ -148,7 +154,7 @@ export class LoginPage extends React.Component {
   };
 
   contactHandler = () => {
-    this.props.history.push('/contact');
+    this.props.history.push('/resetPassword');
   };
 
   render() {

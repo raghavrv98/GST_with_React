@@ -39,7 +39,6 @@ export class AddOrEditUser extends React.Component {
       secondaryEmailId: "",
       gstnUsername: "",
       gstnPassword: "",
-      password: "",
       confirmPassword: "",
       principalPlaceOfBusiness: "",
       additionalPlaceOfBusiness: "", // two col
@@ -50,10 +49,7 @@ export class AddOrEditUser extends React.Component {
       username: "",
     },
     message: "",
-    passwordCheck: false,
     gstnPassword: true,
-    password: true,
-    confirmPassword: true,
     usernameCheck: false
   }
 
@@ -136,7 +132,7 @@ export class AddOrEditUser extends React.Component {
     let payload = JSON.parse(JSON.stringify(this.state.payload));
     payload[event.target.id] = event.target.value;
     this.setState({
-      payload, passwordCheck: false, message: ""
+      payload, message: ""
     });
   };
 
@@ -145,24 +141,19 @@ export class AddOrEditUser extends React.Component {
 
     let payload = JSON.parse(JSON.stringify(this.state.payload));
     Object.keys(payload).map(val => {
-      if (val === "legalName" || val === "tradeName" || val === "panNumber" || val === "emailId" || val === "secondaryEmailId" || val === "principalPlaceOfBusiness" || val === "additionalPlaceOfBusiness" || val === "secondaryEmailId" || val==="username" || val==="gstinNumber") {
+      if (val === "legalName" || val === "tradeName" || val === "panNumber" || val === "emailId" || val === "secondaryEmailId" || val === "principalPlaceOfBusiness" || val === "additionalPlaceOfBusiness" || val === "secondaryEmailId" || val === "username" || val === "gstinNumber") {
         payload[val] = payload[val].toUpperCase();
       }
       return val
     })
 
-    if (payload.password === payload.confirmPassword) {
-      this.setState({
-        isLoading: true
-      },
-        () => this.postUser(payload)
-      )
-    }
-    else {
-      this.setState({
-        passwordCheck: true
-      })
-    }
+    payload.createdByAdmin = localStorage.getItem('role') === "admin"
+
+    this.setState({
+      isLoading: true
+    },
+      () => this.postUser(payload)
+    )
 
   }
 
@@ -191,19 +182,11 @@ export class AddOrEditUser extends React.Component {
   showHidePassword = (event) => {
     let id = event.target.id
     let gstnPassword = this.state.gstnPassword
-    let password = this.state.password
-    let confirmPassword = this.state.confirmPassword
     if (id === "gstnPassword0") {
       gstnPassword = !gstnPassword
     }
-    else if (id === "password0") {
-      password = !password
-    }
-    else if (id === "confirmPassword0") {
-      confirmPassword = !confirmPassword
-    }
     this.setState({
-      gstnPassword, password, confirmPassword
+      gstnPassword
     })
   }
 
@@ -235,14 +218,14 @@ export class AddOrEditUser extends React.Component {
           <div className="lds-facebook"><div></div><div></div><div></div><span className="loading-text-r">Loading... </span></div>
           :
           <div className="container outer-box-r">
+            <div className="container">
+              <p className="main-title-r">{this.props.match.params.id ? "Update User" : "Create User"}</p>
             <div>
               <ul className="breadCrumb-bg-r">
-                <li onClick={() => this.props.history.push('/manageUser')} className="breadCrumb-li-child-1-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
+                <li onClick={() => localStorage.getItem('role') === "admin" ? this.props.history.push('/admin') : this.props.history.push('/manageUser')} className="breadCrumb-li-child-1-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
                 <li className="breadCrumb-li-child-r"><i className="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >{this.props.match.params.id ? "Update User" : "Create User"}</span></li>
               </ul>
             </div>
-            <div className="container">
-              <p className="main-title-r">{this.props.match.params.id ? "Update User" : "Create User"}</p>
               <ul id="progressbar">
                 <li><span className="list1-r" > Check for Username & GSTIN </span></li>
                 <li><span className="list2-r"> User Registration</span></li>
@@ -251,8 +234,6 @@ export class AddOrEditUser extends React.Component {
                 <div className="lds-facebook"><div></div><div></div><div></div><span className="loading-text-r">Loading... </span></div>
                 :
                 <form onSubmit={this.SubmitUserHandler}>
-                  <React.Fragment>
-
                     <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                       <input
                         disabled={this.props.match.params.id || this.state.available}
@@ -400,39 +381,6 @@ export class AddOrEditUser extends React.Component {
                       </div>
                     </div>
 
-                    {this.props.match.params.id ? null :
-                      <React.Fragment>
-
-                        <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                          <input
-                            type={this.state.password ? "password" : "text"}
-                            placeholder="Password*"
-                            minLength="4"
-                            value={this.state.payload.password}
-                            className={this.state.passwordCheck ? "form-control inputBox-r field alert-box-r" : "form-control inputBox-r field"}
-                            onChange={this.nameChangeHandler}
-                            id="password"
-                            required />
-                          <label className="floating-label">Password<p className="required-check-mark-r">*</p></label>
-                          <button type="button" id="password0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.password ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
-                        </div>
-
-                        <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                          <input
-                            type={this.state.confirmPassword ? "password" : "text"}
-                            className={this.state.passwordCheck ? "form-control inputBox-r field alert-box-r" : "form-control inputBox-r field"}
-                            placeholder="Confirm Password*"
-                            value={this.state.payload.confirmPassword}
-                            onChange={this.nameChangeHandler}
-                            id="confirmPassword"
-                            required />
-                          <label className="floating-label">Confirm Password<p className="required-check-mark-r">*</p></label>
-                          <button type="button" id="confirmPassword0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.confirmPassword ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
-                          {this.state.passwordCheck ? <p className="error-msg-r">Password and confirm password mismatch.</p> : null}
-                        </div>
-                      </React.Fragment>
-                    }
-
                     <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                       <input
                         type="text"
@@ -453,7 +401,6 @@ export class AddOrEditUser extends React.Component {
                         value={this.state.payload.additionalPlaceOfBusiness}
                         onChange={this.nameChangeHandler}
                         id="additionalPlaceOfBusiness"
-                      // required 
                       />
                       <label className="floating-label">Additional Place Of Business</label>
                     </div>
@@ -551,9 +498,7 @@ export class AddOrEditUser extends React.Component {
                     <div className="text-align-center-r">
                       <button className="button-base-r width-40-r margin-bottom-b-60-r margin-top-b-25-r">{this.props.match.params.id ? "Update User" : "Create User"}</button>
                     </div>
-                  </React.Fragment>
                 </form> :
-                <React.Fragment>
                   <form onSubmit={this.checkAvailabelHandler}>
                     <div className="check-container-r">
                       <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -589,7 +534,6 @@ export class AddOrEditUser extends React.Component {
                       <button className="button-base-r width-40-r margin-bottom-b-60-r margin-top-b-25-r">Check</button>
                     </div>
                   </form>
-                </React.Fragment>
               }
             </div>
           </div>

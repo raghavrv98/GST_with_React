@@ -222,6 +222,7 @@ export class User extends React.Component {
     for (let i = 0; i < billImages.length; i++) {
       formData.append('bill', billImages[i])
     }
+    
     this.putbill(localStorage.getItem('userId'), formData)
     this.setState({
       browseBillImages: [],

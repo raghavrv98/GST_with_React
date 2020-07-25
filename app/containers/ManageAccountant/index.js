@@ -232,9 +232,11 @@ export class ManageAccountant extends React.Component {
         />
 
         <div className="container outer-box-r">
+          <p className="static-title-r">Manage Acountants</p>
           <div>
             <ul className="breadCrumb-bg-r">
-              <li className="breadCrumb-li-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
+              <li onClick={() => this.props.history.push('/admin')} className="breadCrumb-li-child-1-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
+              <li className="breadCrumb-li-child-r"><i className="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >Manage Accountants</span></li>
             </ul>
           </div>
           <div className="container filter-year-month-r">
@@ -302,62 +304,62 @@ export class ManageAccountant extends React.Component {
               />
             </div> */}
 
-<ul>
-            {this.state.isFetching ? <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div> :
-              this.state.accountants.length > 0 ?
-              this.state.accountants.map((val, index) => <li key={index} className="li-outer">
-                <span 
-                // onClick={() => this.props.history.push(`/userDetails/${val._id}/${this.state.month}/${this.state.year}`)}
-                >
-                  <span className="li-image-icon">
-                    <img className="li-image" src={require('../../assets/img/download.png')} />
+            <ul>
+              {this.state.isFetching ? <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div> :
+                this.state.accountants.length > 0 ?
+                  this.state.accountants.map((val, index) => <li key={index} className="li-outer">
+                    <span
+                    // onClick={() => this.props.history.push(`/userDetails/${val._id}/${this.state.month}/${this.state.year}`)}
+                    >
+                      <span className="li-image-icon">
+                        <img className="li-image" src={require('../../assets/img/download.png')} />
+                      </span>
+                      <div className="li-content-user-p">
+                        <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                          <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                            <span className="li-content-title">
+                              Created At :
                   </span>
-                  <div className="li-content-user-p">
-                    <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                      <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
-                        <span className="li-content-title">
-                          Created At :
+                            <span className="li-content">
+                              {moment(val.timestamp).format("DD MMM YYYY HH:mm")}
+                            </span>
+                          </div>
+                          <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                            <span className="li-content-title">
+                              Accountant Id :
                   </span>
-                        <span className="li-content">
-                          {moment(val.timestamp).format("DD MMM YYYY HH:mm")}
-                        </span>
+                            <span className="li-content">
+                              {val.accountantId}
+                            </span>
+                          </div>
+                          <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 ellipses">
+                            <span className="li-content-title">
+                              Name :
+                  </span>
+                            <span className="li-content">
+                              {val.firstName + " " + val.middleName + " " + val.lastName}
+                            </span>
+                          </div>
+                          <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                            <span className="li-content-title">
+                              Mobile Number :
+                  </span>
+                            <span className="li-content">
+                              {val.mobileNumber}
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
-                        <span className="li-content-title">
-                        Accountant Id :
-                  </span>
-                        <span className="li-content">
-                          {val.accountantId}
-                        </span>
-                      </div>
-                      <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 ellipses">
-                        <span className="li-content-title">
-                        Name :
-                  </span>
-                        <span className="li-content">
-                        {val.firstName + " " + val.middleName + " " + val.lastName}
-                        </span>
-                      </div>
-                      <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
-                        <span className="li-content-title">
-                          Mobile Number :
-                  </span>
-                        <span className="li-content">
-                          {val.mobileNumber}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </span>
-                <span className="download-view-btn-grp-user">
-                  <span className="editButton-r" data-tip data-for="edit" onClick={() => this.props.history.push('/addOrEditaccountant/' + val._id)}><i className="far fa-edit"></i><ReactTooltip id="edit" type="dark" ><div className="tooltipText"><p>Edit</p></div></ReactTooltip></span>
-                  <span className="deleteButton-r" data-tip data-for="delete" onClick={() => this.confirmModalHandler(val._id)}><i className="far fa-trash-alt"></i><ReactTooltip id="delete" type="dark" ><div className="tooltipText"><p>Delete</p></div></ReactTooltip></span>
-                </span>
-              </li>
-              )
-              :
-              <div className="li-outer"><span className="no-data-text">No Data Found</span></div>
-            }
+                    </span>
+                    <span className="download-view-btn-grp-user">
+                      <span className="editButton-r" data-tip data-for="edit" onClick={() => this.props.history.push('/addOrEditaccountant/' + val._id)}><i className="far fa-edit"></i><ReactTooltip id="edit" type="dark" ><div className="tooltipText"><p>Edit</p></div></ReactTooltip></span>
+                      <span className="deleteButton-r" data-tip data-for="delete" onClick={() => this.confirmModalHandler(val._id)}><i className="far fa-trash-alt"></i><ReactTooltip id="delete" type="dark" ><div className="tooltipText"><p>Delete</p></div></ReactTooltip></span>
+                    </span>
+                  </li>
+                  )
+                  :
+                  <div className="li-outer"><span className="no-data-text">No Data Found</span></div>
+              }
             </ul>
 
           </div>

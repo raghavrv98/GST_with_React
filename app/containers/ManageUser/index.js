@@ -253,6 +253,7 @@ export class ManageUser extends React.Component {
         />
 
         <div className="container outer-box-r">
+        <p className="static-title-r">Manage Users</p>
           <div>
             <ul className="breadCrumb-bg-r">
               <li className="breadCrumb-li-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>

@@ -98,7 +98,7 @@ export class ManageAccountantReports extends React.Component {
     let userId = this.props.match.params.id
     let report = this.props.match.params.report
     let name = event.target.name
-    let url = name ==="faultyBills" ? window.API_URL + `/resendFaultyBill/${userId}/${id}` : window.API_URL + `/resendReport/${userId}/${id}/${report}`;
+    let url = name === "faultyBills" ? window.API_URL + `/resendFaultyBill/${userId}/${id}` : window.API_URL + `/resendReport/${userId}/${id}/${report}`;
     axios.put(url)
       .then((res) => {
         const data = res.data.data;
@@ -169,6 +169,7 @@ export class ManageAccountantReports extends React.Component {
           <div className="lds-facebook"><div></div><div></div><div></div><span className="loading-text-r">Loading... </span></div>
           :
           <div className="container outer-box-r">
+            {this.props.match.params.report === "gst" && <p className="static-title-r">GST Reports</p>}
             <div>
               <ul className="breadCrumb-bg-r">
                 <li className="breadCrumb-li-child-1-r" onClick={() => this.props.history.push('/manageUser')} ><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
@@ -179,7 +180,6 @@ export class ManageAccountantReports extends React.Component {
             {
               this.props.match.params.report === "gst" ?
                 <React.Fragment>
-                  <p className="static-title-r">GST Reports</p>
                   <div className="text-align-center-r">
                     {this.state.userReports.length > 0 ?
                       this.state.userReports.map((val, index) =>
@@ -251,7 +251,7 @@ export class ManageAccountantReports extends React.Component {
                                 <span className="resend-report-icon-r">
                                   <button id={val._id} name="faultyBills" onClick={this.resendReport} className="fa fa-share"></button>
                                 </span>
-                                {val.type && val.type.includes('image') ?  <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} /> : <img className="selected-image-r" src={require('../../assets/img/file.png')} />}
+                                {val.type && val.type.includes('image') ? <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} /> : <img className="selected-image-r" src={require('../../assets/img/file.png')} />}
                                 <p className="card-selected-heading-r">{val.originalName}</p>
                                 <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                                 <p className="card-text-r">{val.comment}</p>

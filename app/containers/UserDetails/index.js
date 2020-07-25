@@ -323,20 +323,12 @@ export class UserDetails extends React.Component {
           <div className="lds-facebook"><div></div><div></div><div></div><span className="loading-text-r">Loading... </span></div>
           :
           <div className="container outer-box-r">
+        <p className="static-title-r">{this.state.userBillSummary && this.state.userBillSummary.legalName + " Details"}<span className="sub-title-r"> ({this.state.userBillSummary && this.state.userBillSummary.mobileNumber})</span></p>
             <div>
               <ul className="breadCrumb-bg-r">
                 <li onClick={() => this.props.history.push('/manageUser')} className="breadCrumb-li-child-1-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
                 <li className="breadCrumb-li-child-r"><i className="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >User Details</span></li>
               </ul>
-            </div>
-            <div className="container margin-10-r">
-              <div className="row">
-                <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                  <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
-                    <p className="text-align-center-r"><span className="main-title-r">{this.state.userBillSummary && this.state.userBillSummary.legalName + " Details"}</span><span className="sub-title-r"> ({this.state.userBillSummary && this.state.userBillSummary.mobileNumber})</span></p>
-                  </div>
-                </div>
-              </div>
             </div>
 
             <div className="container filter-year-month-r">

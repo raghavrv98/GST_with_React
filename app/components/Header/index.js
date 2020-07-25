@@ -18,7 +18,10 @@ class Header extends React.Component {
   };
 
   componentWillMount() {
-    if (!localStorage.getItem('role')) {
+    if(window.location.pathname==="/resetPassword"){
+      history.push("/resetPassword")
+    }
+    else if (!localStorage.getItem('role')) {
       history.push("/")
     }
   }
@@ -196,6 +199,28 @@ class Header extends React.Component {
                           data-target="#bs-example-navbar-collapse-1"
                         >
                           Manage Accountant
+                  </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          className="navbar-brand  text-color-r nav-css-r"
+                          exact
+                          to="/addOrEditUser"
+                          // data-toggle="collapse"
+                          data-target="#bs-example-navbar-collapse-1"
+                        >
+                          Create User
+                  </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          className="navbar-brand  text-color-r nav-css-r"
+                          exact
+                          to="/managePasswordRequests"
+                          // data-toggle="collapse"
+                          data-target="#bs-example-navbar-collapse-1"
+                        >
+                          Manage Password Requests
                   </NavLink>
                       </li>
                     </React.Fragment>

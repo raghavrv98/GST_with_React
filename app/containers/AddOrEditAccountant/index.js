@@ -42,13 +42,9 @@ export class AddOrEditAccountant extends React.Component {
       emailId: "",
       panNumber: "",
       qualification: "",
-      password: "",
       username: ""
     },
     message: "",
-    passwordCheck: false,
-    password: true,
-    confirmPassword: true,
     isUsername: false,
     states: [],
     cities: []
@@ -59,7 +55,7 @@ export class AddOrEditAccountant extends React.Component {
     axios.get(url)
       .then((res) => {
         const payload = res.data.data;
-        payload.state != "" ? this.getCities(payload.state) : null
+        payload.state != "" ? this.getDistrict(payload.state) : null
         this.setState({ payload, isLoading: false });
       })
       .catch((error) => {
@@ -91,8 +87,8 @@ export class AddOrEditAccountant extends React.Component {
       });
   };
 
-  getCities = (state) => {
-    let url = window.API_URL + `/cities/${state}`
+  getDistrict = (state) => {
+    let url = window.API_URL + `/districts/${state}`
     axios.get(url)
       .then((res) => {
         const cities = res.data.data;
@@ -174,9 +170,9 @@ export class AddOrEditAccountant extends React.Component {
       payload.city = ""
     }
     payload[event.target.id] = event.target.value;
-    payload.state !== "" && payload.city == "" ? this.getCities(payload.state) : null
+    payload.state !== "" && payload.district == "" ? this.getDistrict(payload.state) : null
     this.setState({
-      payload, passwordCheck: false, isUsername: false
+      payload, isUsername: false
     });
   };
 
@@ -191,18 +187,11 @@ export class AddOrEditAccountant extends React.Component {
       return val
     })
 
-    if (payload.password === payload.confirmPassword) {
-      this.setState({
-        isLoading: true
-      },
-        () => this.postAccountant(payload)
-      )
-    }
-    else {
-      this.setState({
-        passwordCheck: true
-      })
-    }
+    this.setState({
+      isLoading: true
+    },
+      () => this.postAccountant(payload)
+    )
   }
 
   checkAvailabelHandler = () => {
@@ -221,26 +210,6 @@ export class AddOrEditAccountant extends React.Component {
       isOpenClassName: 'modal display-none container'
     })
   }
-
-  showHidePassword = (event) => {
-    let id = event.target.id
-    let gstnPassword = this.state.gstnPassword
-    let password = this.state.password
-    let confirmPassword = this.state.confirmPassword
-    if (id === "gstnPassword0") {
-      gstnPassword = !gstnPassword
-    }
-    else if (id === "password0") {
-      password = !password
-    }
-    else if (id === "confirmPassword0") {
-      confirmPassword = !confirmPassword
-    }
-    this.setState({
-      gstnPassword, password, confirmPassword
-    })
-  }
-
 
   render() {
     return (
@@ -420,6 +389,37 @@ export class AddOrEditAccountant extends React.Component {
                   </div>
 
                   <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <select
+                      className={this.state.payload.state ? "custom-select year-month-border-r inputBox-r" : "custom-select year-month-border-r inputBox-r not-allowed"}
+                      value={this.state.payload.district}
+                      onChange={this.nameChangeHandler}
+                      id="district"
+                      required
+                      disabled={!this.state.payload.state}
+                    >
+                      <option value="">District</option>
+                      {this.state.cities.map((val, index) => {
+                        return <option key={"val_" + index} value={val}>{val}</option>
+                      })}
+                    </select>
+                    <label className="floating-label">District<p className="required-check-mark-r">*</p></label>
+                  </div>
+
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <p className="required-check-mark-r">*</p>
+                    <input
+                      type="text"
+                      className="form-control inputBox-r field"
+                      placeholder="City"
+                      value={this.state.payload.city}
+                      onChange={this.nameChangeHandler}
+                      id="city"
+                      required
+                    />
+                    <label className="floating-label">City<p className="required-check-mark-r">*</p></label>
+                  </div>
+
+                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <input
                       type="text"
                       className="form-control inputBox-r field"
@@ -430,37 +430,6 @@ export class AddOrEditAccountant extends React.Component {
                       required
                     />
                     <label className="floating-label">Pincode Number<p className="required-check-mark-r">*</p></label>
-                  </div>
-
-                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                    <p className="required-check-mark-r">*</p>
-                    <input
-                      type="text"
-                      className="form-control inputBox-r field"
-                      placeholder="District*"
-                      value={this.state.payload.district}
-                      onChange={this.nameChangeHandler}
-                      id="district"
-                      required
-                    />
-                    <label className="floating-label">District<p className="required-check-mark-r">*</p></label>
-                  </div>
-
-                  <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                    <select
-                      className={this.state.payload.state ? "custom-select year-month-border-r inputBox-r" : "custom-select year-month-border-r inputBox-r not-allowed"}
-                      value={this.state.payload.city}
-                      onChange={this.nameChangeHandler}
-                      id="city"
-                      required
-                      disabled={!this.state.payload.state}
-                    >
-                      <option value="">City</option>
-                      {this.state.cities.map((val, index) => {
-                        return <option key={"val_" + index} value={val}>{val}</option>
-                      })}
-                    </select>
-                    <label className="floating-label">City<p className="required-check-mark-r">*</p></label>
                   </div>
 
                   <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -476,40 +445,6 @@ export class AddOrEditAccountant extends React.Component {
                     <label className="floating-label">Address<p className="required-check-mark-r">*</p></label>
                   </div>
 
-                  {this.props.match.params.id ?
-                    null :
-                    <React.Fragment>
-                      <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                        <input
-                          type={this.state.password ? "password" : "text"}
-                          className={this.state.passwordCheck ? "form-control inputBox-r field alert-box-r" : "form-control inputBox-r field"}
-                          placeholder="Password"
-                          value={this.state.payload.password}
-                          onChange={this.nameChangeHandler}
-                          id="password"
-                          minLength="4"
-                          required
-                        />
-                        <label className="floating-label">Password<p className="required-check-mark-r">*</p></label>
-                        <button type="button" id="password0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.password ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
-                      </div>
-                      <div className="col-xs-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                        <p className="required-check-mark-r">*</p>
-                        <input
-                          type={this.state.confirmPassword ? "password" : "text"}
-                          className={this.state.passwordCheck ? "form-control inputBox-r field alert-box-r" : "form-control inputBox-r field"}
-                          placeholder="Confirm Password*"
-                          value={this.state.payload.confirmPassword}
-                          onChange={this.nameChangeHandler}
-                          id="confirmPassword"
-                          required
-                        />
-                        <label className="floating-label">Confirm Password<p className="required-check-mark-r">*</p></label>
-                        <button type="button" id="confirmPassword0" onClick={this.showHidePassword} aria-hidden="true" className={this.state.confirmPassword ? "fa fa-eye password-eye-open-r" : "fa fa-eye-slash password-eye-close-r"}></button>
-                        {this.state.passwordCheck ? <p className="error-msg-r">Password and confirm password mismatch.</p> : null}
-                      </div>
-                    </React.Fragment>
-                  }
                   <div className="text-align-center-r">
                     <button className="button-base-r width-40-r margin-bottom-b-60-r margin-top-b-25-r">{this.props.match.params.id ? "Update Accountant" : "Create Accountant"}</button>
                   </div>

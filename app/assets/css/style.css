@@ -610,6 +610,7 @@ body {
   text-align: center;
   font-size: 25px;
   color: #255b7a;
+  text-transform: capitalize;
   /* text-decoration: underline !important;
   text-underline-position: under !important; */
 }
@@ -1224,7 +1225,7 @@ input[type="date"]:focus:before, input[type="date"]:valid:before {
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     /* transition: all ease 400ms; */
     margin-bottom: 15px;
-    height: 70px;
+    height: 80px;
   }
 
   .li-image-icon {
@@ -1277,25 +1278,42 @@ input[type="date"]:focus:before, input[type="date"]:valid:before {
     text-align: center;
   }
 
+  .li-content-request-p {
+    /* margin: 0px 0px 5px; */
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 52%;
+    width: 95%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    text-align: center;
+  }
+
   .li-content {
     font-size: 13px;
     font-weight: 500;
     color: black;
     letter-spacing: .01em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
   .li-content-title {
     font-size: 13px;
     color: grey;
     font-weight: 500;
     margin: 0px 10px;
+    float: left;
   }
 
   .deleteButton-r {
     color: red !important;
     cursor: pointer !important;
+    margin: 0px 10px;
+  }
+
+  .sendButton-r {
+    color: #f17b58 !important;
+    cursor: pointer !important;
+    margin: 0px 10px;
   }
 
   .editButton-r {
@@ -1304,6 +1322,10 @@ input[type="date"]:focus:before, input[type="date"]:valid:before {
     cursor: pointer;
   }
 
+ .reset-password-outer{
+  padding: 30px 400px;
+}
+ 
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------- */
@@ -1399,6 +1421,7 @@ input[type="date"]:focus:before, input[type="date"]:valid:before {
   .margin-10-r {
     margin: 10px 0px !important;
   }
+
   .margin-15-r {
     margin: 15px 0px !important;
   }
@@ -1487,20 +1510,18 @@ input[type="date"]:focus:before, input[type="date"]:valid:before {
     float: right;
   }
   .li-content {
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 500;
     color: black;
     letter-spacing: .01em;
     float: right;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
   .li-content-title {
-    font-size: 13px;
+    font-size: 11px;
     color: grey;
     font-weight: 500;
     margin: 0px 10px;
+    float: left;
   }
 
   .deleteButton-r {
@@ -1517,6 +1538,18 @@ input[type="date"]:focus:before, input[type="date"]:valid:before {
 
   .button-margin-top {
     margin: 20px 0px 0px !important;
+  }
+
+  .li-content-request-p {
+    margin: 0px 0px 5px;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    text-align: center;
   }
 
 }
@@ -1836,3 +1869,35 @@ input:checked+.slider:before {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.margin-10-accountant-r {
+  margin: 10px 0px !important;
+}
+
+.margin-8-accountant-r {
+  margin: 8px 0px !important;
+}
+
+.overflow-control{
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.accountant-error-msg-r{
+  color: red !important;
+  font-size: 13px !important;
+  text-align: left;
+}
+
+.approvedButton-r{
+  color: #008000 !important;
+  cursor: pointer !important;
+  margin: 0px 10px;
+ }
+
+ .declineButton-r{
+  color: #d61515 !important;
+  cursor: pointer !important;
+  margin: 0px 10px;
+ }
