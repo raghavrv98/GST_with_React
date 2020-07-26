@@ -1,6 +1,6 @@
 /**
  *
- * ManagePasswordRequests
+ * UpdateUserAccountant
  *
  */
 
@@ -14,7 +14,7 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectManagePasswordRequests from './selectors';
+import makeSelectUpdateUserAccountant from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -25,13 +25,13 @@ import MessageModal from '../../components/MessageModal/Loadable'
 import { errorHandler } from '../../utils/commonUtils';
 
 /* eslint-disable react/prefer-stateless-function */
-export class ManagePasswordRequests extends React.Component {
+export class UpdateUserAccountant extends React.Component {
 
   state = {
     accountants: [],
     isFetching: true,
     isOpenClassName: 'modal display-none container',
-    managePasswordList: [],
+    manageUserList: [1],
     accountantIdCheck: false
   }
 
@@ -53,17 +53,18 @@ export class ManagePasswordRequests extends React.Component {
       });
   };
 
-  getManagePasswordList = () => {
+  getManageUserList = () => {
     let url = window.API_URL + `/unapprovedUsers`;
     axios.get(url)
       .then((res) => {
-        let managePasswordList = res.data.data;
-        managePasswordList.map(val => {
-          val.trader_id = val.createdBy.createdByAdmin ? "" : val.createdBy._id
-          val.accountantId = ""
-          return val
-        })
-        this.setState({ managePasswordList, isFetching: false });
+        let manageUserList = res.data.data;
+        manageUserList = [1]
+        // manageUserList.map(val => {
+        //   val.trader_id = val.createdBy.createdByAdmin ? "" : val.createdBy._id
+        //   val.accountantId = ""
+        //   return val
+        // })
+        this.setState({ manageUserList, isFetching: false });
       })
       .catch((error) => {
         let message = errorHandler(error);
@@ -85,7 +86,7 @@ export class ManagePasswordRequests extends React.Component {
           message: res.data.message,
           type: "success",
           isOpenClassName: 'modal display-block container'
-        }, () => setTimeout(this.modalTime, 1500), this.getAccountant(), this.getManagePasswordList());
+        }, () => setTimeout(this.modalTime, 1500), this.getAccountant(), this.getManageUserList());
       })
 
       .catch((error) => {
@@ -100,19 +101,19 @@ export class ManagePasswordRequests extends React.Component {
   };
 
   nameChangeHandler = event => {
-    let managePasswordList = JSON.parse(JSON.stringify(this.state.managePasswordList))
-    managePasswordList[event.target.id].trader_id = event.target.value.split(' ')[0]
-    managePasswordList[event.target.id].accountantId = event.target.value.split(' ')[1]
-    managePasswordList[event.target.id].accountantIdCheck = undefined
+    let manageUserList = JSON.parse(JSON.stringify(this.state.manageUserList))
+    manageUserList[event.target.id].trader_id = event.target.value.split(' ')[0]
+    manageUserList[event.target.id].accountantId = event.target.value.split(' ')[1]
+    manageUserList[event.target.id].accountantIdCheck = undefined
     this.setState({
-      managePasswordList,
+      manageUserList,
 
     })
   }
 
   componentWillMount() {
     this.getAccountant()
-    this.getManagePasswordList()
+    this.getManageUserList()
   }
 
   modalTime = () => {
@@ -130,8 +131,17 @@ export class ManagePasswordRequests extends React.Component {
     })
   }
 
+  confirmDeleteData = (id) => {
+    event.preventDefault()
+    this.deleteAccountant(id)
+    this.setState({
+      showHideClassName: 'modal display-none container',
+      isFetching: true
+    })
+  }
+
   approvedUserHandler = (val, check, index) => {
-    let managePasswordList = JSON.parse(JSON.stringify(this.state.managePasswordList))
+    let manageUserList = JSON.parse(JSON.stringify(this.state.manageUserList))
     event.preventDefault()
     val[index] = {
       user_id: val._id,
@@ -142,13 +152,13 @@ export class ManagePasswordRequests extends React.Component {
     }
 
     if (val[index].accountantId === " ") {
-      managePasswordList[index].accountantIdCheck = true
+      manageUserList[index].accountantIdCheck = true
     }
     else {
       this.approveUser(val[index])
     }
     this.setState({
-      managePasswordList,
+      manageUserList,
       isFetching: true
     })
 
@@ -173,20 +183,22 @@ export class ManagePasswordRequests extends React.Component {
         />
 
         <div className="container outer-box-r">
-          <p className="static-title-r">Manage Password Requests</p>
+          <p className="static-title-r">Manage User</p>
           <div>
             <ul className="breadCrumb-bg-r">
               <li onClick={() => this.props.history.push('/admin')} className="breadCrumb-li-child-1-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
-              <li className="breadCrumb-li-child-r"><i className="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >Manage Password Requests</span></li>
+              <li className="breadCrumb-li-child-r"><i className="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >Manage User</span></li>
             </ul>
           </div>
           <ul>
             {this.state.isFetching ? <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div> :
-              this.state.managePasswordList.length > 0 ?
+              this.state.manageUserList.length > 0 ?
 
-                this.state.managePasswordList.map((val, index) => <form key={index}>
+                this.state.manageUserList.map((val, index) => <form key={index}>
                   <li className="li-outer">
-                    <span>
+                    <span
+                    // onClick={() => this.props.history.push(`/userDetails/${val._id}/${this.state.month}/${this.state.year}`)}
+                    >
                       <span className="li-image-icon">
                         <img className="li-image" src={require('../../assets/img/download.png')} />
                       </span>
@@ -198,7 +210,7 @@ export class ManagePasswordRequests extends React.Component {
                                 Created At :
                           </span>
                               <span className="li-content">
-                                {moment(val.timestamp).format("DD MMM YYYY HH:mm")}
+                                {/* {moment(val.timestamp).format("DD MMM YYYY HH:mm")} */}qq
                               </span>
                             </div>
                             <div className="overflow-control col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -206,7 +218,7 @@ export class ManagePasswordRequests extends React.Component {
                                 Created By :
                           </span>
                               <span className="li-content">
-                                {`${val.createdBy.name} (${val.createdBy.createdByAdmin ? "Admin" : "Accountant"})`}
+                                {/* {`${val.createdBy.name} (${val.createdBy.createdByAdmin ? "Admin" : "Accountant"})`} */}qq
                               </span>
                             </div>
                           </div>
@@ -217,7 +229,7 @@ export class ManagePasswordRequests extends React.Component {
                                 Mobile no. :
                           </span>
                               <span className="li-content">
-                                {val.mobileNumber}
+                                {/* {val.mobileNumber} */}qq
                               </span>
                             </div>
                           </div>
@@ -228,7 +240,7 @@ export class ManagePasswordRequests extends React.Component {
                                 Email-id :
                             </span>
                               <span className="li-content">
-                                {val.emailId.toLowerCase()}
+                                {/* {val.emailId.toLowerCase()} */}qq
                               </span>
                             </div>
                             <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -236,7 +248,7 @@ export class ManagePasswordRequests extends React.Component {
                                 GSTIN :
                             </span>
                               <span className="li-content">
-                                {val.gstinNumber}
+                                {/* {val.gstinNumber} */}qq
                               </span>
                             </div>
                           </div>
@@ -254,7 +266,6 @@ export class ManagePasswordRequests extends React.Component {
                     </span>
                     <span className="download-view-btn-grp-user">
                       <button className="approvedButton-r" data-tip data-for="approve" onClick={() => this.approvedUserHandler(val, "approve", index)}><i className="fa fa-thumbs-up"></i><ReactTooltip id="approve" type="dark" ><div className="tooltipText"><p>Approve</p></div></ReactTooltip></button>
-                      <button className="declineButton-r" data-tip data-for="decline" onClick={() => this.approvedUserHandler(val, "decline", index)}><i className="fa fa-thumbs-down"></i><ReactTooltip id="decline" type="dark" ><div className="tooltipText"><p>Decline</p></div></ReactTooltip></button>
                     </span>
                   </li>
                 </form>
@@ -267,14 +278,15 @@ export class ManagePasswordRequests extends React.Component {
       </div >
     );
   }
+
 }
 
-ManagePasswordRequests.propTypes = {
+UpdateUserAccountant.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  managePasswordRequests: makeSelectManagePasswordRequests(),
+  updateUserAccountant: makeSelectUpdateUserAccountant(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -288,11 +300,11 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'managePasswordRequests', reducer });
-const withSaga = injectSaga({ key: 'managePasswordRequests', saga });
+const withReducer = injectReducer({ key: 'updateUserAccountant', reducer });
+const withSaga = injectSaga({ key: 'updateUserAccountant', saga });
 
 export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(ManagePasswordRequests);
+)(UpdateUserAccountant);

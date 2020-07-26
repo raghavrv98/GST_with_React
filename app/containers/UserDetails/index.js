@@ -175,6 +175,7 @@ export class UserDetails extends React.Component {
     var formData = new FormData();
     formData.append('comment', this.state.comment);
     formData.append('report', this.state.report[0]);
+    formData.append('accountantName', localStorage.getItem('firstName') + localStorage.getItem('middleName') + localStorage.getItem('lastName'));
     this.setState({
       browseReport: [],
       report: [],
@@ -394,7 +395,7 @@ export class UserDetails extends React.Component {
                 />
               </div> */}
               <ul>
-                {this.state.isFetching ? <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div> :
+                {this.state.isFetching ? <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div> :
                   this.state.reactTableData.length > 0 ?
                     this.state.reactTableData.map((val, index) => <li key={index} className="li-outer">
                       <span className="li-image-icon">

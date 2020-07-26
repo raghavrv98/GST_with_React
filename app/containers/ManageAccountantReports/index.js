@@ -193,7 +193,7 @@ export class ManageAccountantReports extends React.Component {
                             </span>
                             {val.type && val.type.includes('image') ? <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/gst-reports/" + val.img} /> : <img className="selected-image-r" src={require('../../assets/img/file.png')} />}
                             <p className="card-selected-heading-r">{val.originalName}</p>
-                            <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                            <p className="card-selected-sub-heading-r">Uploaded At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                             <p className="card-text-r">{val.comment}</p>
                           </div>
                         </React.Fragment>
@@ -225,7 +225,7 @@ export class ManageAccountantReports extends React.Component {
                                 {val.type && val.type.includes('image') ? <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/daily-reports/" + val.img} /> : <img className="selected-image-r" src={require('../../assets/img/file.png')} />}
                                 <p className="card-selected-heading-r">{val.originalName}</p>
                                 <p className="card-selected-sub-heading-r">Report Date : {dateFormatHandler(val.reportDate)}</p>
-                                <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                                <p className="card-selected-sub-heading-r">Uploaded At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                                 <p className="card-text-r">{val.comment}</p>
                               </div>
                             </React.Fragment>
@@ -253,7 +253,7 @@ export class ManageAccountantReports extends React.Component {
                                 </span>
                                 {val.type && val.type.includes('image') ? <img className="selected-report-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} /> : <img className="selected-image-r" src={require('../../assets/img/file.png')} />}
                                 <p className="card-selected-heading-r">{val.originalName}</p>
-                                <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
+                                <p className="card-selected-sub-heading-r">Uploaded At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                                 <p className="card-text-r">{val.comment}</p>
                               </div>
                             </React.Fragment>

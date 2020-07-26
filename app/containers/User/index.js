@@ -44,8 +44,27 @@ export class User extends React.Component {
     isOpenClassName: 'modal display-none container',
     billImages: [],
     isDeleteIcon: false,
-    isDeletedBill: []
+    isDeletedBill: [],
+    notificationsList: []
   }
+
+  getNotifications = () => {
+    let url = window.API_URL + `/notifications/${localStorage.getItem('userId')}`;
+    axios.get(url)
+      .then((res) => {
+        const notificationsList = res.data.data;
+        this.setState({ notificationsList, isFetching: false });
+      })
+      .catch((error) => {
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isFetching: false,
+          isOpenClassName: 'modal display-block container',
+          type: "failure"
+        }, () => setTimeout(this.modalTime, 1500))
+      });
+  };
 
   getbill = (id, month, year) => {
     let url = window.API_URL + `/bill/${id}/${month}/${year}`
@@ -130,6 +149,7 @@ export class User extends React.Component {
   };
 
   componentWillMount() {
+    this.getNotifications()
     this.getbill(localStorage.getItem('userId'), this.state.month, this.state.year)
     setInterval(() => this.getbill(localStorage.getItem('userId'), this.state.month, this.state.year), 3600000);
   }
@@ -219,10 +239,11 @@ export class User extends React.Component {
     formData.append('year', this.state.year);
     formData.append('month', this.state.month);
     formData.append('billType', this.state.isActiveTab);
+    formData.append('userName', localStorage.getItem('legalName'));
     for (let i = 0; i < billImages.length; i++) {
       formData.append('bill', billImages[i])
     }
-    
+
     this.putbill(localStorage.getItem('userId'), formData)
     this.setState({
       browseBillImages: [],
@@ -314,7 +335,10 @@ export class User extends React.Component {
                   </button></div>
                 </div>
                 <div className="col-xs-6 col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2">
-                  <div><button onClick={() => { this.props.history.push(`/manageUserReports/${this.state.month}/${this.state.year}`) }} type="button" className="view-reports-button-base-r">
+                  {this.state.notificationsList.length > 0 && <p className="notify-count">
+                    <label className="margin-0-r">{this.state.notificationsList.length}</label>
+                  </p>}
+                  <div><button onClick={() => { this.props.history.push('/userNotifications') }} type="button" className="view-reports-button-base-r">
                     <label className="cursor-pointer-r margin-0-r">Notifications</label>
                   </button></div>
                 </div>
@@ -354,7 +378,7 @@ export class User extends React.Component {
                           this.state.browseBillImages.length == 1 ?
                             <React.Fragment>
                               <div className="card-browse-one-r">
-                              {this.state.billImages[0] && this.state.billImages[0].type.includes('image') ? <img className="browse-one-image-r" src={this.state.browseBillImages[0]} /> : <img className="browse-one-image-r" src={require('../../assets/img/file.png')} />}
+                                {this.state.billImages[0] && this.state.billImages[0].type.includes('image') ? <img className="browse-one-image-r" src={this.state.browseBillImages[0]} /> : <img className="browse-one-image-r" src={require('../../assets/img/file.png')} />}
                               </div>
                               <span className="delete-one-browse-icon">
                                 <button id={0} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
@@ -367,7 +391,7 @@ export class User extends React.Component {
                                   this.state.browseBillImages.map((val, index) => {
                                     return <div key={index} className="col-xs-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-align-center-r padding-5-r">
                                       <div className="card-browse-r">
-                                      {this.state.billImages[0] && this.state.billImages[0].type.includes('image') ? <img className="browse-image-r" src={val} /> : <img className="browse-image-r" src={require('../../assets/img/file.png')} />}
+                                        {this.state.billImages[0] && this.state.billImages[0].type.includes('image') ? <img className="browse-image-r" src={val} /> : <img className="browse-image-r" src={require('../../assets/img/file.png')} />}
                                       </div>
                                       <span className="delete-one-browse-icon">
                                         <button id={index} onClick={this.confirmDeleteData} className="fa fa-times-circle"></button>
@@ -401,7 +425,7 @@ export class User extends React.Component {
                         <div key={index} className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                           <React.Fragment>
                             <div className="card-selected-image-r">
-                            {val.type && val.type.includes('image') ? <img className="selected-user-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} /> : <img className="selected-user-image-r" src={require('../../assets/img/file.png')} />}
+                              {val.type && val.type.includes('image') ? <img className="selected-user-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} /> : <img className="selected-user-image-r" src={require('../../assets/img/file.png')} />}
                               <p className="card-selected-heading-r">{val.originalName}</p>
                               <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                             </div>
@@ -472,7 +496,7 @@ export class User extends React.Component {
                           <div key={index} className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                             <React.Fragment>
                               <div className="card-selected-image-r">
-                              {val.type && val.type.includes('image') ? <img className="selected-user-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} /> : <img className="selected-user-image-r" src={require('../../assets/img/file.png')} />}
+                                {val.type && val.type.includes('image') ? <img className="selected-user-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} /> : <img className="selected-user-image-r" src={require('../../assets/img/file.png')} />}
                                 <p className="card-selected-heading-r">{val.originalName}</p>
                                 <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                               </div>
@@ -544,7 +568,7 @@ export class User extends React.Component {
                           <div key={index} className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                             <React.Fragment>
                               <div className="card-selected-image-r">
-                              {val.type && val.type.includes('image') ? <img className="selected-user-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} /> : <img className="selected-user-image-r" src={require('../../assets/img/file.png')} />}
+                                {val.type && val.type.includes('image') ? <img className="selected-user-image-r" src={window.API_URL_IMAGE + "/bills/" + val.img} /> : <img className="selected-user-image-r" src={require('../../assets/img/file.png')} />}
                                 <p className="card-selected-heading-r">{val.originalName}</p>
                                 <p className="card-selected-sub-heading-r">Created At : {moment(val.timestamp).format("DD MMM YYYY")}</p>
                               </div>

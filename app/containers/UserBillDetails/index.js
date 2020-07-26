@@ -137,21 +137,24 @@ export class UserBillDetails extends React.Component {
         payload = {
           from: "purchase",
           to,
-          comment
+          comment,
+          accountantName: localStorage.getItem('firstName') + localStorage.getItem('middleName') + localStorage.getItem('lastName') 
         }
       }
       else if (this.props.match.params.bill === "sale") {
         payload = {
           from: "sale",
           to,
-          comment
+          comment,
+          accountantName: localStorage.getItem('firstName') + localStorage.getItem('middleName') + localStorage.getItem('lastName') 
         }
       }
       else {
         payload = {
           from: "other",
           to,
-          comment
+          comment,
+          accountantName: localStorage.getItem('firstName') + localStorage.getItem('middleName') + localStorage.getItem('lastName') 
         }
       }
       let url = window.API_URL + `/transferBill/${this.props.match.params.id}/${id}/${this.props.match.params.date}`

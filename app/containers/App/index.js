@@ -30,6 +30,10 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable'
 import ForbiddenPage from 'containers/ForbiddenPage/Loadable'
 import ManagePasswordRequests from 'containers/ManagePasswordRequests/Loadable'
 import ResetPassword from 'containers/ResetPassword/Loadable'
+import UserNotifications from 'containers/UserNotifications/Loadable'
+import AccountantNotifications from 'containers/AccountantNotifications/Loadable'
+import AdminNotifications from 'containers/AdminNotifications/Loadable'
+import UpdateUserAccountant from 'containers/UpdateUserAccountant/Loadable'
 
 export default function App() {
   return (
@@ -58,6 +62,10 @@ export default function App() {
         <Route exact path="/error403" render={props => <ForbiddenPage {...props} />} />
         <Route exact path="/managePasswordRequests" render={props => <ManagePasswordRequests {...props} />} />
         <Route exact path="/resetPassword" render={props => <ResetPassword {...props} />} />
+        <Route exact path="/userNotifications" render={props => <UserNotifications {...props} />} />
+        <Route exact path="/accountantNotifications" render={props => <AccountantNotifications {...props} />} />
+        <Route exact path="/adminNotifications" render={props => <AdminNotifications {...props} />} />
+        <Route exact path="/updateUserAccountant" render={props => <UpdateUserAccountant {...props} />} />
         <Route component={NotFoundPage} />
       </Switch>
       <Footer />

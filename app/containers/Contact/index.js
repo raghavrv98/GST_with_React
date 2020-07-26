@@ -17,17 +17,46 @@ import injectReducer from 'utils/injectReducer';
 import makeSelectContact from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-
+import axios from 'axios';
+import MessageModal from '../../components/MessageModal/Loadable'
+import { errorHandler } from '../../utils/commonUtils';
 /* eslint-disable react/prefer-stateless-function */
 export class Contact extends React.Component {
 
   state = {
     payload: {
-      oldPassword: "",
-      newPassword: ""
+      name: "",
+      emailId: "",
+      subject: "",
+      message: ""
     },
-    isResetActive: false
+    isLoading : false,
+    isOpenClassName: 'modal display-none container',
   }
+
+  sendMessage = (payload) => {
+    let url = window.API_URL + `/sendMessage`;
+    axios.post(url, payload)
+      .then((res) => {
+        const data = res.data.data;
+        this.setState({
+          message: res.data.message,
+          isLoading : false,
+          type: "success",
+          isOpenClassName: 'modal display-block container'
+        }, () => setTimeout(this.modalTime, 1500));
+      })
+
+      .catch((error) => {
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isOpenClassName: 'modal display-block container',
+          type: "failure",
+          isLoading: false
+        }, () => setTimeout(this.modalTime, 1500))
+      });
+  };
 
   nameChangeHandler = event => {
     let payload = JSON.parse(JSON.stringify(this.state.payload));
@@ -37,8 +66,26 @@ export class Contact extends React.Component {
     });
   };
 
+  modalTime = () => {
+    this.setState({
+      isOpenClassName: 'modal display-none container',
+      isFetching: false
+    })
+  }
+
+  modalCloseHandler = () => {
+    this.setState({
+      isResetModal: false,
+      showHideClassName: 'modal display-none container',
+      deleteId: ""
+    })
+  }
+
   resetPassword = () => {
     event.preventDefault()
+    this.setState({
+      isLoading: true
+    }, () => this.sendMessage())
   }
 
   render() {
@@ -48,6 +95,14 @@ export class Contact extends React.Component {
           <title>Contact</title>
           <meta name="description" content="Description of Contact" />
         </Helmet>
+
+        <MessageModal
+          showHideClassName={this.state.isOpenClassName}
+          modalType={this.state.type}
+          message={this.state.message}
+          onClose={this.modalCloseHandler}
+        />
+
         <div className="container outer-box-r">
           <p className="static-title-r">Contact Us</p>
           <div className="static-form-r">
@@ -66,9 +121,9 @@ export class Contact extends React.Component {
                 <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 
                   <input type="email"
-                    value={this.state.payload.newPassword}
+                    value={this.state.payload.emailId}
                     onChange={this.nameChangeHandler}
-                    id="email"
+                    id="emailId"
                     className="form-control reset-input-box-r"
                     placeholder="Email-Id"
                     required />
@@ -76,7 +131,7 @@ export class Contact extends React.Component {
                 <div className="col-xs-12 col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 
                   <input type="text"
-                    value={this.state.payload.newPassword}
+                    value={this.state.payload.subject}
                     onChange={this.nameChangeHandler}
                     id="subject"
                     className="form-control reset-input-box-r"
@@ -84,11 +139,17 @@ export class Contact extends React.Component {
                     required />
                 </div>
                 <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                  <textarea placeholder="Enter your message here..." className="form-control message-body-r" name="address" required
+                  <textarea
+                    placeholder="Enter your message here..."
+                    className="form-control message-body-r"
+                    value={this.state.payload.message}
+                    onChange={this.nameChangeHandler}
+                    id="message"
+                    required
                     rows="8" />
                 </div>
                 <div className="text-align-center-r">
-                  <button disabled type="submit" className="button-base-r width-40-r margin-bottom-b-60-r width-30-r not-allowed" name="">Send</button>
+                  <button type="submit" className="button-base-r width-40-r margin-bottom-b-60-r width-30-r" name="">Send</button>
                 </div>
               </form>
             </div>

@@ -36,8 +36,27 @@ export class ManageUser extends React.Component {
     isFetching: true,
     isOpenClassName: 'modal display-none container',
     showHideClassNameDelete: 'modal display-none container',
-    users: []
+    users: [],
+    notificationsList: []
   }
+
+  getNotifications = () => {
+    let url = window.API_URL + `/notifications/${localStorage.getItem('userId')}`;
+    axios.get(url)
+      .then((res) => {
+        const notificationsList = res.data.data;
+        this.setState({ notificationsList, isFetching: false });
+      })
+      .catch((error) => {
+        let message = errorHandler(error);
+        this.setState({
+          message,
+          isFetching: false,
+          isOpenClassName: 'modal display-block container',
+          type: "failure"
+        }, () => setTimeout(this.modalTime, 1500))
+      });
+  };
 
   getUser = (accountantId, month, year, userType) => {
     let url = window.API_URL + `/users/${accountantId}/${month}/${year}/${userType}`;
@@ -82,6 +101,7 @@ export class ManageUser extends React.Component {
 
 
   componentWillMount() {
+    this.getNotifications()
     let accountantId = localStorage.getItem('userId')
     this.getUser(accountantId, this.state.month, this.state.year, this.state.userType)
     this.setState({
@@ -253,7 +273,7 @@ export class ManageUser extends React.Component {
         />
 
         <div className="container outer-box-r">
-        <p className="static-title-r">Manage Users</p>
+          <p className="static-title-r">Manage Users</p>
           <div>
             <ul className="breadCrumb-bg-r">
               <li className="breadCrumb-li-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
@@ -261,7 +281,7 @@ export class ManageUser extends React.Component {
           </div>
           <div className="container filter-year-month-r">
             <div className="row">
-              <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+              <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                 <select id="year" disabled={this.state.userType === "all" || this.state.userType === "active" || this.state.userType === "inActive"} onChange={this.nameChangeHandler} value={this.state.year} className="year-month-border-r"
                   name="lectureId">
                   <option disabled={true} value="0">Select Year</option>
@@ -271,11 +291,11 @@ export class ManageUser extends React.Component {
                   <option value="2017">2017-2018</option>
                 </select>
               </div>
-              <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+              <div className="col-xs-6 col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                 <select id="month" disabled={this.state.userType === "all" || this.state.userType === "active" || this.state.userType === "inActive"} onChange={this.nameChangeHandler} value={this.state.month} className="year-month-border-r"
                   name="lectureId">
                   <option disabled={true} value="0">Select Month</option>
-                  <option value="4">April</option>
+                  <option value="6">April</option>
                   <option value="5">May</option>
                   <option value="6">June</option>
                   <option value="7">July</option>
@@ -289,7 +309,7 @@ export class ManageUser extends React.Component {
                   <option value="3">March</option>
                 </select>
               </div>
-              <div className="col-xs-4 col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+              <div className="col-xs-6 col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4 margin-top-15-r">
                 <select id="userType" onChange={this.nameChangeHandler} value={this.state.userType} className="year-month-border-r"
                   name="lectureId">
                   <option disabled={true} value="0">Select User</option>
@@ -301,6 +321,14 @@ export class ManageUser extends React.Component {
                   <option value="active">Active</option>
                   <option value="inActive">InActive</option>
                 </select>
+              </div>
+              <div className="col-xs-6 col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+                {this.state.notificationsList.length > 0 && <p className="notify-count">
+                  <label className="margin-0-r">{this.state.notificationsList.length}</label>
+                </p>}
+                <div><button onClick={() => { this.props.history.push('/accountantNotifications') }} type="button" className="view-reports-button-base-r">
+                  <label className="cursor-pointer-r margin-0-r">Notifications</label>
+                </button></div>
               </div>
             </div>
           </div>
@@ -324,64 +352,64 @@ export class ManageUser extends React.Component {
               />
             </div> */}
             <ul>
-            {this.state.isFetching ? <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div> :
-              this.state.users.length > 0 ?
-              this.state.users.map((val, index) => <li key={index} className="li-outer">
-                <span onClick={() => this.props.history.push(`/userDetails/${val._id}/${this.state.month}/${this.state.year}`)}>
-                  <span className="li-image-icon">
-                    <img className="li-image" src={require('../../assets/img/download.png')} />
+              {this.state.isFetching ? <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div> :
+                this.state.users.length > 0 ?
+                  this.state.users.map((val, index) => <li key={index} className="li-outer">
+                    <span onClick={() => this.props.history.push(`/userDetails/${val._id}/${this.state.month}/${this.state.year}`)}>
+                      <span className="li-image-icon">
+                        <img className="li-image" src={require('../../assets/img/download.png')} />
+                      </span>
+                      <div className="li-content-user-p cursor-pointer-r">
+                        <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                          <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                            <span className="li-content-title">
+                              Created At :
                   </span>
-                  <div className="li-content-user-p">
-                    <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                      <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
-                        <span className="li-content-title">
-                          Created At :
+                            <span className="li-content">
+                              {moment(val.timestamp).format("DD MMM YYYY HH:mm")}
+                            </span>
+                          </div>
+                          <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                            <span className="li-content-title">
+                              Client Id :
                   </span>
-                        <span className="li-content">
-                          {moment(val.timestamp).format("DD MMM YYYY HH:mm")}
-                        </span>
+                            <span className="li-content">
+                              {val.clientId}
+                            </span>
+                          </div>
+                          <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                            <span className="li-content-title">
+                              Legal Name :
+                  </span>
+                            <span className="li-content">
+                              {val.legalName}
+                            </span>
+                          </div>
+                          <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                            <span className="li-content-title">
+                              Trade Name :
+                  </span>
+                            <span className="li-content">
+                              {val.tradeName}
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
-                        <span className="li-content-title">
-                          Client Id :
-                  </span>
-                        <span className="li-content">
-                          {val.clientId}
-                        </span>
-                      </div>
-                      <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
-                        <span className="li-content-title">
-                          Legal Name :
-                  </span>
-                        <span className="li-content">
-                          {val.legalName}
-                        </span>
-                      </div>
-                      <div className="col-xs-12 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
-                        <span className="li-content-title">
-                          Trade Name :
-                  </span>
-                        <span className="li-content">
-                          {val.tradeName}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </span>
-                <span className="download-view-btn-grp-user">
-                  <label className="switch">
-                    <input id={val._id} onChange={() => this.statusBoxHandler(event, val._id)} disabled={this.state.userType === "all" || this.state.userType === "active" || this.state.userType === "inActive"} checked={val.status} className="status-button-r" type="checkbox" />
-                    <span className="slider round" data-tip data-for="status"></span>
-                    <ReactTooltip id="status" type="dark" ><div className="tooltipText"><p>Status</p></div></ReactTooltip>
-                  </label>
-                  <span className="editButton-r" data-tip data-for="edit" onClick={() => this.props.history.push('/addOrEditUser/' + val._id)}><i className="far fa-edit"></i><ReactTooltip id="edit" type="dark" ><div className="tooltipText"><p>Edit</p></div></ReactTooltip></span>
-                  <span className="deleteButton-r" data-tip data-for="delete" onClick={() => this.confirmModalHandler(val._id)}><i className="far fa-trash-alt"></i><ReactTooltip id="delete" type="dark" ><div className="tooltipText"><p>Delete</p></div></ReactTooltip></span>
-                </span>
-              </li>
-              )
-              :
-              <div className="li-outer"><span className="no-data-text">No Data Found</span></div>
-            }
+                    </span>
+                    <span className="download-view-btn-grp-user">
+                      <label className="switch">
+                        <input id={val._id} onChange={() => this.statusBoxHandler(event, val._id)} disabled={this.state.userType === "all" || this.state.userType === "active" || this.state.userType === "inActive"} checked={val.status} className="status-button-r" type="checkbox" />
+                        <span className="slider round" data-tip data-for="status"></span>
+                        <ReactTooltip id="status" type="dark" ><div className="tooltipText"><p>Status</p></div></ReactTooltip>
+                      </label>
+                      <span className="editButton-r" data-tip data-for="edit" onClick={() => this.props.history.push('/addOrEditUser/' + val._id)}><i className="far fa-edit"></i><ReactTooltip id="edit" type="dark" ><div className="tooltipText"><p>Edit</p></div></ReactTooltip></span>
+                      <span className="deleteButton-r" data-tip data-for="delete" onClick={() => this.confirmModalHandler(val._id)}><i className="far fa-trash-alt"></i><ReactTooltip id="delete" type="dark" ><div className="tooltipText"><p>Delete</p></div></ReactTooltip></span>
+                    </span>
+                  </li>
+                  )
+                  :
+                  <div className="li-outer"><span className="no-data-text">No Data Found</span></div>
+              }
             </ul>
           </div>
         </div>

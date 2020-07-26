@@ -205,11 +205,22 @@ class Header extends React.Component {
                         <NavLink
                           className="navbar-brand  text-color-r nav-css-r"
                           exact
-                          to="/addOrEditUser"
+                          to="/updateUserAccountant"
                           // data-toggle="collapse"
                           data-target="#bs-example-navbar-collapse-1"
                         >
-                          Create User
+                          Manage User
+                  </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          className="navbar-brand  text-color-r nav-css-r"
+                          exact
+                          to="/adminNotifications"
+                          // data-toggle="collapse"
+                          data-target="#bs-example-navbar-collapse-1"
+                        >
+                          Notifications
                   </NavLink>
                       </li>
                       <li>
