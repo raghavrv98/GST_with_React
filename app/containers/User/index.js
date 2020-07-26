@@ -282,7 +282,7 @@ export class User extends React.Component {
             </div>
             <div className="container filter-year-month-r">
               <div className="row">
-                <div className="col-xs-6 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-5">
+                <div className="col-xs-6 col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                   <select value={this.state.year} onChange={this.nameChangeHandler} className="year-month-border-r" id="year">
                     <option disabled={true} value="">Select Year</option>
                     <option value="2020">2020-2021</option>
@@ -291,7 +291,7 @@ export class User extends React.Component {
                     <option value="2017">2017-2018</option>
                   </select>
                 </div>
-                <div className="col-xs-6 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-5">
+                <div className="col-xs-6 col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                   <select value={this.state.month} onChange={this.nameChangeHandler} className="year-month-border-r" id="month">
                     <option disabled={true} value="">Select Month</option>
                     <option value="4">April</option>
@@ -312,7 +312,11 @@ export class User extends React.Component {
                   <div><button onClick={() => { this.props.history.push(`/manageUserReports/${this.state.month}/${this.state.year}`) }} type="button" className="view-reports-button-base-r">
                     <label className="cursor-pointer-r margin-0-r">view Reports</label>
                   </button></div>
-                  {/* <div className="text-align-center-r"><p className="view-reports-r" onClick={() => { this.props.history.push(`/manageUserReports/${this.state.month}/${this.state.year}`) }}>view Reports</p></div> */}
+                </div>
+                <div className="col-xs-6 col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+                  <div><button onClick={() => { this.props.history.push(`/manageUserReports/${this.state.month}/${this.state.year}`) }} type="button" className="view-reports-button-base-r">
+                    <label className="cursor-pointer-r margin-0-r">Notifications</label>
+                  </button></div>
                 </div>
               </div>
             </div>

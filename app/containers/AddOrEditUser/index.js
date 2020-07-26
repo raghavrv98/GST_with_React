@@ -102,9 +102,10 @@ export class AddOrEditUser extends React.Component {
           this.setState({
             message: res.data.message,
             isLoading: false,
+            isOpenClassName: localStorage.getItem('role') === "admin" && !check ? 'modal display-block container' : 'modal display-none container',
             type: "success",
             available: data.available,
-          }, () => check ? null : this.props.history.push('/manageUser'));
+          }, () => check ? null : localStorage.getItem('role') === "admin" ?<React.Fragment>{ () => setTimeout(this.modalTime, 1500), this.props.history.push('/admin') }</React.Fragment> :this.props.history.push('/manageUser'));
         })
         .catch((error) => {
           let message = errorHandler(error);

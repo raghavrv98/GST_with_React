@@ -154,7 +154,7 @@ export class LoginPage extends React.Component {
   };
 
   contactHandler = () => {
-    this.props.history.push('/resetPassword');
+    this.props.history.push('/contact');
   };
 
   render() {

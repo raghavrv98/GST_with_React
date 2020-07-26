@@ -31,9 +31,11 @@ export class ResetPassword extends React.Component {
     payload: {
       tempPassword: "",
       newPassword: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      username: ""
     },
     isLoading: false,
+    passwordCheck: false
   }
 
   submitNewPasswordRequest = (payload) => {
@@ -84,10 +86,19 @@ export class ResetPassword extends React.Component {
 
 
   submitNewPasswordRequestHandler = () => {
+    event.preventDefault()
     let payload = JSON.parse(JSON.stringify(this.state.payload))
-    this.setState({
-      payload, isLoading: true
-    }, () => this.submitNewPasswordRequest(this.state.payload))
+    payload.username = payload.username.toUpperCase()
+    if (payload.newPassword === payload.confirmPassword) {
+      this.setState({
+        payload, isLoading: true
+      }, () => this.submitNewPasswordRequest(this.state.payload))
+    }
+    else {
+      this.setState({
+        passwordCheck: true
+      })
+    }
   }
 
 
@@ -111,63 +122,65 @@ export class ResetPassword extends React.Component {
           <div className="container outer-box-r">
             <p className="static-title-r">Reset Password</p>
             <div className="reset-password-outer">
-            <form onSubmit={this.submitNewPasswordRequestHandler}>
-            <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <input
-                  type="text"
-                  className="form-control inputBox-r field"
-                  placeholder="Username*"
-                  value={this.state.payload.username}
-                  onChange={this.nameChangeHandler}
-                  id="username"
-                  required
-                  autoFocus />
-                <label className="floating-label">Username <p className="required-check-mark-r">*</p></label>
-              </div>
-              <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <input
-                  disabled={this.props.match.params.id || this.state.available}
-                  type="password"
-                  className="form-control inputBox-r field"
-                  placeholder="Current Password*"
-                  value={this.state.payload.tempPassword}
-                  onChange={this.nameChangeHandler}
-                  id="tempPassword"
-                  required
-                  autoFocus />
-                <label className="floating-label">Current Password <p className="required-check-mark-r">*</p></label>
-              </div>
+              <form onSubmit={this.submitNewPasswordRequestHandler}>
+                <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <input
+                    type="text"
+                    className="form-control inputBox-r field"
+                    placeholder="Username*"
+                    value={this.state.payload.username}
+                    onChange={this.nameChangeHandler}
+                    id="username"
+                    required
+                    autoFocus />
+                  <label className="floating-label">Username <p className="required-check-mark-r">*</p></label>
+                </div>
+                <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <input
+                    disabled={this.props.match.params.id || this.state.available}
+                    type="password"
+                    className="form-control inputBox-r field"
+                    placeholder="Current Password*"
+                    value={this.state.payload.tempPassword}
+                    onChange={this.nameChangeHandler}
+                    id="tempPassword"
+                    required />
+                  <label className="floating-label">Current Password <p className="required-check-mark-r">*</p></label>
+                </div>
 
-              <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <input
-                  type="password"
-                  className="form-control inputBox-r field"
-                  placeholder="New Password*"
-                  value={this.state.payload.newPassword}
-                  onChange={this.nameChangeHandler}
-                  id="newPassword"
-                  required
-                />
-                <label className="floating-label">New Password<p className="required-check-mark-r">*</p></label>
-              </div>
+                <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <input
+                    type="password"
+                    className={this.state.passwordCheck ? "form-control inputBox-r field alert-box-r" : "form-control inputBox-r field"}
+                    placeholder="New Password*"
+                    value={this.state.payload.newPassword}
+                    onChange={this.nameChangeHandler}
+                    id="newPassword"
+                    minLength="4"
+                    required
+                  />
+                  <label className="floating-label">New Password<p className="required-check-mark-r">*</p></label>
+                </div>
 
-              <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <input
-                  type="password"
-                  className="form-control inputBox-r field"
-                  placeholder="Confirm Password*"
-                  value={this.state.payload.confirmPassword}
-                  onChange={this.nameChangeHandler}
-                  id="confirmPassword"
-                  required
-                />
-                <label className="floating-label">Confirm Password <p className="required-check-mark-r">*</p></label>
-              </div>
+                <div className="col-xs-12 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <input
+                    type="password"
+                    className={this.state.passwordCheck ? "form-control inputBox-r field alert-box-r" : "form-control inputBox-r field"}
+                    placeholder="Confirm Password*"
+                    value={this.state.payload.confirmPassword}
+                    onChange={this.nameChangeHandler}
+                    minLength="4"
+                    id="confirmPassword"
+                    required
+                  />
+                  <label className="floating-label">Confirm Password <p className="required-check-mark-r">*</p></label>
+                </div>
+                {this.state.passwordCheck ? <p className="error-msg-r">New Password and confirm password mismatch.</p> : null}
 
-              <div className="text-align-center-r">
-                <button className="button-base-r width-40-r margin-bottom-b-60-r margin-top-b-25-r">Reset</button>
-              </div>
-            </form>
+                <div className="text-align-center-r">
+                  <button className="button-base-r width-40-r margin-bottom-b-60-r margin-top-b-25-r">Reset</button>
+                </div>
+              </form>
             </div>
           </div>
         }

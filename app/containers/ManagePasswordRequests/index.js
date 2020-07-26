@@ -60,7 +60,11 @@ export class ManagePasswordRequests extends React.Component {
     axios.get(url)
       .then((res) => {
         let managePasswordList = res.data.data;
-        managePasswordList.map(val => val.accountantId = val.createdBy.createdByAdmin ? "" : val.createdBy._id)
+        managePasswordList.map(val => {
+          val.trader_id = val.createdBy.createdByAdmin ? "" : val.createdBy._id
+          val.accountantId = ""
+          return val
+        })
         this.setState({ managePasswordList, isFetching: false });
       })
       .catch((error) => {
@@ -99,7 +103,8 @@ export class ManagePasswordRequests extends React.Component {
 
   nameChangeHandler = event => {
     let managePasswordList = JSON.parse(JSON.stringify(this.state.managePasswordList))
-    managePasswordList[event.target.id].accountantId = event.target.value
+    managePasswordList[event.target.id].trader_id = event.target.value.split(' ')[0]
+    managePasswordList[event.target.id].accountantId = event.target.value.split(' ')[1]
     managePasswordList[event.target.id].accountantIdCheck = undefined
     this.setState({
       managePasswordList,
@@ -149,13 +154,12 @@ export class ManagePasswordRequests extends React.Component {
     val[index] = {
       user_id: val._id,
       emailId: val.emailId,
-      trader_id: val.traderId,
+      trader_id: val.trader_id,
       accountantId: val.accountantId,
       approve: check === "approve",
     }
 
-
-    if (val[index].accountantId === "") {
+    if (val[index].accountantId === " ") {
       managePasswordList[index].accountantIdCheck = true
     }
     else {
@@ -190,7 +194,7 @@ export class ManagePasswordRequests extends React.Component {
           <p className="static-title-r">Manage Password Requests</p>
           <div>
             <ul className="breadCrumb-bg-r">
-            <li onClick={() => this.props.history.push('/admin')} className="breadCrumb-li-child-1-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
+              <li onClick={() => this.props.history.push('/admin')} className="breadCrumb-li-child-1-r"><i className="fa fa-home" aria-hidden="true"></i><span className="breadcrumb-text-r">Home</span></li>
               <li className="breadCrumb-li-child-r"><i className="fa fa-files-o" aria-hidden="true"></i><span className="breadcrumb-text-r" >Manage Password Requests</span></li>
             </ul>
           </div>
@@ -258,9 +262,9 @@ export class ManagePasswordRequests extends React.Component {
                           </div>
 
                           <div className="col-xs-12 col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
-                            <select onChange={this.nameChangeHandler} id={index} value={val.accountantId} className="year-month-border-r" required>
-                              <option disabled={true} value="">Select Accountant</option>
-                              {this.state.accountants.map((val, index) => <option value={val._id} key={index}>{val.username}</option>)
+                            <select onChange={this.nameChangeHandler} id={index} value={val.trader_id +" "+ val.accountantId} className="year-month-border-r" required>
+                              <option disabled={true} value=" ">Select Accountant</option>
+                              {this.state.accountants.map((value, index) => <option name={value.accountantId} value={value._id +" "+ value.accountantId} key={index}>{value.username}</option>)
                               }
                             </select>
                             {val.accountantIdCheck ? <p className="accountant-error-msg-r">Please Select Accountant</p> : null}
